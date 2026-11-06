@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
 <link rel="stylesheet" href="assets/css/tokens.css?v=23">
-<link rel="stylesheet" href="assets/css/site.css?v=32">
+<link rel="stylesheet" href="assets/css/site.css?v=33">
 <script>
   // 저장된 테마를 첫 그림 전에 적용해 깜빡임을 막습니다
   try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
@@ -251,8 +251,8 @@
         </nav>
         <fieldset class="cat-chips">
           <legend class="sr-only">작업 분류</legend>
-          <label class="cat-chk"><input type="checkbox" value="mkt" checked><span>마케팅</span></label>
-          <label class="cat-chk"><input type="checkbox" value="dsn" checked><span>디자인</span></label>
+          <label class="cat-chk"><input type="checkbox" value="mkt" checked autocomplete="off"><span>마케팅</span></label>
+          <label class="cat-chk"><input type="checkbox" value="dsn" checked autocomplete="off"><span>디자인</span></label>
         </fieldset>
       </div>
     </div>
@@ -385,7 +385,7 @@
                   <div class="work-media">
                     <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="네이버 블로그 운영·콘텐츠 기획/디자인 자세히 보기"><img src="assets/img/work/thumb-blog.webp" alt="애드 네이버 블로그 화면: addd 로고 아래 메뉴 버튼과 시티핑크 광고 트럭 게시글 썸네일 목록" width="1448" height="1086" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
                   </div>
-                  <template class="work-pages"><img src="assets/img/work/blog-1.jpg?v=2" alt="네이버 블로그 운영 성과 슬라이드: 월 순방문자 3.4배, 월 조회수 2.8배, 재방문율 +3%p, 블로그 스킨 리뉴얼 전후" loading="lazy" width="2560" height="1440"><img src="assets/img/work/blog-2.jpg?v=2" alt="블로그 콘텐츠 사례: 석촌호수 방문객 27% 증가 콘텐츠와 검색 노출 화면" loading="lazy" width="2560" height="1440"></template>
+                  <template class="work-pages"><img src="assets/img/work/blog-1.jpg?v=2" alt="네이버 블로그 운영 성과 슬라이드: 월 순방문자 3.4배, 월 조회수 2.8배, 재방문율 +3%p, 블로그 스킨 리뉴얼 전후" loading="lazy" width="2560" height="1440"><img src="assets/img/work/blog-2.jpg?v=2" alt="블로그 콘텐츠 사례: 석촌호수 방문객 27% 증가 콘텐츠와 검색 노출 화면" loading="lazy" width="2560" height="1440"><div class="dv-docs dv-docs-after"><article class="dv-doc dv-ev"><div class="dv-ev-text"><p class="dv-doc-k">Search · 키워드 상단 노출</p><h2 class="dv-doc-t">문의로 이어지는 키워드를 골라 상단에 노출했습니다</h2><p class="dv-doc-case">01 · 아이돌 광고 트럭</p><h4>문의가 실제로 들어오는 검색어</h4><p>“아이돌 광고 트럭”이라는 말로 들어오는 문의가 많아, 이 검색어를 키워드로 정했습니다. 이 키워드로 블로그 글이 검색 상단에 노출됐고, 글을 보고 문의 전화가 온 사례도 있었습니다.</p><p class="dv-doc-case">02 · 시위트럭 합법</p><h4>상품의 셀링 포인트와 맞닿은 검색어</h4><p>시티핑크의 셀링 포인트는 “국내 유일 합법 광고트럭”입니다. 그래서 ‘합법’이 들어간 “시위트럭 합법”을 키워드로 정했고, 합법 광고트럭을 찾는 문의도 꾸준히 들어왔습니다.</p></div><div class="dv-ev-proof"><figure class="dv-fig dv-fig-raw dv-fig-one"><img src="assets/img/work/blog-proof-search.jpg" alt="네이버 검색 결과 두 화면: 아이돌 광고 트럭과 시위트럭 합법 검색 시 DataDriven Marketing, ADDD 블로그 글이 상단에 노출된 모습" loading="lazy" width="797" height="639"><figcaption>네이버 검색 결과 · 왼쪽 “아이돌 광고 트럭”, 오른쪽 “시위트럭 합법”</figcaption></figure></div></article></div></template>
                   <div class="work-body">
                 <p class="work-tag"><span class="t-path">addd / marketing</span></p>
                 <h4>네이버 블로그 운영·콘텐츠 기획/디자인</h4>
@@ -673,6 +673,6 @@
 
 <!-- Lenis 1.1.13 · MIT · smooth wheel scrolling -->
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="assets/js/site.js?v=24"></script>
+<script src="assets/js/site.js?v=25"></script>
 </body>
 </html>

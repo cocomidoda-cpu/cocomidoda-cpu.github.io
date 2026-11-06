@@ -273,6 +273,9 @@
     stick();
     movePill(false);
     apply();
+    // 뒤로 가기·새로 고침 때 브라우저가 체크 상태를 복원해도 목록과 다시 맞춥니다
+    window.addEventListener('pageshow', apply);
+    window.addEventListener('load', apply);
   })();
 
   /* Work detail viewer: "자세히 보기" opens the work's pages stacked vertically */
