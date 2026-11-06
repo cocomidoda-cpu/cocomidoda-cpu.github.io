@@ -118,29 +118,30 @@
     return stagger;
   })();
 
-  /* Lucian UX/UI Prompt #370 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#370
-     Timeline that lights up, following the page scroll. */
+  /* Hero headline: font size is fitted so the headline spans exactly the content grid width.
+     Works for any text in data-words (the widest line is fitted on narrow screens). */
   (function () {
-    var tl = $('.u370-tl'), ln = $('.u370-ln', tl), evs = $$('.u370-ev', tl), raf = 0;
-    if (rm) { ln.style.setProperty('--p', '1'); evs.forEach(function (e) { e.classList.add('on'); }); return; }
-    // 선 끝은 화면 높이의 60% 지점을 따라가고, 끝이 지난 점은 켜집니다
-    function draw() {
-      raf = 0;
-      var top = ln.getBoundingClientRect().top, tip = innerHeight * 0.6 - top, h = ln.offsetHeight;
-      var p = Math.max(0, Math.min(1, tip / h));
-      ln.style.setProperty('--p', p.toFixed(4));
-      evs.forEach(function (el) { el.classList.toggle('on', el.offsetTop - ln.offsetTop + 18 <= tip); });
+    var h = $('.u216-h'), box = h.parentElement;
+    function fit() {
+      var cs = getComputedStyle(box);
+      var target = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      h.style.fontSize = '100px'; h.style.width = 'max-content';
+      var w = h.getBoundingClientRect().width;
+      h.style.width = '';
+      if (w > 0) h.style.fontSize = (100 * target / w).toFixed(2) + 'px';
     }
-    window.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(draw); }, { passive: true });
-    window.addEventListener('resize', function () { if (!raf) raf = requestAnimationFrame(draw); });
-    requestAnimationFrame(draw);
+    fit();
+    window.addEventListener('resize', fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    window.addEventListener('load', fit);
   })();
 
   /* Lucian UX/UI Prompt #044 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#044
      FAQ accordion: one item open at a time, arrow keys move between questions. */
   (function () {
     var root = $('.u044');
-    var items = $$('.u044-it', root);
+    // 항목은 두 열에 나뉘어 있으므로, 키보드 이동은 번호(order) 순서를 따릅니다
+    var items = $$('.u044-it', root).sort(function (a, b) { return (parseInt(a.style.order, 10) || 0) - (parseInt(b.style.order, 10) || 0); });
     var qs = items.map(function (it) { return $('.u044-q', it); });
     items.forEach(function (it, i) {
       var q = qs[i], body = $('.u044-body', it);
@@ -169,10 +170,29 @@
     });
   })();
 
+  /* Fit Check: items 1·2, 3·4, … share one header height so both columns end at the same line */
+  (function () {
+    var its = $$('.u044-it').sort(function (a, b) { return (parseInt(a.style.order, 10) || 0) - (parseInt(b.style.order, 10) || 0); });
+    var qs = its.map(function (it) { return $('.u044-q', it); });
+    function even() {
+      qs.forEach(function (q) { q.style.minHeight = ''; });
+      if (!window.matchMedia('(min-width: 900px)').matches) return;
+      for (var i = 0; i + 1 < qs.length; i += 2) {
+        var h = Math.max(qs[i].offsetHeight, qs[i + 1].offsetHeight);
+        qs[i].style.minHeight = qs[i + 1].style.minHeight = h + 'px';
+      }
+    }
+    even();
+    window.addEventListener('resize', even);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(even);
+  })();
+
   /* Lucian UX/UI Prompt #039 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#039
-     Sliding pill tabs, filtering the work cards. */
+     Sliding pill tabs: 애드 작업물 / 개인 작업물. Inside 애드, design & marketing chips (both on by default). */
   var selectFilter = (function () {
-    var tabs = $$('.u039-tab'), pill = $('.u039-pill'), cards = $$('.works .work'), cur = 0;
+    var tabs = $$('.u039-tab'), pill = $('.u039-pill'), cards = $$('.works .work');
+    var chipBox = $('.cat-chips'), chips = $$('.cat-chk input');
+    var cur = 0, cats = { dsn: true, mkt: true };
     function movePill(animate) {
       var t = tabs[cur];
       if (!animate) pill.style.transition = 'none';
@@ -181,213 +201,121 @@
       if (!animate) { void pill.offsetWidth; pill.style.transition = ''; }
     }
     // 새 목록은 이동한 방향에서 들어옵니다. 카드마다 조금씩 늦게 움직입니다
-    function select(i, focus) {
-      if (i === cur) return;
-      var dir = i > cur ? 1 : -1, f = tabs[i].getAttribute('data-filter');
-      cur = i;
-      tabs.forEach(function (t, k) { t.setAttribute('aria-selected', String(k === i)); t.tabIndex = k === i ? 0 : -1; });
-      if (focus) tabs[i].focus();
-      tabs[i].scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: rm ? 'auto' : 'smooth' });
-      movePill(true);
-      var shown = [];
+    function apply(dir) {
+      var tab = tabs[cur].getAttribute('data-tab'), shown = [];
+      chipBox.hidden = tab !== 'addd';
+      chips.forEach(function (c) { c.checked = !!cats[c.value]; });
       cards.forEach(function (c) {
-        var on = f === 'all' || c.getAttribute('data-group') === f;
+        var g = c.getAttribute('data-group').split('-');
+        var on = g[0] === tab && (tab !== 'addd' || !!cats[g[1]]);
         c.classList.toggle('is-out', !on);
         if (on) shown.push(c);
       });
       reveal();
-      if (rm) return;
+      if (rm || !dir) return;
       shown.forEach(function (c, k) {
         c.classList.add('is-in');
         c.animate([{ transform: 'translateX(' + (dir * 70) + 'px)', opacity: 0 }, { transform: 'none', opacity: 1 }],
           { duration: 550, delay: k * 45, easing: 'cubic-bezier(.34,1.45,.64,1)', fill: 'backwards' });
       });
     }
+    function select(i, focus) {
+      var dir = i >= cur ? 1 : -1;
+      cur = i;
+      tabs.forEach(function (t, k) { t.setAttribute('aria-selected', String(k === i)); t.tabIndex = k === i ? 0 : -1; });
+      if (focus) tabs[i].focus();
+      movePill(true);
+      apply(dir);
+    }
     tabs.forEach(function (t, i) {
-      t.addEventListener('click', function () { select(i); });
+      t.addEventListener('click', function () { if (i !== cur) select(i); });
       t.addEventListener('keydown', function (e) {
         var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
         if (d) { e.preventDefault(); select((i + d + tabs.length) % tabs.length, true); }
       });
       t.tabIndex = i === 0 ? 0 : -1;
     });
+    // 체크박스: 둘 다 체크가 기본. 하나만 체크하면 그 분류만 보이고, 마지막 하나는 해제되지 않습니다
+    chips.forEach(function (c) {
+      c.addEventListener('change', function () {
+        cats[c.value] = c.checked;
+        if (!cats.dsn && !cats.mkt) { cats[c.value] = true; c.checked = true; return; }
+        apply(1);
+      });
+    });
     var panel = $('.works'); panel.id = 'work-panel';
     tabs.forEach(function (t) { t.setAttribute('aria-controls', panel.id); });
     movePill(false);
+    apply(0);
     window.addEventListener('resize', function () { movePill(false); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { movePill(false); });
-    return function (name) {
-      var i = tabs.findIndex(function (t) { return t.getAttribute('data-filter') === name; });
-      if (i >= 0) select(i);
+    // 'addd-mkt' 같은 이름이나 카드 요소를 받아 그 작업이 보이도록 탭과 칩을 맞춥니다
+    return function (name, card) {
+      var g = (card ? card.getAttribute('data-group') : name).split('-');
+      var i = tabs.findIndex(function (t) { return t.getAttribute('data-tab') === g[0]; });
+      if (g[0] === 'addd') {
+        if (card) { if (!cats[g[1]]) cats[g[1]] = true; }
+        else { cats = { dsn: g[1] === 'dsn', mkt: g[1] === 'mkt' }; }
+      }
+      if (i >= 0 && i !== cur) select(i); else apply(1);
     };
   })();
-  // Fit 섹션의 "작업 보기" 링크는 해당 분류 탭을 켜고 이동합니다
-  $$('[data-filter]').forEach(function (a) {
-    if (a.tagName !== 'A') return;
+  // Fit 섹션의 "작업 보기" 링크는 해당 분류를 켜고 이동합니다
+  $$('a[data-filter]').forEach(function (a) {
     a.addEventListener('click', function () { selectFilter(a.getAttribute('data-filter')); });
   });
-  // 특정 작업으로 가는 링크는 그 작업이 숨겨져 있으면 "전체"로 돌립니다
+  // 특정 작업으로 가는 링크는 그 작업이 숨겨져 있으면 보이게 바꿉니다
   $$('a[href^="#w-"]').forEach(function (a) {
     a.addEventListener('click', function () {
       var t = document.getElementById(a.getAttribute('href').slice(1));
-      if (t && t.classList.contains('is-out')) selectFilter('all');
+      if (t && t.classList.contains('is-out')) selectFilter(null, t);
     });
   });
 
-  /* Lucian UX/UI Prompt #061 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#061
-     Thumbnail-to-lightbox zoom with real images; each work's images form one gallery. */
+  /* Work detail viewer: "자세히 보기" opens the work's pages stacked vertically */
   (function () {
-    var view = $('.u061-view'), img = $('.u061-img', view), pic = $('img', img), scrim = $('.u061-scrim');
-    var xBtn = $('.u061-x', view), prev = $('.u061-prev', view), next = $('.u061-next', view), cap = $('.u061-cap', view);
-    var set = [], cur = -1, isOpen = false, z = 1, tx = 0, ty = 0, opener = null;
-    function rectOf(t) { var r = t.getBoundingClientRect(); return { l: r.left, t: r.top, w: r.width, h: r.height }; }
-    function show(i) {
-      var t = set[i];
-      pic.src = t.getAttribute('data-full');
-      pic.alt = $('img', t).alt;
-      $('b', cap).textContent = t.getAttribute('data-cap') || '';
-      $('em', cap).textContent = (i + 1) + ' / ' + set.length;
-      prev.hidden = next.hidden = set.length < 2;
-    }
-    function setZoom(nz, ox, oy) {
-      var W = view.clientWidth, H = view.clientHeight;
-      if (nz > 1) { tx = Math.min(0, Math.max(W - W * nz, ox - (ox - tx) * nz / z)); ty = Math.min(0, Math.max(H - H * nz, oy - (oy - ty) * nz / z)); }
-      else { tx = 0; ty = 0; }
-      z = nz;
-      img.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + z + ')';
-      doc.classList.toggle('lb-zoom', z > 1);
-    }
-    // 열 때는 썸네일 자리·크기에서 시작해 전체로 커지고, 닫을 때는 그 반대로 돌아갑니다
-    function morph(from, to, done) {
-      var full = { l: 0, t: 0, w: innerWidth, h: innerHeight };
-      var a = from || full, b = to || full;
-      if (rm || !view.animate) { done && done(); return; }
-      view.animate([
-        { left: a.l + 'px', top: a.t + 'px', width: a.w + 'px', height: a.h + 'px', borderRadius: from ? '16px' : '0px' },
-        { left: b.l + 'px', top: b.t + 'px', width: b.w + 'px', height: b.h + 'px', borderRadius: to ? '16px' : '0px' }
-      ], { duration: 520, easing: 'cubic-bezier(.2,.8,.2,1)' }).onfinish = function () { done && done(); };
-    }
-    function open(t) {
-      if (isOpen) return;
-      isOpen = true; opener = t;
-      set = $$('.u061-th', t.closest('.u061-grid'));
-      cur = set.indexOf(t);
-      show(cur);
-      setZoom(1);
-      doc.classList.add('lb-open');
-      view.setAttribute('aria-hidden', 'false');
-      t.classList.add('away');
-      morph(rectOf(t), null, function () { doc.classList.add('lb-ready'); xBtn.focus({ preventScroll: true }); });
+    var dv = $('.dv'), body = $('.dv-body', dv), title = $('.dv-title', dv), x = $('.dv-x', dv), opener = null;
+    function open(card, from) {
+      var tpl = $('.work-pages', card);
+      if (!tpl) return;
+      opener = from;
+      title.textContent = $('h3', card).textContent;
+      body.textContent = '';
+      body.appendChild(tpl.content.cloneNode(true));
+      body.scrollTop = 0;
+      dv.hidden = false;
+      doc.classList.add('dv-open');
+      requestAnimationFrame(function () { dv.classList.add('is-on'); });
+      x.focus({ preventScroll: true });
     }
     function close() {
-      if (!isOpen) return;
-      var t = set[cur];
-      doc.classList.remove('lb-ready', 'lb-zoom');
-      setZoom(1);
-      view.style.transform = '';
-      doc.style.removeProperty('--so');
-      scrim.style.opacity = '0';
-      morph(null, rectOf(t), function () {
-        isOpen = false;
-        doc.classList.remove('lb-open');
-        scrim.style.opacity = '';
-        view.setAttribute('aria-hidden', 'true');
-        t.classList.remove('away');
-        t.focus({ preventScroll: true });
-      });
+      if (dv.hidden) return;
+      dv.classList.remove('is-on');
+      doc.classList.remove('dv-open');
+      setTimeout(function () { dv.hidden = true; body.textContent = ''; }, rm ? 0 : 320);
+      if (opener) opener.focus({ preventScroll: true });
     }
-    function go(d) {
-      if (!isOpen || set.length < 2) return;
-      set[cur].classList.remove('away');
-      cur = (cur + d + set.length) % set.length;
-      set[cur].classList.add('away');
-      setZoom(1);
-      show(cur);
-      if (!rm && img.animate) img.animate([{ transform: 'translateX(' + (d * 40) + 'px)', opacity: .2 }, { transform: 'none', opacity: 1 }], { duration: 420, easing: 'cubic-bezier(.2,.8,.2,1)' });
-    }
-    $$('.u061-th').forEach(function (t) { t.addEventListener('click', function () { open(t); }); });
-    xBtn.addEventListener('click', close);
-    prev.addEventListener('click', function () { go(-1); });
-    next.addEventListener('click', function () { go(1); });
-    scrim.addEventListener('click', close);
-    view.addEventListener('dblclick', function (e) {
-      if (e.target.closest('button')) return;
-      img.classList.remove('now');
-      setZoom(z > 1 ? 1 : 2, e.clientX, e.clientY);
+    $$('[data-detail]').forEach(function (b) {
+      b.addEventListener('click', function () { open(b.closest('.work'), b); });
     });
-    view.addEventListener('wheel', function (e) {
-      if (!isOpen) return;
-      e.preventDefault();
-      img.classList.add('now');
-      setZoom(Math.max(1, Math.min(3, z * (e.deltaY < 0 ? 1.12 : 0.89))), e.clientX, e.clientY);
-    }, { passive: false });
-    // 확대 중에는 끌어서 둘러보고, 확대가 아니면 좌우로 넘기거나 아래로 끌어 닫습니다
-    var sx = 0, sy = 0, ox = 0, oy = 0, mode = '';
-    view.addEventListener('pointerdown', function (e) {
-      if (e.target.closest('button') || !isOpen) return;
-      sx = e.clientX; sy = e.clientY; ox = tx; oy = ty; mode = 'wait';
-      view.setPointerCapture(e.pointerId);
-    });
-    view.addEventListener('pointermove', function (e) {
-      if (!mode) return;
-      var dx = e.clientX - sx, dy = e.clientY - sy;
-      if (mode === 'wait' && Math.hypot(dx, dy) > 6) mode = z > 1 ? 'pan' : Math.abs(dy) > Math.abs(dx) ? 'down' : 'side';
-      if (mode === 'pan') {
-        img.classList.add('now');
-        var W = view.clientWidth, H = view.clientHeight;
-        tx = Math.min(0, Math.max(W - W * z, ox + dx)); ty = Math.min(0, Math.max(H - H * z, oy + dy));
-        img.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + z + ')';
-      } else if (mode === 'down') {
-        var d = Math.max(0, dy);
-        view.style.transform = 'translateY(' + d + 'px) scale(' + (1 - d / 1600) + ')';
-        doc.style.setProperty('--so', Math.max(0.2, 1 - d / 300).toFixed(2));
-      } else if (mode === 'side') {
-        img.classList.add('now');
-        img.style.transform = 'translateX(' + dx * 0.5 + 'px)';
-      }
-    });
-    function up(e) {
-      if (!mode) return;
-      var dx = e.clientX - sx, dy = e.clientY - sy, m = mode;
-      mode = '';
-      img.classList.remove('now');
-      if (m === 'down') {
-        if (dy > 110) { close(); return; }
-        view.style.transition = 'transform .4s cubic-bezier(.34,1.4,.64,1)';
-        view.style.transform = '';
-        doc.style.removeProperty('--so');
-        setTimeout(function () { view.style.transition = ''; }, 420);
-      } else if (m === 'side') {
-        img.style.transform = '';
-        if (Math.abs(dx) > 70) go(dx < 0 ? 1 : -1);
-      }
-    }
-    view.addEventListener('pointerup', up);
-    view.addEventListener('pointercancel', up);
+    x.addEventListener('click', close);
     document.addEventListener('keydown', function (e) {
-      if (!isOpen) return;
+      if (dv.hidden) return;
       if (e.key === 'Escape') { e.preventDefault(); close(); }
-      else if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
-      else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
-      else if (e.key === 'Tab') {
-        // 열린 동안 포커스는 뷰어 안 버튼들 사이에서만 돕니다
-        var f = $$('button:not([hidden])', view), i = f.indexOf(document.activeElement);
-        e.preventDefault();
-        f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
-      }
+      else if (e.key === 'Tab') { e.preventDefault(); (document.activeElement === x ? body : x).focus(); }
     });
   })();
 
   /* Lucian UX/UI Prompt #008 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#008
-     Copy button that turns into a check, copying the email address. */
-  (function () {
-    var root = $('.u008'), btn = $('.u008-btn', root), tip = $('.u008-tip', root), t = 0;
+     Copy button that turns into a check; one per contact box (phone, email). */
+  // 실제 클립보드에 쓰고, 막힌 환경에서도 화면 반응은 똑같이 보여 줍니다
+  function write(s) {
+    try { if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(s).catch(function () {}); } catch (e) { /* 무시 */ }
+    return Promise.resolve();
+  }
+  $$('.u008').forEach(function (root) {
+    var btn = $('.u008-btn', root), tip = $('.u008-tip', root), t = 0;
     var text = $('.u008-cmd', root).textContent.trim();
-    // 실제 클립보드에 쓰고, 막힌 환경에서도 화면 반응은 똑같이 보여 줍니다
-    function write(s) {
-      try { if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(s).catch(function () {}); } catch (e) { /* 무시 */ }
-      return Promise.resolve();
-    }
     btn.addEventListener('click', function () {
       write(text);
       clearTimeout(t);
@@ -397,5 +325,5 @@
       tip.textContent = '복사됨';
       t = setTimeout(function () { root.classList.remove('is-copied'); tip.textContent = ''; }, 1800);
     });
-  })();
+  });
 })();

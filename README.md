@@ -16,6 +16,17 @@ HTML·CSS·JS로 직접 만들었고 GitHub Pages로 공개합니다.
 | `assets/js/site.js` | 헤더, 다크 모드, 탭, 아코디언, 이미지 확대 등 동작 |
 | `assets/img/work/` | 작업 이미지 (`이름.jpg` 원본, `이름-sm.jpg` 썸네일) |
 
+## 작업 미리보기 이미지 바꾸기
+
+각 작업 카드의 회색 칸이 미리보기 자리예요. `index.html`에서 해당 카드의
+`<button type="button" class="work-ph" data-detail ...></button>` 안에 이미지를 넣으면 돼요.
+
+```html
+<button type="button" class="work-ph" data-detail aria-label="네이버 블로그 … 자세히 보기"><img src="assets/img/preview/blog.jpg" alt="네이버 블로그 운영 미리보기"></button>
+```
+
+‘자세히 보기’에서 보이는 페이지들은 카드 안 `<template class="work-pages">`의 이미지 순서대로 나와요.
+
 ## 앞으로 채울 것
 
 - 블로그 수치의 비교 기간 각주

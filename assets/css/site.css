@@ -429,3 +429,125 @@ html.vt-run::view-transition-new(root){animation:u219-reveal .7s cubic-bezier(.6
 .about-left .sec-hd{margin-bottom:0}
 .about-grid{display:block}
 @media (min-width:960px){.about-side{grid-template-columns:repeat(3,1fr);align-items:start}}
+
+/* ===== Round 3: fitted headline, career bars, profile text box, 2-col Fit, work chips ===== */
+/* Hero headline: JS sets font-size so the line spans the grid width */
+.u216-h{white-space:nowrap}
+.u216-h .u216-ln{white-space:nowrap}
+@media (max-width:700px){.u216-h{white-space:nowrap}}
+
+/* Career: bars on a 2019–2027 axis; older jobs sit lower and get lighter */
+.career{padding:24px 22px 20px;border-radius:22px;background:var(--ux-surface);box-shadow:0 0 0 1px var(--ux-line)}
+.cr-list{margin:0;padding:0;list-style:none;display:grid;gap:18px}
+.cr-row{--c:color-mix(in srgb,var(--ux-ink) calc(100% - var(--k) * 32%),transparent)}
+.cr-txt b{font-size:17px;font-weight:800;letter-spacing:-.02em;color:var(--c)}
+.cr-txt em{margin-left:6px;font-style:normal;font-size:13px;font-weight:600;color:var(--ux-ink-3)}
+.cr-txt small{display:block;margin-top:2px;font-size:13px;font-weight:600;color:var(--ux-ink-3);font-variant-numeric:tabular-nums}
+.cr-txt p{margin:6px 0 0;font-size:14.5px;line-height:1.6;color:var(--ux-ink-2)}
+.cr-track{position:relative;height:10px;margin-top:12px;border-radius:999px;background:repeating-linear-gradient(90deg,var(--ux-line-2) 0 1px,transparent 1px calc(100% / 8)),var(--ux-surface-2)}
+.cr-track i{position:absolute;top:0;bottom:0;left:calc((var(--s) - 2019) / 8 * 100%);width:calc((var(--e) - var(--s)) / 8 * 100%);min-width:8px;border-radius:999px;background:var(--c);transform:scaleX(0);transform-origin:0 50%;transition:transform .9s cubic-bezier(.2,.8,.2,1);transition-delay:calc(.15s + var(--k) * .12s)}
+.career.is-in .cr-track i,.no-js .cr-track i{transform:none}
+.cr-axis{display:grid;grid-template-columns:repeat(8,1fr);margin-top:10px;font-size:11.5px;font-weight:600;color:var(--ux-ink-3);font-variant-numeric:tabular-nums}
+.cr-axis span{padding-left:3px;border-left:1px solid var(--ux-line-2)}
+@media (max-width:480px){.cr-axis span:nth-child(even){color:transparent}}
+@media (prefers-reduced-motion:reduce){.cr-track i{transition:none;transform:none}}
+
+/* Profile text: translucent box, justified so every line has the same length */
+.profile-txt{margin:16px 0 0!important;padding:18px 20px;border-radius:16px;background:rgba(255,255,255,.38);box-shadow:inset 0 0 0 1px rgba(255,255,255,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);text-align:justify;text-justify:inter-character}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .profile-txt{background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}}
+:root[data-theme="dark"] .profile-txt{background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+
+/* Skills / certs / education: equal heights */
+@media (min-width:960px){.about-side{align-items:stretch}}
+.about-side .panel{height:100%}
+
+/* Fit Check: two columns of capability statements */
+@media (min-width:900px){
+  .u044{display:grid;grid-template-columns:1fr 1fr;column-gap:48px;align-items:start}
+  .u044-it:nth-last-child(-n+2){border-bottom:1px solid var(--ux-line-2)}
+}
+.u044-q{align-items:flex-start;padding-top:20px;padding-bottom:20px;font-size:clamp(16px,1.45vw,19px);line-height:1.45}
+.u044-n,.u044-pm{margin-top:2px}
+.u044-req{display:block;margin-bottom:6px;font-size:12.5px;font-weight:600;letter-spacing:0;color:var(--ux-ink-3)}
+
+/* Work: design / marketing chips next to the tabs */
+.u039{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.cat-chips{display:inline-flex;gap:8px}
+.cat-chip{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 18px;border:0;border-radius:999px;background:transparent;box-shadow:inset 0 0 0 1px var(--ux-line-2);font-size:14.5px;font-weight:500;color:var(--ux-ink-2);transition:background-color .3s var(--ux-ease),color .3s var(--ux-ease),transform .45s var(--ux-spring)}
+.cat-chip::before{content:"";width:8px;height:8px;border-radius:50%;box-shadow:inset 0 0 0 1.5px currentColor;transition:background-color .3s}
+.cat-chip[aria-pressed="true"]{background:var(--ux-surface);color:var(--ux-ink);box-shadow:inset 0 0 0 1px var(--ux-ink)}
+.cat-chip[aria-pressed="true"]::before{background:currentColor}
+.cat-chip:active{transform:scale(.95)}
+.cat-chip:focus-visible{outline:2px solid var(--ux-ink);outline-offset:2px}
+
+/* Fit Check: two independent columns, so opening an item never pushes the other column.
+   On narrow screens the columns dissolve and items follow their number (order). */
+.u044{display:flex;flex-direction:column}
+.u044-col{display:contents}
+.u044 .u044-it:nth-last-child(-n+2){border-bottom:0}
+.u044 .u044-it:last-child{border-bottom:0}
+.u044 .u044-col:last-child .u044-it:last-child{border-bottom:1px solid var(--ux-line-2)}
+@media (min-width:900px){
+  .u044{display:grid;grid-template-columns:1fr 1fr;column-gap:48px;align-items:start}
+  .u044-col{display:block}
+  .u044 .u044-col .u044-it:last-child{border-bottom:1px solid var(--ux-line-2)}
+}
+
+/* ===== Round 5: checkboxes, gray preview, detail viewer ===== */
+/* Design / marketing checkboxes */
+.cat-chips{margin:0;padding:0;border:0;min-width:0}
+.cat-chk{position:relative;display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 18px 0 14px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--ux-line-2);font-size:14.5px;font-weight:500;color:var(--ux-ink-2);cursor:pointer;transition:box-shadow .3s var(--ux-ease),color .3s var(--ux-ease),transform .45s var(--ux-spring)}
+.cat-chk:active{transform:scale(.96)}
+.cat-chk input{appearance:none;-webkit-appearance:none;margin:0;width:18px;height:18px;border-radius:5px;box-shadow:inset 0 0 0 1.5px currentColor;display:grid;place-items:center;cursor:pointer;transition:background-color .25s var(--ux-ease),box-shadow .25s}
+.cat-chk input::after{content:"";width:9px;height:5px;margin-top:-2px;border:solid var(--ux-page);border-width:0 0 2px 2px;transform:rotate(-45deg) scale(0);transition:transform .35s var(--ux-spring)}
+.cat-chk input:checked{background:var(--ux-ink);box-shadow:inset 0 0 0 1.5px var(--ux-ink)}
+.cat-chk input:checked::after{transform:rotate(-45deg) scale(1)}
+.cat-chk:has(input:checked){color:var(--ux-ink);box-shadow:inset 0 0 0 1px var(--ux-ink)}
+.cat-chk input:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
+
+/* One gray preview per work (replace with <img class="work-ph" src="…" alt="…"> later) */
+.work-media{padding:10px}
+.work-ph{display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;border-radius:12px;background:var(--ux-surface-3);object-fit:cover;transition:transform .35s var(--ux-spring),filter .3s}
+button.work-ph{cursor:pointer}
+button.work-ph:hover{transform:scale(.985);filter:brightness(.97)}
+button.work-ph:focus-visible{outline:2px solid var(--ux-ink);outline-offset:2px}
+@media (min-width:860px){.work-wide .work-media{flex:1.15;align-self:flex-start}}
+.work-more{display:inline-flex;align-items:center;gap:8px;margin-top:20px;height:44px;padding:0 20px;border:0;border-radius:999px;background:var(--ux-ink);color:var(--ux-page);font-size:14.5px;font-weight:600;cursor:pointer;transition:transform .45s var(--ux-spring)}
+.work-more i{font-style:normal;transition:transform .3s var(--ux-spring)}
+.work-more:hover i{transform:translateX(3px)}
+.work-more:active{transform:scale(.95)}
+.work-more:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
+.work-wide .work-media{display:block}
+
+/* Detail viewer: pages stacked vertically */
+.dv{position:fixed;inset:0;z-index:70;display:flex;flex-direction:column;background:color-mix(in srgb,var(--ux-page) 94%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;transform:translateY(24px);transition:opacity .3s var(--ux-ease),transform .45s cubic-bezier(.2,.8,.2,1)}
+.dv.is-on{opacity:1;transform:none}
+.dv[hidden]{display:none}
+.dv-bar{flex:none;display:flex;align-items:center;gap:16px;height:64px;padding:0 max(20px,calc((100vw - 1280px)/2));border-bottom:1px solid var(--ux-line)}
+.dv-title{flex:1;margin:0;min-width:0;font-size:16px;font-weight:700;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dv-x{flex:none;width:42px;height:42px;border:0;border-radius:50%;display:grid;place-items:center;background:var(--ux-ink);color:var(--ux-page);cursor:pointer}
+.dv-x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
+.dv-x:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
+.dv-body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:24px 20px 64px;outline:none}
+.dv-body img{display:block;width:100%;max-width:1280px;height:auto;margin:0 auto 16px;border-radius:8px;background:var(--ux-surface-3);box-shadow:0 20px 40px -30px rgba(0,0,0,.4)}
+html.dv-open{overflow:hidden}
+@media (prefers-reduced-motion:reduce){.dv{transition:none}}
+.work-ph img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+button.work-ph{overflow:hidden}
+
+/* ===== Round 6: career list, contact boxes ===== */
+.cr-list{gap:0}
+.cr-row{padding:18px 0;border-top:1px solid var(--ux-line)}
+.cr-row:first-child{border-top:0;padding-top:4px}
+.cr-row:last-child{padding-bottom:0}
+.cr-hd{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.cr-hd b{font-size:18px;font-weight:800;letter-spacing:-.02em;color:var(--ux-ink)}
+.cr-role{padding:3px 10px;border-radius:999px;background:var(--ux-ink);color:var(--ux-page);font-size:12.5px;font-weight:600}
+.cr-hd small{margin-left:auto;font-size:13px;font-weight:600;color:var(--ux-ink-3);font-variant-numeric:tabular-nums}
+.cr-co{margin:4px 0 0;font-size:13px;font-weight:600;color:var(--ux-ink-3)}
+.cr-dl{display:grid;grid-template-columns:56px 1fr;gap:8px 12px;margin:12px 0 0}
+.cr-dl dt{font-size:13px;font-weight:700;color:var(--ux-ink);padding-top:1px}
+.cr-dl dd{margin:0;font-size:14.5px;line-height:1.6;color:var(--ux-ink-2)}
+@media (max-width:480px){.cr-hd small{margin-left:0;flex-basis:100%}}
+.contact .u008+.u008{margin-top:12px}
+.u008-code em{display:inline-block;min-width:1.1em;text-align:center}
