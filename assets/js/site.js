@@ -70,20 +70,22 @@
     var root = $('.u216'), h = $('.u216-h', root);
     var lines = h.getAttribute('data-words').split('|').map(function (l) { return l.split(' '); });
     // 제목: 낱말마다 가림 상자를 두고, 안쪽 글자가 아래에서 밀려 올라오게 합니다
-    var d = 300;
+    var d = 300, label = h.textContent.replace(/\s+/g, ' ').trim();
     h.textContent = '';
-    lines.forEach(function (line, li) {
-      var ln = document.createElement('span'); ln.className = 'u216-ln' + (li === lines.length - 1 ? ' acc' : '');
+    lines.forEach(function (line) {
+      var ln = document.createElement('span'); ln.className = 'u216-ln';
       line.forEach(function (w, i) {
         var box = document.createElement('span'), inner = document.createElement('span');
         box.className = 'u216-w'; box.setAttribute('aria-hidden', 'true');
+        // *낱말* 은 세리프 이탤릭으로 씁니다 (PDF 표지의 "Action." 처럼)
+        if (/^\*.+\*$/.test(w)) { w = w.slice(1, -1); box.classList.add('it'); }
         inner.textContent = w; inner.style.setProperty('--d', d); d += 70;
         box.appendChild(inner); ln.appendChild(box); if (i < line.length - 1) ln.appendChild(document.createTextNode(' '));
       });
       h.appendChild(ln);
     });
     var sr = document.createElement('span');
-    sr.className = 'sr-only'; sr.textContent = lines.map(function (l) { return l.join(' '); }).join(' ');
+    sr.className = 'sr-only'; sr.textContent = label;
     sr.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap';
     h.appendChild(sr);
     // 첫 그림이 그려진 뒤 등장을 시작합니다 (탭이 가려져 rAF가 멈춰도 시작되도록 setTimeout 사용)

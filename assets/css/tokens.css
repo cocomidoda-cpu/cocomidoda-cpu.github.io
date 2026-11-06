@@ -1,48 +1,48 @@
 /* Lucian UX/UI Prompt theme tokens · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/
    Every element reads its colors from these --ux-* tokens and uses the .ux base rules below.
-   Adapted: accent colors changed from violet to the portfolio's orange-red brand color. */
+   Adapted: monochrome gray palette to match the portfolio PDF. */
 :root{
   color-scheme:light;
-  --ux-page:#F4F2EE;
+  --ux-page:#EFEFEE;
   --ux-surface:#FFFFFF;
-  --ux-surface-2:#F5F3EF;
-  --ux-surface-3:#EAE7E1;
-  --ux-ink:#16151B;
-  --ux-ink-2:#57535F;
-  --ux-ink-3:#7C7885;
-  --ux-line:rgba(22,21,27,.09);
-  --ux-line-2:rgba(22,21,27,.17);
-  --ux-accent:#C73B1F;
-  --ux-accent-2:#E07A12;
-  --ux-accent-soft:rgba(199,59,31,.10);
+  --ux-surface-2:#F4F4F3;
+  --ux-surface-3:#E6E6E4;
+  --ux-ink:#111111;
+  --ux-ink-2:#484848;
+  --ux-ink-3:#767676;
+  --ux-line:rgba(17,17,17,.09);
+  --ux-line-2:rgba(17,17,17,.18);
+  --ux-accent:#111111;
+  --ux-accent-2:#6B6B6B;
+  --ux-accent-soft:rgba(17,17,17,.06);
   --ux-accent-ink:#FFFFFF;
   --ux-mint:#119C72;
   --ux-warn:#D6731E;
   --ux-danger:#D93A55;
   --ux-glass:rgba(255,255,255,.58);
   --ux-glass-line:rgba(255,255,255,.85);
-  --ux-shadow:rgba(60,30,20,.14);
-  --ux-shadow-strong:rgba(60,30,20,.3);
-  --ux-grad:linear-gradient(120deg,#E5482D,#F08A24 60%,#F2B544);
+  --ux-shadow:rgba(0,0,0,.10);
+  --ux-shadow-strong:rgba(0,0,0,.22);
+  --ux-grad:linear-gradient(120deg,#111111,#5A5A5A);
   --ux-ease:cubic-bezier(.2,.8,.2,1);
   --ux-spring:cubic-bezier(.34,1.45,.64,1);
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     color-scheme:dark;
-    --ux-page:#08080B;
-    --ux-surface:#141418;
-    --ux-surface-2:#1B1B21;
-    --ux-surface-3:#26262E;
-    --ux-ink:#F4F0E8;
-    --ux-ink-2:rgba(244,240,232,.70);
-    --ux-ink-3:rgba(244,240,232,.50);
+    --ux-page:#0C0C0D;
+    --ux-surface:#161617;
+    --ux-surface-2:#1D1D1F;
+    --ux-surface-3:#29292B;
+    --ux-ink:#F2F2F0;
+    --ux-ink-2:rgba(242,242,240,.72);
+    --ux-ink-3:rgba(242,242,240,.52);
     --ux-line:rgba(255,255,255,.08);
     --ux-line-2:rgba(255,255,255,.16);
-    --ux-accent:#FF8A6B;
-    --ux-accent-2:#FFB26B;
-    --ux-accent-soft:rgba(255,138,107,.14);
-    --ux-accent-ink:#0B0C12;
+    --ux-accent:#F2F2F0;
+    --ux-accent-2:#A8A8A8;
+    --ux-accent-soft:rgba(255,255,255,.08);
+    --ux-accent-ink:#0C0C0D;
     --ux-mint:#7EE8C0;
     --ux-warn:#FFB26B;
     --ux-danger:#FF7D8C;
@@ -50,24 +50,24 @@
     --ux-glass-line:rgba(255,255,255,.18);
     --ux-shadow:rgba(0,0,0,.45);
     --ux-shadow-strong:rgba(0,0,0,.72);
-    --ux-grad:linear-gradient(120deg,#FF8A6B,#FFB26B 60%,#FFD98A);
+    --ux-grad:linear-gradient(120deg,#F2F2F0,#9A9A9A);
   }
 }
 :root[data-theme="dark"]{
   color-scheme:dark;
-  --ux-page:#08080B;
-  --ux-surface:#141418;
-  --ux-surface-2:#1B1B21;
-  --ux-surface-3:#26262E;
-  --ux-ink:#F4F0E8;
-  --ux-ink-2:rgba(244,240,232,.70);
-  --ux-ink-3:rgba(244,240,232,.50);
+  --ux-page:#0C0C0D;
+  --ux-surface:#161617;
+  --ux-surface-2:#1D1D1F;
+  --ux-surface-3:#29292B;
+  --ux-ink:#F2F2F0;
+  --ux-ink-2:rgba(242,242,240,.72);
+  --ux-ink-3:rgba(242,242,240,.52);
   --ux-line:rgba(255,255,255,.08);
   --ux-line-2:rgba(255,255,255,.16);
-  --ux-accent:#FF8A6B;
-  --ux-accent-2:#FFB26B;
-  --ux-accent-soft:rgba(255,138,107,.14);
-  --ux-accent-ink:#0B0C12;
+  --ux-accent:#F2F2F0;
+  --ux-accent-2:#A8A8A8;
+  --ux-accent-soft:rgba(255,255,255,.08);
+  --ux-accent-ink:#0C0C0D;
   --ux-mint:#7EE8C0;
   --ux-warn:#FFB26B;
   --ux-danger:#FF7D8C;
@@ -75,7 +75,7 @@
   --ux-glass-line:rgba(255,255,255,.18);
   --ux-shadow:rgba(0,0,0,.45);
   --ux-shadow-strong:rgba(0,0,0,.72);
-  --ux-grad:linear-gradient(120deg,#FF8A6B,#FFB26B 60%,#FFD98A);
+  --ux-grad:linear-gradient(120deg,#F2F2F0,#9A9A9A);
 }
 
 .ux,.ux *,.ux *::before,.ux *::after{box-sizing:border-box}
