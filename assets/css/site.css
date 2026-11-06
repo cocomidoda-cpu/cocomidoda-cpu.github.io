@@ -1028,3 +1028,23 @@ html.lenis,.lenis.lenis-smooth{scroll-behavior:auto!important}
 .profile .profile-txt{margin-top:auto!important;padding:20px 22px}
 .profile-h{margin-bottom:18px!important}
 .about-top .profile .profile-ph{border-radius:18px}
+
+/* ===== Round 29: homepage articles shown as real text in the detail viewer (site fonts, one image width) ===== */
+.dv-docs{max-width:720px;margin:0 auto;padding:8px 0 40px}
+.dv-doc{padding:56px 56px 64px;border-radius:20px;background:var(--ux-surface);color:var(--ux-ink);font-family:inherit;box-shadow:0 20px 40px -30px rgba(0,0,0,.35)}
+.dv-doc+.dv-doc{margin-top:28px}
+.dv-doc-k{margin:0 0 14px;font-size:13px;font-weight:500;letter-spacing:.02em;color:var(--ux-ink-3)}
+.dv-doc-t{margin:0 0 36px;padding-bottom:28px;border-bottom:1px solid var(--ux-line-2);font-size:clamp(24px,3vw,32px);font-weight:700;line-height:1.35;letter-spacing:-.03em}
+.dv-doc h3{margin:48px 0 14px;font-size:21px;font-weight:700;line-height:1.45;letter-spacing:-.02em}
+.dv-doc h4{margin:6px 0 18px;font-size:18px;font-weight:700;line-height:1.45;letter-spacing:-.01em}
+.dv-doc-case{margin:40px 0 0;font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--ux-ink-3)}
+.dv-doc p{margin:0 0 14px;font-size:16px;line-height:1.85;color:var(--ux-ink-2);word-break:keep-all}
+.dv-doc p.dv-doc-k,.dv-doc p.dv-doc-case{color:var(--ux-ink-3)}
+.dv-doc p.dv-doc-case{font-size:13px;line-height:1.4;margin:48px 0 0}
+.dv-doc strong{color:var(--ux-ink);font-weight:650}
+/* every image the same width and shape; two in a row sit side by side */
+.dv-doc .dv-fig{margin:28px 0;display:grid;gap:10px}
+.dv-doc .dv-fig-2{grid-template-columns:1fr 1fr}
+.dv-body .dv-doc img{display:block;width:100%!important;max-width:none;height:auto;aspect-ratio:3/2;object-fit:cover;margin:0;border-radius:12px;box-shadow:none;background:var(--ux-surface-3)}
+.dv-doc figcaption{grid-column:1/-1;margin-top:2px;font-size:13px;color:var(--ux-ink-3);text-align:center}
+@media (max-width:640px){.dv-doc{padding:36px 22px 40px}.dv-doc h3{font-size:19px;margin-top:40px}.dv-doc p{font-size:15.5px}}
