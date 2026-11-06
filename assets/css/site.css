@@ -1048,3 +1048,24 @@ html.lenis,.lenis.lenis-smooth{scroll-behavior:auto!important}
 .dv-body .dv-doc img{display:block;width:100%!important;max-width:none;height:auto;aspect-ratio:3/2;object-fit:cover;margin:0;border-radius:12px;box-shadow:none;background:var(--ux-surface-3)}
 .dv-doc figcaption{grid-column:1/-1;margin-top:2px;font-size:13px;color:var(--ux-ink-3);text-align:center}
 @media (max-width:640px){.dv-doc{padding:36px 22px 40px}.dv-doc h3{font-size:19px;margin-top:40px}.dv-doc p{font-size:15.5px}}
+
+/* ===== Round 31: mail card evidence section under the page image; screenshots keep their own shape ===== */
+.dv-docs-after{margin-top:12px}
+.dv-doc .dv-fig-raw{grid-template-columns:auto auto;justify-content:center;align-items:start;gap:16px}
+.dv-body .dv-doc .dv-fig-raw img{width:auto!important;max-width:100%;height:auto;max-height:520px;aspect-ratio:auto;object-fit:contain;border-radius:10px;box-shadow:0 0 0 1px var(--ux-line)}
+@media (max-width:640px){.dv-doc .dv-fig-raw{grid-template-columns:1fr}.dv-body .dv-doc .dv-fig-raw img{max-height:none;width:100%!important}}
+
+/* ===== Round 32: mail evidence card matches the slide above (same width, light slide look, two columns) ===== */
+.dv-docs.dv-docs-after{max-width:1280px;margin:0 auto 16px;padding:0}
+.dv-doc.dv-ev{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:64px 72px;border-radius:8px;background:#F8F8F8;color:#111;box-shadow:0 20px 40px -30px rgba(0,0,0,.4);
+  --ux-ink:#111111;--ux-ink-2:#484848;--ux-ink-3:#767676;--ux-line:rgba(17,17,17,.09);--ux-line-2:rgba(17,17,17,.18)}
+.dv-ev .dv-doc-t{font-size:clamp(22px,2.2vw,28px);margin-bottom:28px;padding-bottom:22px}
+.dv-ev .dv-doc-case{margin-top:26px!important}
+.dv-ev .dv-doc-case:first-of-type{margin-top:0!important}
+.dv-ev h4{font-size:16.5px;margin:4px 0 8px}
+.dv-ev p{font-size:14.5px;line-height:1.75;margin-bottom:0}
+.dv-ev-proof .dv-fig{margin:0}
+.dv-ev-proof .dv-fig-raw{grid-template-columns:auto auto;gap:14px}
+.dv-body .dv-ev-proof .dv-fig-raw img{max-height:460px;background:#fff;box-shadow:0 10px 30px -18px rgba(0,0,0,.35)}
+.dv-ev-proof figcaption{margin-top:10px;font-size:12.5px;color:#767676}
+@media (max-width:860px){.dv-doc.dv-ev{grid-template-columns:1fr;gap:32px;padding:40px 24px}}
