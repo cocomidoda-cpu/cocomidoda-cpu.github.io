@@ -1073,3 +1073,56 @@ html.lenis,.lenis.lenis-smooth{scroll-behavior:auto!important}
 /* single proof image inside an evidence card */
 .dv-ev-proof .dv-fig-one{grid-template-columns:1fr}
 .dv-body .dv-ev-proof .dv-fig-one img{max-height:none;width:100%!important}
+
+/* filtered-out cards stay hidden (the card layout rule above is more specific than .works .work.is-out) */
+#work .work.is-out{display:none!important}
+
+/* ===== Round 36: shorter About — heading above both columns, compact career card, photo fills what is left ===== */
+#about > .wrap > .sec-hd{margin-bottom:36px}
+.career{padding:40px 40px 34px}
+.cr-h{margin-bottom:8px}
+.cr-row{padding:18px 0}
+@media (min-width:960px){
+  .about-top{align-items:stretch}
+  .profile{padding:36px}
+  .about-top .profile .profile-ph{flex:1 1 auto;min-height:240px;aspect-ratio:auto;height:auto}
+  .profile-ph img{object-position:center 18%}
+  .profile figcaption{flex:0 0 auto;margin-top:24px}
+  .profile .profile-txt{margin-top:0!important}
+}
+.profile-h{margin-bottom:14px!important}
+@media (min-width:960px){
+  .about-top .profile .profile-ph{position:relative;flex:1 1 0;min-height:220px}
+  .about-top .profile .profile-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+}
+
+/* ===== Round 37: About = profile card first, then Career | Education · Skills · Certifications ===== */
+.profile.profile-wide{margin:0 0 28px}
+@media (min-width:960px){
+  .profile.profile-wide{display:grid;grid-template-columns:260px minmax(0,1fr);gap:48px;align-items:center;padding:40px 48px}
+  .about-top .profile .profile-ph,.profile.profile-wide .profile-ph{position:relative;flex:none;width:100%;min-height:0;aspect-ratio:4/5;height:auto}
+  .profile.profile-wide .profile-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 18%}
+  .profile.profile-wide figcaption{margin-top:0}
+  .about-top{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:start}
+}
+.profile.profile-wide .profile-ph{border-radius:18px}
+.about-right{display:grid;gap:20px}
+.about-right .panel,.career.edu{padding:32px 34px 30px;border-radius:22px}
+.about-right .panel{height:auto}
+.career.edu .cr-row{padding:14px 0}
+.career.edu .cr-hd b{font-size:16px;line-height:1.45}
+.cr-org{margin:4px 0 0;font-size:13px;font-weight:500;color:var(--ux-ink-3)}
+.about-right .cr-h{margin-bottom:14px}
+@media (max-width:959px){.about-right{margin-top:20px}}
+/* certifications: name and date on one line, like the education rows */
+.about-right .list{gap:0}
+.about-right .list li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 0;border-top:1px solid var(--ux-line);font-size:14.5px;font-weight:600}
+.about-right .list li:first-child{border-top:0;padding-top:2px}
+.about-right .list li small{flex:none;margin:0;font-size:13px;font-weight:500;color:var(--ux-ink-3)}
+.career.edu .cr-row{padding:12px 0}
+.about-right .panel,.career.edu{padding:28px 32px 26px}
+@media (min-width:960px){.about-top{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media (min-width:960px){.about-top{align-items:stretch}.about-left{display:flex}.about-left .career{flex:1}}
+
+/* education: what was learned, one short line under the institution */
+.cr-desc{margin:6px 0 0;font-size:14px;line-height:1.65;color:var(--ux-ink-2);word-break:keep-all}
