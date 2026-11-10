@@ -6,6 +6,20 @@
   var doc = document.documentElement;
   var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* Conversion events for Google Tag Manager (GTM-N8SN6TNB). In GTM, add Custom Event triggers
+     for these names and GA4 event tags; mark contact_click / contact_copy as key events in GA4. */
+  function track(name, params) {
+    try { (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, params || {})); } catch (e) { /* 무시 */ }
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var h = a.getAttribute('href');
+    if (/^tel:/.test(h)) track('contact_click', { contact_method: 'phone' });
+    else if (/^mailto:/.test(h)) track('contact_click', { contact_method: 'email' });
+    else if (/behance\.net/.test(h)) track('contact_click', { contact_method: 'behance' });
+  });
+
   /* Smooth wheel scrolling (Lenis). Skipped with reduced motion or if the library did not load. */
   var lenis = null;
   if (!rm && window.Lenis) {
@@ -285,6 +299,7 @@
       var tpl = $('.work-pages', card);
       if (!tpl) return;
       opener = from;
+      track('work_detail_open', { work_id: card.id, work_title: $('h4', card).textContent.trim() });
       title.textContent = $('h4', card).textContent;
       body.textContent = '';
       body.appendChild(tpl.content.cloneNode(true));
@@ -463,6 +478,7 @@
     var text = $('.u008-cmd', root).textContent.trim();
     btn.addEventListener('click', function () {
       write(text);
+      track('contact_copy', { contact_method: /@/.test(text) ? 'email' : 'phone' });
       clearTimeout(t);
       root.classList.remove('is-copied');
       void root.offsetWidth;

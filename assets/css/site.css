@@ -1126,3 +1126,6 @@ html.lenis,.lenis.lenis-smooth{scroll-behavior:auto!important}
 
 /* education: what was learned, one short line under the institution */
 .cr-desc{margin:6px 0 0;font-size:14px;line-height:1.65;color:var(--ux-ink-2);word-break:keep-all}
+
+/* At a Glance card titles: the three key lines, two lines each */
+.hl-pts h3{font-size:clamp(17px,1.55vw,20px);word-break:keep-all}
