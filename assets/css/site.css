@@ -1640,3 +1640,77 @@ html.lenis,.lenis.lenis-smooth{scroll-behavior:auto!important}
 @media (hover:hover){.wk-cat:hover,.wk-sub:hover{color:color-mix(in srgb,var(--ux-ink) 85%,var(--ux-page))}}
 @media (max-width:360px){.u212-hd .brand{font-size:14px}.hd-nav a{padding:8px 4px;font-size:12px}.u219-tg{width:36px;height:36px}}
 @media (max-width:360px){.u212-hd{padding:0 12px;gap:6px}}
+
+/* ===== Round 57: addd works in the story viewer ===== */
+.ds-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:6px 0 0;border:1px solid rgba(0,0,0,.09);border-radius:10px;background:#FAFAFA}
+.ds-stats>div{padding:18px 20px}
+.ds-stats>div+div{border-left:1px solid rgba(0,0,0,.09)}
+.ds-stats dt{font-size:13px;color:#6b6b6b}
+.ds-stats dd{margin:8px 0 0;display:grid;gap:6px}
+.ds-stats b{font-size:clamp(28px,2.6vw,36px);font-weight:800;line-height:1;letter-spacing:-.03em;color:#1f1f1f;font-variant-numeric:tabular-nums}
+.ds-stats b small{margin-left:3px;font-size:.5em;font-weight:700}
+.ds-stats span{font-size:13px;color:#6b6b6b;font-variant-numeric:tabular-nums}
+@media (max-width:560px){.ds-stats{grid-template-columns:1fr}.ds-stats>div+div{border-left:0;border-top:1px solid rgba(0,0,0,.09)}}
+.ds-sticky{max-height:calc(100dvh - 170px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
+.ds-sticky::-webkit-scrollbar{display:none}
+.ds-note .ds-rule{margin-top:18px!important;padding-top:16px;border-top:1px solid rgba(0,0,0,.08);font-size:14.5px!important;line-height:1.8!important;color:#666!important}
+.ds-note .ds-rule b{display:block;margin-bottom:4px;font-size:13px;font-weight:700;color:#333}
+.ds-table{width:100%;margin-top:18px;border-collapse:collapse;font-size:13.5px}
+.ds-table th{padding:8px 0;text-align:left;font-size:12px;font-weight:600;color:#6b6b6b;border-bottom:1px solid rgba(0,0,0,.12)}
+.ds-table td{padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06);color:#333;word-break:keep-all;line-height:1.5}
+.ds-table th:last-child,.ds-table td:last-child{padding-left:16px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ds-note p.ds-src{margin-top:10px!important;font-size:12.5px!important;color:#6b6b6b!important}
+.ds-src a{color:inherit}
+/* evidence note (kept text from the old evidence card) */
+.ds-note-ev .dv-doc-k{margin:0 0 8px!important;font-size:12.5px!important;color:#6b6b6b!important}
+.ds-note-ev .dv-doc-t{margin:0;font-size:clamp(20px,1.9vw,24px);font-weight:700;line-height:1.4;letter-spacing:-.03em;color:#1f1f1f}
+.ds-note-ev .dv-doc-case{margin:22px 0 4px!important;font-size:12.5px!important;font-weight:600;color:#6b6b6b!important}
+.ds-note-ev h4{margin:0 0 6px;font-size:16px;font-weight:700;color:#222}
+.ds-note-ev p:not(.ds-no):not(.dv-doc-k):not(.dv-doc-case){font-size:14.5px!important;line-height:1.8!important}
+/* room after the last image so its note can show before the wrap-up */
+.ds-v2 .ds-story{padding-bottom:calc(55vh + 40px)}
+@media (max-width:899px){.ds-v2 .ds-story{padding-bottom:40px}}
+
+/* ===== Round 58: addd works — editorial full scroll (one background, parts separated by space, no boxes) ===== */
+.ed{max-width:1280px;margin:0 auto 16px;border-radius:10px;overflow:clip;background:#F5F5F5;color:#1f1f1f;padding-bottom:clamp(64px,8vw,112px)}
+.ed p,.ed h3,.ed figure{margin:0}
+.ed .ed-head{padding-bottom:0}
+.ed-sec{padding:clamp(80px,10vw,136px) clamp(20px,6vw,88px) 0}
+.ed-lead{padding-top:clamp(48px,6vw,80px)}
+.ed-row{display:grid;gap:14px}
+@media (min-width:900px){.ed-row{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:start}}
+.ed-no{margin-bottom:12px!important;font-size:13px;font-weight:600;letter-spacing:.12em;color:#6b6b6b;font-variant-numeric:tabular-nums}
+.ed-txt h3{font-size:clamp(22px,2.2vw,30px);font-weight:700;line-height:1.35;letter-spacing:-.035em;word-break:keep-all}
+.ed-txt .dv-doc-k{margin-bottom:10px!important;font-size:13px;color:#6b6b6b}
+.ed-body{max-width:640px}
+.ed-body>p,.ed-body .ds-rule{font-size:16.5px;line-height:1.85;color:#555;word-break:keep-all}
+.ed-body>p+p{margin-top:10px!important}
+.ed-body .ds-rule{margin-top:18px!important;padding-top:0;border-top:0;font-size:15px!important}
+.ed-body .ds-rule b{display:block;margin-bottom:4px;font-size:13px;font-weight:700;color:#333}
+.ed-ev .dv-doc-case{margin:28px 0 4px!important;font-size:13px;font-weight:600;color:#6b6b6b}
+.ed-ev .dv-doc-case:first-child{margin-top:0!important}
+.ed-ev h4{margin:0 0 6px;font-size:17px;font-weight:700;color:#222}
+.ed-ev .ed-body p:not(.dv-doc-case){font-size:16px;line-height:1.85;color:#555;word-break:keep-all}
+.ed-media{margin-top:clamp(40px,4.5vw,64px);display:grid;gap:28px;justify-items:center}
+.ed-media figure{width:auto;max-width:min(100%,960px)}
+.ed-media img{display:block;width:auto!important;max-width:100%!important;height:auto;margin:0!important;border-radius:6px!important;box-shadow:none!important;background:#fff!important;outline:1px solid rgba(0,0,0,.08);outline-offset:-1px}
+.ed-grid4{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;justify-items:stretch}
+.ed-grid4 figure{max-width:none}
+.ed-grid4 img{width:100%!important}
+@media (max-width:760px){.ed-grid4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ed-end{padding-top:clamp(96px,11vw,152px)}
+.ed-end .ds-checks{margin-top:16px!important}
+.ed .ds-table{max-width:640px}
+
+/* ===== Round 59: addd parts — images left, text right, nothing sticky ===== */
+.ed-split{display:grid;gap:28px;align-items:start}
+@media (min-width:900px){.ed-split{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:64px}}
+.ed-left .ed-media{margin-top:0;justify-items:center}
+.ed-left .ed-media figure{max-width:100%}
+.ed-right{max-width:460px}
+.ed-right h3{font-size:clamp(21px,2vw,27px);font-weight:700;line-height:1.38;letter-spacing:-.035em;word-break:keep-all}
+.ed-right .dv-doc-k{margin-bottom:10px!important;font-size:13px;color:#6b6b6b}
+.ed-right .ed-body{margin-top:16px}
+.ed-split .ed-grid4{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ed-end{padding-top:clamp(96px,11vw,152px)}
+@media (max-width:899px){.ed-left:empty{display:none}}

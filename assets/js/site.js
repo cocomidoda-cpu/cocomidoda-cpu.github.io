@@ -361,13 +361,15 @@
         return { el: part === '0' ? null : $('.ds-part[data-part="' + part + '"]', st), f: parseFloat(n.getAttribute('data-frac')) || 0 };
       });
       var cur = -1, endAt = notes.length - 1, hasEnd = notes[endAt].classList.contains('ds-end');
+      var partsAll = $$('.ds-part', st), lastPart = partsAll[partsAll.length - 1];
       return function () {
         var line = body.getBoundingClientRect().top + body.clientHeight * 0.5, k = 0;
         marks.forEach(function (m, i) {
           if (m.el && m.el.getBoundingClientRect().top + m.el.offsetHeight * m.f <= line) k = i;
         });
         // 페이지 맨 끝에 닿으면 마무리 카드(체크 목록 + 다음 작업)로 바뀝니다
-        if (hasEnd && body.scrollTop + body.clientHeight >= body.scrollHeight - 24) k = endAt;
+        var atBottom = body.scrollTop + body.clientHeight >= body.scrollHeight - 24;
+        if (hasEnd && ((lastPart && lastPart.getBoundingClientRect().bottom <= line) || atBottom)) k = endAt;
         if (k === cur) return;
         cur = k;
         notes.forEach(function (n, i) { n.classList.toggle('is-on', i === k); });
