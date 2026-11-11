@@ -97,6 +97,7 @@
      Staggered hero entrance (no replay button on the live page). */
   (function () {
     var root = $('.u216'), h = $('.u216-h', root);
+    if (!root || !h) return;
     var lines = h.getAttribute('data-words').split('|').map(function (l) { return l.split(' '); });
     // 제목: 낱말마다 가림 상자를 두고, 안쪽 글자가 아래에서 밀려 올라오게 합니다
     var d = 300, label = h.textContent.replace(/\s+/g, ' ').trim();
@@ -150,7 +151,9 @@
   /* Hero headline: font size is fitted so the headline spans exactly the content grid width.
      Works for any text in data-words (the widest line is fitted on narrow screens). */
   (function () {
-    var h = $('.u216-h'), box = h.parentElement;
+    var h = $('.u216-h');
+    if (!h) return;
+    var box = h.parentElement;
     function fit() {
       var cs = getComputedStyle(box);
       var target = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
@@ -169,6 +172,7 @@
      FAQ accordion: one item open at a time, arrow keys move between questions. */
   (function () {
     var root = $('.u044');
+    if (!root) return;
     // 항목은 두 열에 나뉘어 있으므로, 키보드 이동은 번호(order) 순서를 따릅니다
     var items = $$('.u044-it', root).sort(function (a, b) { return (parseInt(a.style.order, 10) || 0) - (parseInt(b.style.order, 10) || 0); });
     var qs = items.map(function (it) { return $('.u044-q', it); });
@@ -214,67 +218,28 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(even);
   })();
 
-  /* Lucian UX/UI Prompt #039 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#039
-     Sliding pill: 애드 작업물 / 개인 작업물. The bar sticks under the header, the pill follows the scroll,
-     and clicking jumps to that group. Marketing / design checks filter both groups. */
+  /* Work: Marketing / Design list sticks on the left, each with small addd / 개인 sub-items.
+     The category and sub-group whose cards are on screen turn dark; clicking glides to them. */
   (function () {
-    var bar = $('#work .u039'), slot = $('.u039-slot'), work = $('#work'), tabs = $$('.u039-tab'), pill = $('.u039-pill'), cards = $$('.works .work');
-    var groups = tabs.map(function (t) { return document.getElementById(t.getAttribute('href').slice(1)); });
-    var chips = $$('.cat-chk input'), cats = { dsn: true, mkt: true }, cur = 0, line = 140;
-    function movePill(animate) {
-      var t = tabs[cur];
-      if (!animate) pill.style.transition = 'none';
-      pill.style.setProperty('--x', t.offsetLeft + 'px');
-      pill.style.setProperty('--w', t.offsetWidth + 'px');
-      if (!animate) { void pill.offsetWidth; pill.style.transition = ''; }
-    }
-    function setCur(i) {
-      if (i === cur) return;
-      cur = i;
-      tabs.forEach(function (t, k) { if (k === i) t.setAttribute('aria-current', 'true'); else t.removeAttribute('aria-current'); });
-      movePill(true);
-    }
-    // 헤더 + 바 높이: 고정 바 아래 기준선이자, 블로그·메일 고정 무대의 위치입니다
-    function stick() {
-      var hd = $('.u212-hd').offsetHeight;
-      line = hd + 12 + bar.offsetHeight + 12;
-      doc.style.setProperty('--hd-h', hd + 'px');
-      doc.style.setProperty('--work-stick', line + 'px');
-    }
-    // 화면 위쪽 1/3 지점을 지난 마지막 그룹의 탭이 켜집니다
-    // 원래 자리의 바가 화면 위로 지나가면, Work 섹션 안에 있는 동안만 화면 아래 가운데에 떠 있는 바로 바뀝니다
-    // 바는 제자리에서 스크롤되다가 헤더 아래 고정 위치에 닿으면 그대로 붙어 따라옵니다 (CSS sticky)
+    var wk = $('.wk');
+    if (!wk) return;
+    var links = $$('.wk-cat, .wk-sub', wk), cats = $$('.wk-cat', wk), subs = $$('.wk-sub', wk);
+    function target(a) { return document.getElementById(a.getAttribute('href').slice(1)); }
+    var catG = cats.map(target), subG = subs.map(target), cc = -1, cs = -1;
+    function mark(list, i) { list.forEach(function (a, k) { if (k === i) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); }); }
     function spy() {
-      var y = line + (window.innerHeight - line) / 3, i = 0;
-      groups.forEach(function (g, k) { if (g.offsetParent !== null && g.getBoundingClientRect().top <= y) i = k; });
-      setCur(i);
-      bar.classList.toggle('is-dark', i === 1 && groups[1].getBoundingClientRect().top <= line);
+      var line = window.innerHeight * 0.5, i = 0, k = 0;
+      catG.forEach(function (g, n) { if (g && g.getBoundingClientRect().top <= line) i = n; });
+      subG.forEach(function (g, n) { if (g && g.getBoundingClientRect().top <= line) k = n; });
+      if (i !== cc) { cc = i; mark(cats, i); }
+      if (k !== cs) { cs = k; mark(subs, k); }
     }
-    tabs.forEach(function (t, i) {
-      t.addEventListener('click', function (e) {
+    links.forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var t = target(a);
+        if (!t) return;
         e.preventDefault();
-        glide(groups[i], -line);
-      });
-    });
-    function apply() {
-      chips.forEach(function (c) { c.checked = !!cats[c.value]; });
-      cards.forEach(function (c) { c.classList.toggle('is-out', !cats[c.getAttribute('data-group').split('-')[1]]); });
-      reveal();
-      spy();
-    }
-    // 둘 다 체크가 기본. 하나만 체크하면 그 분류만 보이고, 마지막 하나는 해제되지 않습니다
-    chips.forEach(function (c) {
-      c.addEventListener('change', function () {
-        cats[c.value] = c.checked;
-        if (!cats.dsn && !cats.mkt) { cats[c.value] = true; c.checked = true; return; }
-        apply();
-      });
-    });
-    // 숨겨진 작업으로 가는 링크는 그 분류를 다시 켭니다
-    $$('a[href^="#w-"]').forEach(function (a) {
-      a.addEventListener('click', function () {
-        var t = document.getElementById(a.getAttribute('href').slice(1));
-        if (t && t.classList.contains('is-out')) { cats[t.getAttribute('data-group').split('-')[1]] = true; apply(); }
+        glide(t, -($('.u212-hd') ? $('.u212-hd').offsetHeight : 0) - 32);
       });
     });
     var raf = 0;
@@ -282,19 +247,67 @@
       if (raf) return;
       raf = requestAnimationFrame(function () { raf = 0; spy(); });
     }, { passive: true });
-    window.addEventListener('resize', function () { stick(); movePill(false); spy(); });
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { stick(); movePill(false); });
-    stick();
-    movePill(false);
-    apply();
-    // 뒤로 가기·새로 고침 때 브라우저가 체크 상태를 복원해도 목록과 다시 맞춥니다
-    window.addEventListener('pageshow', apply);
-    window.addEventListener('load', apply);
+    spy();
+  })();
+
+  /* Lucian UX/UI Prompt #039 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#039
+     Archive page: All / Marketing / Design tabs filter the cards; the pill slides under the current tab. */
+  (function () {
+    var arc = $('.arc');
+    if (!arc) return;
+    var tabs = $$('.u039-tab', arc), pill = $('.u039-pill', arc), cards = $$('.work', arc), cur = 0;
+    function cat(c) { return (c.getAttribute('data-group') || '').split('-')[1]; }
+    tabs.forEach(function (t) {
+      var f = t.getAttribute('data-filter'), sm = $('small', t);
+      if (sm) sm.textContent = f === 'all' ? cards.length : cards.filter(function (c) { return cat(c) === f; }).length;
+    });
+    function movePill(animate) {
+      var t = tabs[cur];
+      if (!animate) pill.style.transition = 'none';
+      pill.style.setProperty('--x', t.offsetLeft + 'px');
+      pill.style.setProperty('--w', t.offsetWidth + 'px');
+      if (!animate) { void pill.offsetWidth; pill.style.transition = ''; }
+    }
+    function show(i, animate) {
+      cur = i;
+      var f = tabs[i].getAttribute('data-filter');
+      tabs.forEach(function (t, k) { if (k === i) t.setAttribute('aria-current', 'true'); else t.removeAttribute('aria-current'); });
+      cards.forEach(function (c) { c.classList.toggle('is-out', f !== 'all' && cat(c) !== f); });
+      movePill(animate);
+      reveal();
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function (e) {
+        e.preventDefault();
+        show(i, true);
+        try { history.replaceState(null, '', t.getAttribute('href')); } catch (er) { /* 무시 */ }
+      });
+    });
+    var start = 0;
+    tabs.forEach(function (t, i) { if (t.getAttribute('href') === location.hash) start = i; });
+    show(start, false);
+    window.addEventListener('resize', function () { movePill(false); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { movePill(false); });
   })();
 
   /* Work detail viewer: "자세히 보기" opens the work's pages stacked vertically */
   (function () {
     var dv = $('.dv'), body = $('.dv-body', dv), title = $('.dv-title', dv), x = $('.dv-x', dv), opener = null;
+    // 무음 반복 영상(GIF를 바꾼 것): 움직임 줄이기 설정이면 재생하지 않고 첫 화면에 멈춰 둡니다 (WCAG 2.3.3)
+    function playClips(root) {
+      $$('video', root).forEach(function (v) {
+        v.muted = true;
+        if (rm) { v.autoplay = false; v.removeAttribute('autoplay'); v.pause(); return; }
+        var p = v.play && v.play(); if (p && p.catch) p.catch(function () {});
+      });
+    }
+    // 창이 열려 있는 동안 뒤 페이지는 키보드·보조기기에서 빠지게 합니다 (Tab은 창 안 버튼을 차례로 돕니다)
+    function setInert(on) {
+      Array.prototype.forEach.call(document.body.children, function (el) {
+        if (el === dv || el.tagName === 'SCRIPT') return;
+        if (on) el.setAttribute('inert', ''); else el.removeAttribute('inert');
+      });
+    }
     function open(card, from) {
       var tpl = $('.work-pages', card);
       if (!tpl) return;
@@ -303,8 +316,19 @@
       title.textContent = $('h4', card).textContent;
       body.textContent = '';
       body.appendChild(tpl.content.cloneNode(true));
+      playClips(body);
       body.scrollTop = 0;
       dv.hidden = false;
+      setInert(true);
+      // 스크롤되는 구간 박스는 포트폴리오 슬라이드에서 보여 주던 위치에서 시작합니다
+      $$('.ds-scroll[data-pct]', body).forEach(function (b) {
+        var st = b.firstElementChild;
+        if (st) b.scrollTop = st.offsetHeight * (parseFloat(b.getAttribute('data-pct')) || 0) / 100;
+      });
+      current = card;
+      story = storyFor(body);
+      if (story) story();
+      progress();
       if (lenis) lenis.stop();
       doc.classList.add('dv-open');
       requestAnimationFrame(function () { dv.classList.add('is-on'); });
@@ -312,8 +336,10 @@
     }
     function close() {
       if (dv.hidden) return;
+      var zz = $('.sl-zoom'); if (zz) zz.remove();
       dv.classList.remove('is-on');
       doc.classList.remove('dv-open');
+      setInert(false);
       if (lenis) lenis.start();
       setTimeout(function () { dv.hidden = true; body.textContent = ''; }, rm ? 0 : 320);
       if (opener) opener.focus({ preventScroll: true });
@@ -322,10 +348,92 @@
       b.addEventListener('click', function () { open(b.closest('.work'), b); });
     });
     x.addEventListener('click', close);
+
+    /* Story pages (잘룸 · 금강버섯농장): the page runs down the left; the sticky note on the right switches to the note
+       whose page part has reached the middle of the viewer — the same idea as the Work section's category list. */
+    var story = null, storyRaf = 0, current = null;
+    function storyFor(root) {
+      var st = $('.ds-story', root);
+      if (!st) return null;
+      var notes = $$('.ds-note', st);
+      var marks = notes.map(function (n) {
+        var part = n.getAttribute('data-part');
+        return { el: part === '0' ? null : $('.ds-part[data-part="' + part + '"]', st), f: parseFloat(n.getAttribute('data-frac')) || 0 };
+      });
+      var cur = -1, endAt = notes.length - 1, hasEnd = notes[endAt].classList.contains('ds-end');
+      return function () {
+        var line = body.getBoundingClientRect().top + body.clientHeight * 0.5, k = 0;
+        marks.forEach(function (m, i) {
+          if (m.el && m.el.getBoundingClientRect().top + m.el.offsetHeight * m.f <= line) k = i;
+        });
+        // 페이지 맨 끝에 닿으면 마무리 카드(체크 목록 + 다음 작업)로 바뀝니다
+        if (hasEnd && body.scrollTop + body.clientHeight >= body.scrollHeight - 24) k = endAt;
+        if (k === cur) return;
+        cur = k;
+        notes.forEach(function (n, i) { n.classList.toggle('is-on', i === k); });
+      };
+    }
+
+    /* Reading progress: a thin bar under the viewer's title bar fills as you read; full = done */
+    var prog = document.createElement('div');
+    prog.className = 'dv-progress';
+    prog.setAttribute('aria-hidden', 'true');
+    prog.innerHTML = '<i></i>';
+    dv.insertBefore(prog, body);
+    var progBar = prog.firstChild;
+    function progress() {
+      var max = body.scrollHeight - body.clientHeight;
+      var p = max > 0 ? Math.min(1, body.scrollTop / max) : 1;
+      progBar.style.transform = 'scaleX(' + p + ')';
+      prog.classList.toggle('is-done', p >= 0.995);
+    }
+
+    body.addEventListener('scroll', function () {
+      if (storyRaf) return;
+      storyRaf = requestAnimationFrame(function () { storyRaf = 0; progress(); if (story) story(); });
+    }, { passive: true });
+
+    // 마무리 카드 버튼: 다음 작업 보기 / 목록으로
+    body.addEventListener('click', function (e) {
+      if (e.target.closest('.ds-close')) { close(); return; }
+      if (!e.target.closest('.ds-next')) return;
+      var all = $$('.works .work').filter(function (c) { return $('[data-detail]', c) && c.offsetParent !== null; });
+      var i = all.indexOf(current);
+      var next = all[(i + 1) % all.length];
+      if (next && next !== current) open(next, $('[data-detail]', next));
+    });
+
+    /* Slide artboards: a page column opens at full size above the viewer; click outside, × or Esc closes it */
+    var zoom = null;
+    function unzoom() { if (zoom) { zoom.remove(); zoom = null; } }
+    function zoomIn(box) {
+      unzoom();
+      zoom = document.createElement('div');
+      zoom.className = 'sl-zoom';
+      zoom.setAttribute('data-lenis-prevent', '');
+      zoom.innerHTML = '<button type="button" class="sl-zoom-x" aria-label="크게 보기 닫기">×</button>';
+      var st = $('.sl-stack', box).cloneNode(true);
+      zoom.appendChild(st);
+      document.body.appendChild(zoom);
+      playClips(zoom);
+      var pct = parseFloat(box.getAttribute('data-pct')) || 0;
+      requestAnimationFrame(function () { zoom.scrollTop = st.offsetHeight * pct / 100; });
+      zoom.addEventListener('click', function (ev) { if (!st.contains(ev.target) || ev.target.closest('.sl-zoom-x')) unzoom(); });
+      $('.sl-zoom-x', zoom).focus({ preventScroll: true });
+    }
+    body.addEventListener('click', function (e) {
+      var box = e.target.closest && e.target.closest('.sl-box[data-zoom]');
+      if (box) zoomIn(box);
+    });
+    body.addEventListener('keydown', function (e) {
+      var box = e.target.closest && e.target.closest('.sl-box[data-zoom]');
+      if (box && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); zoomIn(box); }
+    });
+
     document.addEventListener('keydown', function (e) {
       if (dv.hidden) return;
+      if (e.key === 'Escape' && zoom) { e.preventDefault(); unzoom(); return; }
       if (e.key === 'Escape') { e.preventDefault(); close(); }
-      else if (e.key === 'Tab') { e.preventDefault(); (document.activeElement === x ? body : x).focus(); }
     });
   })();
 
