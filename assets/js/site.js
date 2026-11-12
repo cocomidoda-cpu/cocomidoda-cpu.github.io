@@ -686,13 +686,14 @@
 /* About: one page shown as a miniature card (the page is laid out at screen size and scaled into the card).
    Scroll: the card zooms up to fill the screen → Profile holds → Career plays the 2019 → 2026 timeline sideways →
    Education → Skills (each slides up like the next section of a page) → the page zooms back down into the card.
-   Sections taller than the screen scroll through before the next one comes. */
+   Sections taller than the screen pause on their title, then scroll through before the next one comes.
+   The full-screen page sits under the site header (which never hides), so nothing slides under it. */
 (function () {
   var wrap = document.querySelector('.ab-scroll'); if (!wrap) return;
   var frame = wrap.querySelector('.ab-frame'), win = wrap.querySelector('.ab-win'), page = wrap.querySelector('.ab-page'), track = wrap.querySelector('.ab-track');
   var secs = [].slice.call(track.children);
   var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var vw = 0, vh = 0, hdH = 0, card = null, plan = [], total = 0, ticking = false;
+  var vw = 0, vh = 0, hdH = 0, pageH = 0, card = null, plan = [], total = 0, ticking = false, stacked = false;
   function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
   function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
   function lerp(a, b, t) { return a + (b - a) * t; }
@@ -712,14 +713,42 @@
     var fill = root.querySelector('.tl-axis-fill'), list = root.querySelector('.tl-axis ol'), labels = [];
     var truck = root.querySelector('.tl-truck'), drive = truck ? truck.closest('.tl-scene') : null;
     var peds = drive ? [].slice.call(drive.querySelectorAll('.tl-ped')) : [], tcards = drive ? [].slice.call(drive.querySelectorAll('.tl-card')) : [];
-    var W = 0, total = 0, plan = [], K = 0.62, last = 0;
+    var W = 0, total = 0, plan = [], K = 0.62, last = 0, fit = true;
+    // 2024: the street takes the height left under the text (never under it); false when even the truck doesn't fit
+    function fit2024(h) {
+      if (!drive) return true;
+      drive.style.removeProperty('--street-h'); drive.style.removeProperty('--row');
+      var r0 = 0;
+      tcards.forEach(function (c) { if (c.style.getPropertyValue('--r').trim() === '0') r0 = Math.max(r0, c.offsetHeight); });
+      drive.style.setProperty('--row', Math.max(172, r0 + 16) + 'px');            // second row clears the tallest first-row card
+      var bottom = 0;
+      [drive.querySelector('.tl-addd-hd'), drive.querySelector('.tl-sol')].concat(tcards).forEach(function (el) {
+        if (el) bottom = Math.max(bottom, el.offsetTop + el.offsetHeight);
+      });
+      var pb = parseFloat(getComputedStyle(drive).paddingBottom) || 88;
+      var room = h - pb - 4 - bottom - 20, need = (truck ? truck.offsetHeight : 90) + 34;   // truck + its tag
+      var sh = Math.min(Math.max(150, Math.min(240, h * .26)), room);
+      if (sh < need) return false;
+      drive.style.setProperty('--street-h', Math.floor(sh) + 'px');
+      return true;
+    }
     scenes.forEach(function (s) { var li = document.createElement('li'); li.textContent = s.getAttribute('data-label') || ''; list.appendChild(li); labels.push(li); });
     function measure(w, h) {
       W = w; root.style.setProperty('--tl-w', W + 'px');
+      fit = fit2024(h);
       var last = scenes[scenes.length - 1], maxX = Math.max(0, last.offsetLeft + last.offsetWidth - W), y = 0;
       plan = scenes.map(function (s, i) {
         var L = Math.min(s.offsetLeft, maxX), next = i < scenes.length - 1 ? Math.min(scenes[i + 1].offsetLeft, maxX) : maxX;
-        var p = { s: s, L: L, W: s.offsetWidth, y0: y, hold: (parseFloat(s.getAttribute('data-hold')) || 0) * h, items: [].slice.call(s.querySelectorAll('[data-at]')) };
+        // a scene taller than the screen holds at its top and its content scrolls up while it holds (at most 1:1 with the scroll),
+        // done by 80% of the hold so the whole scene rests readable before the next one slides in
+        var rd = 0, g = s !== drive && s.querySelector('.tl-grid');
+        s.classList.remove('is-tall'); s.style.removeProperty('--rd');
+        if (g) {
+          var cs = getComputedStyle(s);
+          rd = Math.max(0, Math.ceil(g.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) - s.clientHeight));
+          if (rd) s.classList.add('is-tall');
+        }
+        var p = { s: s, L: L, W: s.offsetWidth, y0: y, rd: rd, hold: Math.max((parseFloat(s.getAttribute('data-hold')) || 0) * h, rd / .8), items: [].slice.call(s.querySelectorAll('[data-at]')) };
         p.dx = Math.max(0, next - L); y += p.hold; p.m0 = y; y += p.dx * K; p.m1 = y;
         return p;
       });
@@ -731,6 +760,7 @@
         if (y >= p.y0) { x = p.L + clamp((y - p.m0) / K, 0, p.dx); cur = i; }
         var h = p.hold ? clamp((y - p.y0) / p.hold, 0, 1) : (y >= p.y0 ? 1 : 0);
         p.s.style.setProperty('--h', h.toFixed(3));
+        if (p.rd) p.s.style.setProperty('--rd', (Math.min(1, h / .8) * p.rd).toFixed(1));
         p.items.forEach(function (el) { el.classList.toggle('is-on', h >= (parseFloat(el.getAttribute('data-at')) || 0)); });
         if (p.s === drive) dh = h;
       });
@@ -777,25 +807,54 @@
       }).observe(root);
     }
     function report(on) { scenes.forEach(function (s, i) { seen('timeline_scene_view', i, { scene: s.getAttribute('data-label') || String(i) }, on && i === last); }); }
-    return { root: root, measure: measure, update: update, report: report };
+    // vertical story: the scene across the middle of the screen is the current one
+    function pick(line) {
+      for (var i = 0; i < scenes.length; i++) { var b = scenes[i].getBoundingClientRect(); if (b.top <= line && b.bottom > line) { last = i; return true; } }
+      return false;
+    }
+    // back to the plain layout (no transforms or sizes left over from the sideways one)
+    function reset() {
+      track.style.transform = '';
+      scenes.forEach(function (s) { s.style.removeProperty('--h'); s.style.removeProperty('--rd'); s.classList.remove('is-tall'); });
+      if (drive) { drive.style.removeProperty('--street-h'); drive.style.removeProperty('--row'); }
+      if (truck) { truck.style.removeProperty('--tx'); truck.style.removeProperty('--rot'); }
+    }
+    return { root: root, measure: measure, update: update, report: report, pick: pick, reset: reset, fits: function () { return fit; } };
   })();
 
+  // the header's height once the page is scrolled (it turns frosted and a little shorter; it never hides)
+  function headerHeight() {
+    var hd = document.getElementById('top-header'); if (!hd) return 0;
+    var was = hd.classList.contains('is-solid');
+    hd.style.transition = 'none'; hd.classList.add('is-solid');
+    var h = hd.offsetHeight;
+    if (!was) hd.classList.remove('is-solid');
+    void hd.offsetHeight; hd.style.transition = '';
+    return h;
+  }
+  var career = TL ? TL.root.closest('.ab-card') : null;
   function layout() {
     wrap.classList.add('is-on');
-    if (TL) TL.root.classList.add('tl-on');
     vw = document.documentElement.clientWidth; vh = window.innerHeight;
-    var hd = document.getElementById('top-header'); hdH = hd ? hd.getBoundingClientRect().height : 64;
+    hdH = headerHeight(); pageH = vh - hdH;
     var inner = wrap.parentElement.getBoundingClientRect();           // the About .wrap: content column of the site
     var cs = getComputedStyle(wrap.parentElement);
     var colL = inner.left + parseFloat(cs.paddingLeft), colW = inner.width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-    page.style.setProperty('--pg-w', vw + 'px'); page.style.setProperty('--pg-h', vh + 'px');
-    page.style.setProperty('--pg-x', Math.round(colL) + 'px'); page.style.setProperty('--pg-t', Math.round(hdH + Math.min(56, vh * .06)) + 'px');
-    // card: same proportions as the screen, as wide as the content column, fits under the header
+    page.style.setProperty('--pg-w', vw + 'px'); page.style.setProperty('--pg-h', pageH + 'px');
+    page.style.setProperty('--pg-x', Math.round(colL) + 'px'); page.style.setProperty('--pg-t', Math.round(Math.max(24, Math.min(56, vh * .06))) + 'px');
+    // card: same proportions as the page (the screen under the header), as wide as the content column
     var top = hdH + (vw < 640 ? 12 : 24), maxH = vh - top - (vw < 640 ? 12 : 32);
-    var w = Math.min(colW, maxH * vw / vh), h = w * vh / vw;
+    var w = Math.min(colW, maxH * vw / pageH), h = w * pageH / vw;
     card = { l: (vw - w) / 2, t: top, w: w, h: h, r: vw < 640 ? 20 : 28 };
+    // Career: the sideways timeline when it fits the screen, otherwise the same scenes as a vertical story
+    var tlLen = 0; stacked = false;
+    if (TL) {
+      career.classList.remove('is-stack'); TL.root.classList.add('tl-on');
+      tlLen = TL.measure(vw, pageH);
+      if (!TL.fits()) { stacked = true; TL.root.classList.remove('tl-on'); career.classList.add('is-stack'); TL.reset(); }
+    }
     // scroll plan
-    var tlLen = TL ? TL.measure(vw, vh) : 0, E = Math.round(vh * .7), HOLD = Math.round(vh * .45);
+    var E = Math.round(vh * .7), HOLD = Math.round(vh * .45), PEEK = Math.round(pageH * .22);
     plan = []; total = 0;
     function seg(kind, len, a, b, extra) { plan.push({ kind: kind, y0: total, len: Math.max(1, len), a: a, b: b, extra: extra }); total += Math.max(1, len); }
     var offs = [], o = 0;
@@ -803,13 +862,17 @@
     seg('zoom', E, 0, 1);
     secs.forEach(function (sct, i) {
       var hgt = sct.offsetHeight;
-      if (i > 0) seg('move', vh, offs[i] - vh, offs[i]);                 // next section slides up, 1:1 with the scroll
-      if (hgt > vh + 1) seg('move', hgt - vh, offs[i], offs[i] + hgt - vh); // read through a tall section
-      if (sct.querySelector('.ab-tl') && TL) seg('tl', tlLen, offs[i], offs[i]);
-      else seg('hold', i === secs.length - 1 ? HOLD * .6 : HOLD, offs[i] + Math.max(0, hgt - vh), offs[i] + Math.max(0, hgt - vh));
+      if (i > 0) seg('move', pageH, offs[i] - pageH, offs[i]);             // next section slides up, 1:1 with the scroll
+      if (hgt > pageH + 1) {
+        seg('hold', PEEK, offs[i], offs[i]);                                // a tall section pauses on its title first
+        seg('move', hgt - pageH, offs[i], offs[i] + hgt - pageH);           // then reads through
+      }
+      if (sct.querySelector('.ab-tl') && TL && !stacked) seg('tl', tlLen, offs[i], offs[i]);
+      else seg('hold', i === secs.length - 1 ? HOLD * .6 : HOLD, offs[i] + Math.max(0, hgt - pageH), offs[i] + Math.max(0, hgt - pageH));
     });
+    // shrinking back into the card, the page slides back to the last section's title (the card never shows a cut-off title)
     var last = plan[plan.length - 1].b;
-    seg('unzoom', E, last, last);
+    seg('unzoom', E, last, offs[secs.length - 1]);
     wrap.style.height = Math.round(total + vh) + 'px';
     wrap.abPlan = plan;
     update();
@@ -823,14 +886,14 @@
       kind = p.kind;
       var t = clamp((y - p.y0) / p.len, 0, 1);
       if (p.kind === 'zoom') { x = ease(t); ty = 0; }
-      else if (p.kind === 'unzoom') { x = 1 - ease(t); ty = p.a; }
+      else if (p.kind === 'unzoom') { x = 1 - ease(t); ty = lerp(p.a, p.b, ease(Math.min(1, t / .5))); }
       else { x = 1; ty = p.kind === 'move' ? lerp(p.a, p.b, t) : p.a; }
       if (p.kind === 'tl') TL.update(y - p.y0);
     }
-    if (TL && y < plan[0].len) TL.update(0);
-    if (TL) TL.report(live && kind === 'tl');
+    if (TL && !stacked && y < plan[0].len) TL.update(0);
+    if (TL) TL.report(live && (kind === 'tl' || (stacked && x > .9 && TL.pick(hdH + pageH * .5))));
     var fx = frame.getBoundingClientRect().left;
-    var l = lerp(card.l, 0, x) - fx, tp = lerp(card.t, 0, x), w = lerp(card.w, vw, x), h = lerp(card.h, vh, x);
+    var l = lerp(card.l, 0, x) - fx, tp = lerp(card.t, hdH, x), w = lerp(card.w, vw, x), h = lerp(card.h, pageH, x);
     win.style.left = l.toFixed(1) + 'px'; win.style.top = tp.toFixed(1) + 'px';
     win.style.width = w.toFixed(1) + 'px'; win.style.height = h.toFixed(1) + 'px';
     win.style.borderRadius = (card.r * (1 - x)).toFixed(1) + 'px';
@@ -838,7 +901,7 @@
     track.style.transform = 'translate3d(0,' + (-ty).toFixed(1) + 'px,0)';
     // only the section in view can take focus
     secs.forEach(function (sct, i) {
-      var top = sct.offsetTop - ty, vis = top < vh * .5 && top + sct.offsetHeight > vh * .5;
+      var top = sct.offsetTop - ty, vis = top < pageH * .5 && top + sct.offsetHeight > pageH * .5;
       if (vis) sct.removeAttribute('inert'); else sct.setAttribute('inert', '');
       seen('about_section_view', i, { section: (sct.className.match(/\bab-(?!card\b)([a-z]+)/) || [])[1] || String(i) }, live && vis && x > .9);
     });

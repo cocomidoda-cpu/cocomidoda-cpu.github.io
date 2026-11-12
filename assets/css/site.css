@@ -2043,3 +2043,40 @@ a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
 .ab-grp .ab-col-h{margin:0 0 14px;color:var(--ux-ink-3);font-size:14px;font-weight:500;letter-spacing:0}
 .ab-tag{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--ux-line-2);font-size:12px;font-weight:500;color:var(--ux-ink-2)}
 @media (min-width:1024px){.ab-acts li{grid-column:span 2}}
+/* ===== Round 72: nothing in About is cut off or covered, on any screen =====
+   · The full-screen About page starts under the site header (site.js), so titles never slide under it; inside it the timeline
+     needs no room for the header (--hd-h:0).
+   · Each timeline scene keeps a band at the bottom for the year axis (--tl-bot). A scene taller than the screen holds at its top
+     and its content scrolls up while it holds (site.js sets --rd); text passing the top or the axis band fades out instead of
+     sitting under them.
+   · 2024: the street takes the height left under the text (--street-h) and the second row of cards clears the first (--row).
+   · When even the smallest street can't fit (phones held sideways, very short windows) the timeline becomes a vertical story
+     (.is-stack): the same scenes one after another. Layout only; type, colours and the scenes themselves are unchanged. ===== */
+.tl-on .tl-scene{--tl-top:calc(var(--hd-h,62px) + 40px);--tl-bot:88px;justify-content:safe center;padding-top:var(--tl-top);padding-bottom:var(--tl-bot)}
+.ab-scroll.is-on .ab-tl{--hd-h:0px}
+@media (max-height:760px){
+  .tl-on .tl-scene{--tl-top:calc(var(--hd-h,62px) + 20px);--tl-bot:64px}
+  .tl-year em{font-size:clamp(56px,10.5vw,120px)}
+  .tl-truck{width:clamp(170px,min(22vw,34vh),360px)}
+}
+@media (max-height:760px) and (max-width:760px){
+  .tl-on .tl-sol li{padding-top:8px;padding-bottom:8px}
+  .tl-on .tl-sol li::before{top:14px}
+}
+.tl-on .tl-scene.is-tall{justify-content:flex-start;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 var(--tl-top),#000 calc(100% - var(--tl-bot) + 6px),transparent calc(100% - var(--tl-bot) + 22px));
+  mask-image:linear-gradient(to bottom,transparent 0,#000 var(--tl-top),#000 calc(100% - var(--tl-bot) + 6px),transparent calc(100% - var(--tl-bot) + 22px))}
+.tl-on .tl-scene.is-tall > .tl-grid{transform:translate3d(0,calc(var(--rd,0) * -1px),0)}
+.tl-on .tl-addd-hd{top:var(--tl-top)}
+.tl-on .tl-sol{top:calc(var(--tl-top) + 12px)}
+.tl-on .tl-card{top:calc(var(--tl-top) + 12px + var(--r,0) * var(--row,172px))}
+.tl-on .tl-street{bottom:calc(var(--tl-bot) + 4px);height:var(--street-h,clamp(150px,26vh,240px))}
+/* tables whose last column is words, not numbers (portfolio-site card): every column wraps so the table fits a phone */
+.ds-table.is-wrap th:last-child,.ds-table.is-wrap td:last-child{white-space:normal;text-align:left}
+.ds-table.is-wrap td,.ds-table.is-wrap th{overflow-wrap:anywhere}
+.ds-table.is-wrap td + td,.ds-table.is-wrap th + th{padding-left:12px}
+/* vertical story */
+.ab-scroll.is-on .ab-career.is-stack{height:auto}
+.ab-scroll.is-on .ab-career.is-stack .ab-tl{position:relative;inset:auto}
+.ab-scroll.is-on .ab-career.is-stack .ab-tl .tl-stage{position:relative;inset:auto}
+.ab-career.is-stack .tl-scene{padding:clamp(48px,10vh,96px) var(--tl-pad)}
