@@ -1715,11 +1715,139 @@ html.lenis,.lenis.lenis-smooth{scroll-behavior:auto!important}
 .ed-end{padding-top:clamp(96px,11vw,152px)}
 @media (max-width:899px){.ed-left:empty{display:none}}
 
-/* ===== Round 60: restructure — Work moves up with three featured cards; How I Work links to works (spacing only, no new look) ===== */
-#work .wk-feat{margin-bottom:clamp(96px,10vw,140px)}
+/* ===== Round 60: restructure — Work moves up; How I Work links to works (spacing only, no new look) ===== */
 #work .work{scroll-margin-top:calc(var(--hd-h,62px) + 24px)}
 .u044-go a+a{margin-left:20px}
 
-/* ===== Round 61: job-specific versions — a card shows its case table when featured, its short summary in the list (display only) ===== */
-#work .wk-list .is-case{display:none}
-#work .wk-feat .work:has(.work-dl) .work-sum{display:none}
+/* ===== Round 62: About · 상세 이력 in the viewer (opened from the end of the About timeline) ===== */
+.dv-body .about-top,.dv-body .sec-hd{max-width:1280px;margin-inline:auto}
+.dv-body .sec-hd{margin-bottom:40px;padding-top:24px}
+.dv-body>.wrap{padding-inline:0}
+
+/* ===== Round 63: About as a horizontal timeline (2019 → 2026)
+   The section pins while you scroll; the scenes slide sideways and hold so their parts appear one by one
+   (site.js sets --h per scene and .is-on / .is-seen). Lights off at the start → a lamp turns on in 2019 →
+   daylight with the City Pink truck in 2024. Same fonts and black/white; the truck's pink is the one new colour. ===== */
+.tl{--tl-w:100vw;--tl-pad:20px;--tl-k:2;--tl-dark:#0B0B0C;--tl-light:#F2F2F0;--tl-pink:#E650B0;--h:1;position:relative;background:var(--tl-dark);color:var(--tl-light)}
+@media (min-width:768px){.tl{--tl-pad:32px}}
+@media (min-width:1100px){.tl{--tl-pad:max(64px,calc((var(--tl-w) - 1440px) / 2 + 64px))}}
+@media (max-width:760px){.tl{--tl-k:4.2}}
+.tl-track{display:flex;flex-direction:column}
+.tl-scene{position:relative;box-sizing:border-box;padding:120px var(--tl-pad);overflow:hidden}
+.tl-on .tl-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;overflow:clip}
+.tl-on .tl-track{flex-direction:row;height:100%;will-change:transform}
+.tl-on .tl-scene{flex:0 0 var(--tl-w);height:100%;display:flex;flex-direction:column;justify-content:center;padding:calc(var(--hd-h,62px) + 40px) var(--tl-pad) 88px}
+.tl-on .tl-addd{flex-basis:calc(var(--tl-w) * var(--tl-k))}
+
+/* type */
+.tl-k{margin:0 0 14px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;opacity:.55}
+.tl .display{color:inherit}
+.tl-grid{position:relative;z-index:1;display:grid;gap:40px;align-content:start}
+@media (min-width:861px){.tl-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:start}}
+.tl-year{margin:0;font-family:var(--serif);font-weight:400;line-height:.9;letter-spacing:-.02em;white-space:nowrap}
+.tl-year em{font-style:italic;font-size:clamp(72px,10.5vw,164px)}
+.tl-year span{margin-left:.35em;font-size:clamp(22px,2.8vw,42px);font-style:italic;opacity:.5}
+.tl-co{margin:26px 0 0;font-size:clamp(24px,2.4vw,34px);font-weight:700;letter-spacing:-.03em;line-height:1.25}
+.tl-co span{display:block;margin-top:8px;font-size:14px;font-weight:500;letter-spacing:0;opacity:.6}
+.tl-role{display:flex;align-items:center;gap:10px;margin:18px 0 0;font-size:15.5px;font-weight:700}
+.tl-role::before{content:"";width:14px;height:1.5px;background:currentColor}
+.tl-list{list-style:none;margin:0;padding:0}
+.tl-list li{display:flex;gap:16px;padding:15px 0;border-top:1px solid color-mix(in srgb,currentColor 16%,transparent);font-size:clamp(16px,1.3vw,19px);font-weight:500;line-height:1.5;word-break:keep-all}
+.tl-list li span{flex:none;width:2em;padding-top:.3em;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;opacity:.5}
+.tl-on [data-at]{opacity:0;transform:translateY(16px);transition:opacity .6s var(--ux-ease),transform .8s cubic-bezier(.2,.8,.2,1)}
+.tl-on [data-at].is-on{opacity:1;transform:none}
+
+/* intro: lights off */
+.tl-who{display:flex;align-items:center;gap:18px;margin-top:36px}
+.tl-ph{flex:none;width:76px;aspect-ratio:643/867;border-radius:12px;overflow:hidden;background:#fff}
+.tl-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 18%}
+.tl-who p{margin:0;display:grid;gap:3px;font-size:14px}
+.tl-who b{font-size:20px;font-weight:700}
+.tl-who span{opacity:.6}
+.tl-who span:last-child{opacity:.85;font-weight:600}
+@media (min-width:861px){.tl-intro .tl-grid>:last-child{align-self:end}}
+.tl-story{margin:0;padding:22px 24px;border-radius:16px;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);font-size:16px;line-height:1.85;color:rgba(242,242,240,.75);word-break:keep-all}
+.tl-story strong{color:var(--tl-light);font-weight:700}
+.tl-hint{margin:26px 0 0;font-size:13px;font-weight:600;letter-spacing:.02em;opacity:.6}
+.tl-hint i{display:inline-block;font-style:normal;animation:tl-nudge 1.8s ease-in-out infinite}
+@keyframes tl-nudge{50%{transform:translateX(6px)}}
+.tl:not(.tl-on) .tl-hint{display:none}
+
+/* 2019: the lamp turns on as the hold begins; the year lights up with it */
+.tl-lamp{--glow:clamp(0,calc((var(--h) - .04) * 6),1)}
+.tl-lamp .tl-hd{opacity:calc(.22 + .78 * var(--glow))}
+.tl-light{position:absolute;top:0;left:75%;width:0;height:100%;pointer-events:none}
+.tl-cord{position:absolute;left:0;top:0;width:1px;height:calc(var(--hd-h,62px) + 34px);background:rgba(242,242,240,.32)}
+.tl-shade{position:absolute;left:-60px;top:calc(var(--hd-h,62px) + 30px);width:120px;height:70px;overflow:visible}
+.tl-shade path{fill:#1C1C1E;stroke:rgba(242,242,240,.28);stroke-width:1.2}
+.tl-bulb{fill:#fff;opacity:var(--glow)}
+.tl-cone{position:absolute;left:0;top:calc(var(--hd-h,62px) + 96px);width:min(72vw,660px);height:76vh;transform:translateX(-50%);clip-path:polygon(43% 0,57% 0,100% 100%,0 100%);background:linear-gradient(rgba(255,255,255,.17),rgba(255,255,255,0) 82%);opacity:var(--glow)}
+.tl-glow{position:absolute;left:0;top:calc(var(--hd-h,62px) + 90px);width:1000px;height:1000px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,255,255,.16),rgba(255,255,255,0) 58%);opacity:var(--glow)}
+@media (max-width:860px){.tl-light{left:80%}.tl-shade{left:-40px;width:80px;height:47px}.tl-cone{top:calc(var(--hd-h,62px) + 76px);width:110vw}}
+
+/* 2023: 고래사 and the UX/UI course */
+.tl-gor .tl-list{margin-top:26px}
+.tl-study{max-width:460px}
+.tl-study p{margin:14px 0 0;font-size:15px;line-height:1.8;opacity:.75;word-break:keep-all}
+.tl-study .tl-cert{font-size:13px;opacity:.55}
+
+/* 2024: daylight, the City Pink truck drives with the camera and marks the people it passes */
+.tl-addd{color:var(--ux-ink);background:linear-gradient(90deg,var(--tl-dark) 0,var(--ux-page) calc(var(--tl-w) * .36),var(--ux-page) 100%)}
+.tl-on .tl-addd{display:block}
+.tl:not(.tl-on) .tl-addd{background:linear-gradient(180deg,var(--tl-dark) 0,var(--ux-page) 110px)}
+.tl-addd-hd{position:relative;z-index:1;max-width:440px}
+.tl-on .tl-addd-hd{position:absolute;top:calc(var(--hd-h,62px) + 40px);left:calc(var(--tl-w) * .4);width:min(440px,calc(var(--tl-w) * .5))}
+.tl-sub{margin:16px 0 0;font-size:15px;line-height:1.75;color:var(--ux-ink-2);word-break:keep-all}
+.tl-sub b{color:var(--ux-ink);font-weight:700;box-shadow:inset 0 -.42em 0 color-mix(in srgb,var(--tl-pink) 32%,transparent)}
+@media (max-width:760px){
+  .tl-addd{background:linear-gradient(90deg,var(--tl-dark) 0,var(--ux-page) calc(var(--tl-w) * .1),var(--ux-page) 100%)}
+  .tl-on .tl-addd-hd{left:calc(var(--tl-w) * .12);width:calc(var(--tl-w) * .8)}
+}
+.tl-cards{display:grid;gap:14px;margin-top:40px}
+@media (min-width:700px){.tl:not(.tl-on) .tl-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tl-on .tl-cards{position:absolute;inset:0;margin:0;display:block;pointer-events:none}
+.tl-card{display:grid;gap:8px;padding:22px 22px 24px;border-radius:18px;background:var(--ux-surface);box-shadow:0 0 0 1px var(--ux-line),0 24px 40px -30px rgba(0,0,0,.35);color:var(--ux-ink);text-decoration:none;word-break:keep-all}
+.tl-on .tl-card{position:absolute;top:calc(var(--hd-h,62px) + 64px + var(--y,0px));left:var(--x);width:min(300px,72vw);pointer-events:auto;opacity:0;transform:translateY(18px);transition:opacity .6s var(--ux-ease),transform .8s cubic-bezier(.2,.8,.2,1)}
+.tl-on .tl-card.is-on{opacity:1;transform:none}
+.tl-card span{font-size:12.5px;font-weight:600;color:var(--ux-ink-3)}
+.tl-card b{font-size:17px;font-weight:700;line-height:1.45;letter-spacing:-.02em}
+.tl-card small{font-size:13.5px;line-height:1.55;color:var(--ux-ink-2)}
+.tl-card i{font-style:normal;font-size:13px;font-weight:600;color:var(--ux-ink);margin-top:4px}
+a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
+@media (max-width:760px){.tl-on .tl-card{left:var(--xm,var(--x))}}
+@media (hover:hover){a.tl-card:hover{box-shadow:0 0 0 1px var(--ux-ink),0 24px 40px -30px rgba(0,0,0,.35)}}
+.tl-street{position:relative;height:200px;margin-top:40px}
+.tl-on .tl-street{position:absolute;left:0;right:0;bottom:92px;height:clamp(150px,26vh,240px);margin:0}
+/* the road runs on into the last scene, so the truck can drive through and park under "Next Action." */
+.tl-on .tl-addd{overflow:visible;z-index:2}
+.tl-on .tl-end{z-index:1}
+.tl-on .tl-road{right:calc(var(--tl-w) * -1)}
+.tl-road{position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--ux-ink)}
+.tl-road::after{content:"";position:absolute;left:0;right:0;top:12px;height:2px;background:repeating-linear-gradient(90deg,var(--ux-ink-3) 0 28px,transparent 28px 64px)}
+.tl-ped{position:absolute;bottom:2px;left:var(--x);width:20px;height:calc(60px * var(--s,1))}
+.tl-ped::before{content:"";position:absolute;left:50%;top:0;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--ux-ink-3)}
+.tl-ped::after{content:"";position:absolute;left:50%;top:15px;bottom:0;width:16px;margin-left:-8px;border-radius:8px 8px 3px 3px;background:var(--ux-ink-3)}
+.tl-box{position:absolute;left:-12px;right:-12px;top:-12px;bottom:-6px;border:1.5px solid var(--tl-pink);border-radius:4px;opacity:0;transform:scale(1.3);transition:opacity .35s var(--ux-ease),transform .5s cubic-bezier(.2,.8,.2,1)}
+.tl-box b{position:absolute;left:-1.5px;bottom:100%;margin-bottom:5px;padding:2px 6px;border-radius:3px;background:var(--tl-pink);color:#fff;font-size:10.5px;font-weight:700;line-height:1.4;white-space:nowrap}
+.tl-ped.is-seen .tl-box,.tl:not(.tl-on) .tl-box{opacity:1;transform:none}
+.tl-truck{position:absolute;left:0;bottom:-2px;z-index:2;width:clamp(200px,22vw,360px);transform:translateX(var(--tx,0px))}
+.tl:not(.tl-on) .tl-truck{left:40%}
+.tl-truck svg{display:block;width:100%;height:auto;overflow:visible}
+.tl-truck .whl{transform-box:fill-box;transform-origin:center;transform:rotate(var(--rot,0deg))}
+
+/* end */
+.tl-end{color:var(--ux-ink);background:var(--ux-page)}
+.tl-end p{max-width:420px;margin:22px 0 0;font-size:16px;line-height:1.75;color:var(--ux-ink-2);word-break:keep-all}
+.tl-act{display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:8px}
+.tl-link{font-size:14.5px;font-weight:600;color:var(--ux-ink);text-decoration:none;background-image:linear-gradient(currentColor,currentColor);background-size:100% 1px;background-position:0 100%;background-repeat:no-repeat;padding-bottom:2px}
+.tl-link i{font-style:normal}
+
+/* axis: one line under every scene, difference-blended so it reads on dark and light */
+.tl-axis{display:none}
+.tl-on .tl-axis{display:block;position:absolute;left:var(--tl-pad);right:calc(var(--tl-pad) + 64px);bottom:22px;z-index:5;color:#fff;mix-blend-mode:difference;pointer-events:none}
+.tl-axis::before,.tl-axis-fill{content:"";position:absolute;left:0;right:0;top:-12px;height:1px;background:currentColor}
+.tl-axis::before{opacity:.3}
+.tl-axis-fill{transform-origin:0 50%;transform:scaleX(var(--p,0))}
+.tl-axis ol{list-style:none;margin:0;padding:0;display:flex;justify-content:space-between;font-size:11.5px;font-weight:600;letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.tl-axis li{opacity:.45;transition:opacity .3s}
+.tl-axis li.is-on{opacity:1}

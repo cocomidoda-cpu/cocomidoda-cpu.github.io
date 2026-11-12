@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
 <link rel="stylesheet" href="assets/css/tokens.css?v=23">
-<link rel="stylesheet" href="assets/css/site.css?v=77">
+<link rel="stylesheet" href="assets/css/site.css?v=80">
 <script>
   // 저장된 테마를 첫 그림 전에 적용해 깜빡임을 막습니다
   try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
@@ -41,9 +41,9 @@
 <header class="u212-hd" id="top-header">
   <a class="brand" href="index.html" aria-label="김예진 포트폴리오 처음으로">PORTFOLIO</a>
   <nav class="hd-nav" aria-label="주요 메뉴">
+    <a href="index.html#about">ABOUT</a>
     <a href="index.html#work">WORK</a>
     <a href="index.html#fit">HOW</a>
-    <a href="index.html#about">ABOUT</a>
     <a href="index.html#contact">CONTACT</a>
   </nav>
   <a class="hd-pill" href="index.html#work">SELECTED WORKS</a>
@@ -104,21 +104,14 @@
   // 카드는 index.html의 Work 섹션에서 그대로 가져옵니다 (작업물 내용은 한 곳에서만 관리)
   (function () {
     var grid = document.getElementById('arc-grid');
-    function boot() { var sc = document.createElement('script'); sc.src = 'assets/js/site.js?v=37'; document.body.appendChild(sc); }
+    function boot() { var sc = document.createElement('script'); sc.src = 'assets/js/site.js?v=40'; document.body.appendChild(sc); }
     fetch('index.html', { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(function (html) {
         var doc = new DOMParser().parseFromString(html, 'text/html');
-        // 대표 작업(.wk-feat) 세 개도 포함합니다. 여기서는 일반 카드로 보이도록 넓은 카드 표시와
-        // 대표 작업에서만 쓰는 사례 표(.is-case)를 빼고, 짧은 요약(.work-sum)을 보여 줍니다
-        var cards = doc.querySelectorAll('#work .wk-feat .work, #work .wk-list .work');
+        var cards = doc.querySelectorAll('#work .wk-list .work');
         grid.textContent = '';
-        Array.prototype.forEach.call(cards, function (c) {
-          var card = document.importNode(c, true);
-          card.classList.remove('work-wide');
-          Array.prototype.forEach.call(card.querySelectorAll('.is-case'), function (el) { el.remove(); });
-          grid.appendChild(card);
-        });
+        Array.prototype.forEach.call(cards, function (c) { grid.appendChild(document.importNode(c, true)); });
       })
       .catch(function () { var m = grid.querySelector('.arc-empty'); if (m) m.textContent = '작업물을 불러오지 못했어요. 새로고침해 주세요.'; })
       .then(boot);

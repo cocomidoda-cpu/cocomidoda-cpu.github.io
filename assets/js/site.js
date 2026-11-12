@@ -36,8 +36,8 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
-  /* Job-specific versions: ?for=<key> swaps the hero lines, the Work intro, the three featured works,
-     the category order and the first open How I Work item. The versions are written in index.html (#job-versions).
+  /* Job-specific versions: ?for=<key> swaps the hero lines, the Work intro, which works come first in their group,
+     the group order and the first open How I Work item. The versions are written in index.html (#job-versions).
      Runs before everything below, so the accordion, card reveal and category list see the final page. */
   var jobKey = (/[?&]for=([a-z0-9-]+)/.exec(location.search) || [])[1] || '';
   (function () {
@@ -52,26 +52,26 @@
     put('.hero-lbl', v.label);
     put('#work .sec-hd .sec-ko', v.lead, true);
     if (v.title) document.title = v.title;
-    // 대표 작업: 빠지는 카드는 원래 묶음(data-home)의 맨 앞으로 돌려보내고, 지정한 카드를 순서대로 올립니다
-    var feat = $('#work .wk-feat');
-    if (feat && v.featured) {
-      var want = v.featured.map(function (id) { return document.getElementById(id); }).filter(Boolean);
-      $$('.work', feat).reverse().forEach(function (c) {
-        if (want.indexOf(c) !== -1) return;
-        var home = document.getElementById(c.getAttribute('data-home'));
-        if (!home) return;
-        c.classList.remove('work-wide');
-        home.insertBefore(c, $('.work', home));
-      });
-      want.forEach(function (c) { c.classList.add('work-wide'); feat.appendChild(c); });
-    }
-    // 목록의 분류 순서 (예: 디자인 공고는 Design 먼저)
+    // 먼저 보여 줄 작업: 각 카드를 자기 묶음의 맨 앞으로 (적힌 순서대로)
+    (v.first || []).slice().reverse().forEach(function (id) {
+      var c = document.getElementById(id), g = c && c.closest('.wk-sub-grp');
+      if (g) g.insertBefore(c, $('.work', g));
+    });
+    // 묶음 순서 (예: 커머스 공고는 Design의 개인 작업물 먼저). 분류(Marketing / Design)는 처음 나오는 묶음을 따라갑니다
     if (v.order) {
-      var list = $('#work .wk-list'), cats = $('#work .wk-cats');
+      var list = $('#work .wk-list'), cats = $('#work .wk-cats'), seen = [];
       v.order.forEach(function (id) {
-        var g = document.getElementById(id), a = $('.wk-cat[href="#' + id + '"]');
-        if (g && list) list.appendChild(g);
-        if (a && cats) cats.appendChild(a.closest('li'));
+        var sg = document.getElementById(id), grp = sg && sg.closest('.wk-grp');
+        if (!grp || !list || !cats) return;
+        if (seen.indexOf(grp) === -1) {
+          seen.push(grp);
+          list.appendChild(grp);
+          var cat = $('.wk-cat[href="#' + grp.id + '"]');
+          if (cat) cats.appendChild(cat.closest('li'));
+        }
+        grp.appendChild(sg);
+        var sub = $('.wk-sub[href="#' + id + '"]');
+        if (sub) sub.closest('ul').appendChild(sub.closest('li'));
       });
     }
     if (v.open) $$('.u044-it').forEach(function (it) { it.classList.toggle('open', it.style.order === String(v.open)); });
@@ -203,6 +203,93 @@
     stagger();
     R.forEach(function (el) { io.observe(el); });
     return stagger;
+  })();
+
+  /* About timeline (2019 → 2026): the section pins while you scroll and the scenes slide sideways.
+     Each scene first holds for data-hold screen heights (its parts with data-at 0–1 appear as the hold goes on;
+     the lamp reads --h), then the camera moves on to the next scene. In the 2024 scene the City Pink truck drives
+     with the camera and marks the people it passes. Reduced motion or a very short screen: the scenes stack. */
+  (function () {
+    var tl = $('.tl');
+    if (!tl) return;
+    var stage = $('.tl-stage', tl), track = $('.tl-track', tl), scenes = $$('.tl-scene', tl);
+    var fill = $('.tl-axis-fill', tl), list = $('.tl-axis ol', tl), labels = [];
+    var truck = $('.tl-truck', tl), drive = truck ? truck.closest('.tl-scene') : null;
+    var peds = drive ? $$('.tl-ped', drive) : [], cards = drive ? $$('.tl-card', drive) : [];
+    var on = false, W = 0, H = 0, total = 0, plan = [], raf = 0;
+    var K = 0.62; // 옆으로 1px 움직이는 데 필요한 스크롤 (1보다 작을수록 빨리 지나갑니다)
+    function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+    scenes.forEach(function (s) {
+      if (!list) return;
+      var li = document.createElement('li');
+      li.textContent = s.getAttribute('data-label') || '';
+      list.appendChild(li); labels.push(li);
+    });
+    function measure() {
+      on = !rm && window.innerHeight >= 460;
+      tl.classList.toggle('tl-on', on);
+      track.style.transform = '';
+      if (!on) {
+        tl.style.height = '';
+        $$('[data-at], .tl-card', tl).forEach(function (el) { el.classList.add('is-on'); });
+        peds.forEach(function (p) { p.classList.add('is-seen'); });
+        return;
+      }
+      W = stage.clientWidth; H = stage.clientHeight;
+      tl.style.setProperty('--tl-w', W + 'px');
+      var last = scenes[scenes.length - 1], maxX = Math.max(0, last.offsetLeft + last.offsetWidth - W), y = 0;
+      plan = scenes.map(function (s, i) {
+        var L = Math.min(s.offsetLeft, maxX), next = i < scenes.length - 1 ? Math.min(scenes[i + 1].offsetLeft, maxX) : maxX;
+        var p = { s: s, L: L, W: s.offsetWidth, y0: y, hold: (parseFloat(s.getAttribute('data-hold')) || 0) * H, items: $$('[data-at]', s) };
+        p.dx = Math.max(0, next - L); y += p.hold; p.m0 = y; y += p.dx * K; p.m1 = y;
+        return p;
+      });
+      total = y;
+      tl.style.height = Math.round(total + H) + 'px';
+      update();
+    }
+    function update() {
+      if (!on) return;
+      var y = clamp(-tl.getBoundingClientRect().top, 0, total), x = 0, cur = 0, dh = 0;
+      stage.scrollLeft = 0;
+      plan.forEach(function (p, i) {
+        if (y >= p.y0) { x = p.L + clamp((y - p.m0) / K, 0, p.dx); cur = i; }
+        var h = p.hold ? clamp((y - p.y0) / p.hold, 0, 1) : (y >= p.y0 ? 1 : 0);
+        p.s.style.setProperty('--h', h.toFixed(3));
+        p.items.forEach(function (el) { el.classList.toggle('is-on', h >= (parseFloat(el.getAttribute('data-at')) || 0)); });
+        if (p.s === drive) dh = h;
+      });
+      track.style.transform = 'translate3d(' + (-x).toFixed(1) + 'px,0,0)';
+      if (fill) fill.style.setProperty('--p', (total ? y / total : 0).toFixed(4));
+      labels.forEach(function (li, i) { li.classList.toggle('is-on', i === cur); });
+      if (!drive) return;
+      // 트럭: 머무는 동안 왼쪽 밖에서 들어오고, 그 뒤엔 화면의 10% → 52% 자리를 지나며 카메라와 함께 달립니다
+      var d = plan[scenes.indexOf(drive)], rel = x - d.L, tw = truck.offsetWidth;
+      var spot = W * (0.1 + 0.42 * clamp(rel / Math.max(1, d.W - W), 0, 1));
+      var tx = rel + (dh < 1 ? -tw + dh * (spot + tw) : spot);
+      truck.style.setProperty('--tx', tx.toFixed(1) + 'px');
+      truck.style.setProperty('--rot', (tx * 1.4).toFixed(1) + 'deg');
+      peds.forEach(function (p) { p.classList.toggle('is-seen', tx + tw * 0.9 >= p.offsetLeft); });
+      cards.forEach(function (c) { c.classList.toggle('is-on', c.offsetLeft - rel < W * 0.8); });
+    }
+    // 키보드로 화면 밖 카드에 닿으면, 그 카드가 보이는 자리까지 스크롤합니다
+    track.addEventListener('focusin', function (e) {
+      if (!on) return;
+      var s = e.target.closest('.tl-scene'), p = plan[scenes.indexOf(s)];
+      if (!p) return;
+      var c = e.target.closest('.tl-card'), top = tl.getBoundingClientRect().top + window.scrollY;
+      var yy = c ? p.m0 + clamp(c.offsetLeft - W * 0.3, 0, p.dx) * K : p.y0 + p.hold;
+      window.scrollTo(0, top + yy);
+      update();
+    });
+    window.addEventListener('scroll', function () {
+      if (raf) return;
+      raf = requestAnimationFrame(function () { raf = 0; update(); });
+    }, { passive: true });
+    window.addEventListener('resize', measure);
+    window.addEventListener('load', measure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+    measure();
   })();
 
   /* Hero headline: font size is fitted so the headline spans exactly the content grid width.
@@ -413,6 +500,14 @@
         open(card, a);
       });
     });
+    // About · 상세 이력: About 타임라인 끝의 '상세 이력 보기'가 이 창을 엽니다. /#about-detail 로 들어와도 열립니다
+    var about = $('#about-detail');
+    if (about) {
+      $$('[data-about]').forEach(function (b) {
+        b.addEventListener('click', function (e) { e.preventDefault(); open(about, b); });
+      });
+      if (location.hash === '#about-detail') setTimeout(function () { open(about, $('[data-about]')); }, 0);
+    }
     x.addEventListener('click', close);
 
     /* Story pages (잘룸 · 금강버섯농장): the page runs down the left; the sticky note on the right switches to the note
