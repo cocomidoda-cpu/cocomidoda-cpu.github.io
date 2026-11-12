@@ -40,6 +40,8 @@
 
   /* Job-specific versions: ?for=<key> swaps the hero lines, the Work intro, the three featured works,
      the category order and the first open How I Work item. The versions are written in index.html (#job-versions).
+     A version can also hide works that don't fit the posting (hide), change short labels such as a menu item (text),
+     and replace a whole block with its own <template data-for="<key>" data-swap="<selector>"> (e.g. How I Work).
      Runs before everything below, so the accordion, card reveal and category list see the final page. */
   var jobKey = (/[?&]for=([a-z0-9-]+)/.exec(location.search) || [])[1] || '';
   (function () {
@@ -54,6 +56,15 @@
     put('.hero-lbl', v.label);
     put('#work .sec-hd .sec-ko', v.lead, true);
     if (v.title) document.title = v.title;
+    // 공고 전용 블록: <template data-for>의 내용으로 data-swap 자리의 내용을 바꿉니다
+    $$('template[data-for]').forEach(function (t) {
+      if ((' ' + t.getAttribute('data-for') + ' ').indexOf(' ' + jobKey + ' ') < 0) return;
+      var el = $(t.getAttribute('data-swap')); if (!el) return;
+      el.textContent = ''; el.appendChild(t.content.cloneNode(true));
+    });
+    if (v.text) Object.keys(v.text).forEach(function (sel) { $$(sel).forEach(function (el) { el.textContent = v.text[sel]; }); });
+    // 이 공고와 관련이 적은 작업은 첫 페이지에서 빼고, 전체 작업 보기(archive)에만 둡니다
+    if (v.hide) v.hide.forEach(function (id) { var c = document.getElementById(id); if (c && c.parentNode) c.parentNode.removeChild(c); });
     // 대표 작업: 지정한 카드를 각자의 묶음(data-home) 맨 앞으로 올리고 '대표 작업' 배지를 답니다
     if (v.featured) {
       $$('#work .work.is-feat').forEach(function (c) {
@@ -409,15 +420,6 @@
     $$('[data-detail]').forEach(function (b) {
       b.addEventListener('click', function () { open(b.closest('.work'), b); });
     });
-    // How I Work: 작업 이름 링크는 해당 작업의 상세보기를 바로 엽니다 (상세보기가 없는 작업은 카드로 스크롤)
-    $$('a[data-open]').forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        var card = document.getElementById(a.getAttribute('data-open'));
-        if (!card || !$('.work-pages', card)) return;
-        e.preventDefault();
-        open(card, a);
-      });
-    });
     x.addEventListener('click', close);
 
     /* Story pages (잘룸 · 금강버섯농장): the page runs down the left; the sticky note on the right switches to the note
@@ -478,7 +480,8 @@
       if (next && next !== current) open(next, $('[data-detail]', next));
     });
 
-    // 타임라인 카드(a[data-open])는 해당 작업 상세보기를 엽니다
+    // 작업 이름 링크(a[data-open]: How I Work·공고 전용 블록·타임라인 카드)는 해당 작업 상세보기를 바로 엽니다
+    // (상세보기가 없는 작업은 링크대로 카드로 스크롤). 한 곳에서만 처리해 열기 이벤트가 두 번 쌓이지 않게 합니다.
     document.addEventListener('click', function (e) {
       var a = e.target.closest('a[data-open]'); if (!a) return;
       var card = document.getElementById(a.getAttribute('data-open'));
