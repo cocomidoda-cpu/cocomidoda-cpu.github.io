@@ -1714,3 +1714,12 @@ html.lenis,.lenis.lenis-smooth{scroll-behavior:auto!important}
 .ed-split .ed-grid4{grid-template-columns:repeat(2,minmax(0,1fr))}
 .ed-end{padding-top:clamp(96px,11vw,152px)}
 @media (max-width:899px){.ed-left:empty{display:none}}
+
+/* ===== Round 60: restructure — Work moves up with three featured cards; How I Work links to works (spacing only, no new look) ===== */
+#work .wk-feat{margin-bottom:clamp(96px,10vw,140px)}
+#work .work{scroll-margin-top:calc(var(--hd-h,62px) + 24px)}
+.u044-go a+a{margin-left:20px}
+
+/* ===== Round 61: job-specific versions — a card shows its case table when featured, its short summary in the list (display only) ===== */
+#work .wk-list .is-case{display:none}
+#work .wk-feat .work:has(.work-dl) .work-sum{display:none}
