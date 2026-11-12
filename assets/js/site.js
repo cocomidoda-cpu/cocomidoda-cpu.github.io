@@ -726,8 +726,37 @@
       var tx = rel + (dh < 1 ? -tw + dh * (spot + tw) : spot);
       truck.style.setProperty('--tx', tx.toFixed(1) + 'px');
       truck.style.setProperty('--rot', (tx * 1.4).toFixed(1) + 'deg');
-      peds.forEach(function (p) { p.classList.toggle('is-seen', tx + tw * 0.9 >= p.offsetLeft); });
+      peds.forEach(function (p, i) { byTruck[i] = tx + tw * 0.9 >= p.offsetLeft; mark(i); });
       tcards.forEach(function (c) { c.classList.toggle('is-on', c.offsetLeft - rel < W * 0.8); });
+    }
+    // 2024: a person gets a box when the truck has passed them or the PTZ camera has them in view
+    var byTruck = [], byCam = [];
+    function mark(i) { peds[i].classList.toggle('is-seen', !!(byTruck[i] || byCam[i])); }
+    // PTZ camera on the billboard: pans left and right on its own while the timeline is showing
+    var cam = drive ? drive.querySelector('.tl-cam') : null, lens = cam && cam.querySelector('.tl-lens'), cone = cam && cam.querySelector('.tl-cone');
+    var near = false, sweepRaf = 0, t0 = 0; // only while the Career section is the one on screen (others are inert)
+    function sweep(t) {
+      sweepRaf = 0;
+      if (!near || !cam) return;
+      var r = drive.getBoundingClientRect();
+      if (!root.closest('[inert]') && r.right > 0 && r.left < window.innerWidth) {
+        if (!t0) t0 = t;
+        var a = rm ? 0 : Math.sin((t - t0) / 1000 * 1.1) * 0.85; // ±49°, one sweep there and back in about 5.7 s
+        cam.style.setProperty('--pan', a.toFixed(3) + 'rad');
+        var l = lens.getBoundingClientRect(), lx = l.left + l.width / 2, ly = l.top + l.height / 2, R = cone.offsetHeight;
+        peds.forEach(function (p, i) {
+          var b = p.getBoundingClientRect(), px = b.left + b.width / 2, py = b.top + 8;
+          var seen = Math.abs(Math.atan2(px - lx, py - ly) - a) < 0.3 && Math.hypot(px - lx, py - ly) < R;
+          if (seen !== !!byCam[i]) { byCam[i] = seen; mark(i); }
+        });
+      }
+      sweepRaf = requestAnimationFrame(sweep);
+    }
+    if (cam && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        near = es.some(function (e) { return e.isIntersecting; });
+        if (near && !sweepRaf) sweepRaf = requestAnimationFrame(sweep);
+      }).observe(root);
     }
     return { root: root, measure: measure, update: update };
   })();
