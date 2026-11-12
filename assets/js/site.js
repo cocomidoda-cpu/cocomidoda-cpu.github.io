@@ -712,17 +712,14 @@
     var track = root.querySelector('.tl-track'), scenes = [].slice.call(root.querySelectorAll('.tl-scene'));
     var fill = root.querySelector('.tl-axis-fill'), list = root.querySelector('.tl-axis ol'), labels = [];
     var truck = root.querySelector('.tl-truck'), drive = truck ? truck.closest('.tl-scene') : null;
-    var peds = drive ? [].slice.call(drive.querySelectorAll('.tl-ped')) : [], tcards = drive ? [].slice.call(drive.querySelectorAll('.tl-card')) : [];
+    var peds = drive ? [].slice.call(drive.querySelectorAll('.tl-ped')) : [], dlist = drive ? drive.querySelector('.tl-list') : null;
     var W = 0, total = 0, plan = [], K = 0.62, last = 0, fit = true;
     // 2024: the street takes the height left under the text (never under it); false when even the truck doesn't fit
     function fit2024(h) {
       if (!drive) return true;
-      drive.style.removeProperty('--street-h'); drive.style.removeProperty('--row');
-      var r0 = 0;
-      tcards.forEach(function (c) { if (c.style.getPropertyValue('--r').trim() === '0') r0 = Math.max(r0, c.offsetHeight); });
-      drive.style.setProperty('--row', Math.max(172, r0 + 16) + 'px');            // second row clears the tallest first-row card
+      drive.style.removeProperty('--street-h');
       var bottom = 0;
-      [drive.querySelector('.tl-addd-hd'), drive.querySelector('.tl-sol')].concat(tcards).forEach(function (el) {
+      [drive.querySelector('.tl-addd-hd'), dlist].forEach(function (el) {
         if (el) bottom = Math.max(bottom, el.offsetTop + el.offsetHeight);
       });
       var pb = parseFloat(getComputedStyle(drive).paddingBottom) || 88;
@@ -752,7 +749,8 @@
         p.dx = Math.max(0, next - L); y += p.hold; p.m0 = y; y += p.dx * K; p.m1 = y;
         return p;
       });
-      total = y; return total;
+      total = y + Math.round(h * .3);                                     // a short rest at the end, with the 2024 list in full view
+      return total;
     }
     function update(y) {
       var x = 0, cur = 0, dh = 0; y = clamp(y, 0, total);
@@ -775,7 +773,7 @@
       truck.style.setProperty('--tx', tx.toFixed(1) + 'px');
       truck.style.setProperty('--rot', (tx * 1.4).toFixed(1) + 'deg');
       peds.forEach(function (p, i) { byTruck[i] = tx + tw * 0.9 >= p.offsetLeft; mark(i); });
-      tcards.forEach(function (c) { c.classList.toggle('is-on', c.offsetLeft - rel < W * 0.8); });
+      if (dlist) dlist.classList.toggle('is-on', dlist.offsetLeft - rel < W * 0.85);
     }
     // 2024: a person gets a box when the truck has passed them or the PTZ camera has them in view
     var byTruck = [], byCam = [];
@@ -816,7 +814,7 @@
     function reset() {
       track.style.transform = '';
       scenes.forEach(function (s) { s.style.removeProperty('--h'); s.style.removeProperty('--rd'); s.classList.remove('is-tall'); });
-      if (drive) { drive.style.removeProperty('--street-h'); drive.style.removeProperty('--row'); }
+      if (drive) drive.style.removeProperty('--street-h');
       if (truck) { truck.style.removeProperty('--tx'); truck.style.removeProperty('--rot'); }
     }
     return { root: root, measure: measure, update: update, report: report, pick: pick, reset: reset, fits: function () { return fit; } };
