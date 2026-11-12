@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# 공고별 짧은 주소(/ohbrown/ 등)는 페이지 안의 noindex로 검색에서 뺍니다.
+# 여기서 막으면 카카오톡·메일 링크 미리보기가 그 페이지를 읽지 못하므로 막지 않습니다.
+
+Sitemap: https://cocomidoda-cpu.github.io/sitemap.xml

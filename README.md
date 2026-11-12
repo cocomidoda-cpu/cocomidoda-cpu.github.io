@@ -123,6 +123,7 @@ GA4에서 보는 법: 탐색 → 자유 형식, 행에 `portfolio_version`·`세
 | `assets/css/site.css` | 레이아웃과 UI 스타일 |
 | `assets/js/site.js` | 헤더, 다크 모드, 탭, 아코디언, 이미지 확대 등 동작 |
 | `ohbrown/` `marketing/` `design/` `commerce/` | 버전별 짧은 주소 (`/?for=<버전>`으로 넘어감) |
+| `robots.txt` · `sitemap.xml` | 검색 엔진 안내. 홈과 archive만 sitemap에 두고, 짧은 주소는 noindex라 뺍니다. 내용을 크게 고치면 `lastmod` 날짜를 바꿔 주세요 |
 | `assets/img/work/` | 작업 이미지 (`이름.jpg` 원본, `이름-sm.jpg` 썸네일) |
 
 ## 작업 미리보기 이미지 바꾸기
