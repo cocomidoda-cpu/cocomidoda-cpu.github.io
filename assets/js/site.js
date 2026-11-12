@@ -811,6 +811,7 @@
     var last = plan[plan.length - 1].b;
     seg('unzoom', E, last, last);
     wrap.style.height = Math.round(total + vh) + 'px';
+    wrap.abPlan = plan;
     update();
   }
   function update() {

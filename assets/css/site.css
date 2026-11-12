@@ -2037,3 +2037,9 @@ a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
   --ux-line:rgba(17,17,17,.09);--ux-line-2:rgba(17,17,17,.18)}
 /* the white card on a white page: a hairline marks its edge (no shadow) */
 .ab-scroll.is-on .ab-win{box-shadow:0 0 0 1px rgba(17,17,17,.12)}
+
+/* ===== Round 71: Education holds two groups (교육 / 대외활동); activities line up on the same 4-column grid, 2 columns each ===== */
+.ab-education .ab-body{display:grid;gap:clamp(28px,4vh,44px)}
+.ab-grp .ab-col-h{margin:0 0 14px;color:var(--ux-ink-3);font-size:14px;font-weight:500;letter-spacing:0}
+.ab-tag{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--ux-line-2);font-size:12px;font-weight:500;color:var(--ux-ink-2)}
+@media (min-width:1024px){.ab-acts li{grid-column:span 2}}
