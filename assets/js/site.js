@@ -8,9 +8,11 @@
 
   /* Conversion events for Google Tag Manager (GTM-N8SN6TNB). In GTM, add Custom Event triggers
      for these names and GA4 event tags; mark contact_click / contact_copy as key events in GA4. */
+  // Every event also carries portfolio_version (the ?for= version, 'common' without one; set in <head> before GTM).
   function track(name, params) {
-    try { (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, params || {})); } catch (e) { /* 무시 */ }
+    try { (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name, portfolio_version: window.pfVersion || 'common' }, params || {})); } catch (e) { /* 무시 */ }
   }
+  window.pfTrack = track; // for the About script below, which runs outside this closure
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href]');
     if (!a) return;
@@ -250,6 +252,7 @@
         var willOpen = !it.classList.contains('open');
         items.forEach(function (o) { if (o !== it) set(o, false); });
         set(it, willOpen);
+        if (willOpen) track('how_item_open', { item: ($('.u044-n', qs[i]) || {}).textContent || String(i + 1), item_title: (($('.u044-t', qs[i]) || qs[i]).textContent || '').trim() });
       });
       qs[i].addEventListener('keydown', function (e) {
         var n = e.key === 'ArrowDown' ? i + 1 : e.key === 'ArrowUp' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? qs.length - 1 : -2;
@@ -370,7 +373,7 @@
     function open(card, from) {
       var tpl = $('.work-pages', card);
       if (!tpl) return;
-      opener = from;
+      opener = from; doneSent = false;
       track('work_detail_open', { work_id: card.id, work_title: $('h4', card).textContent.trim() });
       title.textContent = $('h4', card).textContent;
       body.textContent = '';
@@ -419,7 +422,7 @@
 
     /* Story pages (잘룸 · 금강버섯농장): the page runs down the left; the sticky note on the right switches to the note
        whose page part has reached the middle of the viewer — the same idea as the Work section's category list. */
-    var story = null, storyRaf = 0, current = null;
+    var story = null, storyRaf = 0, current = null, doneSent = false;
     function storyFor(root) {
       var st = $('.ds-story', root);
       if (!st) return null;
@@ -456,6 +459,8 @@
       var p = max > 0 ? Math.min(1, body.scrollTop / max) : 1;
       progBar.style.transform = 'scaleX(' + p + ')';
       prog.classList.toggle('is-done', p >= 0.995);
+      // scrolled to the end: once per opening
+      if (p >= 0.995 && max > 0 && !doneSent && current) { doneSent = true; track('work_detail_complete', { work_id: current.id }); }
     }
 
     body.addEventListener('scroll', function () {
@@ -688,6 +693,15 @@
   function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
   function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
   function lerp(a, b, t) { return a + (b - a) * t; }
+  // GA4: an About section or a timeline year counts as seen once it stays on screen for 0.8 s (once per visit),
+  // so passing through About on the way to another section (menu links, fast scrolling) does not count
+  var sent = {}, wait = {};
+  function seen(name, key, params, on) {
+    var id = name + key;
+    if (sent[id] || !window.pfTrack) return;
+    if (!on) { clearTimeout(wait[id]); wait[id] = 0; }
+    else if (!wait[id]) wait[id] = setTimeout(function () { sent[id] = 1; window.pfTrack(name, params); }, 800);
+  }
   /* timeline inside the Career card (ported from PR #3) */
   var TL = (function () {
     var root = page.querySelector('.ab-tl'); if (!root) return null;
@@ -695,7 +709,7 @@
     var fill = root.querySelector('.tl-axis-fill'), list = root.querySelector('.tl-axis ol'), labels = [];
     var truck = root.querySelector('.tl-truck'), drive = truck ? truck.closest('.tl-scene') : null;
     var peds = drive ? [].slice.call(drive.querySelectorAll('.tl-ped')) : [], tcards = drive ? [].slice.call(drive.querySelectorAll('.tl-card')) : [];
-    var W = 0, total = 0, plan = [], K = 0.62;
+    var W = 0, total = 0, plan = [], K = 0.62, last = 0;
     scenes.forEach(function (s) { var li = document.createElement('li'); li.textContent = s.getAttribute('data-label') || ''; list.appendChild(li); labels.push(li); });
     function measure(w, h) {
       W = w; root.style.setProperty('--tl-w', W + 'px');
@@ -717,6 +731,7 @@
         p.items.forEach(function (el) { el.classList.toggle('is-on', h >= (parseFloat(el.getAttribute('data-at')) || 0)); });
         if (p.s === drive) dh = h;
       });
+      last = cur;
       track.style.transform = 'translate3d(' + (-x).toFixed(1) + 'px,0,0)';
       if (fill) fill.style.setProperty('--p', (total ? y / total : 0).toFixed(4));
       labels.forEach(function (li, i) { li.classList.toggle('is-on', i === cur); });
@@ -758,7 +773,8 @@
         if (near && !sweepRaf) sweepRaf = requestAnimationFrame(sweep);
       }).observe(root);
     }
-    return { root: root, measure: measure, update: update };
+    function report(on) { scenes.forEach(function (s, i) { seen('timeline_scene_view', i, { scene: s.getAttribute('data-label') || String(i) }, on && i === last); }); }
+    return { root: root, measure: measure, update: update, report: report };
   })();
 
   function layout() {
@@ -796,9 +812,11 @@
   }
   function update() {
     ticking = false;
-    var y = clamp(-wrap.getBoundingClientRect().top, 0, total), x = 0, ty = 0, cur = 0;
+    var top = -wrap.getBoundingClientRect().top, live = top >= 0 && top <= total, kind = '';
+    var y = clamp(top, 0, total), x = 0, ty = 0, cur = 0;
     for (var k = 0; k < plan.length; k++) {
       var p = plan[k]; if (y < p.y0 && k) break;
+      kind = p.kind;
       var t = clamp((y - p.y0) / p.len, 0, 1);
       if (p.kind === 'zoom') { x = ease(t); ty = 0; }
       else if (p.kind === 'unzoom') { x = 1 - ease(t); ty = p.a; }
@@ -806,6 +824,7 @@
       if (p.kind === 'tl') TL.update(y - p.y0);
     }
     if (TL && y < plan[0].len) TL.update(0);
+    if (TL) TL.report(live && kind === 'tl');
     var fx = frame.getBoundingClientRect().left;
     var l = lerp(card.l, 0, x) - fx, tp = lerp(card.t, 0, x), w = lerp(card.w, vw, x), h = lerp(card.h, vh, x);
     win.style.left = l.toFixed(1) + 'px'; win.style.top = tp.toFixed(1) + 'px';
@@ -817,6 +836,7 @@
     secs.forEach(function (sct, i) {
       var top = sct.offsetTop - ty, vis = top < vh * .5 && top + sct.offsetHeight > vh * .5;
       if (vis) sct.removeAttribute('inert'); else sct.setAttribute('inert', '');
+      seen('about_section_view', i, { section: (sct.className.match(/\bab-(?!card\b)([a-z]+)/) || [])[1] || String(i) }, live && vis && x > .9);
     });
   }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
