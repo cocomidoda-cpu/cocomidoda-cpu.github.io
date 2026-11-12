@@ -30,7 +30,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
 <link rel="stylesheet" href="assets/css/tokens.css?v=23">
-<link rel="stylesheet" href="assets/css/site.css?v=97">
+<link rel="stylesheet" href="assets/css/site.css?v=99">
 <script>
   // 저장된 테마를 첫 그림 전에 적용해 깜빡임을 막습니다
   try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
@@ -109,7 +109,7 @@
   // 카드는 index.html의 Work 섹션에서 그대로 가져옵니다 (작업물 내용은 한 곳에서만 관리)
   (function () {
     var grid = document.getElementById('arc-grid');
-    function boot() { var sc = document.createElement('script'); sc.src = 'assets/js/site.js?v=47'; document.body.appendChild(sc); }
+    function boot() { var sc = document.createElement('script'); sc.src = 'assets/js/site.js?v=48'; document.body.appendChild(sc); }
     fetch('index.html', { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(function (html) {

@@ -16,6 +16,19 @@ HTML·CSS·JS로 직접 만들었고 GitHub Pages로 공개합니다.
 | How I Work | 작업들에서 반복된 일하는 방식 (항목마다 근거 작업이 바로 열림) |
 | About | 어디에서 어느 범위까지 일했는가 (경력·교육·스킬·자격) |
 
+## About · Career 타임라인
+
+Career 카드가 화면을 가득 채우면 2019 → 2026 타임라인이 옆으로 넘어갑니다 (`index.html`의 `.ab-tl` 안 `tl-scene`).
+
+- **2019 공간조명:** 조명은 Hoptimist Bumble LED Lamp L · Chrome을 공식 사진 기준으로 Blender에서 재구성한 3D 모델
+  (`assets/3d/hoptimist-bumble.glb`)입니다. `assets/js/lamp.js`가 three.js(jsDelivr, `index.html`의 import map)로 그리며,
+  About 근처에 왔을 때만 불러옵니다. 나선 스프링이 유일한 광원이고, 불이 켜질 때 깜빡이며 머리가 튀어 오르고,
+  항목이 하나씩 나올 때마다 통통 뛰며 목록 쪽을 봅니다. 움직임 값은 `lamp.js`의 `hop()`과 `tick()`에 있습니다.
+- **2024 애드:** PTZ 카메라 × 비전 AI 솔루션(유동인구·옥외광고 매체·시청 분석)을 설명하는 블록과, 광고판 위 PTZ 카메라가
+  좌우로 돌며 시야 안의 사람을 잡는 장면(`site.js`의 타임라인 코드 안 `sweep`), 애드에서 한 작업 9개가 이어집니다.
+  작업 카드는 `tl-cards` 안에 있고 `--i`(순서)·`--r`(0 윗줄, 1 아랫줄)로 자리가 정해집니다. 카드 수를 바꾸면
+  `site.css`의 `.tl-on .tl-addd` 폭 계산에 있는 `var(--step) * 8`의 8(카드 수 − 1)도 맞춰 주세요.
+
 ## 공고별 버전
 
 같은 페이지에 `?for=`를 붙이면 그 직무에 맞는 버전이 열립니다. 붙이지 않으면 공통 페이지입니다.
