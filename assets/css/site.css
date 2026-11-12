@@ -2030,3 +2030,10 @@ a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
   .ab-scroll.is-on .ab-profile .ab-ph{min-height:0;max-height:none}
   .ab-scroll.is-on .ab-t{font-size:clamp(32px,1.6rem + 1.2vw,44px)}
 }
+
+/* ===== Round 70: gradient only on the hero; About sits on plain white (both themes) ===== */
+#about{background:#FFFFFF;color:#111111;
+  --ux-page:#FFFFFF;--ux-surface:#FFFFFF;--ux-surface-2:#F4F4F3;--ux-ink:#111111;--ux-ink-2:#484848;--ux-ink-3:#767676;
+  --ux-line:rgba(17,17,17,.09);--ux-line-2:rgba(17,17,17,.18)}
+/* the white card on a white page: a hairline marks its edge (no shadow) */
+.ab-scroll.is-on .ab-win{box-shadow:0 0 0 1px rgba(17,17,17,.12)}

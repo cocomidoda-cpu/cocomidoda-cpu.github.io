@@ -39,7 +39,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
 <link rel="stylesheet" href="assets/css/tokens.css?v=23">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
-<link rel="stylesheet" href="assets/css/site.css?v=99">
+<link rel="stylesheet" href="assets/css/site.css?v=100">
 <script>
   // 저장된 테마를 첫 그림 전에 적용해 깜빡임을 막습니다
   try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
@@ -81,12 +81,10 @@
 
 <main id="main">
 
-<!-- Hero + About share one drifting gradient: the backdrop sticks to the screen while both sections scroll over it -->
-<div class="hero-flow">
-<!-- Slowly drifting gradient blobs behind the hero (decorative) -->
-<div class="hero-bg" aria-hidden="true"><i class="hb hb1"></i><i class="hb hb2"></i><i class="hb hb3"></i><i class="hb hb4"></i></div>
 <!-- Hero: ported from Lucian #216 (staggered hero entrance) -->
 <section class="u216 hero" id="home" aria-labelledby="hero-title">
+  <!-- Slowly drifting gradient blobs behind the hero (decorative) -->
+  <div class="hero-bg" aria-hidden="true"><i class="hb hb1"></i><i class="hb hb2"></i><i class="hb hb3"></i><i class="hb hb4"></i></div>
   <div class="wrap hero-in">
     <div class="hero-top">
       <p class="hero-pos" data-s style="--d:120">김예진 · 디자인하는 콘텐츠 마케터 · 경력 5년</p>
@@ -241,7 +239,6 @@
     </div></div></div></div></div>
   </div>
 </section>
-</div>
 
 <!-- Work: comes right after the hero. Three featured works first (full width), then the rest: sticky category list (Marketing / Design) on the left, cards from Lucian #251 (staggered scroll-in cards) on the right; the archive page shows every card in a filterable grid -->
 <section class="sec" id="work" aria-labelledby="work-title">
