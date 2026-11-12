@@ -1651,8 +1651,9 @@ html.lenis,.lenis.lenis-smooth{scroll-behavior:auto!important}
 .ds-stats b small{margin-left:3px;font-size:.5em;font-weight:700}
 .ds-stats span{font-size:13px;color:#6b6b6b;font-variant-numeric:tabular-nums}
 @media (max-width:560px){.ds-stats{grid-template-columns:1fr}.ds-stats>div+div{border-left:0;border-top:1px solid rgba(0,0,0,.09)}}
-.ds-sticky{max-height:calc(100dvh - 170px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
-.ds-sticky::-webkit-scrollbar{display:none}
+/* The note box is not a scroll area of its own (it used to be, and its hidden notes made it scrollable, so the
+   wheel over the text moved nothing). Scrolling over the note always moves the page; a note taller than the screen
+   is still revealed when the sticky note lets go at the end of the page. Phones keep the fixed bottom sheet. */
 .ds-note .ds-rule{margin-top:18px!important;padding-top:16px;border-top:1px solid rgba(0,0,0,.08);font-size:14.5px!important;line-height:1.8!important;color:#666!important}
 .ds-note .ds-rule b{display:block;margin-bottom:4px;font-size:13px;font-weight:700;color:#333}
 .ds-table{width:100%;margin-top:18px;border-collapse:collapse;font-size:13.5px}
@@ -1669,6 +1670,8 @@ html.lenis,.lenis.lenis-smooth{scroll-behavior:auto!important}
 .ds-note-ev p:not(.ds-no):not(.dv-doc-k):not(.dv-doc-case){font-size:14.5px!important;line-height:1.8!important}
 /* room after the last image so its note can show before the wrap-up */
 .ds-v2 .ds-story{padding-bottom:calc(55vh + 40px)}
+/* the note column runs on through that bottom room, so the last note (Done) stays pinned and whole instead of sliding away */
+@media (min-width:900px){.ds-v2 .ds-side{margin-bottom:calc(-55vh - 40px)}}
 @media (max-width:899px){.ds-v2 .ds-story{padding-bottom:40px}}
 
 /* ===== Round 58: addd works — editorial full scroll (one background, parts separated by space, no boxes) ===== */
