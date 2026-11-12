@@ -17,15 +17,20 @@
 <meta property="og:locale" content="ko_KR">
 <meta property="og:title" content="김예진 포트폴리오 · 콘텐츠로 유입을 만들고, 문의를 판매로 연결합니다">
 <meta property="og:description" content="블로그·SNS·메일·문서 디자인·영업까지 하나의 흐름으로 일한 5년의 기록.">
-<meta property="og:image" content="assets/img/og.jpg">
+<meta property="og:url" content="https://cocomidoda-cpu.github.io/archive.html">
+<meta property="og:image" content="https://cocomidoda-cpu.github.io/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cocomidoda-cpu.github.io/assets/img/og.jpg">
+<link rel="canonical" href="https://cocomidoda-cpu.github.io/archive.html">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
 <link rel="stylesheet" href="assets/css/tokens.css?v=23">
-<link rel="stylesheet" href="assets/css/site.css?v=77">
+<link rel="stylesheet" href="assets/css/site.css?v=94">
 <script>
   // 저장된 테마를 첫 그림 전에 적용해 깜빡임을 막습니다
   try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
@@ -41,9 +46,9 @@
 <header class="u212-hd" id="top-header">
   <a class="brand" href="index.html" aria-label="김예진 포트폴리오 처음으로">PORTFOLIO</a>
   <nav class="hd-nav" aria-label="주요 메뉴">
+    <a href="index.html#about">ABOUT</a>
     <a href="index.html#work">WORK</a>
     <a href="index.html#fit">HOW</a>
-    <a href="index.html#about">ABOUT</a>
     <a href="index.html#contact">CONTACT</a>
   </nav>
   <a class="hd-pill" href="index.html#work">SELECTED WORKS</a>
@@ -104,19 +109,20 @@
   // 카드는 index.html의 Work 섹션에서 그대로 가져옵니다 (작업물 내용은 한 곳에서만 관리)
   (function () {
     var grid = document.getElementById('arc-grid');
-    function boot() { var sc = document.createElement('script'); sc.src = 'assets/js/site.js?v=37'; document.body.appendChild(sc); }
+    function boot() { var sc = document.createElement('script'); sc.src = 'assets/js/site.js?v=45'; document.body.appendChild(sc); }
     fetch('index.html', { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(function (html) {
         var doc = new DOMParser().parseFromString(html, 'text/html');
         // 대표 작업(.wk-feat) 세 개도 포함합니다. 여기서는 일반 카드로 보이도록 넓은 카드 표시와
         // 대표 작업에서만 쓰는 사례 표(.is-case)를 빼고, 짧은 요약(.work-sum)을 보여 줍니다
-        var cards = doc.querySelectorAll('#work .wk-feat .work, #work .wk-list .work');
+        var cards = doc.querySelectorAll('#work .wk-list .work');
         grid.textContent = '';
         Array.prototype.forEach.call(cards, function (c) {
           var card = document.importNode(c, true);
           card.classList.remove('work-wide');
-          Array.prototype.forEach.call(card.querySelectorAll('.is-case'), function (el) { el.remove(); });
+          Array.prototype.forEach.call(card.querySelectorAll('.is-case, .work-badge'), function (el) { el.remove(); });
+          card.classList.remove('is-feat');
           grid.appendChild(card);
         });
       })

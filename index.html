@@ -17,15 +17,20 @@
 <meta property="og:locale" content="ko_KR">
 <meta property="og:title" content="김예진 포트폴리오 · 콘텐츠로 유입을 만들고, 문의를 판매로 연결합니다">
 <meta property="og:description" content="블로그·SNS·메일·문서 디자인·영업까지 하나의 흐름으로 일한 5년의 기록.">
-<meta property="og:image" content="assets/img/og.jpg">
+<meta property="og:url" content="https://cocomidoda-cpu.github.io/">
+<meta property="og:image" content="https://cocomidoda-cpu.github.io/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cocomidoda-cpu.github.io/assets/img/og.jpg">
+<link rel="canonical" href="https://cocomidoda-cpu.github.io/">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
 <link rel="stylesheet" href="assets/css/tokens.css?v=23">
-<link rel="stylesheet" href="assets/css/site.css?v=77">
+<link rel="stylesheet" href="assets/css/site.css?v=94">
 <script>
   // 저장된 테마를 첫 그림 전에 적용해 깜빡임을 막습니다
   try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
@@ -53,9 +58,9 @@
 <header class="u212-hd" id="top-header">
   <a class="brand" href="#home" aria-label="김예진 포트폴리오 처음으로">PORTFOLIO</a>
   <nav class="hd-nav" aria-label="주요 메뉴">
+    <a href="#about">ABOUT</a>
     <a href="#work">WORK</a>
     <a href="#fit">HOW</a>
-    <a href="#about">ABOUT</a>
     <a href="#contact">CONTACT</a>
   </nav>
   <a class="hd-pill" href="#work">SELECTED WORKS</a>
@@ -67,10 +72,12 @@
 
 <main id="main">
 
+<!-- Hero + About share one drifting gradient: the backdrop sticks to the screen while both sections scroll over it -->
+<div class="hero-flow">
+<!-- Slowly drifting gradient blobs behind the hero (decorative) -->
+<div class="hero-bg" aria-hidden="true"><i class="hb hb1"></i><i class="hb hb2"></i><i class="hb hb3"></i><i class="hb hb4"></i></div>
 <!-- Hero: ported from Lucian #216 (staggered hero entrance) -->
 <section class="u216 hero" id="home" aria-labelledby="hero-title">
-  <!-- Slowly drifting gradient blobs behind the hero (decorative) -->
-  <div class="hero-bg" aria-hidden="true"><i class="hb hb1"></i><i class="hb hb2"></i><i class="hb hb3"></i><i class="hb hb4"></i></div>
   <div class="wrap hero-in">
     <div class="hero-top">
       <p class="hero-pos" data-s style="--d:120">김예진 · 디자인하는 콘텐츠 마케터 · 경력 5년</p>
@@ -82,91 +89,143 @@
   <a class="hero-down" href="#work" aria-label="아래로 스크롤해 대표 작업 보기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></a>
 </section>
 
+<!-- About -->
+<section class="sec" id="about" aria-labelledby="about-title">
+  <div class="wrap">
+    <div class="sec-hd" data-rv>
+      <h2 id="about-title" class="display">About <em>Me.</em></h2>
+      <p class="sec-ko"><b>총 5년 1개월, 세 회사에서 디자인부터 콘텐츠 마케팅·영업 지원까지 맡았습니다.</b> 어디에서 어느 범위까지 일했는지 정리했습니다.</p>
+    </div>
+    <!-- About: four cards that stack while scrolling (desktop, when they fit the screen); a plain list otherwise -->
+    <div class="ab-stack">
+      <article class="ab-card ab-profile" data-expand="read" aria-labelledby="ab-ab-profile">
+        <header class="ab-hd"><h3 class="ab-t" id="ab-ab-profile"><span>Profile</span> <span class="ab-t2">김예진</span></h3></header>
+        <div class="ab-ph"><img src="assets/img/profile.jpg" alt="김예진 프로필 사진" width="643" height="867" loading="lazy"></div><div class="ab-body"><div class="ab-intro"><p class="ab-age">1995년생 · 만 31세</p><p class="ab-intro-h"><span>행동을 만드는 콘텐츠</span>를<br>기획하는 콘텐츠 마케터</p><p class="ab-intro-t">상세페이지 디자인으로 일을 시작해, 같은 상품도 구성에 따라 판매량이 달라지는 것을 보며 콘텐츠의 목적은 <strong>고객의 행동을 이끌어 내는 것</strong>이라고 생각하게 됐습니다. 그 생각으로 디자인에서 콘텐츠 기획과 채널 운영으로, 다시 영업 현장까지 일의 범위를 넓혀 왔습니다. <strong>Designed to Action</strong>은 그 생각을 줄인 말입니다.</p></div></div>
+      </article>
+      <article class="ab-card ab-career" data-expand="tl" aria-labelledby="ab-ab-career">
+        <header class="ab-hd"><h3 class="ab-t" id="ab-ab-career"><span>Career</span> <span class="ab-t2">경력 5년 1개월</span></h3></header>
+        <div class="ab-body"><ol class="ab-jobs"><li class="ab-job"><p class="ab-job-hd"><b>주식회사 애드</b><small>2024.11 – 2026.10</small></p><p class="ab-job-co">AI 옥외광고 데이터 분석 기업</p><p class="ab-job-role"><span class="sr-only">직무: </span>콘텐츠 마케팅 &amp; 디자인</p><dl class="ab-dl"><dt>콘텐츠 마케팅</dt><dd>블로그·인스타그램·유튜브 채널 운영, 게첨 이미지 촬영 기획</dd><dt>이메일 마케팅</dt><dd>광고 상품 프로모션 메일 템플릿 기획·제작</dd><dt>영업 지원</dt><dd>신규 고객 발굴·제안, 미팅·응대, 판매 후 게첨 보고</dd><dt>편집디자인</dt><dd>회사소개서·제안서·리포트 등 문서 디자인</dd><dt>인쇄물 디자인</dt><dd>현수막·리플렛·스티커·전시 부스 그래픽</dd></dl></li><li class="ab-job"><p class="ab-job-hd"><b>주식회사 고래사</b><small>2023.03 – 2023.06</small></p><p class="ab-job-co">어묵 제조·유통 기업</p><p class="ab-job-role"><span class="sr-only">직무: </span>웹디자인</p><dl class="ab-dl"><dt>웹디자인</dt><dd>상세페이지·이벤트 페이지 기획·디자인</dd><dt>제품 사진</dt><dd>제품 촬영 기획, 사진 편집·보정</dd></dl></li><li class="ab-job"><p class="ab-job-hd"><b>공간조명</b><small>2019.09 – 2022.05</small></p><p class="ab-job-co">조명 브랜드</p><p class="ab-job-role"><span class="sr-only">직무: </span>기획디자인</p><dl class="ab-dl"><dt>웹디자인</dt><dd>상세페이지·이벤트 페이지 기획·디자인</dd><dt>광고 디자인</dt><dd>GDN·DDN·카카오 비즈보드 배너</dd><dt>SNS 마케팅</dt><dd>카드뉴스 기획·디자인, SNS 계정 운영</dd><dt>이커머스 운영</dt><dd>자사몰(카페24·메이크샵), 오픈마켓(네이버 스마트스토어·오늘의집) 운영</dd></dl></li></ol></div>
+      <div class="ab-tl tl tl-on" inert>
+    <div class="tl-stage">
+    <div class="tl-track">
+      <article class="tl-scene tl-lamp" data-label="2019" data-hold="1.2">
+        <div class="tl-light" aria-hidden="true">
+          <i class="tl-glow"></i><i class="tl-cone"></i><i class="tl-cord"></i>
+          <svg class="tl-shade" viewBox="0 0 120 70"><path d="M60 3c-5 0-8 3-8 8v8C30 25 13 43 8 64h104C107 43 90 25 68 19v-8c0-5-3-8-8-8z"/><ellipse class="tl-bulb" cx="60" cy="65" rx="17" ry="6"/></svg>
+        </div>
+        <div class="tl-grid">
+          <header class="tl-hd">
+            <p class="tl-year"><em>2019</em><span>— 2022</span></p>
+            <h3 class="tl-co">공간조명<span>조명 브랜드 · 2019.09 – 2022.05</span></h3>
+            <p class="tl-role">기획디자인</p>
+          </header>
+          <ol class="tl-list" aria-label="공간조명에서 한 일">
+            <li data-at=".22"><span>01</span>상세페이지·이벤트 페이지 기획·디자인</li>
+            <li data-at=".4"><span>02</span>GDN·DDN·카카오 비즈보드 배너</li>
+            <li data-at=".58"><span>03</span>카드뉴스 기획·디자인, SNS 계정 운영</li>
+            <li data-at=".76"><span>04</span>자사몰(카페24·메이크샵)·오픈마켓(스마트스토어·오늘의집) 운영</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="tl-scene tl-gor" data-label="2023" data-hold=".7">
+        <div class="tl-grid">
+          <header class="tl-hd">
+            <p class="tl-year"><em>2023</em></p>
+            <h3 class="tl-co">고래사<span>어묵 제조·유통 기업 · 2023.03 – 2023.06</span></h3>
+            <p class="tl-role">웹디자인</p>
+            <ol class="tl-list" aria-label="고래사에서 한 일">
+              <li data-at=".18"><span>01</span>상세페이지·이벤트 페이지 기획·디자인</li>
+              <li data-at=".36"><span>02</span>제품 촬영 기획, 사진 편집·보정</li>
+            </ol>
+          </header>
+          <div class="tl-study" data-at=".6">
+            <p class="tl-k">2023.06 – 2024.06</p>
+            <h3 class="tl-co">UX/UI 디자인 과정<span>디자인나스</span></h3>
+            <p>Figma·Photoshop·Illustrator로 앱과 웹사이트를 리디자인하며 사용자 리서치, 와이어프레임, 프로토타입, 디자인 시스템을 공부했습니다.</p>
+            <p class="tl-cert">2023.09 컴퓨터그래픽스운용기능사</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="tl-scene tl-addd" data-label="2024" data-hold=".6">
+        <header class="tl-hd tl-addd-hd">
+          <p class="tl-year"><em>2024</em><span>— 2026</span></p>
+          <h3 class="tl-co">애드 (addd)<span>AI 옥외광고 데이터 분석 기업 · 2024.11 – 2026.10</span></h3>
+          <p class="tl-role">콘텐츠 마케팅 &amp; 디자인</p>
+          <p class="tl-sub">AI 카메라 애드아이(addd-i)를 단 광고 트럭 <b>시티핑크</b>를 콘텐츠로 알리고, 메일로 판매까지 이어 갔습니다.</p>
+        </header>
+        <div class="tl-cards">
+          <a class="tl-card" href="#w-blog" data-open="w-blog" style="--x:42%;--xm:26%"><span>채널 운영</span><b>블로그·유튜브·인스타그램 기획·디자인·발행</b><small>회사 블로그 월 순방문자 112명 → 380명</small><i>작업 보기 →</i></a>
+          <a class="tl-card" href="#w-mail" data-open="w-mail" style="--x:56%;--xm:45%;--y:48px"><span>이메일 마케팅</span><b>프로모션 메일 기획·HTML 제작·발송</b><small>문의 응대·미팅을 거쳐 실제 판매까지</small><i>작업 보기 →</i></a>
+          <a class="tl-card" href="#w-ces" data-open="w-ces" style="--x:70%;--xm:63.5%"><span>문서 디자인</span><b>회사소개서·제안서·리포트</b><small>CES 2026 부스 데이터 리포트</small><i>작업 보기 →</i></a>
+          <div class="tl-card" style="--x:84%;--xm:82%;--y:48px"><span>영업 지원</span><b>신규 고객 발굴·제안, 미팅·응대</b><small>판매 후 게첨 보고까지</small></div>
+        </div>
+        <div class="tl-street" aria-hidden="true">
+            <span class="tl-ped" style="--x:5%;--s:1.0"><em class="tl-box"><b>유효노출</b></em></span>
+            <span class="tl-ped" style="--x:15%;--s:0.92"><em class="tl-box"><b>시청</b></em></span>
+            <span class="tl-ped" style="--x:25%;--s:1.05"><em class="tl-box"><b>주목</b></em></span>
+            <span class="tl-ped" style="--x:35%;--s:0.96"><em class="tl-box"><b>성별·연령</b></em></span>
+            <span class="tl-ped" style="--x:45%;--s:1.0"><em class="tl-box"><b>시청 시간</b></em></span>
+            <span class="tl-ped" style="--x:55%;--s:0.9"><em class="tl-box"><b>유효노출</b></em></span>
+            <span class="tl-ped" style="--x:65%;--s:1.04"><em class="tl-box"><b>시청</b></em></span>
+            <span class="tl-ped" style="--x:75%;--s:0.95"><em class="tl-box"><b>주목</b></em></span>
+            <span class="tl-ped" style="--x:86%;--s:1.0"><em class="tl-box"><b>성별·연령</b></em></span>
+            <span class="tl-ped" style="--x:95%;--s:0.93"><em class="tl-box"><b>시청</b></em></span>
+            <div class="tl-truck">
+              <svg viewBox="0 0 360 150" role="img" aria-label="시티핑크 광고 트럭">
+                <rect x="4" y="4" width="236" height="112" rx="8" fill="#E650B0"/>
+                <rect x="16" y="16" width="212" height="88" rx="3" fill="#0E0E10"/>
+                <text x="122" y="54" text-anchor="middle" fill="#fff" font-family="Pretendard Variable, Pretendard, sans-serif" font-size="21" font-weight="600" letter-spacing="-.5">Designed to</text>
+                <text x="122" y="88" text-anchor="middle" fill="#fff" font-family="Instrument Serif, serif" font-style="italic" font-size="34">Action.</text>
+                <path d="M246 40h50l40 38v40h-90z" fill="#E650B0"/>
+                <path d="M256 50h36l30 28h-66z" fill="#1A1A1C"/>
+                <text x="290" y="106" text-anchor="middle" fill="#fff" font-family="Pretendard Variable, Pretendard, sans-serif" font-size="9" font-weight="800" letter-spacing="1">CITY PINK</text>
+                <rect x="330" y="92" width="8" height="10" rx="2" fill="#FFF4C8"/>
+                <rect x="4" y="114" width="334" height="12" rx="3" fill="#1A1A1C"/>
+                <g class="whl"><circle cx="62" cy="128" r="20" fill="#141416"/><circle cx="62" cy="128" r="8" fill="#9A9A9E"/><rect x="60" y="110" width="4" height="9" rx="1" fill="#9A9A9E"/></g>
+                <g class="whl"><circle cx="290" cy="128" r="20" fill="#141416"/><circle cx="290" cy="128" r="8" fill="#9A9A9E"/><rect x="288" y="110" width="4" height="9" rx="1" fill="#9A9A9E"/></g>
+              </svg>
+            </div>
+          <i class="tl-road"></i>
+        </div>
+      </article>
+
+    </div>
+    <div class="tl-axis" aria-hidden="true"><i class="tl-axis-fill"></i><ol></ol></div>
+    </div>
+  </div>
+      </article>
+      <article class="ab-card ab-education" aria-labelledby="ab-ab-education">
+        <header class="ab-hd"><h3 class="ab-t" id="ab-ab-education"><span>Education</span> <span class="ab-t2">배운 것</span></h3></header>
+        <div class="ab-body"><ol class="ab-edus"><li class="ab-edu"><p class="ab-job-hd"><b>AI 활용 수출 마케팅 이미지 제작</b><small>2026.09</small></p><p class="ab-job-co">대전/세종 글로벌진출전략프로그램 · 1일 특강</p><p class="ab-edu-d">ChatGPT로 마케팅 이미지를 생성하는 방법을 체계적으로 배웠습니다.</p></li><li class="ab-edu"><p class="ab-job-hd"><b>UX/UI 디자인</b><small>2023.06 – 2024.06</small></p><p class="ab-job-co">디자인나스</p><p class="ab-edu-d">Figma·Photoshop·Illustrator로 앱과 웹사이트를 리디자인하며 사용자 리서치, 와이어프레임, 프로토타입, 앱·웹 화면 설계, 디자인 시스템을 공부했습니다.</p></li><li class="ab-edu"><p class="ab-job-hd"><b>반응형 웹디자인 구축 실무, 부트스트랩</b><small>2020.06 – 07</small></p><p class="ab-job-co">부산디자인진흥원</p><p class="ab-edu-d">나래디자인학원에서 배운 HTML/CSS를 응용해 반응형 웹 구축과 부트스트랩을 배웠습니다.</p></li><li class="ab-edu"><p class="ab-job-hd"><b>영상편집을 활용한 UI/UX 웹디자인</b><small>2019</small></p><p class="ab-job-co">나래디자인학원</p><p class="ab-edu-d">Photoshop·Illustrator·Premiere Pro와 HTML/CSS를 배웠습니다.</p></li></ol></div>
+      </article>
+      <article class="ab-card ab-skills" aria-labelledby="ab-ab-skills">
+        <header class="ab-hd"><h3 class="ab-t" id="ab-ab-skills"><span>Skills</span> <span class="ab-t2">스킬 · 자격증</span></h3></header>
+        <div class="ab-body"><div class="ab-col"><h4 class="ab-col-h">Tools &amp; Skills</h4><ul class="ab-chips"><li>Photoshop</li><li>Illustrator</li><li>Figma</li><li>Premiere Pro</li><li>HTML/CSS</li><li>Google Analytics</li><li>AI Literacy</li></ul></div><div class="ab-col"><h4 class="ab-col-h">Certifications</h4><ul class="ab-certs"><li>GTQ 일러스트 1급 <small>2025.08</small></li>
+            <li>GTQ 포토샵 1급 <small>2025.08</small></li>
+            <li>컴퓨터그래픽스운용기능사 <small>2023.09</small></li>
+            <li>Google Analytics Certification <small>취득 예정</small></li>
+            <li>JPT 710 · JLPT N2</li></ul></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+</div>
+
 <!-- Work: comes right after the hero. Three featured works first (full width), then the rest: sticky category list (Marketing / Design) on the left, cards from Lucian #251 (staggered scroll-in cards) on the right; the archive page shows every card in a filterable grid -->
 <section class="sec" id="work" aria-labelledby="work-title">
   <div class="wrap">
     <div class="sec-hd" data-rv>
       <h2 id="work-title" class="display">Works in <em>Action.</em></h2>
-      <p class="sec-ko"><b>먼저, 결과까지 확인된 작업 세 가지입니다.</b> 2024.11–2026.10 AI 옥외광고 데이터 분석 기업 애드(addd)에서 블로그·SNS·메일·문서를 기획하고 직접 디자인했습니다. 이미지를 누르면 기획 의도와 과정을 자세히 볼 수 있습니다.</p>
+      <p class="sec-ko">2024.11–2026.10 AI 옥외광고 데이터 분석 기업 애드(addd)에서 블로그·SNS·메일·문서를 기획하고 직접 디자인했습니다. 이미지를 누르면 기획 의도와 과정을 자세히 볼 수 있습니다.</p>
     </div>
 
-    <!-- Selected: three works whose results were confirmed (a sale, inquiries, a contest win), shown first and large.
-         A featured card shows its case table (.is-case); in the list below the same card shows its short summary.
-         Job-specific versions (?for=…, data near the end of this file) swap these three for others. -->
-    <div class="works wk-feat">
-          <article class="u251-cd work work-wide" id="w-mail" data-group="addd-mkt" data-home="wk-mkt-addd">
-                  <div class="work-media">
-                    <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="광고 상품 메일, 개선부터 실제 판매까지 자세히 보기"><img src="assets/img/work/thumb-mail.jpg" alt="시티핑크 2+1 프로모션 안내 메일: 분홍 광고 트럭 비주얼과 할인 구성, 캠페인 추천 대상과 제안서 다운로드 버튼" width="1600" height="1200" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
-                  </div>
-                  <template class="work-pages"><div class="ed"><header class="ds-head ed-head"><p class="ds-k">Content Design &amp; Marketing</p><h2><span>광고 상품 프로모션</span> 메일 템플릿 디자인</h2><div class="ds-lead-txt"><p>줄글과 버튼 하나뿐이던 광고 상품 메일을 핵심 정보와 활용 사례가 먼저 보이도록 개선하고, HTML/CSS 템플릿으로 직접 만들어 잠재고객에게 발송했습니다. 들어온 문의에 직접 응대해 미팅과 실제 판매까지 이어 갔고, 판매된 시티핑크 트럭은 실제 아이돌 생일 광고로 게첨되어 기사로도 소개되었습니다.</p></div><dl class="ds-facts"><div><dt>Year</dt><dd>2025.11</dd></div><div><dt>Duration</dt><dd>작업기간 2일</dd></div><div><dt>Tools</dt><dd>포토샵. HTML</dd></div><div><dt>Note</dt><dd>Stibee</dd></div></dl></header><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/mail-p-before.jpg" alt="1/5: 기존 메일: 긴 줄글 본문과 제안서 보기 버튼 하나" loading="lazy" width="492" height="606"></figure></div></div><div class="ed-right"><p class="ed-no">01</p><h3>BEFORE</h3><div class="ed-body"><p>줄글 + 단일 버튼으로 구성되어 있어 중요한 내용이 한 눈에 잘 들어오지 않고, 발송자에 대한 정보가 누락되어 있었습니다.</p></div></div></section><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/mail-p-after-1.jpg" alt="2/5: 새 메일 상단: 2+1 프로모션 안내, 8주 계약 시 12주 송출, 구좌별 서비스와 33% 할인 효과, 운영 사진과 CTA 버튼" loading="lazy" width="611" height="1262"></figure><figure><img src="assets/img/work/mail-p-after-2.jpg" alt="3/5: 새 메일 하단: 추천 캠페인, 운영 노선·광고비 절감·AI 성과 데이터, 제안서 다운로드, 발송자 서명" loading="lazy" width="573" height="770"></figure></div></div><div class="ed-right"><p class="ed-no">02</p><h3>AFTER</h3><div class="ed-body"><p>핵심 정보를 우선적으로 재배치하고 서비스 구성을 시각화하고 활용 사례와 추천 대상을 제시하고 마지막에 CTA를 추가하는 흐름으로 메일을 구성했습니다.</p></div></div></section><section class="ed-sec ed-split ed-ev"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/mail-proof-app.jpg" alt="4/5: 팬 광고 플랫폼 애즈닷 앱에 등록된 시티핑크 트럭 상품 화면" loading="lazy" width="399" height="843"></figure><figure><img src="assets/img/work/mail-proof-news.jpg" alt="5/5: 시티핑크 트럭에 게재된 아이돌 생일 축하 광고 기사" loading="lazy" width="654" height="838"></figure></div></div><div class="ed-right"><p class="ed-no">03</p><p class="dv-doc-k">Evidence · 메일에서 실제 판매까지</p><h3>개선한 메일이 실제 판매로 이어졌습니다</h3><div class="ed-body"><p class="dv-doc-case">01 · 개선</p><h4>줄글 메일을 한눈에 이해되는 메일로</h4><p>보이지 않는 광고 구좌를 설명하던 메일은 줄글과 버튼 하나뿐이라 중요한 내용이 눈에 들어오지 않았고, 발송자 정보도 빠져 있었습니다. 할인 구성과 핵심 혜택을 가장 먼저 보여 주고, 활용 사례와 추천 캠페인, 제안서 다운로드와 문의 버튼을 차례로 배치해 읽는 순서대로 다음 행동이 이어지도록 다시 설계했습니다.</p><p class="dv-doc-case">02 · 메일링</p><h4>직접 만들고 직접 보낸 메일</h4><p>HTML/CSS 템플릿은 부족한 개발 지식을 Claude로 보완해 직접 만들었고, 스티비로 잠재고객에게 발송했습니다. 메일로 들어온 문의에는 직접 연락해 미팅과 응대를 맡았습니다.</p><p class="dv-doc-case">03 · 실제 판매</p><h4>판매, 그리고 실제 게첨까지</h4><p>문의는 실제 판매로 이어졌고, 판매 후 게첨 보고까지 마무리했습니다. 판매된 <strong>시티핑크 트럭 상품은 팬 광고 플랫폼에 등록되어</strong>, 팬들이 준비한 <strong>아이돌 생일 축하 광고로 실제 게첨</strong>되었고 기사로도 소개되었습니다.</p></div></div></section><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>BEFORE</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>AFTER</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>개선한 메일이 실제 판매로 이어졌습니다</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div></template>
-                  <div class="work-body">
-              <p class="work-tag"><span class="t-path">addd / email · sales</span><span class="hl">실제 판매까지</span></p>
-              <h4>줄글 메일을 다시 설계해 실제 판매까지 이어 간 광고 상품 메일</h4>
-              <p class="work-meta">2025.11 · 템플릿 2일 · Photoshop, HTML/CSS, Stibee, Claude</p>
-              <p class="work-sum">줄글과 버튼 하나뿐이던 광고 상품 메일을 핵심 정보와 활용 사례가 먼저 보이도록 개선하고, HTML/CSS 템플릿으로 직접 만들어 잠재고객에게 발송했습니다. 들어온 문의에 직접 응대해 미팅과 실제 판매까지 이어 갔고, 판매된 시티핑크 트럭은 실제 아이돌 생일 광고로 게첨되어 기사로도 소개되었습니다.</p>
-              <dl class="work-dl is-case">
-                <dt>문제</dt><dd>줄글과 버튼 하나뿐이라 핵심 혜택이 눈에 들어오지 않았고, 보낸 사람 정보도 빠져 있었습니다.</dd>
-                <dt>한 일</dt><dd>할인 구성과 혜택을 맨 앞에, 활용 사례와 추천 대상을 그다음에, 제안서·문의 버튼을 마지막에 두어 읽는 순서대로 다음 행동이 이어지게 다시 설계했습니다. HTML/CSS 템플릿으로 직접 만들어 스티비로 잠재고객에게 보냈습니다.</dd>
-                <dt>결과</dt><dd>들어온 문의에 직접 응대해 미팅과 판매로 이어 갔습니다. 판매된 시티핑크 트럭은 아이돌 생일 광고로 게첨되어 기사로도 소개되었습니다.</dd>
-              </dl>
-              <ul class="work-metrics is-words" aria-label="맡은 범위">
-                <li><b>01 기획·디자인</b><span>혜택 우선 구성<br>발송자 정보 추가</span></li>
-                <li><b>02 제작·발송</b><span>HTML 템플릿 제작<br>Stibee 발송</span></li>
-                <li><b>03 응대·판매</b><span>문의·미팅·판매<br>게첨 보고까지</span></li>
-              </ul>
-            </div>
-          </article>
-          <article class="u251-cd work work-wide" id="w-blog" data-group="addd-mkt" data-home="wk-mkt-addd">
-                  <div class="work-media">
-                    <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="네이버 블로그 운영·콘텐츠 기획/디자인 자세히 보기"><img src="assets/img/work/thumb-blog.webp" alt="애드 네이버 블로그 화면: addd 로고 아래 메뉴 버튼과 시티핑크 광고 트럭 게시글 썸네일 목록" width="1448" height="1086" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
-                  </div>
-                  <template class="work-pages"><div class="ed"><header class="ds-head ed-head"><p class="ds-k">Content Design &amp; Marketing</p><h2><span>네이버 블로그 운영</span> 및 컨텐츠 기획/디자인</h2><div class="ds-lead-txt"><p>주요 키워드의 검색 상단 노출을 강화하고, 지속적인 콘텐츠 발행을 통해 블로그의 유입과 방문 트래픽을 확대했습니다. 이를 통해 서비스 문의까지 연결되는 성과를 만들었습니다.</p></div><dl class="ds-facts"><div><dt>Year</dt><dd>2025 ~ 2026</dd></div><div><dt>Duration</dt><dd>작업기간 평균 1일</dd></div><div><dt>Tools</dt><dd>포토샵, AI (Cloude)</dd></div></dl><dl class="ds-stats"><div><dt>월 순방문자</dt><dd><b>3.4<small>배</small></b><span>112명 → 380명</span></dd></div><div><dt>월 조회수</dt><dd><b>2.8<small>배</small></b><span>168회 → 473회</span></dd></div><div><dt>재방문율</dt><dd><b>+3<small>%p</small></b><span>4% → 7%</span></dd></div></dl></header><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/blog-p-main.jpg" alt="1/7: 블로그 메인 화면 리뉴얼 전후: 위 AFTER, 아래 BEFORE" loading="lazy" width="990" height="1322"></figure></div></div><div class="ed-right"><p class="ed-no">01</p><h3>블로그 메인 화면 리뉴얼</h3><div class="ed-body"><p>정돈되지 않았던 기존 화면을 메뉴와 콘텐츠 구조 중심으로 재구성해 주요 정보로 빠르게 이동할 수 있도록 사용자의 편의성을 개선하였습니다.</p></div></div></section><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/blog-p-cta-before.jpg" alt="2/7: 기존 게시물 하단 배너" loading="lazy" width="476" height="80"></figure><figure><img src="assets/img/work/blog-p-cta-after.jpg" alt="3/7: 새 게시물 하단 배너: addd 로고, 광고 문의 번호, 온라인 문의하기 버튼" loading="lazy" width="476" height="142"></figure></div></div><div class="ed-right"><p class="ed-no">02</p><h3>게시물 하단 CTA 배너 리뉴얼</h3><div class="ed-body"><p>정보가 많고 문의 버튼이 명확하지 않았던 기존의 배너를 간결하게 재구성했습니다. 핵심 연락처와 버튼의 주목도를 높여 문의를 유도했습니다.</p></div></div></section><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/blog-p-inquiry.jpg" alt="4/7: 석촌호수 방문객 27% 증가 게시물과 이 글을 보고 온 홈페이지 문의 메일" loading="lazy" width="1016" height="1252"></figure></div></div><div class="ed-right"><p class="ed-no">03</p><h3>콘텐츠를 통한 실제 문의 전환</h3><div class="ed-body"><p>주제 선정부터 콘텐츠 작성·디자인·발행까지 직접 진행하고, 블로그 게시물을 통해 실제 서비스 문의까지 이어지는 성과를 만들었습니다.</p></div></div></section><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/blog-p-search-1.jpg" alt="5/7: LED 광고 트럭·전광판 트럭광고 검색 결과에 노출된 ADDD 블로그 글" loading="lazy" width="541" height="968"></figure><figure><img src="assets/img/work/blog-p-search-2.jpg" alt="6/7: 광고 트럭 검색 결과 블로그 탭에 노출된 ADDD 글" loading="lazy" width="535" height="698"></figure></div></div><div class="ed-right"><p class="ed-no">04</p><h3>검색 데이터를 활용한 키워드 노출 강화</h3><div class="ed-body"><p>검색 데이터와 관련 키워드 발행량 등을 분석하여 키워드를 직접 선정하고, 사업과 연결되는 콘텐츠를 지속적으로 발행했습니다.</p><p>이를 통해 네이버 검색 결과에서 블로그 탭의 주요 키워드의 상단 노출을 강화했습니다.</p></div></div></section><section class="ed-sec ed-split ed-ev"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/blog-proof-search.jpg" alt="7/7: 아이돌 광고 트럭, 시위트럭 합법 검색 결과 상단에 노출된 ADDD 블로그 글" loading="lazy" width="797" height="639"></figure></div></div><div class="ed-right"><p class="ed-no">05</p><p class="dv-doc-k">Search · 키워드 상단 노출</p><h3>문의로 이어지는 키워드를 골라 상단에 노출했습니다</h3><div class="ed-body"><p class="dv-doc-case">01 · 아이돌 광고 트럭</p><h4>문의가 실제로 들어오는 검색어</h4><p>“아이돌 광고 트럭”이라는 말로 들어오는 문의가 많아, 이 검색어를 키워드로 정했습니다. 이 키워드로 블로그 글이 검색 상단에 노출됐고, 글을 보고 문의 전화가 온 사례도 있었습니다.</p><p class="dv-doc-case">02 · 시위트럭 합법</p><h4>상품의 셀링 포인트와 맞닿은 검색어</h4><p>시티핑크의 셀링 포인트는 “국내 유일 합법 광고트럭”입니다. 그래서 ‘합법’이 들어간 “시위트럭 합법”을 키워드로 정했고, 합법 광고트럭을 찾는 문의도 꾸준히 들어왔습니다.</p></div></div></section><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>블로그 메인 화면 리뉴얼</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>게시물 하단 CTA 배너 리뉴얼</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>콘텐츠를 통한 실제 문의 전환</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>검색 데이터를 활용한 키워드 노출 강화</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>문의로 이어지는 키워드를 골라 상단에 노출했습니다</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div></template>
-                  <div class="work-body">
-              <p class="work-tag"><span class="t-path">addd / naver blog</span><span class="hl">글을 보고 온 문의</span></p>
-              <h4>검색 상단 노출로 문의까지 이어진 회사 네이버 블로그</h4>
-              <p class="work-meta">2025 – 2026 · 건당 평균 1일 · Photoshop, Claude</p>
-              <p class="work-sum">콘텐츠는 좋았지만 디자인과 검색 노출 작업이 약했던 회사 블로그를 맡아, 스킨·썸네일·배너를 다시 디자인하고 글 종류를 유입·브랜딩·업계 트렌드로 나눠 운영했습니다. 주요 키워드 상위 노출과 네이버 메인 사명 검색 노출을 만들었고, 블로그를 통해 실제 문의가 들어왔습니다.</p>
-              <dl class="work-dl is-case">
-                <dt>문제</dt><dd>글의 내용은 좋았지만 디자인과 검색 노출 작업이 약했습니다.</dd>
-                <dt>한 일</dt><dd>“아이돌 광고 트럭”처럼 실제 문의에서 자주 나온 말과, ‘합법’이라는 셀링 포인트가 담긴 “시위트럭 합법”을 키워드로 골라 글을 발행했습니다. 스킨·썸네일·게시물 하단 문의 배너도 다시 디자인했습니다.</dd>
-                <dt>결과</dt><dd>주요 키워드 상단 노출과 네이버 메인 사명 검색 노출을 만들었고, 블로그 글을 보고 문의 메일과 전화가 들어왔습니다.</dd>
-              </dl>
-              <!-- TODO: 아래 세 수치의 비교 기간(예: 2025.○○ → 2026.○○)과 집계 기준(네이버 블로그 통계)을 확인해 적어 주세요 -->
-              <ul class="work-metrics">
-                <li><b>3.4배</b><span>월 순방문자<br>112명 → 380명</span></li>
-                <li><b>2.8배</b><span>월 조회수<br>168회 → 473회</span></li>
-                <li><b>+3%p</b><span>재방문율<br>4% → 7%</span></li>
-              </ul>
-            </div>
-          </article>
-          <article class="u251-cd work work-wide" id="w-jalum" data-group="personal-dsn" data-home="wk-dsn-personal">
-            <div class="work-media">
-              <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="잘룸 3초 흡수매트 상세페이지 자세히 보기"><img src="assets/img/work/thumb-jalum.jpg" alt="잘룸 3초 흡수매트 상세페이지 세 구간: 도입부, 3중 흡수 구조, 사용 비교" width="1600" height="1200" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
-            </div>
-            <template class="work-pages"><div class="ds ds-v2"><header class="ds-head"><p class="ds-k">Commerce Design</p><h2><span>잘룸 3초 흡수매트</span> 상세페이지 디자인</h2><div class="ds-lead-txt"><p>제품의 핵심인 3초 흡수력과 사용의 편리성을 중심으로 정보를 단계적으로 구성하여 장점을 쉽게 이해할 수 있도록 했습니다.</p><p>AI 생성 이미지, gif 이미지 등을 활용해 기능과 사용 장면을 직관적으로 전달하고자 했습니다.</p></div><dl class="ds-facts"><div><dt>Year</dt><dd>2025.08</dd></div><div><dt>Duration</dt><dd>작업기간 7일</dd></div><div><dt>Tools</dt><dd>포토샵, GPT</dd></div><div><dt>Award</dt><dd>라우드소싱 우승작</dd></div></dl></header><section class="ds-story"><div class="ds-page"><div class="ds-part" data-part="1"><img src="assets/img/work/jalum/d01.webp" alt="상세페이지 1/26: 수컷 강아지 벽마킹, 곰팡이와 냄새까지 해결책이 없을까요? 문제 제기" loading="lazy" width="860" height="1124"></div><div class="ds-part" data-part="2"><video src="assets/img/work/jalum/d02.mp4" width="860" height="788" autoplay muted loop playsinline preload="metadata" aria-label="상세페이지 2/26: 벽에 튄 소변 자국, 발바닥 소변 발자국 같은 보호자 고민 말풍선"></video></div><div class="ds-part" data-part="3"><img src="assets/img/work/jalum/d03.webp" alt="상세페이지 3/26: 수컷·암컷 강아지 모두를 위한 올인원 배변 솔루션" loading="lazy" width="860" height="703"></div><div class="ds-part" data-part="4"><img src="assets/img/work/jalum/d04.webp" alt="상세페이지 4/26: 잘룸 3초 흡수매트 메인 비주얼과 Check Point 요약" loading="lazy" width="860" height="2863"></div><div class="ds-part" data-part="5"><img src="assets/img/work/jalum/d05.webp" alt="상세페이지 5/26: 런칭 기념 이벤트: 집게와 양면테이프 증정, 선착순 100명 한정" loading="lazy" width="860" height="1944"></div><div class="ds-part" data-part="6"><video src="assets/img/work/jalum/d06.mp4" width="860" height="1340" autoplay muted loop playsinline preload="metadata" aria-label="상세페이지 6/26: 강아지 발은 털과 땀샘이 많아 습기에 취약하다는 설명"></video></div><div class="ds-part" data-part="7"><img src="assets/img/work/jalum/d07.webp" alt="상세페이지 7/26: 배변패드가 흡수되지 않으면 곰팡이·세균이 번식해 습진이 생길 수 있다는 설명" loading="lazy" width="860" height="857"></div><div class="ds-part" data-part="8"><video src="assets/img/work/jalum/d08.mp4" width="856" height="1244" autoplay muted loop playsinline preload="metadata" aria-label="상세페이지 8/26: 소변이 완전히 흡수되는 시간 03초 카운트 모션"></video></div><div class="ds-part" data-part="9"><video src="assets/img/work/jalum/d09.mp4" width="860" height="640" autoplay muted loop playsinline preload="metadata" aria-label="상세페이지 9/26: 매트에 물을 붓자 바로 흡수되는 장면"></video></div><div class="ds-part" data-part="10"><img src="assets/img/work/jalum/d10.webp" alt="상세페이지 10/26: 발가락 사이 습진의 원인인 소변 잔여물을 잘룸매트가 빠르게 차단" loading="lazy" width="860" height="474"></div><div class="ds-part" data-part="11"><video src="assets/img/work/jalum/d11.mp4" width="860" height="706" autoplay muted loop playsinline preload="metadata" aria-label="상세페이지 11/26: 흡수 후 손으로 만져도 묻어나지 않는 장면"></video></div><div class="ds-part" data-part="12"><img src="assets/img/work/jalum/d12.webp" alt="상세페이지 12/26: 바로 손으로 만져도 묻어나지 않는 흡수력" loading="lazy" width="860" height="302"></div><div class="ds-part" data-part="13"><img src="assets/img/work/jalum/d13.webp" alt="상세페이지 13/26: Point 01: 이런 분들께 추천하는 체크리스트" loading="lazy" width="860" height="1600"></div><div class="ds-part" data-part="14"><img src="assets/img/work/jalum/d14.webp" alt="상세페이지 14/26: 특허받은 3중 초흡수 구조도: 고기능 섬유, 특수 방수층, 고기능 섬유" loading="lazy" width="860" height="4024"></div><div class="ds-part" data-part="15"><img src="assets/img/work/jalum/d15.webp" alt="상세페이지 15/26: Point 03: 넉넉한 사이즈로 가장자리 배변도 안심" loading="lazy" width="860" height="1400"></div><div class="ds-part" data-part="16"><img src="assets/img/work/jalum/d16.webp" alt="상세페이지 16/26: Point 04: 보호자의 고민을 덜어드립니다 (발가락 습진, 실내 오염, 노견 케어, 훈련)" loading="lazy" width="860" height="1748"></div><div class="ds-part" data-part="17"><img src="assets/img/work/jalum/d17.webp" alt="상세페이지 17/26: 남자아이 마킹 벽에 튈 걱정 NO, 밀림없이 편안한 배변환경 OK와 예시 리뷰" loading="lazy" width="860" height="5571"></div><div class="ds-part" data-part="18"><img src="assets/img/work/jalum/d18.webp" alt="상세페이지 18/26: 아무데나 소변 보던 아이도 잘룸매트에서 배변한다는 사용 사례" loading="lazy" width="860" height="2384"></div><div class="ds-part" data-part="19"><img src="assets/img/work/jalum/d19.webp" alt="상세페이지 19/26: Point 05 리얼 후기와 Point 06 1달 사용 전후 비교" loading="lazy" width="860" height="3579"></div><div class="ds-part" data-part="20"><img src="assets/img/work/jalum/d20.webp" alt="상세페이지 20/26: Point 07 튼튼하고 간편한 관리, Point 08 패드 교체 빈도와 비용 절감 그래프" loading="lazy" width="860" height="5389"></div><div class="ds-part" data-part="21"><video src="assets/img/work/jalum/d21.mp4" width="860" height="1052" autoplay muted loop playsinline preload="metadata" aria-label="상세페이지 21/26: Point 09: 벽에 걸고 샤워기로 세탁하는 장면"></video></div><div class="ds-part" data-part="22"><img src="assets/img/work/jalum/d22.webp" alt="상세페이지 22/26: 간단 설치 방법 단계 안내" loading="lazy" width="860" height="1934"></div><div class="ds-part" data-part="23"><img src="assets/img/work/jalum/d23.webp" alt="상세페이지 23/26: FAQ와 구매 시 사이즈 가이드" loading="lazy" width="860" height="3434"></div><div class="ds-part" data-part="24"><img src="assets/img/work/jalum/d24.webp" alt="상세페이지 24/26: 특수 벨크로로 배변패드를 고정하는 방식" loading="lazy" width="860" height="1222"></div><div class="ds-part" data-part="25"><img src="assets/img/work/jalum/d25.webp" alt="상세페이지 25/26: 구성품 안내와 설치 영상 QR코드" loading="lazy" width="860" height="3074"></div><div class="ds-part" data-part="26"><img src="assets/img/work/jalum/d26.webp" alt="상세페이지 26/26: 제품 정보와 주의사항" loading="lazy" width="860" height="2407"></div></div><aside class="ds-side"><div class="ds-sticky" aria-live="polite"><div class="ds-note is-on" data-part="0" data-frac="0"><p class="ds-no">Overview</p><h3>잘룸 3초 흡수매트 상세페이지 디자인</h3><p>제품의 핵심인 3초 흡수력과 사용의 편리성을 중심으로 정보를 단계적으로 구성하여 장점을 쉽게 이해할 수 있도록 했습니다.</p><p>AI 생성 이미지, gif 이미지 등을 활용해 기능과 사용 장면을 직관적으로 전달하고자 했습니다.</p><p class="ds-tip">스크롤하면 페이지 구간에 맞는 설명으로 바뀌어요</p></div><div class="ds-note" data-part="8" data-frac="0.0"><p class="ds-no">01 / 07</p><h3>제품명을 강조한 3초 흡수 연출</h3><p>제품명인 ‘3초 흡수 매트’를 직관적으로 전달하기 위해 3초의 시간동안 숫자가 넘어가는 모션을 gif 이미지로 제작하여 빠른 흡수속도를 체감할 수 있도록 했습니다.</p></div><div class="ds-note" data-part="9" data-frac="0.0"><p class="ds-no">02 / 07</p><h3>GIF를 활용한 흡수력 시각화</h3><p>제품의 흡수력을 직관적으로 보여주기 위해 gif를 활용하면 좋겠다는 판단하에 추가적인 영상 촬영을 요청하여 진행했습니다.</p><p>물을 부음과 동시에 빠르게 흡수되는 장면과 흡수 후 손으로 만져도 묻어나지 않는 장면을 촬영한 영상을 gif로 변환해 구성했습니다.</p></div><div class="ds-note" data-part="14" data-frac="0.0"><p class="ds-no">03 / 07</p><h3>AI 이미지 활용 / 제품 구조 시각화</h3><p>AI로 이미지를 생성해 제품의 3층 흡수구조를 시각화하여 매트의 층별 역할이 한눈에 이해되도록 구조도를 구성했습니다.</p></div><div class="ds-note" data-part="17" data-frac="0.0"><p class="ds-no">04 / 07</p><h3>사용 방식에 따른 정보 구분</h3><p>수컷 강아지의 마킹으로 인한 오염 방지가 핵심 기능이므로 수컷의 사용 예시를 먼저 제시한 다음 암컷 파트를 제시하여 성별에 관계없이 활용 가능한 제품임을 보여주었습니다.</p><h3>예시 리뷰를 활용한 공감 유도</h3><p>기능 설명과 함께 실제 고객 리뷰처럼 보이는 예시 문구를 배치하고 손글씨 느낌의 폰트를 사용해 친근함을 주면서, 동시에 제품 장점을 자연스럽게 인지하도록 유도했습니다.</p><div class="ds-note-pull"><img src="assets/img/work/sl/j3quote.jpg" alt="" loading="lazy"></div></div><div class="ds-note" data-part="19" data-frac="0.62"><p class="ds-no">05 / 07</p><h3>비교를 통한 구매의 이점 강조</h3><p>사용 전후 차이 비교를 통해 제품 구매 시에 체감할 수 있는 장점들을 설명해주었습니다.</p></div><div class="ds-note" data-part="20" data-frac="0.5"><p class="ds-no">06 / 07</p><h3>비교를 통한 구매의 이점 강조</h3><p>교체 횟수 감소로 인한 비용 절감 효과를 강조하기 위해서 그래프로 표현했습니다,</p><div class="ds-note-pull"><img src="assets/img/work/sl/j4graph.jpg" alt="" loading="lazy"></div></div><div class="ds-note" data-part="23" data-frac="0.0"><p class="ds-no">07 / 07</p><h3>가독성을 높인 파트 별 내용 그룹핑</h3><p>내용을 파트 별로 구분하고 표와 박스로 정리해줌으로써 구매에 필요한 정보를 쉽게 읽고 이해할 수 있도록 했습니다.</p></div><div class="ds-note ds-end" data-part="end" data-frac="0"><p class="ds-no">Done</p><h3>끝까지 보셨어요</h3><p class="ds-end-sub">이 상세페이지에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>제품명을 강조한 3초 흡수 연출</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>GIF를 활용한 흡수력 시각화</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>AI 이미지 활용 / 제품 구조 시각화</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>사용 방식에 따른 정보 구분</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>예시 리뷰를 활용한 공감 유도</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>비교를 통한 구매의 이점 강조</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>가독성을 높인 파트 별 내용 그룹핑</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></aside></section></div></template>
-            <div class="work-body">
-              <p class="work-tag"><span class="t-path">personal / commerce design</span><span class="hl">라우드소싱 우승작</span></p>
-              <h4>‘3초 흡수’를 눈으로 보여 줘 우승한 잘룸 흡수매트 상세페이지</h4>
-              <p class="work-meta">2025.08 · 7일 · Photoshop, GPT</p>
-              <p class="work-sum">3초 흡수력과 사용 편리성을 중심으로 정보를 단계적으로 구성한 상세페이지입니다. GIF로 흡수 장면을 보여 주고 이미지의 약 90%를 AI로 만들어, 라우드소싱에서 우승하고 외주로 1회 판매했습니다.</p>
-              <dl class="work-dl is-case">
-                <dt>과제</dt><dd>빠른 흡수력과 사용 편리성을, 처음 보는 보호자도 바로 이해하도록 전하는 것.</dd>
-                <dt>한 일</dt><dd>3초 카운트 모션과 흡수 장면 GIF(추가 촬영을 요청해 제작)로 제품명을 그대로 보여 주고, 3중 흡수 구조는 AI 이미지로 구조도를 만들었습니다. 이미지의 약 90%를 AI로 제작했습니다.</dd>
-                <dt>결과</dt><dd>라우드소싱 공모에서 우승했고, 외주로 1회 판매되었습니다.</dd>
-              </dl>
-              <ul class="work-metrics is-words is-case" aria-label="페이지 흐름">
-                <li><b>고민 제기</b><span>마킹·냄새·습진<br>보호자의 고민</span></li>
-                <li><b>기능 증명</b><span>3초 흡수 GIF<br>3중 흡수 구조도</span></li>
-                <li><b>구매 결정</b><span>전후 비교·비용 그래프<br>FAQ·사이즈 안내</span></li>
-              </ul>
-            </div>
-          </article>
-    </div>
 
     <div class="wk">
       <aside class="wk-side">
         <div class="wk-stick">
-          <p class="wk-k">More works</p>
+          <p class="wk-k">All works</p>
           <ol class="wk-cats">
             <li><a class="wk-cat" href="#wk-mkt" aria-current="true">Marketing<sup>04</sup></a>
               <ul class="wk-subs"><li><a class="wk-sub" href="#wk-mkt-addd">addd 작업물<span>03</span></a></li><li><a class="wk-sub" href="#wk-mkt-personal">개인 작업물<span>01</span></a></li></ul>
@@ -184,6 +243,51 @@
           <h3 class="sr-only">Marketing</h3>
           <div class="wk-sub-grp" id="wk-mkt-addd">
           <p class="wk-sublabel">addd 작업물</p>
+          <article class="u251-cd work is-feat" id="w-mail" data-group="addd-mkt" data-home="wk-mkt-addd">
+                  <div class="work-media">
+                    <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="광고 상품 메일, 개선부터 실제 판매까지 자세히 보기"><img src="assets/img/work/thumb-mail.jpg" alt="시티핑크 2+1 프로모션 안내 메일: 분홍 광고 트럭 비주얼과 할인 구성, 캠페인 추천 대상과 제안서 다운로드 버튼" width="1600" height="1200" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
+                  </div>
+                  <template class="work-pages"><div class="ed"><header class="ds-head ed-head"><p class="ds-k">Content Design &amp; Marketing</p><h2><span>광고 상품 프로모션</span> 메일 템플릿 디자인</h2><div class="ds-lead-txt"><p>줄글과 버튼 하나뿐이던 광고 상품 메일을 핵심 정보와 활용 사례가 먼저 보이도록 개선하고, HTML/CSS 템플릿으로 직접 만들어 잠재고객에게 발송했습니다. 들어온 문의에 직접 응대해 미팅과 실제 판매까지 이어 갔고, 판매된 시티핑크 트럭은 실제 아이돌 생일 광고로 게첨되어 기사로도 소개되었습니다.</p></div><dl class="ds-facts"><div><dt>Year</dt><dd>2025.11</dd></div><div><dt>Duration</dt><dd>작업기간 2일</dd></div><div><dt>Tools</dt><dd>포토샵. HTML</dd></div><div><dt>Note</dt><dd>Stibee</dd></div></dl></header><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/mail-p-before.jpg" alt="1/5: 기존 메일: 긴 줄글 본문과 제안서 보기 버튼 하나" loading="lazy" width="492" height="606"></figure></div></div><div class="ed-right"><p class="ed-no">01</p><h3>BEFORE</h3><div class="ed-body"><p>줄글 + 단일 버튼으로 구성되어 있어 중요한 내용이 한 눈에 잘 들어오지 않고, 발송자에 대한 정보가 누락되어 있었습니다.</p></div></div></section><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/mail-p-after-1.jpg" alt="2/5: 새 메일 상단: 2+1 프로모션 안내, 8주 계약 시 12주 송출, 구좌별 서비스와 33% 할인 효과, 운영 사진과 CTA 버튼" loading="lazy" width="611" height="1262"></figure><figure><img src="assets/img/work/mail-p-after-2.jpg" alt="3/5: 새 메일 하단: 추천 캠페인, 운영 노선·광고비 절감·AI 성과 데이터, 제안서 다운로드, 발송자 서명" loading="lazy" width="573" height="770"></figure></div></div><div class="ed-right"><p class="ed-no">02</p><h3>AFTER</h3><div class="ed-body"><p>핵심 정보를 우선적으로 재배치하고 서비스 구성을 시각화하고 활용 사례와 추천 대상을 제시하고 마지막에 CTA를 추가하는 흐름으로 메일을 구성했습니다.</p></div></div></section><section class="ed-sec ed-split ed-ev"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/mail-proof-app.jpg" alt="4/5: 팬 광고 플랫폼 애즈닷 앱에 등록된 시티핑크 트럭 상품 화면" loading="lazy" width="399" height="843"></figure><figure><img src="assets/img/work/mail-proof-news.jpg" alt="5/5: 시티핑크 트럭에 게재된 아이돌 생일 축하 광고 기사" loading="lazy" width="654" height="838"></figure></div></div><div class="ed-right"><p class="ed-no">03</p><p class="dv-doc-k">Evidence · 메일에서 실제 판매까지</p><h3>개선한 메일이 실제 판매로 이어졌습니다</h3><div class="ed-body"><p class="dv-doc-case">01 · 개선</p><h4>줄글 메일을 한눈에 이해되는 메일로</h4><p>보이지 않는 광고 구좌를 설명하던 메일은 줄글과 버튼 하나뿐이라 중요한 내용이 눈에 들어오지 않았고, 발송자 정보도 빠져 있었습니다. 할인 구성과 핵심 혜택을 가장 먼저 보여 주고, 활용 사례와 추천 캠페인, 제안서 다운로드와 문의 버튼을 차례로 배치해 읽는 순서대로 다음 행동이 이어지도록 다시 설계했습니다.</p><p class="dv-doc-case">02 · 메일링</p><h4>직접 만들고 직접 보낸 메일</h4><p>HTML/CSS 템플릿은 부족한 개발 지식을 Claude로 보완해 직접 만들었고, 스티비로 잠재고객에게 발송했습니다. 메일로 들어온 문의에는 직접 연락해 미팅과 응대를 맡았습니다.</p><p class="dv-doc-case">03 · 실제 판매</p><h4>판매, 그리고 실제 게첨까지</h4><p>문의는 실제 판매로 이어졌고, 판매 후 게첨 보고까지 마무리했습니다. 판매된 <strong>시티핑크 트럭 상품은 팬 광고 플랫폼에 등록되어</strong>, 팬들이 준비한 <strong>아이돌 생일 축하 광고로 실제 게첨</strong>되었고 기사로도 소개되었습니다.</p></div></div></section><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>핵심 정보를 우선 배치</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>서비스 구성 시각화</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>활용 사례와 추천 대상 제시</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>마지막에 CTA 추가</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>메일에서 실제 판매까지</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div></template>
+                  <div class="work-body">
+              <p class="work-tag"><span class="work-badge">Main</span><span class="t-path">addd / email · sales</span><span class="hl">실제 판매까지</span></p>
+              <h4>줄글 메일을 다시 설계해 실제 판매까지 이어 간 광고 상품 메일</h4>
+              <p class="work-meta">2025.11 · 템플릿 2일 · Photoshop, HTML/CSS, Stibee, Claude</p>
+              <p class="work-sum">줄글과 버튼 하나뿐이던 광고 상품 메일을 핵심 정보와 활용 사례가 먼저 보이도록 개선하고, HTML/CSS 템플릿으로 직접 만들어 잠재고객에게 발송했습니다. 들어온 문의에 직접 응대해 미팅과 실제 판매까지 이어 갔고, 판매된 시티핑크 트럭은 실제 아이돌 생일 광고로 게첨되어 기사로도 소개되었습니다.</p>
+              <dl class="work-dl is-case">
+                <dt>문제</dt><dd>줄글과 버튼 하나뿐이라 핵심 혜택이 눈에 들어오지 않았고, 보낸 사람 정보도 빠져 있었습니다.</dd>
+                <dt>한 일</dt><dd>할인 구성과 혜택을 맨 앞에, 활용 사례와 추천 대상을 그다음에, 제안서·문의 버튼을 마지막에 두어 읽는 순서대로 다음 행동이 이어지게 다시 설계했습니다. HTML/CSS 템플릿으로 직접 만들어 스티비로 잠재고객에게 보냈습니다.</dd>
+                <dt>결과</dt><dd>들어온 문의에 직접 응대해 미팅과 판매로 이어 갔습니다. 판매된 시티핑크 트럭은 아이돌 생일 광고로 게첨되어 기사로도 소개되었습니다.</dd>
+              </dl>
+              <ul class="work-metrics is-words" aria-label="맡은 범위">
+                <li><b>01 기획·디자인</b><span>혜택 우선 구성<br>발송자 정보 추가</span></li>
+                <li><b>02 제작·발송</b><span>HTML 템플릿 제작<br>Stibee 발송</span></li>
+                <li><b>03 응대·판매</b><span>문의·미팅·판매<br>게첨 보고까지</span></li>
+              </ul>
+            </div>
+          </article>
+          <article class="u251-cd work is-feat" id="w-blog" data-group="addd-mkt" data-home="wk-mkt-addd">
+                  <div class="work-media">
+                    <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="네이버 블로그 운영·콘텐츠 기획/디자인 자세히 보기"><img src="assets/img/work/thumb-blog.webp" alt="애드 네이버 블로그 화면: addd 로고 아래 메뉴 버튼과 시티핑크 광고 트럭 게시글 썸네일 목록" width="1448" height="1086" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
+                  </div>
+                  <template class="work-pages"><div class="ed"><header class="ds-head ed-head"><p class="ds-k">Content Design &amp; Marketing</p><h2><span>네이버 블로그 운영</span> 및 컨텐츠 기획/디자인</h2><div class="ds-lead-txt"><p>주요 키워드의 검색 상단 노출을 강화하고, 지속적인 콘텐츠 발행을 통해 블로그의 유입과 방문 트래픽을 확대했습니다. 이를 통해 서비스 문의까지 연결되는 성과를 만들었습니다.</p></div><dl class="ds-facts"><div><dt>Year</dt><dd>2025 ~ 2026</dd></div><div><dt>Duration</dt><dd>작업기간 평균 1일</dd></div><div><dt>Tools</dt><dd>포토샵, AI (Cloude)</dd></div></dl><dl class="ds-stats"><div><dt>월 순방문자</dt><dd><b>3.4<small>배</small></b><span>112명 → 380명</span></dd></div><div><dt>월 조회수</dt><dd><b>2.8<small>배</small></b><span>168회 → 473회</span></dd></div><div><dt>재방문율</dt><dd><b>+3<small>%p</small></b><span>4% → 7%</span></dd></div></dl></header><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/blog-p-main.jpg" alt="1/7: 블로그 메인 화면 리뉴얼 전후: 위 AFTER, 아래 BEFORE" loading="lazy" width="990" height="1322"></figure></div></div><div class="ed-right"><p class="ed-no">01</p><h3>블로그 메인 화면 리뉴얼</h3><div class="ed-body"><p>정돈되지 않았던 기존 화면을 메뉴와 콘텐츠 구조 중심으로 재구성해 주요 정보로 빠르게 이동할 수 있도록 사용자의 편의성을 개선하였습니다.</p></div></div></section><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/blog-p-cta-before.jpg" alt="2/7: 기존 게시물 하단 배너" loading="lazy" width="476" height="80"></figure><figure><img src="assets/img/work/blog-p-cta-after.jpg" alt="3/7: 새 게시물 하단 배너: addd 로고, 광고 문의 번호, 온라인 문의하기 버튼" loading="lazy" width="476" height="142"></figure></div></div><div class="ed-right"><p class="ed-no">02</p><h3>게시물 하단 CTA 배너 리뉴얼</h3><div class="ed-body"><p>정보가 많고 문의 버튼이 명확하지 않았던 기존의 배너를 간결하게 재구성했습니다. 핵심 연락처와 버튼의 주목도를 높여 문의를 유도했습니다.</p></div></div></section><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/blog-p-inquiry.jpg" alt="4/7: 석촌호수 방문객 27% 증가 게시물과 이 글을 보고 온 홈페이지 문의 메일" loading="lazy" width="1016" height="1252"></figure></div></div><div class="ed-right"><p class="ed-no">03</p><h3>콘텐츠를 통한 실제 문의 전환</h3><div class="ed-body"><p>주제 선정부터 콘텐츠 작성·디자인·발행까지 직접 진행하고, 블로그 게시물을 통해 실제 서비스 문의까지 이어지는 성과를 만들었습니다.</p></div></div></section><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/blog-p-search-1.jpg" alt="5/7: LED 광고 트럭·전광판 트럭광고 검색 결과에 노출된 ADDD 블로그 글" loading="lazy" width="541" height="968"></figure><figure><img src="assets/img/work/blog-p-search-2.jpg" alt="6/7: 광고 트럭 검색 결과 블로그 탭에 노출된 ADDD 글" loading="lazy" width="535" height="698"></figure></div></div><div class="ed-right"><p class="ed-no">04</p><h3>검색 데이터를 활용한 키워드 노출 강화</h3><div class="ed-body"><p>검색 데이터와 관련 키워드 발행량 등을 분석하여 키워드를 직접 선정하고, 사업과 연결되는 콘텐츠를 지속적으로 발행했습니다.</p><p>이를 통해 네이버 검색 결과에서 블로그 탭의 주요 키워드의 상단 노출을 강화했습니다.</p></div></div></section><section class="ed-sec ed-split ed-ev"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/blog-proof-search.jpg" alt="7/7: 아이돌 광고 트럭, 시위트럭 합법 검색 결과 상단에 노출된 ADDD 블로그 글" loading="lazy" width="797" height="639"></figure></div></div><div class="ed-right"><p class="ed-no">05</p><p class="dv-doc-k">Search · 키워드 상단 노출</p><h3>문의로 이어지는 키워드를 골라 상단에 노출했습니다</h3><div class="ed-body"><p class="dv-doc-case">01 · 아이돌 광고 트럭</p><h4>문의가 실제로 들어오는 검색어</h4><p>“아이돌 광고 트럭”이라는 말로 들어오는 문의가 많아, 이 검색어를 키워드로 정했습니다. 이 키워드로 블로그 글이 검색 상단에 노출됐고, 글을 보고 문의 전화가 온 사례도 있었습니다.</p><p class="dv-doc-case">02 · 시위트럭 합법</p><h4>상품의 셀링 포인트와 맞닿은 검색어</h4><p>시티핑크의 셀링 포인트는 “국내 유일 합법 광고트럭”입니다. 그래서 ‘합법’이 들어간 “시위트럭 합법”을 키워드로 정했고, 합법 광고트럭을 찾는 문의도 꾸준히 들어왔습니다.</p></div></div></section><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>블로그 메인 화면 리뉴얼</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>게시물 하단 CTA 배너 리뉴얼</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>콘텐츠를 통한 실제 문의 전환</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>검색 데이터를 활용한 키워드 노출 강화</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>문의로 이어지는 키워드 상단 노출</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div></template>
+                  <div class="work-body">
+              <p class="work-tag"><span class="work-badge">Main</span><span class="t-path">addd / naver blog</span><span class="hl">글을 보고 온 문의</span></p>
+              <h4>검색 상단 노출로 문의까지 이어진 회사 네이버 블로그</h4>
+              <p class="work-meta">2025 – 2026 · 건당 평균 1일 · Photoshop, Claude</p>
+              <p class="work-sum">콘텐츠는 좋았지만 디자인과 검색 노출 작업이 약했던 회사 블로그를 맡아, 스킨·썸네일·배너를 다시 디자인하고 글 종류를 유입·브랜딩·업계 트렌드로 나눠 운영했습니다. 주요 키워드 상위 노출과 네이버 메인 사명 검색 노출을 만들었고, 블로그를 통해 실제 문의가 들어왔습니다.</p>
+              <dl class="work-dl is-case">
+                <dt>문제</dt><dd>글의 내용은 좋았지만 디자인과 검색 노출 작업이 약했습니다.</dd>
+                <dt>한 일</dt><dd>“아이돌 광고 트럭”처럼 실제 문의에서 자주 나온 말과, ‘합법’이라는 셀링 포인트가 담긴 “시위트럭 합법”을 키워드로 골라 글을 발행했습니다. 스킨·썸네일·게시물 하단 문의 배너도 다시 디자인했습니다.</dd>
+                <dt>결과</dt><dd>주요 키워드 상단 노출과 네이버 메인 사명 검색 노출을 만들었고, 블로그 글을 보고 문의 메일과 전화가 들어왔습니다.</dd>
+              </dl>
+              <!-- TODO: 아래 세 수치의 비교 기간(예: 2025.○○ → 2026.○○)과 집계 기준(네이버 블로그 통계)을 확인해 적어 주세요 -->
+              <ul class="work-metrics">
+                <li><b>3.4배</b><span>월 순방문자<br>112명 → 380명</span></li>
+                <li><b>2.8배</b><span>월 조회수<br>168회 → 473회</span></li>
+                <li><b>+3%p</b><span>재방문율<br>4% → 7%</span></li>
+              </ul>
+            </div>
+          </article>
           <article class="u251-cd work" id="w-articles" data-group="addd-mkt" data-home="wk-mkt-addd">
                   <div class="work-media">
                     <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="홈페이지 블로그 아티클 기획·작성 자세히 보기"><img src="assets/img/work/thumb-articles.jpg?v=2" alt="addd 홈페이지 블로그 아티클 두 편의 첫 화면: 시티핑크 강남 소개 글과 LED 트럭 미디어아트 글" width="1600" height="1200" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
@@ -282,7 +386,8 @@
 <p>여기에 정차 상영이나 QR 콘텐츠, 여러 대의 트럭을 활용한 동시 송출을 더하면 단순한 영상 노출을 넘어 하나의 미디어아트 프로젝트로 발전시킬 수 있습니다.</p>
 <p>시티핑크를 활용한 미디어아트 프로젝트에 관심이 있다면 언제든지 애드 addd로 문의주세요. 감사합니다!</p>
 </article>
-</div></template>
+</div><div class="ed ed-tail"><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 작성한 아티클은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>국내유일 합법 광고트럭, 시티핑크 강남 (City Pink Gangnam)</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>LED 트럭으로 만나는 미디어아트, 이동형 전시의 새로운 방식은?</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div>
+</template>
                   <div class="work-body">
                 <p class="work-tag"><span class="t-path">addd / marketing</span></p>
                 <h4>광고주가 궁금해할 순서로 쓴 홈페이지 아티클</h4>
@@ -299,7 +404,7 @@
             <div class="work-media">
               <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="유튜브 채널 운영·콘텐츠 디자인 자세히 보기"><img src="assets/img/work/thumb-youtube.jpg" alt="addd 유튜브 숏폼과 영상 썸네일: 네이버 vs 카카오모빌리티 DOOH 전략, 시티핑크 서포트 트럭 퍼레이드, GAMFF 2026 부스 현장" width="1600" height="1200" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
             </div>
-            <template class="work-pages"><div class="ed"><header class="ds-head ed-head"><p class="ds-k">Content Design &amp; Marketing</p><h2><span>유튜브 채널 운영</span> 및 콘텐츠 디자인</h2><div class="ds-lead-txt"><p>DOOH·옥외광고 업계 이슈를 다룬 정보성 숏폼과 현장·운영 사례 롱폼을 기획·편집했습니다. 품목별 색으로 썸네일을 통일하고 숏폼을 네이버 클립·릴스·숏츠에 동시 업로드해, 게첨 영상 최고 2,600회 이상을 기록했습니다.</p></div><dl class="ds-facts"><div><dt>Year</dt><dd>2025 ~ 2026</dd></div><div><dt>Duration</dt><dd>평균 작업기간 1일</dd></div><div><dt>Tools</dt><dd>Premere Pro</dd></div></dl></header><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/yt-p-phone.jpg" alt="1/5: 휴대폰 화면 속 숏폼: 네이버 vs 카카오모빌리티 DOOH 전략 결정적 차이" loading="lazy" width="348" height="710"></figure><figure><img src="assets/img/work/yt-p-shorts-a.jpg" alt="2/5: 숏폼 썸네일 1~4: 초대형 전광판, 신문사의 새로운 수익, 네이버 vs 카카오모빌리티, 강남 신논현 광고" loading="lazy" width="902" height="386"></figure><figure><img src="assets/img/work/yt-p-shorts-b.jpg" alt="3/5: 숏폼 썸네일 5~8: 신개념 옥외광고, 버스 종합 광고매체, 뮤지컬 빌리엘리어트 트럭 광고, 국내 트럭광고 베스트 4" loading="lazy" width="902" height="386"></figure></div></div><div class="ed-right"><p class="ed-no">01</p><h3>Short-form Content</h3><div class="ed-body"><p>DOOH·옥외광고·모빌리티 등 업계 이슈를 전달하는 정보성 릴스를 중심으로 운영하되 시티핑크 트럭 상품과 실제 운행 사례를 담은 콘텐츠를 정기적으로 발행하는 방식으로 유입 시청자들을 대상으로 홍보 효과를 발생시켰습니다.</p><p class="ds-rule"><b>썸네일 규칙</b>검은 배경 위 두 줄 제목(흰색 + 주황 강조), 가운데 사진, 아래 한 줄 설명. 같은 틀을 반복해 채널 화면에서 시리즈로 보이게 했습니다.</p></div></div></section><section class="ed-sec ed-split"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">02</p><h3>숏폼 9편, 편당 조회수 1천~1.5천 회</h3><div class="ed-body"><p>슬라이드에 실은 숏폼 9편의 조회수입니다. 채널 구독자는 60명이지만, 숏폼은 구독자가 아닌 시청자에게도 노출되어 편마다 1천 회 이상 재생됐습니다.</p><table class="ds-table"><thead><tr><th>숏폼 제목</th><th>조회수</th></tr></thead><tbody><tr><td>대형 전광판 광고가 길에서 많이 보이는 이유, 바로 ‘이 제도’ 때문입니다!</td><td>1천회</td></tr><tr><td>뉴스도 신문도 아닌 신문사들의 새로운 수익</td><td>1.2천회</td></tr><tr><td>네이버와 카카오모빌리티 DOOH 전략 결정적 차이는 이겁니다!</td><td>1.4천회</td></tr><tr><td>강남 신논현 갔더니 광고 이렇게 하네요?</td><td>1.4천회</td></tr><tr><td>요즘 옥외광고는 티키타카한다!</td><td>1.3천회</td></tr><tr><td>서울 버스는 달리는 광고판이다?! 버스 광고 종류 및 특징 요약</td><td>1.5천회</td></tr><tr><td>뮤지컬 빌리엘리어트 신박한 트럭 광고? 시티핑크 강남</td><td>1천회</td></tr><tr><td>ㄹㅇ 시강인 국내 트럭광고 베스트 4</td><td>1.3천회</td></tr><tr><td>추운날에 나베광고했더니 이렇게됨..;</td><td>1.3천회</td></tr></tbody></table><p class="ds-src">출처: YouTube <a href="https://www.youtube.com/@addd.official/shorts" target="_blank" rel="noopener">@addd.official</a> Shorts 탭 · 2026.11.12 기준</p></div></div></section><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/yt-p-gamff.jpg" alt="4/5: 롱폼 썸네일: GAMFF 2026 애드(addd) 부스 현장은?" loading="lazy" width="725" height="424"></figure><figure><img src="assets/img/work/yt-p-long.jpg" alt="5/5: 롱폼 썸네일: 몬스타엑스 셔누 생일트럭, &amp;TEAM 의주 생일트럭 시티핑크 in 강남" loading="lazy" width="967" height="274"></figure></div></div><div class="ed-right"><p class="ed-no">03</p><h3>Long-form Content</h3><div class="ed-body"><p>실제 게첨·운영 사례, 전시회 및 현장 활동을 중심으로 회사의 사업과 브랜드 경험을 전달하는 콘텐츠를 지속적으로 축적하여 브랜드 신뢰도와 전문성을 강화했습니다.</p><p class="ds-rule"><b>썸네일 규칙</b>시티핑크 운행 사례는 핑크 테두리와 CITY PINK 태그, 두 줄 제목으로 통일해 사례가 쌓일수록 하나의 목록처럼 보이게 했습니다.</p></div></div></section><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>Short-form Content</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>숏폼 9편, 편당 조회수 1천~1.5천 회</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>Long-form Content</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div></template>
+            <template class="work-pages"><div class="ed"><header class="ds-head ed-head"><p class="ds-k">Content Design &amp; Marketing</p><h2><span>유튜브 채널 운영</span> 및 콘텐츠 디자인</h2><div class="ds-lead-txt"><p>DOOH·옥외광고 업계 이슈를 다룬 정보성 숏폼과 현장·운영 사례 롱폼을 기획·편집했습니다. 품목별 색으로 썸네일을 통일하고 숏폼을 네이버 클립·릴스·숏츠에 동시 업로드해, 게첨 영상 최고 2,600회 이상을 기록했습니다.</p></div><dl class="ds-facts"><div><dt>Year</dt><dd>2025 ~ 2026</dd></div><div><dt>Duration</dt><dd>평균 작업기간 1일</dd></div><div><dt>Tools</dt><dd>Premere Pro</dd></div></dl></header><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/yt-p-phone.jpg" alt="1/5: 휴대폰 화면 속 숏폼: 네이버 vs 카카오모빌리티 DOOH 전략 결정적 차이" loading="lazy" width="348" height="710"></figure><figure><img src="assets/img/work/yt-p-shorts-a.jpg" alt="2/5: 숏폼 썸네일 1~4: 초대형 전광판, 신문사의 새로운 수익, 네이버 vs 카카오모빌리티, 강남 신논현 광고" loading="lazy" width="902" height="386"></figure><figure><img src="assets/img/work/yt-p-shorts-b.jpg" alt="3/5: 숏폼 썸네일 5~8: 신개념 옥외광고, 버스 종합 광고매체, 뮤지컬 빌리엘리어트 트럭 광고, 국내 트럭광고 베스트 4" loading="lazy" width="902" height="386"></figure></div></div><div class="ed-right"><p class="ed-no">01</p><h3>Short-form Content</h3><div class="ed-body"><p>DOOH·옥외광고·모빌리티 등 업계 이슈를 전달하는 정보성 릴스를 중심으로 운영하되 시티핑크 트럭 상품과 실제 운행 사례를 담은 콘텐츠를 정기적으로 발행하는 방식으로 유입 시청자들을 대상으로 홍보 효과를 발생시켰습니다.</p><p class="ds-rule"><b>썸네일 규칙</b>검은 배경 위 두 줄 제목(흰색 + 주황 강조), 가운데 사진, 아래 한 줄 설명. 같은 틀을 반복해 채널 화면에서 시리즈로 보이게 했습니다.</p></div></div></section><section class="ed-sec ed-split"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">02</p><h3>숏폼 9편, 편당 조회수 1천~1.5천 회</h3><div class="ed-body"><p>슬라이드에 실은 숏폼 9편의 조회수입니다. 채널 구독자는 60명이지만, 숏폼은 구독자가 아닌 시청자에게도 노출되어 편마다 1천 회 이상 재생됐습니다.</p><table class="ds-table"><thead><tr><th>숏폼 제목</th><th>조회수</th></tr></thead><tbody><tr><td>대형 전광판 광고가 길에서 많이 보이는 이유, 바로 ‘이 제도’ 때문입니다!</td><td>1천회</td></tr><tr><td>뉴스도 신문도 아닌 신문사들의 새로운 수익</td><td>1.2천회</td></tr><tr><td>네이버와 카카오모빌리티 DOOH 전략 결정적 차이는 이겁니다!</td><td>1.4천회</td></tr><tr><td>강남 신논현 갔더니 광고 이렇게 하네요?</td><td>1.4천회</td></tr><tr><td>요즘 옥외광고는 티키타카한다!</td><td>1.3천회</td></tr><tr><td>서울 버스는 달리는 광고판이다?! 버스 광고 종류 및 특징 요약</td><td>1.5천회</td></tr><tr><td>뮤지컬 빌리엘리어트 신박한 트럭 광고? 시티핑크 강남</td><td>1천회</td></tr><tr><td>ㄹㅇ 시강인 국내 트럭광고 베스트 4</td><td>1.3천회</td></tr><tr><td>추운날에 나베광고했더니 이렇게됨..;</td><td>1.3천회</td></tr></tbody></table><p class="ds-src">출처: YouTube <a href="https://www.youtube.com/@addd.official/shorts" target="_blank" rel="noopener">@addd.official</a> Shorts 탭 · 2026.11.12 기준</p></div></div></section><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/yt-p-gamff.jpg" alt="4/5: 롱폼 썸네일: GAMFF 2026 애드(addd) 부스 현장은?" loading="lazy" width="725" height="424"></figure><figure><img src="assets/img/work/yt-p-long.jpg" alt="5/5: 롱폼 썸네일: 몬스타엑스 셔누 생일트럭, &amp;TEAM 의주 생일트럭 시티핑크 in 강남" loading="lazy" width="967" height="274"></figure></div></div><div class="ed-right"><p class="ed-no">03</p><h3>Long-form Content</h3><div class="ed-body"><p>실제 게첨·운영 사례, 전시회 및 현장 활동을 중심으로 회사의 사업과 브랜드 경험을 전달하는 콘텐츠를 지속적으로 축적하여 브랜드 신뢰도와 전문성을 강화했습니다.</p><p class="ds-rule"><b>썸네일 규칙</b>시티핑크 운행 사례는 핑크 테두리와 CITY PINK 태그, 두 줄 제목으로 통일해 사례가 쌓일수록 하나의 목록처럼 보이게 했습니다.</p></div></div></section><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>숏폼 콘텐츠</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>숏폼 9편, 편당 조회수 1천~1.5천 회</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>롱폼 콘텐츠</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div></template>
             <div class="work-body">
           <p class="work-tag"><span class="t-path">addd / marketing</span></p>
           <h4>업계 이슈 숏폼과 현장 롱폼으로 운영한 유튜브 채널</h4>
@@ -321,7 +426,7 @@
             <div class="work-media">
               <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="인스타그램 채널 운영·콘텐츠 기획/디자인 자세히 보기"><img src="assets/img/work/thumb-instagram.jpg" alt="addd 인스타그램 피드와 카드뉴스: 전광판 광고 진짜 몇 명이 봤을까, 오프라인 광고 효과와 애드아이 활용 사례" width="1600" height="1200" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
             </div>
-            <template class="work-pages"><div class="ed"><header class="ds-head ed-head"><p class="ds-k">Content Design &amp; Marketing</p><h2><span>인스타 그램 채널 운영</span> 콘텐츠 기획/디자인</h2><div class="ds-lead-txt"><p>업계 이슈와 소식을 다루는 정보성 콘텐츠부터 사업 성과, 솔루션 활용 사례, 광고 트럭 운영 사례 등 회사의 소식을 카드형 콘텐츠로 기획 및 디자인하여 운영했습니다.</p></div><dl class="ds-facts"><div><dt>Year</dt><dd>2025 ~ 2026</dd></div><div><dt>Duration</dt><dd>작업기간 평균 1일</dd></div><div><dt>Tools</dt><dd>Photoshop</dd></div></dl></header><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media ed-grid4"><figure><img src="assets/img/work/insta/251103.jpg" alt="1/8: 카드뉴스: 2025 크리스마스 팝업 행사, 뮤지컬 원더랜드" loading="lazy" width="1080" height="1350"></figure><figure><img src="assets/img/work/insta/251031.jpg" alt="2/8: 카드뉴스: 2025 크리스마스 팝업 행사, 더 현대 크리스마스" loading="lazy" width="1080" height="1350"></figure><figure><img src="assets/img/work/insta/251023.jpg" alt="3/8: 카드뉴스: 애드, 미국 진출 본격화하나 AI·디지털 비즈니스 파트너십에 선정" loading="lazy" width="1080" height="1350"></figure><figure><img src="assets/img/work/insta/250613.jpg" alt="4/8: 카드뉴스: Viva Technology 2025" loading="lazy" width="1080" height="1350"></figure><figure><img src="assets/img/work/insta/250604.jpg" alt="5/8: 카드뉴스: 이동형 광고의 새로운 기준, 달고 T" loading="lazy" width="1080" height="1350"></figure><figure><img src="assets/img/work/insta/250507.jpg" alt="6/8: 카드뉴스: 세상엔 눈에 보여도 기억되지 않는 것이 많습니다" loading="lazy" width="1080" height="1350"></figure><figure><img src="assets/img/work/insta/250411.jpg" alt="7/8: 카드뉴스: 전광판 광고, 진짜 몇 명이 봤을까?" loading="lazy" width="1080" height="1350"></figure><figure><img src="assets/img/work/insta/250325.jpg" alt="8/8: 카드뉴스: 성공적인 팝업 운영을 위한 필수 솔루션, 스페이스 아이" loading="lazy" width="1080" height="1350"></figure></div></div><div class="ed-right"><p class="ed-no">01</p><h3>카드 규칙</h3><div class="ed-body"><p>위쪽 두 줄 제목(흰색 + 노랑·주황 강조), 가운데 사진, 아래 설명 문단, 오른쪽 아래 addd 로고. 주제가 달라도 같은 틀로 만들어 피드에서 한 채널로 보이게 했습니다.</p></div></div></section><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>카드 규칙</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div></template>
+            <template class="work-pages"><div class="ed"><header class="ds-head ed-head"><p class="ds-k">Content Design &amp; Marketing</p><h2><span>인스타 그램 채널 운영</span> 콘텐츠 기획/디자인</h2><div class="ds-lead-txt"><p>업계 이슈와 소식을 다루는 정보성 콘텐츠부터 사업 성과, 솔루션 활용 사례, 광고 트럭 운영 사례 등 회사의 소식을 카드형 콘텐츠로 기획 및 디자인하여 운영했습니다.</p></div><dl class="ds-facts"><div><dt>Year</dt><dd>2025 ~ 2026</dd></div><div><dt>Duration</dt><dd>작업기간 평균 1일</dd></div><div><dt>Tools</dt><dd>Photoshop</dd></div></dl></header><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media ed-grid4"><figure><img src="assets/img/work/insta/251103.jpg" alt="1/8: 카드뉴스: 2025 크리스마스 팝업 행사, 뮤지컬 원더랜드" loading="lazy" width="1080" height="1350"></figure><figure><img src="assets/img/work/insta/251031.jpg" alt="2/8: 카드뉴스: 2025 크리스마스 팝업 행사, 더 현대 크리스마스" loading="lazy" width="1080" height="1350"></figure><figure><img src="assets/img/work/insta/251023.jpg" alt="3/8: 카드뉴스: 애드, 미국 진출 본격화하나 AI·디지털 비즈니스 파트너십에 선정" loading="lazy" width="1080" height="1350"></figure><figure><img src="assets/img/work/insta/250613.jpg" alt="4/8: 카드뉴스: Viva Technology 2025" loading="lazy" width="1080" height="1350"></figure><figure><img src="assets/img/work/insta/250604.jpg" alt="5/8: 카드뉴스: 이동형 광고의 새로운 기준, 달고 T" loading="lazy" width="1080" height="1350"></figure><figure><img src="assets/img/work/insta/250507.jpg" alt="6/8: 카드뉴스: 세상엔 눈에 보여도 기억되지 않는 것이 많습니다" loading="lazy" width="1080" height="1350"></figure><figure><img src="assets/img/work/insta/250411.jpg" alt="7/8: 카드뉴스: 전광판 광고, 진짜 몇 명이 봤을까?" loading="lazy" width="1080" height="1350"></figure><figure><img src="assets/img/work/insta/250325.jpg" alt="8/8: 카드뉴스: 성공적인 팝업 운영을 위한 필수 솔루션, 스페이스 아이" loading="lazy" width="1080" height="1350"></figure></div></div><div class="ed-right"><p class="ed-no">01</p><h3>카드 규칙</h3><div class="ed-body"><p>위쪽 두 줄 제목(흰색 + 노랑·주황 강조), 가운데 사진, 아래 설명 문단, 오른쪽 아래 addd 로고. 주제가 달라도 같은 틀로 만들어 피드에서 한 채널로 보이게 했습니다.</p></div></div></section><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>업계 이슈와 소식을 다루는 정보성 콘텐츠</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>사업 성과·솔루션 활용 사례·광고 트럭 운영 사례 소개</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>같은 카드 규칙으로 피드를 한 채널처럼 구성</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div></template>
             <div class="work-body">
           <p class="work-tag"><span class="t-path">addd / marketing</span></p>
           <h4>하나의 카드 규칙으로 운영한 인스타그램 카드뉴스</h4>
@@ -345,7 +450,8 @@
             <div class="work-media">
               <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="광고 트럭 게첨 이미지 촬영 기획 자세히 보기"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
             </div>
-            <template class="work-pages"><img src="assets/img/work/shoot-1.jpg?v=2" alt="광고 트럭 게첨 사진 촬영 장소 가안 지도" loading="lazy" width="2560" height="1440"><img src="assets/img/work/shoot-2.jpg?v=2" alt="기존 근접 촬영과 여러 대의 트럭이 함께 보이도록 기획한 촬영 결과 비교" loading="lazy" width="2560" height="1440"></template>
+            <template class="work-pages"><img src="assets/img/work/shoot-1.jpg?v=2" alt="광고 트럭 게첨 사진 촬영 장소 가안 지도" loading="lazy" width="2560" height="1440"><img src="assets/img/work/shoot-2.jpg?v=2" alt="기존 근접 촬영과 여러 대의 트럭이 함께 보이도록 기획한 촬영 결과 비교" loading="lazy" width="2560" height="1440"><div class="ed ed-tail"><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div>
+</template>
             <div class="work-body">
           <p class="work-tag"><span class="t-path">addd / marketing</span></p>
           <h4>광고 트럭 게첨 이미지 촬영 기획</h4>
@@ -386,7 +492,8 @@
             <div class="work-media">
               <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="회사소개서 디자인 자세히 보기"><img src="assets/img/work/thumb-deck.jpg" alt="addd 회사소개서 페이지들: 표지 핵심 수치, 연혁, 회사 개요, 글로벌 확장 지도" width="1600" height="1200" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
             </div>
-            <template class="work-pages"><img src="assets/img/work/deck-1.jpg?v=2" alt="애드 회사소개서 페이지 구성: 핵심 기술, 사업 구조, 주요 성과, 글로벌 확장" loading="lazy" width="2560" height="1440"><img src="assets/img/work/deck-slide-4.jpg" alt="회사소개서: 기술력과 성과 — 공인 인증·시험 성적서, 수상 내역, 지식재산권" loading="lazy" width="2526" height="1785"><img src="assets/img/work/deck-slide-5.jpg" alt="회사소개서: From Korea to Global Ad-Tech Platform — 미국·베트남·일본 사례" loading="lazy" width="2526" height="1785"><img src="assets/img/work/deck-slide-7.jpg" alt="회사소개서: DATA Business — Connected Infrastructure에서 Physical Data Economy로" loading="lazy" width="2526" height="1785"></template>
+            <template class="work-pages"><img src="assets/img/work/deck-1.jpg?v=2" alt="애드 회사소개서 페이지 구성: 핵심 기술, 사업 구조, 주요 성과, 글로벌 확장" loading="lazy" width="2560" height="1440"><img src="assets/img/work/deck-slide-4.jpg" alt="회사소개서: 기술력과 성과 — 공인 인증·시험 성적서, 수상 내역, 지식재산권" loading="lazy" width="2526" height="1785"><img src="assets/img/work/deck-slide-5.jpg" alt="회사소개서: From Korea to Global Ad-Tech Platform — 미국·베트남·일본 사례" loading="lazy" width="2526" height="1785"><img src="assets/img/work/deck-slide-7.jpg" alt="회사소개서: DATA Business — Connected Infrastructure에서 Physical Data Economy로" loading="lazy" width="2526" height="1785"><div class="ed ed-tail"><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div>
+</template>
             <div class="work-body">
           <p class="work-tag"><span class="t-path">addd / design</span></p>
           <h4>기술·사업·성과를 하나의 흐름으로 재구성한 회사소개서</h4>
@@ -408,7 +515,7 @@
             <div class="work-media">
               <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="솔루션 플라이어 디자인 자세히 보기"><img src="assets/img/work/thumb-flyer.jpg" alt="addd SPACE-I 솔루션 플라이어 앞뒷면: 공간 데이터 대시보드, 행동 유형 분석, 설치 방식 안내" width="1600" height="1200" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
             </div>
-            <template class="work-pages"><div class="ed"><header class="ds-head ed-head"><p class="ds-k">Editorial Design</p><h2><span>솔루션 플라이어</span> 디자인</h2><dl class="ds-facts"><div><dt>Year</dt><dd>2025.11</dd></div><div><dt>Duration</dt><dd>작업기간 3일</dd></div><div><dt>Tools</dt><dd>Illustrator, GPT</dd></div></dl></header><section class="ed-sec ed-split ed-lead"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/flyer/page-1.jpg" alt="1/4: 플라이어 앞면: addd의 SPACE-I 소개, 역할, 실측 공간 데이터 대시보드, 공간 이용 인사이트" loading="lazy" width="790" height="1110"></figure><figure><img src="assets/img/work/flyer/page-2.jpg" alt="2/4: 플라이어 뒷면: 행동유형·페르소나 분석, 공공 안전 분석, 설치 방식, 개인정보 처리, 활용 분야, 문의처" loading="lazy" width="790" height="1110"></figure></div></div><div class="ed-right"><p class="ed-no">Overview</p><h3>솔루션 플라이어 디자인</h3><div class="ed-body"><p>B2B를 대상으로 솔루션을 소개하는 목적으로 제작했습니다. 처음 접한 사람도 SPACE-I 솔루션을 한눈에 이해할 수 있도록 핵심 기능과 설명을 다이어그램·이미지로 시각화하고 활용의 흐름에 맞게 구성하여 정보 가독성을 높였습니다.</p></div></div></section><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/flyer/ai-camera.jpg" alt="3/4: AI로 생성한 카메라 디바이스 이미지" loading="lazy" width="484" height="240"></figure><figure><img src="assets/img/work/flyer/ai-space.jpg" alt="4/4: AI로 생성한 공간 동선 분석 이미지" loading="lazy" width="470" height="322"></figure></div></div><div class="ed-right"><p class="ed-no">01</p><h3>AI 생성 이미지 확대</h3><div class="ed-body"></div></div></section><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>AI 생성 이미지 확대</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div></template>
+            <template class="work-pages"><div class="ed"><header class="ds-head ed-head"><p class="ds-k">Editorial Design</p><h2><span>솔루션 플라이어</span> 디자인</h2><dl class="ds-facts"><div><dt>Year</dt><dd>2025.11</dd></div><div><dt>Duration</dt><dd>작업기간 3일</dd></div><div><dt>Tools</dt><dd>Illustrator, GPT</dd></div></dl></header><section class="ed-sec ed-split ed-lead"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/flyer/page-1.jpg" alt="1/4: 플라이어 앞면: addd의 SPACE-I 소개, 역할, 실측 공간 데이터 대시보드, 공간 이용 인사이트" loading="lazy" width="790" height="1110"></figure><figure><img src="assets/img/work/flyer/page-2.jpg" alt="2/4: 플라이어 뒷면: 행동유형·페르소나 분석, 공공 안전 분석, 설치 방식, 개인정보 처리, 활용 분야, 문의처" loading="lazy" width="790" height="1110"></figure></div></div><div class="ed-right"><p class="ed-no">Overview</p><h3>솔루션 플라이어 디자인</h3><div class="ed-body"><p>B2B를 대상으로 솔루션을 소개하는 목적으로 제작했습니다. 처음 접한 사람도 SPACE-I 솔루션을 한눈에 이해할 수 있도록 핵심 기능과 설명을 다이어그램·이미지로 시각화하고 활용의 흐름에 맞게 구성하여 정보 가독성을 높였습니다.</p></div></div></section><section class="ed-sec ed-split"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/flyer/ai-camera.jpg" alt="3/4: AI로 생성한 카메라 디바이스 이미지" loading="lazy" width="484" height="240"></figure><figure><img src="assets/img/work/flyer/ai-space.jpg" alt="4/4: AI로 생성한 공간 동선 분석 이미지" loading="lazy" width="470" height="322"></figure></div></div><div class="ed-right"><p class="ed-no">01</p><h3>AI 생성 이미지 확대</h3><div class="ed-body"></div></div></section><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>핵심 기능과 설명을 다이어그램·이미지로 시각화</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>활용의 흐름에 맞춘 구성</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>AI 생성 이미지 활용</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div></template>
             <div class="work-body">
           <p class="work-tag"><span class="t-path">addd / design</span></p>
           <h4>처음 보는 B2B 고객도 한눈에 이해하는 솔루션 플라이어</h4>
@@ -420,7 +527,7 @@
             <div class="work-media">
               <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="서울버스 TV 1년 운영기록 인포그래픽 자세히 보기"><img src="assets/img/work/thumb-bustv.webp" alt="서울버스 TV 인포그래픽 상단: 365일 쉬지 않고 달린 1년간의 운행기록 제목과 운영 현황 수치 카드" width="1600" height="1200" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
             </div>
-            <template class="work-pages"><div class="ed"><header class="ds-head ed-head"><p class="ds-k">Editorial Design</p><h2><span>서울버스 TV 1년 운영기록</span> 인포그래픽</h2><dl class="ds-facts"><div><dt>Year</dt><dd>2026.09</dd></div><div><dt>Type</dt><dd>인포그래픽</dd></div></dl></header><section class="ed-sec ed-split ed-lead"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/bustv/info.jpg" alt="1/1: 서울버스 TV 1년 운영기록 인포그래픽: 운영 현황, 운영 성과, 광고 성과, 시청자 인사이트, 어워드" loading="lazy" width="1200" height="4011"></figure></div></div><div class="ed-right"><p class="ed-no">Overview</p><h3>서울버스 TV 1년 운영기록 인포그래픽</h3><div class="ed-body"><p>서울버스 TV의 1년 운영 데이터를 운영 현황·운영 성과·광고 성과·시청자 인사이트·어워드 다섯 파트로 정리한 인포그래픽입니다. 수치는 카드로, 순위는 TOP3 목록으로 나눠 숫자가 많아도 한눈에 읽히도록 구성했습니다.</p></div></div></section><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div></template>
+            <template class="work-pages"><div class="ed"><header class="ds-head ed-head"><p class="ds-k">Editorial Design</p><h2><span>서울버스 TV 1년 운영기록</span> 인포그래픽</h2><dl class="ds-facts"><div><dt>Year</dt><dd>2026.09</dd></div><div><dt>Type</dt><dd>인포그래픽</dd></div></dl></header><section class="ed-sec ed-split ed-lead"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/bustv/info.jpg" alt="1/1: 서울버스 TV 1년 운영기록 인포그래픽: 운영 현황, 운영 성과, 광고 성과, 시청자 인사이트, 어워드" loading="lazy" width="1200" height="4011"></figure></div></div><div class="ed-right"><p class="ed-no">Overview</p><h3>서울버스 TV 1년 운영기록 인포그래픽</h3><div class="ed-body"><p>서울버스 TV의 1년 운영 데이터를 운영 현황·운영 성과·광고 성과·시청자 인사이트·어워드 다섯 파트로 정리한 인포그래픽입니다. 수치는 카드로, 순위는 TOP3 목록으로 나눠 숫자가 많아도 한눈에 읽히도록 구성했습니다.</p></div></div></section><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>운영 현황·운영 성과·광고 성과·시청자 인사이트·어워드 다섯 파트 구성</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>수치는 카드로, 순위는 TOP3 목록으로 정리</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div></template>
             <div class="work-body">
           <p class="work-tag"><span class="t-path">addd / design</span></p>
           <h4>1년 치 운영 데이터를 다섯 파트로 정리한 서울버스 TV 인포그래픽</h4>
@@ -432,7 +539,7 @@
             <div class="work-media">
               <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="CES 2026 addd 부스 데이터 리포트 자세히 보기"><img src="assets/img/work/thumb-ces.webp" alt="CES 2026 addd 부스 데이터 리포트 표지와 성별·연령 분석, 시간대별 유동인구 차트" width="1600" height="1200" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
             </div>
-            <template class="work-pages"><div class="ed"><header class="ds-head ed-head"><p class="ds-k">Editorial Design</p><h2><span>CES 2026 addd 부스</span> 데이터 리포트</h2><dl class="ds-facts"><div><dt>Year</dt><dd>2026</dd></div><div><dt>Type</dt><dd>데이터 리포트</dd></div></dl></header><section class="ed-sec ed-split ed-lead"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/ces-1.webp" alt="1/2: 리포트 1쪽: CES 2026 소개, addd 부스와 addd-i 설치, 현장 분석 화면" loading="lazy" width="1413" height="2000"></figure><figure><img src="assets/img/work/ces-2.webp" alt="2/2: 리포트 2쪽: 유동·시청·주목 인구, 성별·연령, 유입 퍼널" loading="lazy" width="1413" height="2000"></figure></div></div><div class="ed-right"><p class="ed-no">Overview</p><h3>CES 2026 addd 부스 데이터 리포트</h3><div class="ed-body"><p>CES 2026 addd 부스 방문객을 addd-i로 측정한 데이터와 CES가 발표한 행사 데이터를 종합해 리포트를 구성하고 작성했습니다. 유동·시청·주목 인구와 성별·연령, 유입 퍼널을 차트와 요약 카드로 정리해 두 장 안에서 성과가 한눈에 읽히도록 했습니다.</p></div></div></section><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div></template>
+            <template class="work-pages"><div class="ed"><header class="ds-head ed-head"><p class="ds-k">Editorial Design</p><h2><span>CES 2026 addd 부스</span> 데이터 리포트</h2><dl class="ds-facts"><div><dt>Year</dt><dd>2026</dd></div><div><dt>Type</dt><dd>데이터 리포트</dd></div></dl></header><section class="ed-sec ed-split ed-lead"><div class="ed-left"><div class="ed-media"><figure><img src="assets/img/work/ces-1.webp" alt="1/2: 리포트 1쪽: CES 2026 소개, addd 부스와 addd-i 설치, 현장 분석 화면" loading="lazy" width="1413" height="2000"></figure><figure><img src="assets/img/work/ces-2.webp" alt="2/2: 리포트 2쪽: 유동·시청·주목 인구, 성별·연령, 유입 퍼널" loading="lazy" width="1413" height="2000"></figure></div></div><div class="ed-right"><p class="ed-no">Overview</p><h3>CES 2026 addd 부스 데이터 리포트</h3><div class="ed-body"><p>CES 2026 addd 부스 방문객을 addd-i로 측정한 데이터와 CES가 발표한 행사 데이터를 종합해 리포트를 구성하고 작성했습니다. 유동·시청·주목 인구와 성별·연령, 유입 퍼널을 차트와 요약 카드로 정리해 두 장 안에서 성과가 한눈에 읽히도록 했습니다.</p></div></div></section><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>addd-i 측정 데이터와 CES 발표 데이터 종합</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>유동·시청·주목 인구, 성별·연령, 유입 퍼널을 차트와 요약 카드로 정리</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>두 장 안에서 성과가 한눈에 읽히도록 구성</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div></template>
             <div class="work-body">
           <p class="work-tag"><span class="t-path">addd / design</span></p>
           <h4>부스 방문객 측정 데이터를 두 장에 담은 CES 2026 리포트</h4>
@@ -458,6 +565,28 @@
           </div>
           <div class="wk-sub-grp" id="wk-dsn-personal">
           <p class="wk-sublabel">개인 작업물</p>
+          <article class="u251-cd work is-feat" id="w-jalum" data-group="personal-dsn" data-home="wk-dsn-personal">
+            <div class="work-media">
+              <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="잘룸 3초 흡수매트 상세페이지 자세히 보기"><img src="assets/img/work/thumb-jalum.jpg" alt="잘룸 3초 흡수매트 상세페이지 세 구간: 도입부, 3중 흡수 구조, 사용 비교" width="1600" height="1200" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
+            </div>
+            <template class="work-pages"><div class="ds ds-v2"><header class="ds-head"><p class="ds-k">Commerce Design</p><h2><span>잘룸 3초 흡수매트</span> 상세페이지 디자인</h2><div class="ds-lead-txt"><p>제품의 핵심인 3초 흡수력과 사용의 편리성을 중심으로 정보를 단계적으로 구성하여 장점을 쉽게 이해할 수 있도록 했습니다.</p><p>AI 생성 이미지, gif 이미지 등을 활용해 기능과 사용 장면을 직관적으로 전달하고자 했습니다.</p></div><dl class="ds-facts"><div><dt>Year</dt><dd>2025.08</dd></div><div><dt>Duration</dt><dd>작업기간 7일</dd></div><div><dt>Tools</dt><dd>포토샵, GPT</dd></div><div><dt>Award</dt><dd>라우드소싱 우승작</dd></div></dl></header><section class="ds-story"><div class="ds-page"><div class="ds-part" data-part="1"><img src="assets/img/work/jalum/d01.webp" alt="상세페이지 1/26: 수컷 강아지 벽마킹, 곰팡이와 냄새까지 해결책이 없을까요? 문제 제기" loading="lazy" width="860" height="1124"></div><div class="ds-part" data-part="2"><video src="assets/img/work/jalum/d02.mp4" width="860" height="788" autoplay muted loop playsinline preload="metadata" aria-label="상세페이지 2/26: 벽에 튄 소변 자국, 발바닥 소변 발자국 같은 보호자 고민 말풍선"></video></div><div class="ds-part" data-part="3"><img src="assets/img/work/jalum/d03.webp" alt="상세페이지 3/26: 수컷·암컷 강아지 모두를 위한 올인원 배변 솔루션" loading="lazy" width="860" height="703"></div><div class="ds-part" data-part="4"><img src="assets/img/work/jalum/d04.webp" alt="상세페이지 4/26: 잘룸 3초 흡수매트 메인 비주얼과 Check Point 요약" loading="lazy" width="860" height="2863"></div><div class="ds-part" data-part="5"><img src="assets/img/work/jalum/d05.webp" alt="상세페이지 5/26: 런칭 기념 이벤트: 집게와 양면테이프 증정, 선착순 100명 한정" loading="lazy" width="860" height="1944"></div><div class="ds-part" data-part="6"><video src="assets/img/work/jalum/d06.mp4" width="860" height="1340" autoplay muted loop playsinline preload="metadata" aria-label="상세페이지 6/26: 강아지 발은 털과 땀샘이 많아 습기에 취약하다는 설명"></video></div><div class="ds-part" data-part="7"><img src="assets/img/work/jalum/d07.webp" alt="상세페이지 7/26: 배변패드가 흡수되지 않으면 곰팡이·세균이 번식해 습진이 생길 수 있다는 설명" loading="lazy" width="860" height="857"></div><div class="ds-part" data-part="8"><video src="assets/img/work/jalum/d08.mp4" width="856" height="1244" autoplay muted loop playsinline preload="metadata" aria-label="상세페이지 8/26: 소변이 완전히 흡수되는 시간 03초 카운트 모션"></video></div><div class="ds-part" data-part="9"><video src="assets/img/work/jalum/d09.mp4" width="860" height="640" autoplay muted loop playsinline preload="metadata" aria-label="상세페이지 9/26: 매트에 물을 붓자 바로 흡수되는 장면"></video></div><div class="ds-part" data-part="10"><img src="assets/img/work/jalum/d10.webp" alt="상세페이지 10/26: 발가락 사이 습진의 원인인 소변 잔여물을 잘룸매트가 빠르게 차단" loading="lazy" width="860" height="474"></div><div class="ds-part" data-part="11"><video src="assets/img/work/jalum/d11.mp4" width="860" height="706" autoplay muted loop playsinline preload="metadata" aria-label="상세페이지 11/26: 흡수 후 손으로 만져도 묻어나지 않는 장면"></video></div><div class="ds-part" data-part="12"><img src="assets/img/work/jalum/d12.webp" alt="상세페이지 12/26: 바로 손으로 만져도 묻어나지 않는 흡수력" loading="lazy" width="860" height="302"></div><div class="ds-part" data-part="13"><img src="assets/img/work/jalum/d13.webp" alt="상세페이지 13/26: Point 01: 이런 분들께 추천하는 체크리스트" loading="lazy" width="860" height="1600"></div><div class="ds-part" data-part="14"><img src="assets/img/work/jalum/d14.webp" alt="상세페이지 14/26: 특허받은 3중 초흡수 구조도: 고기능 섬유, 특수 방수층, 고기능 섬유" loading="lazy" width="860" height="4024"></div><div class="ds-part" data-part="15"><img src="assets/img/work/jalum/d15.webp" alt="상세페이지 15/26: Point 03: 넉넉한 사이즈로 가장자리 배변도 안심" loading="lazy" width="860" height="1400"></div><div class="ds-part" data-part="16"><img src="assets/img/work/jalum/d16.webp" alt="상세페이지 16/26: Point 04: 보호자의 고민을 덜어드립니다 (발가락 습진, 실내 오염, 노견 케어, 훈련)" loading="lazy" width="860" height="1748"></div><div class="ds-part" data-part="17"><img src="assets/img/work/jalum/d17.webp" alt="상세페이지 17/26: 남자아이 마킹 벽에 튈 걱정 NO, 밀림없이 편안한 배변환경 OK와 예시 리뷰" loading="lazy" width="860" height="5571"></div><div class="ds-part" data-part="18"><img src="assets/img/work/jalum/d18.webp" alt="상세페이지 18/26: 아무데나 소변 보던 아이도 잘룸매트에서 배변한다는 사용 사례" loading="lazy" width="860" height="2384"></div><div class="ds-part" data-part="19"><img src="assets/img/work/jalum/d19.webp" alt="상세페이지 19/26: Point 05 리얼 후기와 Point 06 1달 사용 전후 비교" loading="lazy" width="860" height="3579"></div><div class="ds-part" data-part="20"><img src="assets/img/work/jalum/d20.webp" alt="상세페이지 20/26: Point 07 튼튼하고 간편한 관리, Point 08 패드 교체 빈도와 비용 절감 그래프" loading="lazy" width="860" height="5389"></div><div class="ds-part" data-part="21"><video src="assets/img/work/jalum/d21.mp4" width="860" height="1052" autoplay muted loop playsinline preload="metadata" aria-label="상세페이지 21/26: Point 09: 벽에 걸고 샤워기로 세탁하는 장면"></video></div><div class="ds-part" data-part="22"><img src="assets/img/work/jalum/d22.webp" alt="상세페이지 22/26: 간단 설치 방법 단계 안내" loading="lazy" width="860" height="1934"></div><div class="ds-part" data-part="23"><img src="assets/img/work/jalum/d23.webp" alt="상세페이지 23/26: FAQ와 구매 시 사이즈 가이드" loading="lazy" width="860" height="3434"></div><div class="ds-part" data-part="24"><img src="assets/img/work/jalum/d24.webp" alt="상세페이지 24/26: 특수 벨크로로 배변패드를 고정하는 방식" loading="lazy" width="860" height="1222"></div><div class="ds-part" data-part="25"><img src="assets/img/work/jalum/d25.webp" alt="상세페이지 25/26: 구성품 안내와 설치 영상 QR코드" loading="lazy" width="860" height="3074"></div><div class="ds-part" data-part="26"><img src="assets/img/work/jalum/d26.webp" alt="상세페이지 26/26: 제품 정보와 주의사항" loading="lazy" width="860" height="2407"></div></div><aside class="ds-side"><div class="ds-sticky" aria-live="polite"><div class="ds-note is-on" data-part="0" data-frac="0"><p class="ds-no">Overview</p><h3>잘룸 3초 흡수매트 상세페이지 디자인</h3><p>제품의 핵심인 3초 흡수력과 사용의 편리성을 중심으로 정보를 단계적으로 구성하여 장점을 쉽게 이해할 수 있도록 했습니다.</p><p>AI 생성 이미지, gif 이미지 등을 활용해 기능과 사용 장면을 직관적으로 전달하고자 했습니다.</p><p class="ds-tip">스크롤하면 페이지 구간에 맞는 설명으로 바뀌어요</p></div><div class="ds-note" data-part="8" data-frac="0.0"><p class="ds-no">01 / 07</p><h3>제품명을 강조한 3초 흡수 연출</h3><p>제품명인 ‘3초 흡수 매트’를 직관적으로 전달하기 위해 3초의 시간동안 숫자가 넘어가는 모션을 gif 이미지로 제작하여 빠른 흡수속도를 체감할 수 있도록 했습니다.</p></div><div class="ds-note" data-part="9" data-frac="0.0"><p class="ds-no">02 / 07</p><h3>GIF를 활용한 흡수력 시각화</h3><p>제품의 흡수력을 직관적으로 보여주기 위해 gif를 활용하면 좋겠다는 판단하에 추가적인 영상 촬영을 요청하여 진행했습니다.</p><p>물을 부음과 동시에 빠르게 흡수되는 장면과 흡수 후 손으로 만져도 묻어나지 않는 장면을 촬영한 영상을 gif로 변환해 구성했습니다.</p></div><div class="ds-note" data-part="14" data-frac="0.0"><p class="ds-no">03 / 07</p><h3>AI 이미지 활용 / 제품 구조 시각화</h3><p>AI로 이미지를 생성해 제품의 3층 흡수구조를 시각화하여 매트의 층별 역할이 한눈에 이해되도록 구조도를 구성했습니다.</p></div><div class="ds-note" data-part="17" data-frac="0.0"><p class="ds-no">04 / 07</p><h3>사용 방식에 따른 정보 구분</h3><p>수컷 강아지의 마킹으로 인한 오염 방지가 핵심 기능이므로 수컷의 사용 예시를 먼저 제시한 다음 암컷 파트를 제시하여 성별에 관계없이 활용 가능한 제품임을 보여주었습니다.</p><h3>예시 리뷰를 활용한 공감 유도</h3><p>기능 설명과 함께 실제 고객 리뷰처럼 보이는 예시 문구를 배치하고 손글씨 느낌의 폰트를 사용해 친근함을 주면서, 동시에 제품 장점을 자연스럽게 인지하도록 유도했습니다.</p><div class="ds-note-pull"><img src="assets/img/work/sl/j3quote.jpg" alt="" loading="lazy"></div></div><div class="ds-note" data-part="19" data-frac="0.62"><p class="ds-no">05 / 07</p><h3>비교를 통한 구매의 이점 강조</h3><p>사용 전후 차이 비교를 통해 제품 구매 시에 체감할 수 있는 장점들을 설명해주었습니다.</p></div><div class="ds-note" data-part="20" data-frac="0.5"><p class="ds-no">06 / 07</p><h3>비교를 통한 구매의 이점 강조</h3><p>교체 횟수 감소로 인한 비용 절감 효과를 강조하기 위해서 그래프로 표현했습니다,</p><div class="ds-note-pull"><img src="assets/img/work/sl/j4graph.jpg" alt="" loading="lazy"></div></div><div class="ds-note" data-part="23" data-frac="0.0"><p class="ds-no">07 / 07</p><h3>가독성을 높인 파트 별 내용 그룹핑</h3><p>내용을 파트 별로 구분하고 표와 박스로 정리해줌으로써 구매에 필요한 정보를 쉽게 읽고 이해할 수 있도록 했습니다.</p></div><div class="ds-note ds-end" data-part="end" data-frac="0"><p class="ds-no">Done</p><h3>끝까지 보셨어요</h3><p class="ds-end-sub">이 상세페이지에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>제품명을 강조한 3초 흡수 연출</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>GIF를 활용한 흡수력 시각화</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>AI 이미지 활용 / 제품 구조 시각화</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>사용 방식에 따른 정보 구분</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>예시 리뷰를 활용한 공감 유도</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>비교를 통한 구매의 이점 강조</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>가독성을 높인 파트 별 내용 그룹핑</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></aside></section></div></template>
+            <div class="work-body">
+              <p class="work-tag"><span class="work-badge">Main</span><span class="t-path">personal / commerce design</span><span class="hl">라우드소싱 우승작</span></p>
+              <h4>‘3초 흡수’를 눈으로 보여 줘 우승한 잘룸 흡수매트 상세페이지</h4>
+              <p class="work-meta">2025.08 · 7일 · Photoshop, GPT</p>
+              <p class="work-sum">3초 흡수력과 사용 편리성을 중심으로 정보를 단계적으로 구성한 상세페이지입니다. GIF로 흡수 장면을 보여 주고 이미지의 약 90%를 AI로 만들어, 라우드소싱에서 우승하고 외주로 1회 판매했습니다.</p>
+              <dl class="work-dl is-case">
+                <dt>과제</dt><dd>빠른 흡수력과 사용 편리성을, 처음 보는 보호자도 바로 이해하도록 전하는 것.</dd>
+                <dt>한 일</dt><dd>3초 카운트 모션과 흡수 장면 GIF(추가 촬영을 요청해 제작)로 제품명을 그대로 보여 주고, 3중 흡수 구조는 AI 이미지로 구조도를 만들었습니다. 이미지의 약 90%를 AI로 제작했습니다.</dd>
+                <dt>결과</dt><dd>라우드소싱 공모에서 우승했고, 외주로 1회 판매되었습니다.</dd>
+              </dl>
+              <ul class="work-metrics is-words is-case" aria-label="페이지 흐름">
+                <li><b>고민 제기</b><span>마킹·냄새·습진<br>보호자의 고민</span></li>
+                <li><b>기능 증명</b><span>3초 흡수 GIF<br>3중 흡수 구조도</span></li>
+                <li><b>구매 결정</b><span>전후 비교·비용 그래프<br>FAQ·사이즈 안내</span></li>
+              </ul>
+            </div>
+          </article>
           <article class="u251-cd work" id="w-mushroom" data-group="personal-dsn" data-home="wk-dsn-personal">
             <div class="work-media">
               <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="금강버섯농장 송화버섯 상세페이지 자세히 보기"><img src="assets/img/work/thumb-mushroom.jpg" alt="금강버섯농장 송화버섯 상세페이지 세 구간: 도입부, 스마트팜 재배, 상품 소개" width="1600" height="1200" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
@@ -484,7 +613,8 @@
             <div class="work-media">
               <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="금삼이 퓌낭시에 상세페이지 자세히 보기"><img src="assets/img/work/thumb-geumsami.jpg" alt="금삼이 퓌낭시에 상세페이지 세 구간: 일러스트 도입부, 제품 소개, TIP" width="1600" height="1200" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
             </div>
-            <template class="work-pages"><div class="bp pd"><section class="bp-card pd-intro"><div class="pd-intro-txt"><p class="bp-k">Commerce Design</p><h2 class="bp-t"><span>금삼이 퓌낭시에</span><br>상세페이지 디자인</h2><p class="bp-meta">2025.10 / 작업기간 4일 / 포토샵, GPT</p><p class="bp-desc">패키지의 일러스트를 활용해 도입부에서 제품의 통일된 인상을 주고 시선을 끌었습니다.</p><p class="bp-desc">이후 제품 소개로 넘어가면서 분위기를 전환하되 브랜드의 일관성을 유지하면서도 친근하고 쉽게 내용을 이해할 수 있도록 했습니다.</p></div><figure class="pd-phone"><div class="pd-screen" data-lenis-prevent tabindex="0" aria-label="상세페이지 화면, 스크롤 가능"><img src="assets/img/work/geumsami/intro.jpg" alt="" loading="lazy" width="467" height="1284"></div></figure></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>패키지에 활용된 일러스트를 활용한 도입부</h3><p>패키지에 활용된 일러스트 요소를 재구성해 브랜드의 통일감을 유지하고자 했습니다.</p></div><div class="pd-media"><figure class="pd-shot"><img src="assets/img/work/geumsami/package.jpg" alt="금삼이 퓌낭시에 패키지 전개도와 일러스트" loading="lazy" width="494" height="258"></figure></div></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>제품의 타이포그래피와 어울리는 폰트 활용</h3><p>패키지의 손그림 일러스트와 어울리는 손글씨 느낌의 폰트를 적용해 귀엽고 친근한 분위기가 자연스럽게 이어지도록 했습니다.</p></div><div class="pd-media"><figure class="pd-shot"><img src="assets/img/work/geumsami/logotype.jpg" alt="금삼이 퓌낭시에 손글씨 로고타입과 이런 분들에게 추천해요 문구" loading="lazy" width="491" height="345"></figure></div></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>제품 이미지를 전달하기 위한 톤 전환</h3><p>제품을 본격적으로 소개하기 시작하면서 패키지의 밝고 귀여운 분위기에서 벗어나 퓌낭시에의 고급스러움을 강조하기 위해 베이지·브라운 계열로 톤을 전환했습니다.</p></div><div class="pd-media is-many"><figure class="pd-shot is-tall"><img src="assets/img/work/geumsami/tone.jpg" alt="베이지·브라운 톤의 제품 소개 구간" loading="lazy" width="468" height="1440"></figure><figure class="pd-shot"><img src="assets/img/work/geumsami/baeksam.jpg" alt="백삼 퓌낭시에 소개 구간" loading="lazy" width="469" height="767"></figure></div></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>기관 정보를 활용한 신뢰도 강화</h3><p>금산인삼약초산업진흥원의 로고를 활용한 신뢰감있는 마크 그래픽을 배치함으로써 제품이 공신력 있는 기관의 지원을 통해서 개발되었다는 점을 보여주었습니다.</p></div><div class="pd-media"><figure class="pd-shot"><img src="assets/img/work/geumsami/badge.jpg" alt="(재)금산인삼약초산업진흥원 마크 그래픽" loading="lazy" width="322" height="315"></figure></div></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>유사한 톤으로 AI로 아이콘 생성</h3><p>기존의 일러스트와 유사한 느낌의 아이콘을 AI를 통해 생성하고 활용하여 통일감을 유지하였습니다..</p></div><div class="pd-media"><figure class="pd-shot"><img src="assets/img/work/geumsami/tip.jpg" alt="더 맛있게 즐기는 TIP 아이콘 구간" loading="lazy" width="468" height="775"></figure></div></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>캐릭터 활용을 통한 브랜드 톤 유지</h3><p>패키지에 사용된 캐릭터를 중간중간 배치하여 통일감을 유지하는 동시에 친근하고 부담 없이 내용을 이해할 수 있도록 구성했습니다.</p></div><div class="pd-media is-many"><figure class="pd-shot"><img src="assets/img/work/geumsami/flavors.jpg" alt="2가지 맛으로 취향따라 즐겨요 구간" loading="lazy" width="468" height="672"></figure><figure class="pd-shot is-tall"><img src="assets/img/work/geumsami/faq.jpg" alt="이런 점이 궁금해요 FAQ 구간" loading="lazy" width="469" height="799"></figure></div></section></div></template>
+            <template class="work-pages"><div class="bp pd"><section class="bp-card pd-intro"><div class="pd-intro-txt"><p class="bp-k">Commerce Design</p><h2 class="bp-t"><span>금삼이 퓌낭시에</span><br>상세페이지 디자인</h2><p class="bp-meta">2025.10 / 작업기간 4일 / 포토샵, GPT</p><p class="bp-desc">패키지의 일러스트를 활용해 도입부에서 제품의 통일된 인상을 주고 시선을 끌었습니다.</p><p class="bp-desc">이후 제품 소개로 넘어가면서 분위기를 전환하되 브랜드의 일관성을 유지하면서도 친근하고 쉽게 내용을 이해할 수 있도록 했습니다.</p></div><figure class="pd-phone"><div class="pd-screen" data-lenis-prevent tabindex="0" aria-label="상세페이지 화면, 스크롤 가능"><img src="assets/img/work/geumsami/intro.jpg" alt="" loading="lazy" width="467" height="1284"></div></figure></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>패키지에 활용된 일러스트를 활용한 도입부</h3><p>패키지에 활용된 일러스트 요소를 재구성해 브랜드의 통일감을 유지하고자 했습니다.</p></div><div class="pd-media"><figure class="pd-shot"><img src="assets/img/work/geumsami/package.jpg" alt="금삼이 퓌낭시에 패키지 전개도와 일러스트" loading="lazy" width="494" height="258"></figure></div></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>제품의 타이포그래피와 어울리는 폰트 활용</h3><p>패키지의 손그림 일러스트와 어울리는 손글씨 느낌의 폰트를 적용해 귀엽고 친근한 분위기가 자연스럽게 이어지도록 했습니다.</p></div><div class="pd-media"><figure class="pd-shot"><img src="assets/img/work/geumsami/logotype.jpg" alt="금삼이 퓌낭시에 손글씨 로고타입과 이런 분들에게 추천해요 문구" loading="lazy" width="491" height="345"></figure></div></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>제품 이미지를 전달하기 위한 톤 전환</h3><p>제품을 본격적으로 소개하기 시작하면서 패키지의 밝고 귀여운 분위기에서 벗어나 퓌낭시에의 고급스러움을 강조하기 위해 베이지·브라운 계열로 톤을 전환했습니다.</p></div><div class="pd-media is-many"><figure class="pd-shot is-tall"><img src="assets/img/work/geumsami/tone.jpg" alt="베이지·브라운 톤의 제품 소개 구간" loading="lazy" width="468" height="1440"></figure><figure class="pd-shot"><img src="assets/img/work/geumsami/baeksam.jpg" alt="백삼 퓌낭시에 소개 구간" loading="lazy" width="469" height="767"></figure></div></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>기관 정보를 활용한 신뢰도 강화</h3><p>금산인삼약초산업진흥원의 로고를 활용한 신뢰감있는 마크 그래픽을 배치함으로써 제품이 공신력 있는 기관의 지원을 통해서 개발되었다는 점을 보여주었습니다.</p></div><div class="pd-media"><figure class="pd-shot"><img src="assets/img/work/geumsami/badge.jpg" alt="(재)금산인삼약초산업진흥원 마크 그래픽" loading="lazy" width="322" height="315"></figure></div></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>유사한 톤으로 AI로 아이콘 생성</h3><p>기존의 일러스트와 유사한 느낌의 아이콘을 AI를 통해 생성하고 활용하여 통일감을 유지하였습니다..</p></div><div class="pd-media"><figure class="pd-shot"><img src="assets/img/work/geumsami/tip.jpg" alt="더 맛있게 즐기는 TIP 아이콘 구간" loading="lazy" width="468" height="775"></figure></div></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>캐릭터 활용을 통한 브랜드 톤 유지</h3><p>패키지에 사용된 캐릭터를 중간중간 배치하여 통일감을 유지하는 동시에 친근하고 부담 없이 내용을 이해할 수 있도록 구성했습니다.</p></div><div class="pd-media is-many"><figure class="pd-shot"><img src="assets/img/work/geumsami/flavors.jpg" alt="2가지 맛으로 취향따라 즐겨요 구간" loading="lazy" width="468" height="672"></figure><figure class="pd-shot is-tall"><img src="assets/img/work/geumsami/faq.jpg" alt="이런 점이 궁금해요 FAQ 구간" loading="lazy" width="469" height="799"></figure></div></section></div><div class="ed ed-tail"><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>패키지에 활용된 일러스트를 활용한 도입부</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>제품의 타이포그래피와 어울리는 폰트 활용</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>제품 이미지를 전달하기 위한 톤 전환</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>기관 정보를 활용한 신뢰도 강화</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>유사한 톤으로 AI로 아이콘 생성</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>캐릭터 활용을 통한 브랜드 톤 유지</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div>
+</template>
             <div class="work-body">
           <p class="work-tag"><span class="t-path">personal / design</span></p>
           <h4>패키지 일러스트로 브랜드 톤을 이어 간 금삼이 퓌낭시에 상세페이지</h4>
@@ -496,7 +626,8 @@
             <div class="work-media">
               <button type="button" class="work-ph" data-detail data-cursor-text="View" aria-label="스페이드 의원 이벤트 프로모션 자세히 보기"><img src="assets/img/work/thumb-spade.jpg" alt="스페이드 의원 블랙프라이데이 프로모션 이미지 두 장" width="1600" height="1200" loading="lazy" decoding="async"><span class="work-cue" aria-hidden="true">클릭해서 자세히 보기 <i>↗</i></span></button>
             </div>
-            <template class="work-pages"><div class="bp pd"><section class="bp-card pd-intro"><div class="pd-intro-txt"><p class="bp-k">Promotion Design</p><h2 class="bp-t"><span>스페이드 의원 이벤트</span><br>프로모션 디자인</h2><p class="bp-meta">2025.11 / 작업기간 3일 / 포토샵, GPT</p><p class="bp-desc">AI로 생성한 인물 비주얼을 중심으로 블랙프라이데이 컨셉을 표현하는 블랙 톤의 콘텐츠를 제작하였습니다.</p><p class="bp-desc">프로모션의 내용을 한눈에 명확하게 인지할 수 있도록 가격·시술 부위·장비 정보를 구분해 배치했습니다.</p></div><figure class="pd-hero"><img src="assets/img/work/spade/phones.jpg" alt="인스타그램 게시물로 보이는 스페이드 의원 블랙프라이데이 프로모션 두 장" loading="lazy" width="1172" height="1344"></figure></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>AI 인물 비주얼을 활용한 프로모션 강조</h3><p>AI로 생성한 인물 비주얼을 메인으로 활용, 제모 후 변화에 대한 기대감을 자연스럽게 유도하고, 가격과 시술 정보를 함께 배치해 프로모션의 핵심 혜택을 한눈에 인지할 수 있도록 구성했습니다.</p></div><div class="pd-media"><figure class="pd-shot"><img src="assets/img/work/spade/card-1.jpg" alt="BLACK FRIDAY 수염제모 10회 39만원 프로모션 이미지" loading="lazy" width="779" height="972"></figure></div></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>Before &amp; After 비교를 활용한 효과 전달</h3><p>AI로 생성한 시술 전후 이미지를 비교 배치하여 남성 제모의 전후 변화와 기대 효과를 직관적으로 보여주었습니다.</p><p>젠틀맥스 프로플러스 프로모션이라는 점을 살려서 ‘완성은 결국, 젠틀함으로’ 라는 카피 문구를 작성하였습니다.</p></div><div class="pd-media"><figure class="pd-shot"><img src="assets/img/work/spade/card-2.jpg" alt="젠틀맥스 프로플러스 수염 제모 한정 특가 이벤트, 시술 전후 비교 이미지" loading="lazy" width="779" height="972"></figure></div></section></div></template>
+            <template class="work-pages"><div class="bp pd"><section class="bp-card pd-intro"><div class="pd-intro-txt"><p class="bp-k">Promotion Design</p><h2 class="bp-t"><span>스페이드 의원 이벤트</span><br>프로모션 디자인</h2><p class="bp-meta">2025.11 / 작업기간 3일 / 포토샵, GPT</p><p class="bp-desc">AI로 생성한 인물 비주얼을 중심으로 블랙프라이데이 컨셉을 표현하는 블랙 톤의 콘텐츠를 제작하였습니다.</p><p class="bp-desc">프로모션의 내용을 한눈에 명확하게 인지할 수 있도록 가격·시술 부위·장비 정보를 구분해 배치했습니다.</p></div><figure class="pd-hero"><img src="assets/img/work/spade/phones.jpg" alt="인스타그램 게시물로 보이는 스페이드 의원 블랙프라이데이 프로모션 두 장" loading="lazy" width="1172" height="1344"></figure></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>AI 인물 비주얼을 활용한 프로모션 강조</h3><p>AI로 생성한 인물 비주얼을 메인으로 활용, 제모 후 변화에 대한 기대감을 자연스럽게 유도하고, 가격과 시술 정보를 함께 배치해 프로모션의 핵심 혜택을 한눈에 인지할 수 있도록 구성했습니다.</p></div><div class="pd-media"><figure class="pd-shot"><img src="assets/img/work/spade/card-1.jpg" alt="BLACK FRIDAY 수염제모 10회 39만원 프로모션 이미지" loading="lazy" width="779" height="972"></figure></div></section><section class="bp-card pd-row"><div class="bp-txt pd-txt"><h3>Before &amp; After 비교를 활용한 효과 전달</h3><p>AI로 생성한 시술 전후 이미지를 비교 배치하여 남성 제모의 전후 변화와 기대 효과를 직관적으로 보여주었습니다.</p><p>젠틀맥스 프로플러스 프로모션이라는 점을 살려서 ‘완성은 결국, 젠틀함으로’ 라는 카피 문구를 작성하였습니다.</p></div><div class="pd-media"><figure class="pd-shot"><img src="assets/img/work/spade/card-2.jpg" alt="젠틀맥스 프로플러스 수염 제모 한정 특가 이벤트, 시술 전후 비교 이미지" loading="lazy" width="779" height="972"></figure></div></section></div><div class="ed ed-tail"><section class="ed-sec ed-split ed-end"><div class="ed-left" aria-hidden="true"></div><div class="ed-right"><p class="ed-no">Done</p><h3>끝까지 보셨어요</h3><div class="ed-body"><p class="ds-end-sub">이 작업에서 의도한 내용은 이렇습니다.</p><ul class="ds-checks"><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>AI 인물 비주얼을 활용한 프로모션 강조</li><li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>Before &amp; After 비교를 활용한 효과 전달</li></ul><div class="ds-end-act"><button type="button" class="ds-next">다음 작업 보기<span aria-hidden="true">→</span></button><button type="button" class="ds-close">목록으로</button></div></div></div></section></div>
+</template>
             <div class="work-body">
           <p class="work-tag"><span class="t-path">personal / design</span></p>
           <h4>가격·시술·장비 정보를 한눈에 나눈 스페이드 의원 프로모션</h4>
@@ -550,92 +681,6 @@
   </div>
 </section>
 
-<!-- About -->
-<section class="sec" id="about" aria-labelledby="about-title">
-  <div class="wrap">
-    <div class="sec-hd" data-rv>
-      <h2 id="about-title" class="display">About <em>Me.</em></h2>
-      <p class="sec-ko"><b>총 5년 1개월, 세 회사에서 디자인부터 콘텐츠 마케팅·영업 지원까지 맡았습니다.</b> 어디에서 어느 범위까지 일했는지 정리했습니다.</p>
-    </div>
-    <!-- About me: profile first, then career beside education / skills / certifications -->
-    <figure class="profile profile-wide" data-rv>
-      <div class="profile-ph"><img src="assets/img/profile.jpg" alt="김예진 프로필 사진" width="643" height="867" loading="lazy"></div>
-      <figcaption>
-        <p class="profile-id"><b>김예진</b><span>1995년생 · 만 31세</span></p>
-        <p class="profile-h"><span>행동을 만드는 콘텐츠</span>를<br>기획하는 콘텐츠 마케터</p>
-        <p class="profile-txt">상세페이지 디자인으로 일을 시작해, 같은 상품도 구성에 따라 판매량이 달라지는 것을 보며 콘텐츠의 목적은 <strong>고객의 행동을 이끌어 내는 것</strong>이라고 생각하게 됐습니다. 그 생각으로 디자인에서 콘텐츠 기획과 채널 운영으로, 다시 영업 현장까지 일의 범위를 넓혀 왔습니다. <strong>Designed to Action</strong>은 그 생각을 줄인 말입니다.</p>
-      </figcaption>
-    </figure>
-    <div class="about-top">
-      <div class="about-left">
-      <!-- Career: newest first; company, role, what the company does, duties by job function -->
-        <div class="career" aria-label="경력" data-rv>
-          <h3 class="sub-h cr-h">Career <span>총 5년 1개월</span></h3>
-          <ol class="cr-list">
-            <li class="cr-row">
-              <div class="cr-hd"><b>주식회사 애드</b><span class="cr-co">AI 옥외광고 데이터 분석 기업</span><small>2024.11 – 2026.10</small></div>
-              <p class="cr-role"><span class="sr-only">직무: </span>콘텐츠 마케팅 &amp; 디자인</p>
-              <dl class="cr-dl"><dt>콘텐츠 마케팅</dt><dd>블로그·인스타그램·유튜브 채널 운영, 게첨 이미지 촬영 기획</dd><dt>이메일 마케팅</dt><dd>광고 상품 프로모션 메일 템플릿 기획·제작</dd><dt>영업 지원</dt><dd>신규 고객 발굴·제안, 미팅·응대, 판매 후 게첨 보고</dd><dt>편집디자인</dt><dd>회사소개서·제안서·리포트 등 문서 디자인</dd><dt>인쇄물 디자인</dt><dd>현수막·리플렛·스티커·전시 부스 그래픽</dd></dl>
-            </li>
-            <li class="cr-row">
-              <div class="cr-hd"><b>주식회사 고래사</b><span class="cr-co">어묵 제조·유통 기업</span><small>2023.03 – 2023.06</small></div>
-              <p class="cr-role"><span class="sr-only">직무: </span>웹디자인</p>
-              <dl class="cr-dl"><dt>웹디자인</dt><dd>상세페이지·이벤트 페이지 기획·디자인</dd><dt>제품 사진</dt><dd>제품 촬영 기획, 사진 편집·보정</dd></dl>
-            </li>
-            <li class="cr-row">
-              <div class="cr-hd"><b>공간조명</b><span class="cr-co">조명 브랜드</span><small>2019.09 – 2022.05</small></div>
-              <p class="cr-role"><span class="sr-only">직무: </span>기획디자인</p>
-              <dl class="cr-dl"><dt>웹디자인</dt><dd>상세페이지·이벤트 페이지 기획·디자인</dd><dt>광고 디자인</dt><dd>GDN·DDN·카카오 비즈보드 배너</dd><dt>SNS 마케팅</dt><dd>카드뉴스 기획·디자인, SNS 계정 운영</dd><dt>이커머스 운영</dt><dd>자사몰(카페24·메이크샵), 오픈마켓(네이버 스마트스토어·오늘의집) 운영</dd></dl>
-            </li>
-          </ol>
-        </div>
-      </div>
-      <div class="about-right">
-        <div class="career edu" aria-label="교육" data-rv>
-          <h3 class="sub-h cr-h">Education</h3>
-          <ol class="cr-list">
-            <li class="cr-row">
-              <div class="cr-hd"><b>AI 활용 수출 마케팅 이미지 제작</b><small>2026.09</small></div>
-              <p class="cr-org">대전/세종 글로벌진출전략프로그램 · 1일 특강</p>
-              <p class="cr-desc">ChatGPT로 마케팅 이미지를 생성하는 방법을 체계적으로 배웠습니다.</p>
-            </li>
-            <li class="cr-row">
-              <div class="cr-hd"><b>UX/UI 디자인</b><small>2023.06 – 2024.06</small></div>
-              <p class="cr-org">디자인나스</p>
-              <p class="cr-desc">Figma·Photoshop·Illustrator로 앱과 웹사이트를 리디자인하며 사용자 리서치, 와이어프레임, 프로토타입, 앱·웹 화면 설계, 디자인 시스템을 공부했습니다.</p>
-            </li>
-            <li class="cr-row">
-              <div class="cr-hd"><b>반응형 웹디자인 구축 실무, 부트스트랩</b><small>2020.06 – 07</small></div>
-              <p class="cr-org">부산디자인진흥원</p>
-              <p class="cr-desc">나래디자인학원에서 배운 HTML/CSS를 응용해 반응형 웹 구축과 부트스트랩을 배웠습니다.</p>
-            </li>
-            <li class="cr-row">
-              <div class="cr-hd"><b>영상편집을 활용한 UI/UX 웹디자인</b><small>2019</small></div>
-              <p class="cr-org">나래디자인학원</p>
-              <p class="cr-desc">Photoshop·Illustrator·Premiere Pro와 HTML/CSS를 배웠습니다.</p>
-            </li>
-          </ol>
-        </div>
-        <div class="panel" data-rv>
-          <h3 class="sub-h cr-h">Skills</h3>
-          <ul class="chips">
-            <li>Photoshop</li><li>Illustrator</li><li>Figma</li><li>Premiere Pro</li><li>HTML/CSS</li><li>Google Analytics</li><li>AI Literacy</li>
-          </ul>
-        </div>
-        <div class="panel" data-rv>
-          <h3 class="sub-h cr-h">Certifications</h3>
-          <ul class="list">
-            <li>GTQ 일러스트 1급 <small>2025.08</small></li>
-            <li>GTQ 포토샵 1급 <small>2025.08</small></li>
-            <li>컴퓨터그래픽스운용기능사 <small>2023.09</small></li>
-            <li>Google Analytics Certification <small>취득 예정</small></li>
-            <li>JPT 710 · JLPT N2</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- Contact: copy button ported from Lucian #008 (copy button that turns into a check) -->
 <section class="sec contact" id="contact" aria-labelledby="contact-title">
@@ -711,7 +756,7 @@
     "pos": "김예진 · 콘텐츠 마케터 · 경력 5년",
     "intro": "B2B 고객이 검색하는 말에서 출발해 블로그·유튜브·인스타그램 콘텐츠를 기획하고, 디자인과 발행까지 직접 합니다. 그 콘텐츠로 들어온 문의는 미팅과 판매까지 이어 왔습니다.",
     "label": "회사 블로그 월 순방문자 3.4배 · 블로그 글을 보고 온 문의 · 숏폼 편당 1천~1.5천 회",
-    "lead": "<b>먼저, 콘텐츠가 유입과 문의, 판매로 이어진 작업 세 가지입니다.</b> 2024.11–2026.10 AI 옥외광고 데이터 분석 기업 애드(addd)에서 채널 운영과 메일 마케팅, 영업 지원을 맡았습니다. 이미지를 누르면 기획 의도와 과정을 자세히 볼 수 있습니다.",
+    "lead": "2024.11–2026.10 AI 옥외광고 데이터 분석 기업 애드(addd)에서 채널 운영과 메일 마케팅, 영업 지원을 맡았습니다. 이미지를 누르면 기획 의도와 과정을 자세히 볼 수 있습니다.",
     "featured": ["w-blog", "w-mail", "w-youtube"],
     "order": ["wk-mkt", "wk-dsn"],
     "open": 2
@@ -721,7 +766,7 @@
     "pos": "김예진 · 콘텐츠 디자이너 · 경력 5년",
     "intro": "어려운 B2B 정보를 한눈에 읽히는 문서와 콘텐츠로 디자인합니다. 기획부터 직접 하기 때문에, 무엇을 먼저 보여 줄지 정하는 데서 디자인을 시작합니다.",
     "label": "회사소개서·플라이어·데이터 리포트 · 채널별 디자인 규칙 · 라우드소싱 상세페이지 우승",
-    "lead": "<b>먼저, 정보를 정리하고 보여 주는 방식이 드러나는 작업 세 가지입니다.</b> 2024.11–2026.10 AI 옥외광고 데이터 분석 기업 애드(addd)에서 회사소개서·제안서·리포트와 채널 콘텐츠를 디자인했습니다. 이미지를 누르면 기획 의도와 과정을 자세히 볼 수 있습니다.",
+    "lead": "2024.11–2026.10 AI 옥외광고 데이터 분석 기업 애드(addd)에서 회사소개서·제안서·리포트와 채널 콘텐츠를 디자인했습니다. 이미지를 누르면 기획 의도와 과정을 자세히 볼 수 있습니다.",
     "featured": ["w-deck", "w-instagram", "w-jalum"],
     "order": ["wk-dsn", "wk-mkt"],
     "open": 3
@@ -731,7 +776,7 @@
     "pos": "김예진 · 커머스 디자이너 · 경력 5년",
     "intro": "같은 상품도 구성에 따라 판매량이 달라지는 것을 상세페이지에서 배웠습니다. 고객이 읽는 순서대로 고민 → 해결 → 근거 → 구매 정보가 이어지게 페이지를 설계합니다.",
     "label": "라우드소싱 상세페이지 우승 · 자사몰·오픈마켓 운영 · 프로모션 메일에서 실제 판매까지",
-    "lead": "<b>먼저, 구매 결정까지의 흐름을 설계한 작업 세 가지입니다.</b> 공간조명·고래사에서 상세페이지·이벤트 페이지와 배너를 디자인했고, 애드에서는 프로모션 메일로 실제 판매까지 이어 갔습니다. 이미지를 누르면 구간별 설계 의도를 볼 수 있습니다.",
+    "lead": "공간조명·고래사에서 상세페이지·이벤트 페이지와 배너를 디자인했고, 애드에서는 프로모션 메일로 실제 판매까지 이어 갔습니다. 이미지를 누르면 구간별 설계 의도를 볼 수 있습니다.",
     "featured": ["w-jalum", "w-mushroom", "w-mail"],
     "order": ["wk-dsn", "wk-mkt"],
     "open": 1
@@ -741,6 +786,6 @@
 
 <!-- Lenis 1.1.13 · MIT · smooth wheel scrolling -->
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="assets/js/site.js?v=37"></script>
+<script src="assets/js/site.js?v=45"></script>
 </body>
 </html>
