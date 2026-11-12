@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 검색에 내보낼 페이지만 둡니다. 공고별 짧은 주소(/ohbrown/ 등)는 noindex라 넣지 않습니다.
+     내용을 크게 고치면 lastmod 날짜를 바꿔 주세요. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://cocomidoda-cpu.github.io/</loc>
+    <lastmod>2026-11-12</lastmod>
+  </url>
+  <url>
+    <loc>https://cocomidoda-cpu.github.io/archive.html</loc>
+    <lastmod>2026-11-12</lastmod>
+  </url>
+</urlset>

@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="ko" class="no-js">
 <head>
+<!-- Portfolio version (?for=…) goes into the dataLayer before GTM loads, so the page view and every event carry it
+     as portfolio_version (common when there is no version). In GTM: a Data Layer Variable "portfolio_version",
+     sent as an event parameter from the Google tag; in GA4: an event-scoped custom dimension of the same name. -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.pfVersion = (/[?&]for=([a-z0-9-]+)/.exec(location.search) || [])[1] || 'common';
+  window.dataLayer.push({ portfolio_version: window.pfVersion });
+</script>
 <!-- Google Tag Manager -->
 <script>window.dataLayer = window.dataLayer || [];
 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N8SN6TNB');</script>
@@ -109,7 +117,7 @@
   // 카드는 index.html의 Work 섹션에서 그대로 가져옵니다 (작업물 내용은 한 곳에서만 관리)
   (function () {
     var grid = document.getElementById('arc-grid');
-    function boot() { var sc = document.createElement('script'); sc.src = 'assets/js/site.js?v=48'; document.body.appendChild(sc); }
+    function boot() { var sc = document.createElement('script'); sc.src = 'assets/js/site.js?v=53'; document.body.appendChild(sc); }
     fetch('index.html', { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(function (html) {

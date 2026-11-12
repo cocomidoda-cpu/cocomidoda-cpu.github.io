@@ -8,9 +8,11 @@
 
   /* Conversion events for Google Tag Manager (GTM-N8SN6TNB). In GTM, add Custom Event triggers
      for these names and GA4 event tags; mark contact_click / contact_copy as key events in GA4. */
+  // Every event also carries portfolio_version (the ?for= version, 'common' without one; set in <head> before GTM).
   function track(name, params) {
-    try { (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, params || {})); } catch (e) { /* 무시 */ }
+    try { (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name, portfolio_version: window.pfVersion || 'common' }, params || {})); } catch (e) { /* 무시 */ }
   }
+  window.pfTrack = track; // for the About script below, which runs outside this closure
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href]');
     if (!a) return;
@@ -38,6 +40,8 @@
 
   /* Job-specific versions: ?for=<key> swaps the hero lines, the Work intro, the three featured works,
      the category order and the first open How I Work item. The versions are written in index.html (#job-versions).
+     A version can also hide works that don't fit the posting (hide), change short labels such as a menu item (text),
+     and replace a whole block with its own <template data-for="<key>" data-swap="<selector>"> (e.g. How I Work).
      Runs before everything below, so the accordion, card reveal and category list see the final page. */
   var jobKey = (/[?&]for=([a-z0-9-]+)/.exec(location.search) || [])[1] || '';
   (function () {
@@ -52,6 +56,15 @@
     put('.hero-lbl', v.label);
     put('#work .sec-hd .sec-ko', v.lead, true);
     if (v.title) document.title = v.title;
+    // 공고 전용 블록: <template data-for>의 내용으로 data-swap 자리의 내용을 바꿉니다
+    $$('template[data-for]').forEach(function (t) {
+      if ((' ' + t.getAttribute('data-for') + ' ').indexOf(' ' + jobKey + ' ') < 0) return;
+      var el = $(t.getAttribute('data-swap')); if (!el) return;
+      el.textContent = ''; el.appendChild(t.content.cloneNode(true));
+    });
+    if (v.text) Object.keys(v.text).forEach(function (sel) { $$(sel).forEach(function (el) { el.textContent = v.text[sel]; }); });
+    // 이 공고와 관련이 적은 작업은 첫 페이지에서 빼고, 전체 작업 보기(archive)에만 둡니다
+    if (v.hide) v.hide.forEach(function (id) { var c = document.getElementById(id); if (c && c.parentNode) c.parentNode.removeChild(c); });
     // 대표 작업: 지정한 카드를 각자의 묶음(data-home) 맨 앞으로 올리고 '대표 작업' 배지를 답니다
     if (v.featured) {
       $$('#work .work.is-feat').forEach(function (c) {
@@ -250,6 +263,7 @@
         var willOpen = !it.classList.contains('open');
         items.forEach(function (o) { if (o !== it) set(o, false); });
         set(it, willOpen);
+        if (willOpen) track('how_item_open', { item: ($('.u044-n', qs[i]) || {}).textContent || String(i + 1), item_title: (($('.u044-t', qs[i]) || qs[i]).textContent || '').trim() });
       });
       qs[i].addEventListener('keydown', function (e) {
         var n = e.key === 'ArrowDown' ? i + 1 : e.key === 'ArrowUp' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? qs.length - 1 : -2;
@@ -370,7 +384,7 @@
     function open(card, from) {
       var tpl = $('.work-pages', card);
       if (!tpl) return;
-      opener = from;
+      opener = from; doneSent = false;
       track('work_detail_open', { work_id: card.id, work_title: $('h4', card).textContent.trim() });
       title.textContent = $('h4', card).textContent;
       body.textContent = '';
@@ -406,20 +420,11 @@
     $$('[data-detail]').forEach(function (b) {
       b.addEventListener('click', function () { open(b.closest('.work'), b); });
     });
-    // How I Work: 작업 이름 링크는 해당 작업의 상세보기를 바로 엽니다 (상세보기가 없는 작업은 카드로 스크롤)
-    $$('a[data-open]').forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        var card = document.getElementById(a.getAttribute('data-open'));
-        if (!card || !$('.work-pages', card)) return;
-        e.preventDefault();
-        open(card, a);
-      });
-    });
     x.addEventListener('click', close);
 
     /* Story pages (잘룸 · 금강버섯농장): the page runs down the left; the sticky note on the right switches to the note
        whose page part has reached the middle of the viewer — the same idea as the Work section's category list. */
-    var story = null, storyRaf = 0, current = null;
+    var story = null, storyRaf = 0, current = null, doneSent = false;
     function storyFor(root) {
       var st = $('.ds-story', root);
       if (!st) return null;
@@ -456,6 +461,8 @@
       var p = max > 0 ? Math.min(1, body.scrollTop / max) : 1;
       progBar.style.transform = 'scaleX(' + p + ')';
       prog.classList.toggle('is-done', p >= 0.995);
+      // scrolled to the end: once per opening
+      if (p >= 0.995 && max > 0 && !doneSent && current) { doneSent = true; track('work_detail_complete', { work_id: current.id }); }
     }
 
     body.addEventListener('scroll', function () {
@@ -473,7 +480,8 @@
       if (next && next !== current) open(next, $('[data-detail]', next));
     });
 
-    // 타임라인 카드(a[data-open])는 해당 작업 상세보기를 엽니다
+    // 작업 이름 링크(a[data-open]: How I Work·공고 전용 블록·타임라인 카드)는 해당 작업 상세보기를 바로 엽니다
+    // (상세보기가 없는 작업은 링크대로 카드로 스크롤). 한 곳에서만 처리해 열기 이벤트가 두 번 쌓이지 않게 합니다.
     document.addEventListener('click', function (e) {
       var a = e.target.closest('a[data-open]'); if (!a) return;
       var card = document.getElementById(a.getAttribute('data-open'));
@@ -688,6 +696,15 @@
   function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
   function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
   function lerp(a, b, t) { return a + (b - a) * t; }
+  // GA4: an About section or a timeline year counts as seen once it stays on screen for 0.8 s (once per visit),
+  // so passing through About on the way to another section (menu links, fast scrolling) does not count
+  var sent = {}, wait = {};
+  function seen(name, key, params, on) {
+    var id = name + key;
+    if (sent[id] || !window.pfTrack) return;
+    if (!on) { clearTimeout(wait[id]); wait[id] = 0; }
+    else if (!wait[id]) wait[id] = setTimeout(function () { sent[id] = 1; window.pfTrack(name, params); }, 800);
+  }
   /* timeline inside the Career card (ported from PR #3) */
   var TL = (function () {
     var root = page.querySelector('.ab-tl'); if (!root) return null;
@@ -695,7 +712,7 @@
     var fill = root.querySelector('.tl-axis-fill'), list = root.querySelector('.tl-axis ol'), labels = [];
     var truck = root.querySelector('.tl-truck'), drive = truck ? truck.closest('.tl-scene') : null;
     var peds = drive ? [].slice.call(drive.querySelectorAll('.tl-ped')) : [], tcards = drive ? [].slice.call(drive.querySelectorAll('.tl-card')) : [];
-    var W = 0, total = 0, plan = [], K = 0.62;
+    var W = 0, total = 0, plan = [], K = 0.62, last = 0;
     scenes.forEach(function (s) { var li = document.createElement('li'); li.textContent = s.getAttribute('data-label') || ''; list.appendChild(li); labels.push(li); });
     function measure(w, h) {
       W = w; root.style.setProperty('--tl-w', W + 'px');
@@ -717,6 +734,7 @@
         p.items.forEach(function (el) { el.classList.toggle('is-on', h >= (parseFloat(el.getAttribute('data-at')) || 0)); });
         if (p.s === drive) dh = h;
       });
+      last = cur;
       track.style.transform = 'translate3d(' + (-x).toFixed(1) + 'px,0,0)';
       if (fill) fill.style.setProperty('--p', (total ? y / total : 0).toFixed(4));
       labels.forEach(function (li, i) { li.classList.toggle('is-on', i === cur); });
@@ -758,7 +776,8 @@
         if (near && !sweepRaf) sweepRaf = requestAnimationFrame(sweep);
       }).observe(root);
     }
-    return { root: root, measure: measure, update: update };
+    function report(on) { scenes.forEach(function (s, i) { seen('timeline_scene_view', i, { scene: s.getAttribute('data-label') || String(i) }, on && i === last); }); }
+    return { root: root, measure: measure, update: update, report: report };
   })();
 
   function layout() {
@@ -796,9 +815,11 @@
   }
   function update() {
     ticking = false;
-    var y = clamp(-wrap.getBoundingClientRect().top, 0, total), x = 0, ty = 0, cur = 0;
+    var top = -wrap.getBoundingClientRect().top, live = top >= 0 && top <= total, kind = '';
+    var y = clamp(top, 0, total), x = 0, ty = 0, cur = 0;
     for (var k = 0; k < plan.length; k++) {
       var p = plan[k]; if (y < p.y0 && k) break;
+      kind = p.kind;
       var t = clamp((y - p.y0) / p.len, 0, 1);
       if (p.kind === 'zoom') { x = ease(t); ty = 0; }
       else if (p.kind === 'unzoom') { x = 1 - ease(t); ty = p.a; }
@@ -806,6 +827,7 @@
       if (p.kind === 'tl') TL.update(y - p.y0);
     }
     if (TL && y < plan[0].len) TL.update(0);
+    if (TL) TL.report(live && kind === 'tl');
     var fx = frame.getBoundingClientRect().left;
     var l = lerp(card.l, 0, x) - fx, tp = lerp(card.t, 0, x), w = lerp(card.w, vw, x), h = lerp(card.h, vh, x);
     win.style.left = l.toFixed(1) + 'px'; win.style.top = tp.toFixed(1) + 'px';
@@ -817,6 +839,7 @@
     secs.forEach(function (sct, i) {
       var top = sct.offsetTop - ty, vis = top < vh * .5 && top + sct.offsetHeight > vh * .5;
       if (vis) sct.removeAttribute('inert'); else sct.setAttribute('inert', '');
+      seen('about_section_view', i, { section: (sct.className.match(/\bab-(?!card\b)([a-z]+)/) || [])[1] || String(i) }, live && vis && x > .9);
     });
   }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
