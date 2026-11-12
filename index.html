@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
 <link rel="stylesheet" href="assets/css/tokens.css?v=23">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
-<link rel="stylesheet" href="assets/css/site.css?v=95">
+<link rel="stylesheet" href="assets/css/site.css?v=98">
 <script>
   // 저장된 테마를 첫 그림 전에 적용해 깜빡임을 막습니다
   try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
@@ -98,15 +98,14 @@
       <p class="sec-ko"><b>총 5년 1개월, 세 회사에서 디자인부터 콘텐츠 마케팅·영업 지원까지 맡았습니다.</b> 어디에서 어느 범위까지 일했는지 정리했습니다.</p>
     </div>
     <!-- About: four cards that stack while scrolling (desktop, when they fit the screen); a plain list otherwise -->
-    <div class="ab-stack">
-      <article class="ab-card ab-profile" data-expand="read" aria-labelledby="ab-ab-profile">
+    <div class="ab-scroll"><div class="ab-frame"><div class="ab-win"><div class="ab-page"><div class="ab-track">
+      <article class="ab-card ab-profile" aria-labelledby="ab-ab-profile">
         <header class="ab-hd"><h3 class="ab-t" id="ab-ab-profile"><span>Profile</span> <span class="ab-t2">김예진</span></h3></header>
         <div class="ab-ph"><img src="assets/img/profile.jpg" alt="김예진 프로필 사진" width="643" height="867" loading="lazy"></div><div class="ab-body"><div class="ab-intro"><p class="ab-age">1995년생 · 만 31세</p><p class="ab-intro-h"><span>행동을 만드는 콘텐츠</span>를<br>기획하는 콘텐츠 마케터</p><p class="ab-intro-t">상세페이지 디자인으로 일을 시작해, 같은 상품도 구성에 따라 판매량이 달라지는 것을 보며 콘텐츠의 목적은 <strong>고객의 행동을 이끌어 내는 것</strong>이라고 생각하게 됐습니다. 그 생각으로 디자인에서 콘텐츠 기획과 채널 운영으로, 다시 영업 현장까지 일의 범위를 넓혀 왔습니다. <strong>Designed to Action</strong>은 그 생각을 줄인 말입니다.</p></div></div>
       </article>
-      <article class="ab-card ab-career" data-expand="tl" aria-labelledby="ab-ab-career">
-        <header class="ab-hd"><h3 class="ab-t" id="ab-ab-career"><span>Career</span> <span class="ab-t2">경력 5년 1개월</span></h3></header>
-        <div class="ab-body"><ol class="ab-jobs"><li class="ab-job"><p class="ab-job-hd"><b>주식회사 애드</b><small>2024.11 – 2026.10</small></p><p class="ab-job-co">PTZ 카메라·비전 AI로 유동인구·옥외광고 매체·시청을 분석하는 데이터 솔루션 기업</p><p class="ab-job-role"><span class="sr-only">직무: </span>콘텐츠 마케팅 &amp; 디자인</p><dl class="ab-dl"><dt>콘텐츠 마케팅</dt><dd>블로그·인스타그램·유튜브 채널 운영, 게첨 이미지 촬영 기획</dd><dt>이메일 마케팅</dt><dd>광고 상품 프로모션 메일 템플릿 기획·제작</dd><dt>영업 지원</dt><dd>신규 고객 발굴·제안, 미팅·응대, 판매 후 게첨 보고</dd><dt>편집디자인</dt><dd>회사소개서·제안서·리포트 등 문서 디자인</dd><dt>인쇄물 디자인</dt><dd>현수막·리플렛·스티커·전시 부스 그래픽</dd></dl></li><li class="ab-job"><p class="ab-job-hd"><b>주식회사 고래사</b><small>2023.03 – 2023.06</small></p><p class="ab-job-co">어묵 제조·유통 기업</p><p class="ab-job-role"><span class="sr-only">직무: </span>웹디자인</p><dl class="ab-dl"><dt>웹디자인</dt><dd>상세페이지·이벤트 페이지 기획·디자인</dd><dt>제품 사진</dt><dd>제품 촬영 기획, 사진 편집·보정</dd></dl></li><li class="ab-job"><p class="ab-job-hd"><b>공간조명</b><small>2019.09 – 2022.05</small></p><p class="ab-job-co">조명 브랜드</p><p class="ab-job-role"><span class="sr-only">직무: </span>기획디자인</p><dl class="ab-dl"><dt>웹디자인</dt><dd>상세페이지·이벤트 페이지 기획·디자인</dd><dt>광고 디자인</dt><dd>GDN·DDN·카카오 비즈보드 배너</dd><dt>SNS 마케팅</dt><dd>카드뉴스 기획·디자인, SNS 계정 운영</dd><dt>이커머스 운영</dt><dd>자사몰(카페24·메이크샵), 오픈마켓(네이버 스마트스토어·오늘의집) 운영</dd></dl></li></ol></div>
-      <div class="ab-tl tl tl-on" inert>
+      <article class="ab-card ab-career" aria-labelledby="ab-ab-career">
+        <h3 class="sr-only" id="ab-ab-career">Career · 경력 5년 1개월</h3>
+      <div class="ab-tl tl">
     <div class="tl-stage">
     <div class="tl-track">
       <article class="tl-scene tl-lamp" data-label="2019" data-hold="1.2">
@@ -231,7 +230,7 @@
             <li>Google Analytics Certification <small>취득 예정</small></li>
             <li>JPT 710 · JLPT N2</li></ul></div></div>
       </article>
-    </div>
+    </div></div></div></div></div>
   </div>
 </section>
 </div>
@@ -809,7 +808,7 @@
 
 <!-- Lenis 1.1.13 · MIT · smooth wheel scrolling -->
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="assets/js/site.js?v=46"></script>
-<script type="module" src="assets/js/lamp.js?v=6"></script>
+<script src="assets/js/site.js?v=48"></script>
+<script type="module" src="assets/js/lamp.js?v=7"></script>
 </body>
 </html>

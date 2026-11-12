@@ -2002,3 +2002,28 @@ a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
 .ab-stack:not(.is-stack) .ab-room{display:none}
 .ab-stack.is-measure .ab-card{position:relative!important}
 @media (max-width:639px){.ab-profile .ab-ph{height:36vh;height:36svh;max-width:none;aspect-ratio:auto}}
+
+/* ===== Round 69: About is one page shown as a miniature card. JS sizes .ab-page to the screen and scales it into
+   .ab-win; scrolling grows the window to the full screen (uniform zoom), switches sections, then shrinks it back.
+   Without JS (.ab-scroll without .is-on) the sections are plain cards in a column. ===== */
+.ab-track{display:grid;gap:16px}
+.ab-scroll:not(.is-on) .ab-tl{position:relative;inset:auto;visibility:visible;opacity:1;border-radius:24px}
+.ab-scroll:not(.is-on) .ab-career{padding:0;background:transparent}
+.ab-scroll.is-on{position:relative}
+.ab-scroll.is-on .ab-frame{position:sticky;top:0;height:100vh;height:100lvh}
+.ab-scroll.is-on .ab-win{position:absolute;overflow:hidden;background:#fff;will-change:left,top,width,height}
+.ab-scroll.is-on .ab-page{position:absolute;left:0;top:0;width:var(--pg-w);height:var(--pg-h);transform-origin:0 0;overflow:hidden}
+.ab-scroll.is-on .ab-track{display:block;gap:0;will-change:transform}
+.ab-scroll.is-on .ab-card{min-height:var(--pg-h);height:auto;margin:0;border-radius:0;box-shadow:none;transform:none!important;
+  padding:var(--pg-t) var(--pg-x) clamp(32px,6vh,64px)}
+.ab-scroll.is-on .ab-card::after{content:none}
+.ab-scroll.is-on .ab-career{height:var(--pg-h);padding:0;background:#0B0B0C}
+.ab-scroll.is-on .ab-tl{position:absolute;inset:0;visibility:visible;opacity:1;border-radius:0}
+.ab-scroll.is-on .ab-tl .tl-stage{position:absolute;inset:0;height:auto}
+.ab-card > .ab-hd,.ab-card > .ab-body,.ab-card > .ab-ph{opacity:1}
+/* full-page proportions */
+@media (min-width:1024px){
+  .ab-scroll.is-on .ab-profile{grid-template-columns:minmax(0,1fr) minmax(0,34%);column-gap:clamp(48px,6vw,96px)}
+  .ab-scroll.is-on .ab-profile .ab-ph{min-height:0;max-height:none}
+  .ab-scroll.is-on .ab-t{font-size:clamp(32px,1.6rem + 1.2vw,44px)}
+}

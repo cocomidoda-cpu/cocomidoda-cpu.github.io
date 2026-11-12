@@ -182,10 +182,9 @@ async function start() {
   // The loop runs while the About section is on screen; it only animates and draws while the lamp itself is
   // in view (the timeline moves it with a transform, which IntersectionObserver on the box does not catch)
   let near = false, raf = 0, last = 0;
-  // inside a stacking About card, the timeline only shows once the card is full screen (.is-tl)
-  const host = tl.closest('.ab-card');
+  // inside the About page, only the section on screen is live; the others are marked inert
   function inView() {
-    if (host && !host.classList.contains('is-tl')) return false;
+    if (tl.closest('[inert]')) return false;
     const r = box.getBoundingClientRect();
     return r.right > 0 && r.left < window.innerWidth && r.bottom > 0 && r.top < window.innerHeight;
   }

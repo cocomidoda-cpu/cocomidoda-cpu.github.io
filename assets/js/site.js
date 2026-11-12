@@ -675,21 +675,22 @@
   });
 })();
 
-/* About: stacking cards. Each card sticks a little lower than the previous one (a card taller than the screen sticks
-   by its bottom edge), and as the next card slides over it the covered card shrinks slightly and dims.
-   Cards with data-expand get extra scroll room: they grow to fill the screen, hold, then shrink back before the
-   next card comes. data-expand="tl" (Career) plays the 2019 → 2026 timeline sideways while it is full. */
+/* About: one page shown as a miniature card (the page is laid out at screen size and scaled into the card).
+   Scroll: the card zooms up to fill the screen → Profile holds → Career plays the 2019 → 2026 timeline sideways →
+   Education → Skills (each slides up like the next section of a page) → the page zooms back down into the card.
+   Sections taller than the screen scroll through before the next one comes. */
 (function () {
-  var stack = document.querySelector('.ab-stack'); if (!stack) return;
-  var cards = [].slice.call(stack.querySelectorAll('.ab-card'));
+  var wrap = document.querySelector('.ab-scroll'); if (!wrap) return;
+  var frame = wrap.querySelector('.ab-frame'), win = wrap.querySelector('.ab-win'), page = wrap.querySelector('.ab-page'), track = wrap.querySelector('.ab-track');
+  var secs = [].slice.call(track.children);
   var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var PEEK = 16, st = [], ticking = false, vh = 0, vw = 0, hdH = 0;
+  var vw = 0, vh = 0, hdH = 0, card = null, plan = [], total = 0, ticking = false;
   function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
   function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
-
+  function lerp(a, b, t) { return a + (b - a) * t; }
   /* timeline inside the Career card (ported from PR #3) */
   var TL = (function () {
-    var root = stack.querySelector('.ab-tl'); if (!root) return null;
+    var root = page.querySelector('.ab-tl'); if (!root) return null;
     var track = root.querySelector('.tl-track'), scenes = [].slice.call(root.querySelectorAll('.tl-scene'));
     var fill = root.querySelector('.tl-axis-fill'), list = root.querySelector('.tl-axis ol'), labels = [];
     var truck = root.querySelector('.tl-truck'), drive = truck ? truck.closest('.tl-scene') : null;
@@ -733,12 +734,12 @@
     function mark(i) { peds[i].classList.toggle('is-seen', !!(byTruck[i] || byCam[i])); }
     // PTZ camera on the billboard: pans left and right on its own while the timeline is showing
     var cam = drive ? drive.querySelector('.tl-cam') : null, lens = cam && cam.querySelector('.tl-lens'), cone = cam && cam.querySelector('.tl-cone');
-    var host = root.closest('.ab-card'), near = false, sweepRaf = 0, t0 = 0;
+    var near = false, sweepRaf = 0, t0 = 0; // only while the Career section is the one on screen (others are inert)
     function sweep(t) {
       sweepRaf = 0;
       if (!near || !cam) return;
       var r = drive.getBoundingClientRect();
-      if ((!host || host.classList.contains('is-tl')) && r.right > 0 && r.left < window.innerWidth) {
+      if (!root.closest('[inert]') && r.right > 0 && r.left < window.innerWidth) {
         if (!t0) t0 = t;
         var a = rm ? 0 : Math.sin((t - t0) / 1000 * 1.1) * 0.85; // ±49°, one sweep there and back in about 5.7 s
         cam.style.setProperty('--pan', a.toFixed(3) + 'rad');
@@ -760,91 +761,70 @@
     return { root: root, measure: measure, update: update };
   })();
 
-  // scroll room after a card that grows lives in a spacer (a card's own margin would cut its sticky range short)
-  var rooms = cards.map(function (c) {
-    if (!c.hasAttribute('data-expand')) return null;
-    var sp = document.createElement('div'); sp.className = 'ab-room'; sp.setAttribute('aria-hidden', 'true');
-    c.after(sp); return sp;
-  });
-  var G = 0;
-  function reset(c) {
-    ['height', 'top', 'marginBottom', 'marginLeft', 'marginRight', 'paddingLeft', 'paddingRight', 'paddingTop', 'borderRadius', 'transform'].forEach(function (k) { c.style[k] = ''; });
-    c.style.removeProperty('--ab-dim'); c.style.removeProperty('--ab-tlv'); c.classList.remove('is-tl');
-  }
   function layout() {
-    stack.classList.remove('is-stack');
-    cards.forEach(reset);
-    vh = window.innerHeight; vw = document.documentElement.clientWidth;
-    var hd = document.getElementById('top-header');
-    hdH = hd ? hd.getBoundingClientRect().height : 64;
-    var top = hdH + (vw < 640 ? 12 : 24);
-    var hs = cards.map(function (c) { return c.getBoundingClientRect().height; });
-    if (vw >= 1024) { var Hm = Math.ceil(Math.max.apply(null, hs)); hs = hs.map(function () { return Hm; }); }
-    var E = Math.round(vh * 0.55);   // scroll it takes to grow (and to shrink back)
-    var tlLen = TL ? TL.measure(vw, vh) : 0;
-    st = cards.map(function (c, i) {
-      var cs = getComputedStyle(c), mode = c.getAttribute('data-expand');
-      var hold = mode === 'tl' ? tlLen : mode ? Math.round(vh * 0.7) : 0;
-      var o = { c: c, H: hs[i], mode: mode, E: E, hold: hold, room: mode ? E * 2 + hold : 0,
-        pad: parseFloat(cs.paddingLeft), padT: parseFloat(cs.paddingTop), R: parseFloat(cs.borderTopLeftRadius),
-        L: c.getBoundingClientRect().left, Rr: vw - c.getBoundingClientRect().right };
-      o.stick = Math.min(top, vh - o.H - 16) + i * PEEK;
-      return o;
+    wrap.classList.add('is-on');
+    if (TL) TL.root.classList.add('tl-on');
+    vw = document.documentElement.clientWidth; vh = window.innerHeight;
+    var hd = document.getElementById('top-header'); hdH = hd ? hd.getBoundingClientRect().height : 64;
+    var inner = wrap.parentElement.getBoundingClientRect();           // the About .wrap: content column of the site
+    var cs = getComputedStyle(wrap.parentElement);
+    var colL = inner.left + parseFloat(cs.paddingLeft), colW = inner.width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    page.style.setProperty('--pg-w', vw + 'px'); page.style.setProperty('--pg-h', vh + 'px');
+    page.style.setProperty('--pg-x', Math.round(colL) + 'px'); page.style.setProperty('--pg-t', Math.round(hdH + Math.min(56, vh * .06)) + 'px');
+    // card: same proportions as the screen, as wide as the content column, fits under the header
+    var top = hdH + (vw < 640 ? 12 : 24), maxH = vh - top - (vw < 640 ? 12 : 32);
+    var w = Math.min(colW, maxH * vw / vh), h = w * vh / vw;
+    card = { l: (vw - w) / 2, t: top, w: w, h: h, r: vw < 640 ? 20 : 28 };
+    // scroll plan
+    var tlLen = TL ? TL.measure(vw, vh) : 0, E = Math.round(vh * .7), HOLD = Math.round(vh * .45);
+    plan = []; total = 0;
+    function seg(kind, len, a, b, extra) { plan.push({ kind: kind, y0: total, len: Math.max(1, len), a: a, b: b, extra: extra }); total += Math.max(1, len); }
+    var offs = [], o = 0;
+    secs.forEach(function (sct) { offs.push(o); o += sct.offsetHeight; });
+    seg('zoom', E, 0, 1);
+    secs.forEach(function (sct, i) {
+      var hgt = sct.offsetHeight;
+      if (i > 0) seg('move', vh, offs[i] - vh, offs[i]);                 // next section slides up, 1:1 with the scroll
+      if (hgt > vh + 1) seg('move', hgt - vh, offs[i], offs[i] + hgt - vh); // read through a tall section
+      if (sct.querySelector('.ab-tl') && TL) seg('tl', tlLen, offs[i], offs[i]);
+      else seg('hold', i === secs.length - 1 ? HOLD * .6 : HOLD, offs[i] + Math.max(0, hgt - vh), offs[i] + Math.max(0, hgt - vh));
     });
-    stack.classList.add('is-stack', 'is-measure');
-    G = parseFloat(getComputedStyle(stack).rowGap) || 0;
-    st.forEach(function (o, i) {
-      o.sp = rooms[i];
-      if (vw >= 1024) o.c.style.height = o.H + 'px';
-      if (o.sp) o.sp.style.height = Math.max(0, o.room - G) + 'px';
-    });
-    st.forEach(function (o) { o.start = o.c.getBoundingClientRect().top + window.scrollY - o.stick; o.c.style.top = Math.round(o.stick) + 'px'; });
-    stack.classList.remove('is-measure');
-    stack.abStarts = st.map(function (o) { return [o.start, o.room]; });
+    var last = plan[plan.length - 1].b;
+    seg('unzoom', E, last, last);
+    wrap.style.height = Math.round(total + vh) + 'px';
     update();
   }
   function update() {
     ticking = false;
-    var y = window.scrollY;
-    st.forEach(function (o) {
-      if (!o.room) return;
-      var d = y - o.start, x;
-      if (d <= 0 || d >= o.room) x = 0;
-      else if (d < o.E) x = ease(d / o.E);
-      else if (d > o.room - o.E) x = ease((o.room - d) / o.E);
-      else x = 1;
-      var c = o.c, h = o.H + (vh - o.H) * x;
-      c.style.top = (o.stick * (1 - x)).toFixed(1) + 'px';
-      c.style.height = h.toFixed(1) + 'px';
-      c.style.marginBottom = (o.H - h).toFixed(1) + 'px';
-      c.style.marginLeft = (-o.L * x).toFixed(1) + 'px';
-      c.style.marginRight = (-o.Rr * x).toFixed(1) + 'px';
-      c.style.paddingLeft = (o.pad + o.L * x).toFixed(1) + 'px';
-      c.style.paddingRight = (o.pad + o.Rr * x).toFixed(1) + 'px';
-      c.style.paddingTop = (o.padT + hdH * x).toFixed(1) + 'px';
-      c.style.borderRadius = (o.R * (1 - x)).toFixed(1) + 'px';
-      if (o.mode === 'tl' && TL) {
-        var v = clamp((x - .55) / .45, 0, 1);
-        c.style.setProperty('--ab-tlv', v.toFixed(3));
-        c.classList.toggle('is-tl', v > 0);
-        if (v > .5) TL.root.removeAttribute('inert'); else TL.root.setAttribute('inert', '');
-        TL.update(d - o.E);
-      }
-    });
-    var tops = st.map(function (o) { return o.c.getBoundingClientRect().top; });
-    st.forEach(function (o, i) {
-      var depth = 0;
-      for (var k = i + 1; k < st.length; k++) {
-        var run = Math.max(1, Math.min(st[k].H, vh - st[k].stick));
-        depth += Math.max(0, Math.min(1, 1 - (tops[k] - st[k].stick) / run));
-      }
-      o.c.style.transform = (!rm && depth) ? 'scale(' + (1 - depth * 0.035).toFixed(4) + ')' : '';
-      o.c.style.setProperty('--ab-dim', (Math.min(depth, 3) * 0.14).toFixed(3));
+    var y = clamp(-wrap.getBoundingClientRect().top, 0, total), x = 0, ty = 0, cur = 0;
+    for (var k = 0; k < plan.length; k++) {
+      var p = plan[k]; if (y < p.y0 && k) break;
+      var t = clamp((y - p.y0) / p.len, 0, 1);
+      if (p.kind === 'zoom') { x = ease(t); ty = 0; }
+      else if (p.kind === 'unzoom') { x = 1 - ease(t); ty = p.a; }
+      else { x = 1; ty = p.kind === 'move' ? lerp(p.a, p.b, t) : p.a; }
+      if (p.kind === 'tl') TL.update(y - p.y0);
+    }
+    if (TL && y < plan[0].len) TL.update(0);
+    var fx = frame.getBoundingClientRect().left;
+    var l = lerp(card.l, 0, x) - fx, tp = lerp(card.t, 0, x), w = lerp(card.w, vw, x), h = lerp(card.h, vh, x);
+    win.style.left = l.toFixed(1) + 'px'; win.style.top = tp.toFixed(1) + 'px';
+    win.style.width = w.toFixed(1) + 'px'; win.style.height = h.toFixed(1) + 'px';
+    win.style.borderRadius = (card.r * (1 - x)).toFixed(1) + 'px';
+    page.style.transform = 'scale(' + (w / vw).toFixed(5) + ')';
+    track.style.transform = 'translate3d(0,' + (-ty).toFixed(1) + 'px,0)';
+    // only the section in view can take focus
+    secs.forEach(function (sct, i) {
+      var top = sct.offsetTop - ty, vis = top < vh * .5 && top + sct.offsetHeight > vh * .5;
+      if (vis) sct.removeAttribute('inert'); else sct.setAttribute('inert', '');
     });
   }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-  var rt, lw = window.innerWidth;
-  window.addEventListener('resize', function () { if (window.innerWidth === lw && Math.abs(window.innerHeight - vh) < 120) return; lw = window.innerWidth; clearTimeout(rt); rt = setTimeout(layout, 150); });
+  var rt, lw = window.innerWidth, lh = window.innerHeight;
+  window.addEventListener('resize', function () {
+    if (window.innerWidth === lw && Math.abs(window.innerHeight - lh) < 120) return;
+    lw = window.innerWidth; lh = window.innerHeight; clearTimeout(rt); rt = setTimeout(layout, 150);
+  });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
   window.addEventListener('load', layout);
   layout();
