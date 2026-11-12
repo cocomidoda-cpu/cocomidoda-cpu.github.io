@@ -36,6 +36,63 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
+  /* Job-specific versions: ?for=<key> swaps the hero lines, the Work intro, the three featured works,
+     the category order and the first open How I Work item. The versions are written in index.html (#job-versions).
+     Runs before everything below, so the accordion, card reveal and category list see the final page. */
+  var jobKey = (/[?&]for=([a-z0-9-]+)/.exec(location.search) || [])[1] || '';
+  (function () {
+    var data = $('#job-versions');
+    if (!jobKey || !data) return;
+    var v;
+    try { v = JSON.parse(data.textContent)[jobKey]; } catch (e) { return; }
+    if (!v) return;
+    function put(sel, val, asHtml) { var el = $(sel); if (el && val) el[asHtml ? 'innerHTML' : 'textContent'] = val; }
+    put('.hero-pos', v.pos);
+    put('.hero-intro', v.intro, true);
+    put('.hero-lbl', v.label);
+    put('#work .sec-hd .sec-ko', v.lead, true);
+    if (v.title) document.title = v.title;
+    // 대표 작업: 빠지는 카드는 원래 묶음(data-home)의 맨 앞으로 돌려보내고, 지정한 카드를 순서대로 올립니다
+    var feat = $('#work .wk-feat');
+    if (feat && v.featured) {
+      var want = v.featured.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+      $$('.work', feat).reverse().forEach(function (c) {
+        if (want.indexOf(c) !== -1) return;
+        var home = document.getElementById(c.getAttribute('data-home'));
+        if (!home) return;
+        c.classList.remove('work-wide');
+        home.insertBefore(c, $('.work', home));
+      });
+      want.forEach(function (c) { c.classList.add('work-wide'); feat.appendChild(c); });
+    }
+    // 목록의 분류 순서 (예: 디자인 공고는 Design 먼저)
+    if (v.order) {
+      var list = $('#work .wk-list'), cats = $('#work .wk-cats');
+      v.order.forEach(function (id) {
+        var g = document.getElementById(id), a = $('.wk-cat[href="#' + id + '"]');
+        if (g && list) list.appendChild(g);
+        if (a && cats) cats.appendChild(a.closest('li'));
+      });
+    }
+    if (v.open) $$('.u044-it').forEach(function (it) { it.classList.toggle('open', it.style.order === String(v.open)); });
+    track('portfolio_version', { version: jobKey });
+  })();
+
+  /* Category counts are read from the cards, so they stay right whichever works are featured */
+  $$('.wk-cat, .wk-sub').forEach(function (a) {
+    var g = document.getElementById(a.getAttribute('href').slice(1)), n = g ? $$('.work', g).length : 0;
+    var el = $(a.classList.contains('wk-cat') ? 'sup' : 'span', a);
+    if (el) el.textContent = (n < 10 ? '0' : '') + n;
+  });
+
+  /* Keep the version when moving between the home page and the archive */
+  if (jobKey) {
+    $$('a[href^="index.html"], a[href^="archive.html"]').forEach(function (a) {
+      var h = a.getAttribute('href'), i = h.indexOf('#'), base = i < 0 ? h : h.slice(0, i);
+      if (base.indexOf('?') === -1) a.setAttribute('href', base + '?for=' + jobKey + (i < 0 ? '' : h.slice(i)));
+    });
+  }
+
   /* Lucian UX/UI Prompt #212 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#212
      Header, driven by the window scroll. Adapted: the header stays fixed (no hiding); once scrolled it turns frosted. */
   (function () {
@@ -346,6 +403,15 @@
     }
     $$('[data-detail]').forEach(function (b) {
       b.addEventListener('click', function () { open(b.closest('.work'), b); });
+    });
+    // How I Work: 작업 이름 링크는 해당 작업의 상세보기를 바로 엽니다 (상세보기가 없는 작업은 카드로 스크롤)
+    $$('a[data-open]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var card = document.getElementById(a.getAttribute('data-open'));
+        if (!card || !$('.work-pages', card)) return;
+        e.preventDefault();
+        open(card, a);
+      });
     });
     x.addEventListener('click', close);
 
