@@ -133,6 +133,7 @@
      Circular-reveal dark mode for the whole page (View Transitions API). */
   (function () {
     var tg = $('.u219-tg');
+    if (!tg) return;   // the switch was taken out of the header
     var mq = window.matchMedia('(prefers-color-scheme: dark)');
     function isDark() {
       var t = doc.getAttribute('data-theme');
@@ -843,13 +844,18 @@
       // walkers: they keep walking right with the scroll; when the truck comes up behind them they turn their heads
       // toward it, and a moment later the vision-AI box closes around them
       var front = tl0 + tw * 0.96;
+      truck.style.setProperty('--sw', street.offsetWidth + 'px');   // the truck's fade mask spans the street, like the road's
+      // the group reacts together: once the truck reaches the nearest walker, all of them turn and get boxed
+      var near = Infinity;
       peds.forEach(function (p, i) {
         var walk = rm ? 0 : Math.min(rel * (0.09 + i * 0.012), 150);
         p.style.setProperty('--walk', walk.toFixed(1) + 'px');
         p.style.setProperty('--bob', (rm ? 0 : -Math.abs(Math.sin(walk / 16)) * 2.5).toFixed(2) + 'px');
-        var gap = (p.getBoundingClientRect().left - sx + walk) - front;
-        p.classList.toggle('is-look', gap < 280 && gap > -30);   // truck behind them: look back; once it passes, it is ahead
-        byTruck[i] = gap < 90; mark(i);
+        near = Math.min(near, (p.getBoundingClientRect().left - sx + walk) - front);
+      });
+      peds.forEach(function (p, i) {
+        p.classList.toggle('is-look', near < 280);
+        byTruck[i] = near < 120; mark(i);
       });
       tcards.forEach(function (c) { c.classList.toggle('is-on', c.offsetLeft - rel < W * 0.8); });
     }
@@ -903,8 +909,9 @@
   intro.appendChild(introShade);
   // Profile text fills in one character at a time, line by line, while Profile holds (pale → ink).
   // Screen readers get the plain sentence; the split letters are hidden from them.
-  var fillEl = intro.querySelector('[data-fill]'), chars = [];
-  if (fillEl) {
+  // Title, then body: both fill in as one run of letters; the small signature line fades in at the end.
+  var chars = [], sign = intro.querySelector('.ab-sign');
+  intro.querySelectorAll('[data-fill]').forEach(function (fillEl) {
     var txt = fillEl.textContent, sr = document.createElement('span'); sr.className = 'sr-only'; sr.textContent = txt;
     var vis = document.createElement('span'); vis.setAttribute('aria-hidden', 'true');
     txt.split(/(\s+)/).forEach(function (w) {
@@ -915,7 +922,7 @@
       vis.appendChild(word);
     });
     fillEl.textContent = ''; fillEl.appendChild(sr); fillEl.appendChild(vis);
-  }
+  });
   // The lamp (lamp.js draws it on .tl-walker, a layer on the stage): when the Profile text has filled in, it peeks in
   // from the right, walks to the middle and stands on the bottom edge of the screen; as Career slides up it jumps
   // down into its place in the 2019 scene (.tl-bulb-slot) and stays there. lamp.js reads walker._walk.
@@ -932,9 +939,13 @@
     if (inTl || rm) { x = sx; y = sy; W.home = inTl; W.jump = 1; W.bright = 0; }
     else if (fill > 0) {
       // the jump: a short crouch, then an arc from where it stands to its slot (which is rising with Career)
-      var e = ease(clamp((fill - .04) / .96, 0, 1));
-      x = cx + (sx - cx) * e; y = standY + (sy - standY) * e - Math.sin(Math.PI * e) * vh * .22;
-      W.jump = fill;
+      // a real jump timed to the scroll: crouch, a ballistic arc (even speed sideways,
+      // gravity up and down), land in the slot and ride up with it
+      var jp = clamp((fill - .02) / .96, 0, 1);   // spread over the whole slide, so it lands as Career settles
+      if (jp < .18) { x = cx; y = standY; }
+      else if (jp < .82) { var f = (jp - .18) / .64; x = cx + (sx - cx) * f; y = standY + (sy - standY) * f - vh * .2 * 4 * f * (1 - f); }
+      else { x = sx; y = sy; }
+      W.jump = jp;
     } else {
       // walk in: peek (0–.22) → look (.22–.38) → walk to the middle (.38–1)
       var peek = vw - w * .42, d;
@@ -953,6 +964,7 @@
     var n = p * (chars.length + 6);
     if (Math.abs(n - lastFill) < 0.05) return; lastFill = n;
     for (var c = 0; c < chars.length; c++) chars[c].style.setProperty('--f', clamp(n - c, 0, 1).toFixed(2));
+    if (sign) sign.style.opacity = clamp(n - chars.length, 0, 1).toFixed(2);
   }
   function layout() {
     flow.classList.add('is-on');
@@ -1006,4 +1018,18 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
   window.addEventListener('load', layout);
   layout();
+})();
+
+// Footer mark: "Get in Touch" fills the footer's width exactly (the font size follows the width)
+(function () {
+  var mark = document.querySelector('.ft2-mark'), span = mark && mark.querySelector('span');
+  if (!span) return;
+  function fitMark() {
+    mark.style.fontSize = '160px';
+    var w = mark.clientWidth, s = span.getBoundingClientRect().width;
+    if (w && s) mark.style.fontSize = (160 * w / s).toFixed(1) + 'px';
+  }
+  fitMark();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitMark);
+  var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(fitMark, 120); });
 })();

@@ -57,6 +57,15 @@ async function start() {
   const COIL_Y = 0.044, COIL_H = 0.0301;
   const coil = new THREE.Group(); coil.position.set(0, COIL_Y, 0); root.add(coil);
   const helix = root.getObjectByName('diffuser_concept'); if (helix) coil.attach(helix);
+  // Legs: each leg and its foot hang from a hip pivot at the top of the leg, so they can swing in turns while walking
+  const legs = [['Leg_left', 'Foot_left'], ['Leg_right', 'Foot_right']].map(([ln, fn]) => {
+    const leg = root.getObjectByName(ln), foot = root.getObjectByName(fn);
+    if (!leg) return null;
+    const bb = new THREE.Box3().setFromObject(leg), c = bb.getCenter(new THREE.Vector3());
+    const hip = new THREE.Group(); hip.position.set(c.x, bb.max.y, c.z); leg.parent.add(hip);
+    hip.attach(leg); if (foot) hip.attach(foot);
+    return { hip, y0: bb.max.y, h: bb.max.y - bb.min.y };
+  });
 
   // The light: the spiral (and the LED face under the head) glow, with a warm point light inside the spiral
   const WARM = new THREE.Color(0xffd9a8);
@@ -99,7 +108,7 @@ async function start() {
   function spring(x, v, to, k, c, dt) { v += (-k * (x - to) - c * v) * dt; return [x + v * dt, v]; }
 
   const MARKS = [0.3, 0.42, 0.54, 0.66];
-  let lit = false, step = 0, first = true;
+  let lit = false, step = 0, first = true, lastJ = 0;
   function read() {
     const W = box._walk;
     const h = tl.classList.contains('tl-on') ? (parseFloat(room.style.getPropertyValue('--h')) || 0) : 1;
@@ -173,12 +182,29 @@ async function start() {
     const W = box._walk || {};
     const ph = W.phase || 0, j = W.jump || 0, moving = W.moving ? 1 : 0;
     const step = Math.abs(Math.sin(ph));
-    const air = j > 0 && j < 1 ? Math.sin(Math.PI * j) : 0;
-    const crouch = j > 0 && j < 0.12 ? Math.sin(Math.PI * j / 0.12) : 0;
-    body.position.y = S.y + step * 0.006 * moving;
-    body.rotation.z = Math.sin(ph) * 0.09 * moving;
-    const sq = S.s + air * 0.08 - crouch * 0.09 - (1 - step) * 0.015 * moving;
+    // the jump (j: 0 → 1, site.js moves the box): crouch (0–.18) → launch and fly (.18–.82) → land and squash (.82–1)
+    const inJump = j > 0 && j < 1;
+    const crouch = inJump && j < 0.18 ? Math.sin(Math.PI / 2 * j / 0.18) : 0;
+    const fly = inJump && j >= 0.18 && j < 0.82 ? (j - 0.18) / 0.64 : -1;
+    const land = inJump && j >= 0.82 ? Math.sin(Math.PI * (j - 0.82) / 0.18) : 0;
+    const stretch = fly >= 0 ? Math.abs(1 - 2 * fly) : 0;            // long while rising and falling, round at the top
+    if (j >= 0.18 && lastJ < 0.18) S.vhy -= 0.35;                     // launch: the head lags behind on its spring
+    if (j >= 0.82 && lastJ < 0.82) { S.vhy -= 0.55; S.vtilt += 0.6; } // landing: the head drops onto the coil and wobbles
+    lastJ = j;
+    body.position.y = S.y + step * 0.004 * moving;
+    body.rotation.z = Math.sin(ph) * 0.05 * moving + (fly >= 0 ? Math.sin(Math.PI * fly) * 0.22 : 0) - crouch * 0.08;
+    body.rotation.y += ((moving ? -0.45 : 0) - body.rotation.y) * 0.15;   // a three-quarter turn while walking, so the stride reads
+    const sq = S.s - crouch * 0.16 + stretch * 0.1 - land * 0.18;
     body.scale.set(1 - sq * 0.5, 1 + sq, 1 - sq * 0.5);
+    // legs: in turns, one swings forward and lifts while the other pushes back; tucked in the air, splayed on landing
+    legs.forEach((L, i) => {
+      if (!L) return;
+      const side = i ? -1 : 1, sw = Math.sin(ph) * side * moving;
+      const tuck = fly >= 0 ? Math.sin(Math.PI * fly) : 0;
+      L.hip.rotation.z = sw * 0.42 + side * (land * 0.25 - tuck * 0.12);
+      L.hip.rotation.x = -tuck * 0.5;
+      L.hip.position.y = L.y0 + Math.max(0, sw) * L.h * 0.35 + tuck * L.h * 0.25 - crouch * L.h * 0.2;
+    });
     S.hy += (W.moving ? -Math.cos(ph * 2) * 0.0006 : 0);
     scene.environmentIntensity = 0.22 + 0.6 * (W.bright || 0);   // brighter chrome on the white Profile screen
     // the coil bends sideways from its base; the head rides on top of it
