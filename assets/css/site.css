@@ -2951,3 +2951,7 @@ a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
   linear-gradient(180deg,#4A4B4E 0%,#3A3B3E 45%,#2A2B2D 100%)}
 #about .ab-tl .tl-road::before{background:rgba(0,0,0,.35)}
+/* 2024 scene: 100px shorter on the right (the empty end of the street); Next scene without its title */
+#about .ab-tl.tl-on .tl-addd{flex-basis:calc(max(calc(var(--tl-w) * 1.7), calc(var(--pole-x) + var(--tl-w) * .55)) - 100px)!important}
+#about .ab-tl .tl-next .tl-next-d{margin-top:28px}
+#about .ab-tl.tl-on .tl-addd{overflow-x:clip!important}

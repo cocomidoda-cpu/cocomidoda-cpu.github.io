@@ -862,7 +862,7 @@
       if (!on) { typeEl.textContent = ''; return; }
       if (rm) { typeEl.textContent = txt; return; }
       var n = 0;
-      (function step() { typeT = setTimeout(function () { typeEl.textContent = txt.slice(0, ++n); if (n < txt.length) step(); }, n ? 120 : 1400); })();
+      (function step() { typeT = setTimeout(function () { typeEl.textContent = txt.slice(0, ++n); if (n < txt.length) step(); }, n ? 80 : 350); })();
     } : null;
     // 2024: a person gets a box when the truck has passed them or the PTZ camera has them in view
     var byTruck = [], byCam = [];

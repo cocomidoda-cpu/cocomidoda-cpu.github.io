@@ -38,7 +38,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
 <link rel="stylesheet" href="assets/css/tokens.css?v=23">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
-<link rel="stylesheet" href="assets/css/site.css?v=175">
+<link rel="stylesheet" href="assets/css/site.css?v=177">
 <script>
   // 저장된 테마를 첫 그림 전에 적용해 깜빡임을 막습니다
   // 기본은 라이트(흰색). 방문자가 직접 다크로 바꾼 경우에만 다크로 엽니다 (예전 저장값 'theme'는 쓰지 않음)
@@ -161,9 +161,8 @@
 
       <article class="tl-scene tl-next" data-label="Next" data-hold="1">
         <header class="tl-hd tl-next-hd"><div class="tl-hd-main">
-          <p class="tl-year" data-at=".06">2026<span> – </span><span class="tl-type" data-text="ohbrown?" aria-label="ohbrown?"></span><i class="tl-caret" aria-hidden="true"></i></p>
-          <h3 class="tl-co tl-next-t" data-at=".18">Next <em>Chapter.</em></h3>
-          <p class="tl-next-d" data-at=".3">고객이 검색하는 말에서 시작해 문의와 판매까지 이어 온 콘텐츠, 이제 오브라운에서 만들겠습니다.</p>
+          <p class="tl-year" data-at=".01">2026<span> – </span><span class="tl-type" data-text="ohbrown?" aria-label="ohbrown?"></span><i class="tl-caret" aria-hidden="true"></i></p>
+          <p class="tl-next-d" data-at=".12">고객이 검색하는 말에서 시작해 문의와 판매까지 이어 온 콘텐츠, 이제 오브라운에서 만들겠습니다.</p>
         </div></header>
       </article>
 
@@ -736,46 +735,11 @@
 
 
 <!-- Contact: copy button ported from Lucian #008 (copy button that turns into a check) -->
-<section class="sec contact" id="contact" aria-labelledby="contact-title">
-  <div class="wrap">
-    <h2 id="contact-title" class="display contact-h" data-grow><span>Get in</span> <em>Touch.</em></h2>
-    <div class="contact-side" data-rv>
-    <p class="contact-lbl">Contact</p>
-    <div class="u008">
-      <div class="u008-box">
-        <a class="u008-code" href="tel:010-2836-3565"><em aria-hidden="true">Tel</em><span class="u008-cmd">010-2836-3565</span></a>
-        <button class="u008-btn" type="button" aria-label="전화번호 복사">
-          <svg class="u008-cp" viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6.5a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/></svg>
-          <svg class="u008-ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg>
-        </button>
-        <span class="u008-tip" role="status"></span>
-      </div>
-    </div>
-    <div class="u008">
-      <div class="u008-box">
-        <a class="u008-code" href="mailto:1224minutes@gmail.com"><em aria-hidden="true">Mail</em><span class="u008-cmd">1224minutes@gmail.com</span></a>
-        <button class="u008-btn" type="button" aria-label="이메일 주소 복사">
-          <svg class="u008-cp" viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6.5a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/></svg>
-          <svg class="u008-ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg>
-        </button>
-        <span class="u008-tip" role="status"></span>
-      </div>
-    </div>
-    <div class="u008 u008-link">
-      <div class="u008-box">
-        <a class="u008-code" href="https://www.behance.net/1224minutes" target="_blank" rel="noopener"><em aria-hidden="true">Behance</em><span class="u008-cmd">behance.net/1224minutes</span></a>
-        <a class="u008-btn" href="https://www.behance.net/1224minutes" target="_blank" rel="noopener" aria-label="Behance 열기 (새 창)">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16L16 8M9 8h7v7"/></svg>
-        </a>
-      </div>
-    </div>
-    </div>
-  </div>
-</section>
+
 
 </main>
 
-<footer class="ft2">
+<footer class="ft2" id="contact" aria-label="연락처">
   <div class="wrap">
     <div class="ft2-cols">
       <div class="ft2-col ft2-nav">
@@ -872,7 +836,7 @@
 
 <!-- Lenis 1.1.13 · MIT · smooth wheel scrolling -->
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="assets/js/site.js?v=79"></script>
+<script src="assets/js/site.js?v=80"></script>
 <script src="assets/js/hero-gl.js?v=2"></script>
 <script type="module" src="assets/js/lamp.js?v=12"></script>
 </body>
