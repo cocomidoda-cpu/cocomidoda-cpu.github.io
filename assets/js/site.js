@@ -395,7 +395,10 @@
 
   /* Work detail viewer: "자세히 보기" opens the work's pages stacked vertically */
   (function () {
-    var dv = $('.dv'), body = $('.dv-body', dv), title = $('.dv-title', dv), x = $('.dv-x', dv), opener = null;
+    var dv = $('.dv'), body = $('.dv-body', dv), title = $('.dv-title', dv), x = $('.dv-x:not(.dv-back)', dv), opener = null;
+    // a work opened from a group popup (City Pink, 편집디자인) gets a back arrow to that group
+    var back = $('.dv-back', dv), backTo = null;
+    if (back) back.addEventListener('click', function () { if (backTo) open(backTo, back); });
     // 무음 반복 영상(GIF를 바꾼 것): 움직임 줄이기 설정이면 재생하지 않고 첫 화면에 멈춰 둡니다 (WCAG 2.3.3)
     function playClips(root) {
       $$('video', root).forEach(function (v) {
@@ -426,6 +429,8 @@
     var seenAt = {}, hideT = 0;
     function open(card, from) {
       var tpl = $('.work-pages', card);
+      backTo = (from && from.closest && from.closest('.rp-works') && current && !dv.hidden) ? current : null;
+      if (back) back.hidden = !backTo;
       if (current && !dv.hidden) seenAt[current.id] = body.scrollTop;   // switching works with "다음 작업 보기"
       clearTimeout(hideT);
       opener = from; doneSent = false;

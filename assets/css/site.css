@@ -3624,3 +3624,6 @@ a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
 .rp2 .rp-work-s{font-size:15px;line-height:1.6;color:var(--rp-2)}
 .rp2 .rp-work-b i{position:absolute;right:18px;top:18px;font-style:normal;font-weight:700;color:var(--rp-ink)}
 @media (max-width:760px){.rp2 .rp-probs4,.rp2 .rp-works{grid-template-columns:minmax(0,1fr)!important}.rp2 .rp-chain{grid-template-columns:minmax(0,1fr)}.rp2 .rp-chain li:not(:last-child)::after{right:50%;top:auto;bottom:-14px;transform:translate(50%,50%) rotate(90deg)}}
+/* back to the group: same round button as close, left of the badges */
+.dv-back{margin-right:12px}
+.dv-back[hidden]{display:none}
