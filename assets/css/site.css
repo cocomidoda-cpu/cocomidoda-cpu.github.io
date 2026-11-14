@@ -3104,3 +3104,223 @@ a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
 @media (max-width:760px){.fb .fb-ex-side{grid-template-columns:1fr}}
 .fb .fb-table{margin-top:18px;overflow-x:auto}
 .fb .fb-table .ds-table{width:100%}
+/* ===== The ohbrown scene, in ohbrown's own look (ohbrown.co.kr/identity): a black night sky with stars and a
+   faint teal-blue glow, huge outlined "Unlimited OHBROWN" type drifting behind, bold white Pretendard,
+   teal accent (#16A69E). The street ends at this scene; nothing from it shows here. */
+#about .ab-tl .tl-curb,#about .ab-tl .tl-rail,#about .ab-tl .tl-road{right:0!important}
+#about .ab-tl.tl-on .tl-next,#about .ab-tl .tl-next{--ob-teal:#16A69E;position:relative;z-index:3;overflow:hidden;background:#000!important;color:#fff!important}
+#about .ab-tl .tl-ob-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+#about .ab-tl .tl-ob-stars{position:absolute;inset:0;opacity:.75;background-image:
+  radial-gradient(1px 1px at 12% 18%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 27% 62%,#fff 50%,transparent 51%),
+  radial-gradient(1.5px 1.5px at 41% 28%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 58% 12%,#fff 50%,transparent 51%),
+  radial-gradient(1px 1px at 66% 74%,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 79% 36%,#fff 50%,transparent 51%),
+  radial-gradient(1px 1px at 88% 58%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 8% 84%,#fff 50%,transparent 51%),
+  radial-gradient(1px 1px at 52% 46%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 94% 14%,#fff 50%,transparent 51%);
+  background-size:420px 300px}
+#about .ab-tl .tl-ob-glow{position:absolute;left:-10%;right:-10%;bottom:-38%;height:70%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(120,190,210,.28),rgba(22,166,158,.12) 55%,transparent 75%);filter:blur(10px)}
+#about .ab-tl .tl-ob-mark{position:absolute;left:0;bottom:6%;margin:0;display:flex;white-space:nowrap;font-family:Pretendard,sans-serif;
+  font-size:clamp(72px,9vw,150px);font-weight:700;letter-spacing:-.02em;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.22);
+  animation:tl-ob-run 40s linear infinite}
+#about .ab-tl .tl-ob-mark span{flex:none}
+@keyframes tl-ob-run{to{transform:translateX(-50%)}}
+#about .ab-tl .tl-next-hd{position:relative;z-index:1}
+#about .ab-tl .tl-next .tl-year{font-family:Pretendard,sans-serif!important;font-style:normal!important;font-weight:700!important;letter-spacing:-.03em!important;color:#fff}
+#about .ab-tl .tl-next .tl-type{color:var(--ob-teal)}
+#about .ab-tl .tl-next .tl-caret{background:var(--ob-teal)!important;border-color:var(--ob-teal)!important}
+#about .ab-tl .tl-next .tl-next-d{color:rgba(255,255,255,.8)!important;opacity:1!important;font-weight:500}
+@media (prefers-reduced-motion:reduce){#about .ab-tl .tl-ob-mark{animation:none}}
+#about .ab-tl .tl-next .tl-year > span:not(.tl-type){margin:0 .22em}
+/* Truck: the LED screen reads CITY PINK in capitals (a panel the colour of the screen covers the lettering in the photo) */
+#about .ab-tl .tl-truck{container-type:inline-size}
+#about .ab-tl .tl-truck-screen{position:absolute;left:5.3%;top:26.4%;width:49.3%;height:33.3%;display:grid;place-items:center;background:#161616;
+  font-family:Pretendard,sans-serif;font-size:7.4cqw;font-weight:600;letter-spacing:.02em;line-height:1;color:#F4F4F4;white-space:nowrap;pointer-events:none}
+/* ===== Keep Learning + Skill Set as a bento grid (site colours: ink #111, page #F4F4F3, white, soft gray #E6E6E4)
+   dark card: skills with proficiency bars · white card: education · gray card: activities · white card: certifications */
+#about .ab-bento{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto auto;gap:12px;max-width:none;width:100%}
+#about .ab-bento .bn{position:relative;padding:clamp(24px,2.6vw,40px);border-radius:4px;background:#fff;color:#111;min-width:0}
+#about .ab-bento .bn-dot{display:block;width:7px;height:7px;margin-bottom:20px;background:currentColor;transform:rotate(45deg)}
+#about .ab-bento .bn-skill{grid-column:1;grid-row:1/3;display:flex;flex-direction:column;background:#111;color:#fff}
+#about .ab-bento .bn-learn{grid-column:2/4;grid-row:1}
+#about .ab-bento .bn-act{grid-column:2;grid-row:2;background:#E6E6E4}
+#about .ab-bento .bn-cert{grid-column:3;grid-row:2}
+#about .ab-bento .ab-step-t{margin:0 0 clamp(20px,3vh,32px)!important;font-size:clamp(36px,3.6vw,60px)!important;color:inherit}
+#about .ab-bento .bn-h{margin:0 0 16px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:inherit;opacity:.6}
+/* skill bars */
+#about .ab-bento .bn-skill .bn-h{margin-top:auto}
+#about .ab-bento .bn-bars{display:grid;gap:18px;margin:0;padding:0;list-style:none}
+#about .ab-bento .bn-bars li{display:grid;grid-template-columns:1fr auto;row-gap:8px;align-items:baseline}
+#about .ab-bento .bn-n{font-size:16px;font-weight:600}
+#about .ab-bento .bn-v{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;opacity:.75}
+#about .ab-bento .bn-bar{grid-column:1/-1;position:relative;height:6px;border-radius:3px;background:rgba(255,255,255,.16);overflow:hidden}
+#about .ab-bento .bn-bar::after{content:"";position:absolute;inset:0 auto 0 0;width:calc(var(--p) * 100%);border-radius:3px;background:#fff}
+/* education / activities / certifications */
+#about .ab-bento .bn-edus{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 32px;margin:0;padding:0}
+#about .ab-bento .bn-acts{display:grid;gap:20px;margin:0;padding:0}
+#about .ab-bento .ab-edu{padding:0!important;border:0!important}
+#about .ab-bento .ab-job-hd b{font-size:17px}
+#about .ab-bento .ab-edu-d{font-size:14px;line-height:1.6}
+#about .ab-bento .bn-certs{margin:0;padding:0}
+#about .ab-bento .bn-certs li{padding:12px 0;font-size:15px}
+#about .ab-bento .bn-certs li:first-child{padding-top:0}
+@media (max-width:900px){#about .ab-bento{grid-template-columns:1fr}
+  #about .ab-bento .bn-skill,#about .ab-bento .bn-learn,#about .ab-bento .bn-act,#about .ab-bento .bn-cert{grid-column:1;grid-row:auto}
+  #about .ab-bento .bn-edus{grid-template-columns:1fr}#about .ab-bento .bn-skill .bn-h{margin-top:8px}}
+#about .ab-bento .bn-acts{grid-template-columns:1fr!important}
+/* Bento, refined (layout + type pass):
+   order by importance — skills (lead card) → education → certifications → activities;
+   one inset for every card (36px), one spacing rhythm (title 28px → items; items 24px apart; inside an item 4px);
+   one heading style per tier — display titles for the two main cards, 20px bold titles for the two small ones;
+   one item style everywhere — title 17/600, date & place 14 gray, description 15 */
+#about .ab-bento{gap:12px}
+#about .ab-bento .bn{padding:36px!important}
+#about .ab-bento .bn-dot{margin-bottom:24px!important}
+#about .ab-bento .ab-step-t{font-size:clamp(36px,3.4vw,52px)!important;line-height:1.05!important;margin:0 0 28px!important}
+#about .ab-bento .bn-t{margin:0 0 24px;font-size:20px;font-weight:700;letter-spacing:-.02em;line-height:1.3;color:inherit}
+#about .ab-bento .bn-cert{grid-column:2!important;grid-row:2!important}
+#about .ab-bento .bn-act{grid-column:3!important;grid-row:2!important}
+#about .ab-bento .bn-skill{justify-content:flex-start}
+#about .ab-bento .bn-bars{gap:20px}
+#about .ab-bento .bn-n,#about .ab-bento .bn-v{font-size:16px}
+#about .ab-bento .bn-edus,#about .ab-bento .bn-acts{row-gap:24px!important}
+#about .ab-bento .bn-edus{column-gap:36px!important}
+#about .ab-bento .ab-edu>*{margin:0!important}
+#about .ab-bento .ab-edu>*+*{margin-top:4px!important}
+#about .ab-bento .ab-job-hd{display:flex;flex-direction:column;gap:4px}
+#about .ab-bento .ab-job-hd b{font-size:17px!important;font-weight:600!important;line-height:1.4!important;color:#111}
+#about .ab-bento .ab-job-hd small,#about .ab-bento .ab-job-co{font-size:14px!important;line-height:1.5!important;color:#6B6B6E!important}
+#about .ab-bento .ab-edu-d{margin-top:10px!important;font-size:15px!important;line-height:1.65!important;color:#444!important}
+#about .ab-bento .ab-tag{font-size:12px}
+#about .ab-bento .bn-certs li{display:flex;justify-content:space-between;gap:12px;padding:0 0 14px!important;margin:0 0 14px;border-bottom:1px solid rgba(17,17,17,.1);font-size:16px!important;line-height:1.45;color:#111}
+#about .ab-bento .bn-certs li:last-child{margin:0;padding:0!important;border:0}
+#about .ab-bento .bn-certs small{flex:none;font-size:14px;color:#6B6B6E}
+@media (max-width:900px){#about .ab-bento .bn-cert,#about .ab-bento .bn-act{grid-column:1!important;grid-row:auto!important}#about .ab-bento .bn{padding:28px!important}}
+/* How I Work: heading on the left, then three columns — small tag line, title, body, links to the works behind it */
+#fit .hw-hd{margin:0 0 clamp(40px,6vh,72px);text-align:start}
+#fit .hw-hd .display{margin:0}
+#fit .hw-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(28px,4vw,56px);margin:0;padding:0;list-style:none}
+#fit .hw-col{display:flex;flex-direction:column;min-width:0;padding-top:24px;border-top:1px solid color-mix(in srgb,currentColor 18%,transparent)}
+#fit .hw-k{margin:0 0 14px;font-size:14px;font-weight:500;color:color-mix(in srgb,currentColor 60%,transparent)}
+#fit .hw-t{margin:0 0 16px;font-size:clamp(22px,1rem + .8vw,28px);font-weight:700;line-height:1.3;letter-spacing:-.03em;text-wrap:balance;word-break:keep-all}
+#fit .hw-d{margin:0;font-size:16px;line-height:1.75;color:color-mix(in srgb,currentColor 78%,transparent);word-break:keep-all;text-wrap:pretty}
+#fit .hw-go{display:flex;flex-wrap:wrap;gap:8px 16px;margin:auto 0 0;padding-top:24px;font-size:14px;font-weight:600}
+#fit .hw-go a{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+#fit .hw-go a:hover{text-decoration-thickness:2px}
+@media (max-width:900px){#fit .hw-cols{grid-template-columns:1fr}}
+/* Bento tweaks: no diamond marks · skill rows spread to fill the card · one rule between certifications ·
+   activities card on a darker gray gradient (secondary text darkened to stay readable) */
+#about .ab-bento .bn-dot{display:none!important}
+#about .ab-bento .bn-skill .bn-bars{flex:1;display:flex!important;flex-direction:column;justify-content:space-between;gap:20px}
+#about .ab-bento .bn-certs li{border-top:0!important}
+#about .ab-bento .bn-certs li::before,#about .ab-bento .bn-certs li::after{content:none!important}
+#about .ab-bento .bn-act{background:linear-gradient(155deg,#CBCBC9 0%,#9C9C9E 100%)!important}
+#about .ab-bento .bn-act .ab-job-hd small,#about .ab-bento .bn-act .ab-job-co{color:#3A3A3D!important}
+#about .ab-bento .bn-act .ab-edu-d{color:#222!important}
+/* Bento fits one screen: spacing and type scale with the viewport height, no inner scrolling */
+#about .ab-merged{padding-top:calc(var(--hd-h,64px) + 2.4vh)!important;padding-bottom:2.4vh!important;min-height:0!important}
+#about .ab-merged .ab-bento{height:calc(100vh - var(--hd-h,64px) - 4.8vh);height:calc(100dvh - var(--hd-h,64px) - 4.8vh);grid-template-rows:minmax(0,1.15fr) minmax(0,1fr);gap:10px}
+#about .ab-bento .bn{padding:clamp(16px,2.8vh,32px) clamp(20px,2.4vw,32px)!important;overflow:hidden}
+#about .ab-bento .ab-step-t{font-size:clamp(26px,4.4vh,46px)!important;margin-bottom:clamp(10px,2.2vh,24px)!important}
+#about .ab-bento .bn-t{margin-bottom:clamp(10px,2vh,20px);font-size:clamp(16px,2.3vh,20px)}
+#about .ab-bento .bn-edus{row-gap:clamp(10px,2.2vh,24px)!important}
+#about .ab-bento .bn-acts{row-gap:clamp(10px,2vh,20px)!important}
+#about .ab-bento .ab-job-hd b{font-size:clamp(14px,2vh,17px)!important}
+#about .ab-bento .ab-job-hd small,#about .ab-bento .ab-job-co{font-size:clamp(12px,1.65vh,14px)!important}
+#about .ab-bento .ab-job-hd{gap:2px}
+#about .ab-bento .ab-edu-d{margin-top:clamp(4px,.9vh,10px)!important;font-size:clamp(12.5px,1.75vh,15px)!important;line-height:1.55!important}
+#about .ab-bento .bn-certs li{padding-bottom:clamp(6px,1.2vh,14px)!important;margin-bottom:clamp(6px,1.2vh,14px);font-size:clamp(13px,1.9vh,16px)!important}
+#about .ab-bento .bn-skill .bn-bars{gap:clamp(8px,1.4vh,20px)}
+#about .ab-bento .bn-n,#about .ab-bento .bn-v{font-size:clamp(13px,1.9vh,16px)}
+#about .ab-bento .bn-bars li{row-gap:clamp(4px,.8vh,8px)}
+@media (max-width:900px){#about .ab-merged .ab-bento{height:auto;grid-template-rows:none}#about .ab-bento .bn{overflow:visible}}
+#about .ab-merged .ab-bento{grid-template-rows:minmax(0,1.35fr) minmax(0,1fr)}#about .ab-merged{border-top-width:0!important}
+#about .ab-merged .ab-bento{grid-template-rows:minmax(0,1.5fr) minmax(0,1fr)}
+#about .ab-merged .ab-bento{grid-template-rows:auto minmax(0,1fr)}
+#about .ab-bento .bn-certs li{padding-bottom:clamp(5px,1vh,12px)!important;margin-bottom:clamp(5px,1vh,12px)}
+@media (max-height:700px){#about .ab-merged .ab-bento{height:auto}#about .ab-bento .bn{overflow:visible}}
+/* Career text blocks (2019 and 2024): 45px lower than before — clear of the header bar, still above the truck and walkers */
+#about .ab-tl .tl-lamp .tl-hd{top:-85px!important}
+#about .ab-tl.tl-on .tl-addd-hd{top:calc(50% - 75px)!important}
+/* Bento: more breathing room above and below (cards shorter, section padding larger) */
+#about .ab-merged{padding-top:calc(var(--hd-h,64px) + 6vh)!important;padding-bottom:6vh!important}
+#about .ab-merged .ab-bento{height:calc(100vh - var(--hd-h,64px) - 12vh);height:calc(100dvh - var(--hd-h,64px) - 12vh)}
+#about .ab-bento .bn{padding:clamp(14px,2.4vh,28px) clamp(20px,2.4vw,32px)!important}
+#about .ab-bento .ab-step-t{font-size:clamp(24px,4vh,42px)!important;margin-bottom:clamp(8px,1.8vh,20px)!important}
+#about .ab-bento .bn-edus{row-gap:clamp(8px,1.8vh,20px)!important}
+#about .ab-bento .ab-edu-d{font-size:clamp(12px,1.65vh,14.5px)!important}
+/* 2019 scene: a near-black floor band as tall as the 2024 street (sidewalk + road, 92px), and the lamp, about 15%
+   larger, standing on it (its feet sit ~30px into the floor; the light pool lands on the floor) */
+#about .ab-scroll.is-on .ab-full .ab-career .ab-tl .tl-lamp,#about .ab-tl .tl-lamp{
+  background:linear-gradient(to top,#141413 0,#21201F calc(92px - 1px),rgba(255,255,255,.07) calc(92px - 1px),rgba(255,255,255,.07) 92px,transparent 92px),#0B0B0C!important}
+@media (min-width:861px){
+  #about .ab-tl .tl-lamp .tl-bulb3d.tl-bulb-slot{--lw:clamp(280px,28vw,420px);position:absolute!important;left:77.7%;width:var(--lw)!important;margin-left:calc(var(--lw) / -2);
+    top:auto!important;bottom:calc(62px - var(--lw) * .136);justify-self:auto}
+  #about .ab-tl .tl-lamp .tl-grid{position:static}
+}
+#about .ab-tl .tl-lamp .tl-glow{width:min(1260px,190vw)}
+#about .ab-tl .tl-lamp .tl-floor{width:170%;height:26%}
+/* 2019 floor raised to just under the 2024 fence (120px; the fence top sits 130px up); lamp 1.4× larger, feet
+   ~40px into the floor, moved a little left so the larger lamp clears the scene edge; glow scaled with it */
+#about .ab-scroll.is-on .ab-full .ab-career .ab-tl .tl-lamp,#about .ab-tl .tl-lamp{
+  background:linear-gradient(to top,#141413 0,#21201F calc(120px - 1px),rgba(255,255,255,.07) calc(120px - 1px),rgba(255,255,255,.07) 120px,transparent 120px),#0B0B0C!important}
+@media (min-width:861px){
+  #about .ab-tl .tl-lamp .tl-bulb3d.tl-bulb-slot{--lw:clamp(392px,39.2vw,588px);left:72%;bottom:calc(80px - var(--lw) * .136)}
+}
+#about .ab-tl .tl-lamp .tl-glow{width:min(1760px,266vw)}
+/* 2019 floor 30px higher (150px) and the lamp raised with it (feet still ~40px into the floor) */
+#about .ab-scroll.is-on .ab-full .ab-career .ab-tl .tl-lamp,#about .ab-tl .tl-lamp{
+  background:linear-gradient(to top,#141413 0,#21201F calc(150px - 1px),rgba(255,255,255,.07) calc(150px - 1px),rgba(255,255,255,.07) 150px,transparent 150px),#0B0B0C!important}
+@media (min-width:861px){#about .ab-tl .tl-lamp .tl-bulb3d.tl-bulb-slot{bottom:calc(110px - var(--lw) * .136)}}
+/* 2019 floor: the top edge bows up very slightly — highest in the middle (160px), ~22px lower at the sides */
+#about .ab-scroll.is-on .ab-full .ab-career .ab-tl .tl-lamp,#about .ab-tl .tl-lamp{background:#0B0B0C!important}
+#about .ab-tl .tl-lamp::before{content:"";position:absolute;left:-8%;right:-8%;bottom:0;height:160px;z-index:-1;pointer-events:none;
+  border-radius:50% 50% 0 0 / 22px 22px 0 0;background:linear-gradient(to top,#141413,#21201F);box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+#about .ab-tl .tl-lamp{isolation:isolate}
+/* 2024 buildings, a little more detail: darker at the top fading lighter toward the street, a roof parapet,
+   rooftop units (an antenna on every other one), a shaded right edge, glass windows with frames, a lobby band
+   and a glass entrance */
+#about .ab-tl .tl-addd .tl-bldg{background:
+  linear-gradient(180deg,rgba(0,0,0,.10) 0 6px,transparent 6px),
+  linear-gradient(0deg,rgba(0,0,0,.05) 0 18%,transparent 18%),
+  linear-gradient(180deg,#A7A9AF 0%,#C6C8CC 45%,#E3E4E6 100%)!important;
+  box-shadow:inset -8px 0 0 rgba(0,0,0,.05)}
+#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd){background:
+  linear-gradient(180deg,rgba(0,0,0,.10) 0 6px,transparent 6px),
+  linear-gradient(0deg,rgba(0,0,0,.05) 0 18%,transparent 18%),
+  linear-gradient(180deg,#B3B5BA 0%,#CDCFD2 45%,#E8E9EA 100%)!important}
+#about .ab-tl .tl-addd .tl-bldg::before{inset:20px 14px 24% 14px;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.62) 0 12px,rgba(120,124,132,.35) 12px 13px,transparent 13px 22px)!important;
+  -webkit-mask-image:repeating-linear-gradient(180deg,#000 0 15px,transparent 15px 26px);mask-image:repeating-linear-gradient(180deg,#000 0 15px,transparent 15px 26px)}
+#about .ab-tl .tl-addd .tl-bldg::after{content:"";position:absolute;bottom:100%;left:16%;width:28%;height:12px;background:#9C9EA4;border-radius:1px 1px 0 0}
+#about .ab-tl .tl-addd .tl-bldg:nth-of-type(even)::after{left:auto;right:22%;width:2px;height:28px;background:#8E9096;box-shadow:-14px 16px 0 6px #A3A5AB}
+#about .ab-tl .tl-addd .tl-bldg i{width:24%;height:14%;margin-left:-12%;background:linear-gradient(180deg,#8F9298,#B4B7BC);box-shadow:inset 0 0 0 2px #9DA0A6}
+/* 2024 buildings, refined with a light 3D feel: no rooftop units or antennas; each tower has a front face lit from
+   the upper left (dark top → light street), a narrower shaded side face receding to the right, recessed glass
+   windows with a soft reflection, thin floor lines, and a glass lobby */
+#about .ab-tl .tl-addd .tl-bldg,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd){border-radius:0!important;box-shadow:none!important;background:
+  linear-gradient(90deg,rgba(255,255,255,.22) 0,rgba(255,255,255,0) 40%),
+  linear-gradient(0deg,rgba(40,44,52,.07) 0 16%,transparent 16%),
+  linear-gradient(180deg,#A3A6AD 0%,#C3C6CB 50%,#E1E2E5 100%)!important}
+#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd){background:
+  linear-gradient(90deg,rgba(255,255,255,.22) 0,rgba(255,255,255,0) 40%),
+  linear-gradient(0deg,rgba(40,44,52,.07) 0 16%,transparent 16%),
+  linear-gradient(180deg,#AFB2B8 0%,#CBCDD1 50%,#E6E7E9 100%)!important}
+/* side face */
+#about .ab-tl .tl-addd .tl-bldg::after,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(even)::after{content:"";position:absolute;top:0;bottom:-12px;left:100%;right:auto;width:clamp(10px,12%,18px);height:auto;
+  background:linear-gradient(180deg,#868990 0%,#A5A8AE 55%,#C6C8CC 100%);box-shadow:none;border-radius:0;transform:skewY(-38deg);transform-origin:0 0}
+/* windows: recessed glass, lighter at the top of each pane, thin frames, with floor lines between rows */
+#about .ab-tl .tl-addd .tl-bldg::before{inset:22px 12px 22% 12px;
+  background:
+    repeating-linear-gradient(180deg,rgba(255,255,255,.0) 0 13px,rgba(70,74,82,.18) 13px 15px,transparent 15px 24px),
+    repeating-linear-gradient(90deg,rgba(248,249,251,.78) 0 11px,rgba(96,100,108,.30) 11px 12px,transparent 12px 20px)!important;
+  -webkit-mask-image:repeating-linear-gradient(180deg,#000 0 15px,rgba(0,0,0,.35) 15px 16px,transparent 16px 24px);mask-image:repeating-linear-gradient(180deg,#000 0 15px,rgba(0,0,0,.35) 15px 16px,transparent 16px 24px)}
+/* lobby */
+#about .ab-tl .tl-addd .tl-bldg i{left:12px;right:12px;width:auto;margin-left:0;height:12%;background:linear-gradient(180deg,rgba(90,96,106,.55),rgba(150,156,166,.45));box-shadow:inset 0 2px 0 rgba(255,255,255,.35)}
+/* lamp walk-in: contact shadow under the feet (site.js moves it with each step) */
+.tl-walker{overflow:visible}
+.tl-walk-sh{position:absolute;left:50%;top:90%;z-index:0;width:58%;height:8%;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(0,0,0,.32),rgba(0,0,0,.12) 55%,rgba(0,0,0,0));transform:translate(-50%,-50%)}
+.tl-walker canvas{position:relative;z-index:1}
+.tl-walk-sh{width:66%;height:10%;background:radial-gradient(closest-side,rgba(0,0,0,.5),rgba(0,0,0,.2) 55%,rgba(0,0,0,0))}
+/* new truck image (CITY PINK already on its screen); its wheels sit 3.3% lower in the frame, so lift it to keep them on the road */
+#about .ab-tl .tl-truck img{transform:translateY(-3.3%)}

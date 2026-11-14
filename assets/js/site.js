@@ -926,7 +926,7 @@
   // The lamp (lamp.js draws it on .tl-walker, a layer on the stage): when the Profile text has filled in, it peeks in
   // from the right, walks to the middle and stands on the bottom edge of the screen; as Career slides up it jumps
   // down into its place in the 2019 scene (.tl-bulb-slot) and stays there. lamp.js reads walker._walk.
-  var walker = stage.querySelector('.tl-walker'), slot = frame.querySelector('.tl-bulb-slot'), lw0 = 0, lh0 = 0;
+  var wsh = null, walker = stage.querySelector('.tl-walker'), slot = frame.querySelector('.tl-bulb-slot'), lw0 = 0, lh0 = 0;
   function placeLamp(top, fill, inTl) {
     if (!walker || !slot) return;
     var w = slot.offsetWidth, h = slot.offsetHeight;
@@ -934,8 +934,10 @@
     if (w !== lw0 || h !== lh0) { lw0 = w; lh0 = h; walker.style.width = w + 'px'; walker.style.height = h + 'px'; }
     var sr = slot.getBoundingClientRect(), st = stage.getBoundingClientRect();
     var sx = sr.left - st.left, sy = sr.top - st.top, fy = parseFloat(walker.dataset.fy) || .9;
-    var standY = vh - fy * h, cx = (vw - w) / 2, x, y, W = { phase: 0, jump: 0, moving: false, home: false, bright: 1 - fill };
-    var a = rm ? 1 : clamp((top - vh * 1.55) / (vh * .8), 0, 1);
+    // it walks on a line a little above the bottom edge of the screen (a small gap below its feet)
+    var standY = vh - fy * h - Math.max(28, vh * .05), cx = (vw - w) / 2, x, y, W = { phase: 0, jump: 0, moving: false, home: false, bright: 1 - fill };
+    // the walk ends a beat before the jump, so the lamp stands still in the middle of the screen and jumps from there
+    var a = rm ? 1 : clamp((top - vh * 1.45) / (vh * .7), 0, 1);
     if (inTl || rm) { x = sx; y = sy; W.home = inTl; W.jump = 1; W.bright = 0; }
     else if (fill > 0) {
       // the jump: a short crouch, then an arc from where it stands to its slot (which is rising with Career)
@@ -955,7 +957,18 @@
       y = standY; W.phase = d / 26; W.moving = a > 0 && a < 1 && !(a >= .22 && a < .38);
     }
     walker._walk = W;
-    walker.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0)';
+    // the lamp is drawn at its 2019 size (the slot); on the Profile screen it walks smaller (~290px wide) and
+    // grows to full size during the jump. It scales from its feet, so it still stands on the same line.
+    var kw = Math.min(1, 330 / w), k = (inTl || rm) ? 1 : (fill > 0 ? kw + (1 - kw) * clamp((fill - .02) / .96, 0, 1) : kw);
+    walker.style.transformOrigin = '50% ' + (fy * 100).toFixed(1) + '%';
+    // a soft contact shadow under its feet while it walks: wider and lighter as the legs part, tighter and darker as
+    // they pass; it fades as the lamp leaves the ground for the jump and is gone once it is home (the floor light takes over)
+    if (!wsh) { wsh = document.createElement('i'); wsh.className = 'tl-walk-sh'; wsh.setAttribute('aria-hidden', 'true'); walker.appendChild(wsh); }
+    var stp = W.moving ? Math.abs(Math.sin(W.phase)) : 0, lift = fill > 0 ? clamp((fill - .1) / .2, 0, 1) : 0;
+    wsh.style.top = (fy * 100).toFixed(1) + '%';
+    wsh.style.transform = 'translate(-50%,-50%) scaleX(' + (1 + stp * .14).toFixed(3) + ')';
+    wsh.style.opacity = (W.home || rm ? 0 : (.9 - stp * .3) * (1 - lift)).toFixed(3);
+    walker.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + k.toFixed(3) + ')';
     var wash = TL ? parseFloat(TL.root.style.getPropertyValue('--wash')) || 0 : 0;
     walker.style.opacity = (1 - wash * .9).toFixed(3);
   }
@@ -984,13 +997,26 @@
     flow.abPlan = plan;
     update();
   }
+  var BL_N = 18, BL_W = 7, lastBl = '';
+  function blinds(p) {
+    if (p >= 1) return 'none';
+    var h = 100 / BL_N, stops = [];
+    for (var i = 0; i < BL_N; i++) {
+      var f = clamp((p * (BL_N + BL_W) - (BL_N - 1 - i)) / BL_W, 0, 1), top = i * h, cut = top + h * (1 - f), bot = top + h;
+      stops.push('transparent ' + top.toFixed(2) + '%', 'transparent ' + cut.toFixed(2) + '%', '#000 ' + cut.toFixed(2) + '%', '#000 ' + bot.toFixed(2) + '%');
+    }
+    return 'linear-gradient(to bottom,' + stops.join(',') + ')';
+  }
   function update() {
     ticking = false;
     var top = -flow.getBoundingClientRect().top, y = clamp(top, 0, total), live = top >= 0;
     var fill = y <= HOLD ? 0 : clamp((y - HOLD) / IN, 0, 1), inTl = y > HOLD + IN;
     if (chars.length) paintFill(rm ? 1 : clamp(top / (vh * 1.5), 0, 1));
     if (TL) { TL.update(inTl ? y - HOLD - IN : 0); TL.report(live && inTl && top <= total); }
-    full.style.transform = 'translate3d(0,' + ((1 - fill) * 100).toFixed(3) + '%,0)';
+    // Profile → Career: Career no longer slides up. It shows through horizontal bars that thicken from the
+    // bottom of the screen upward (thin at the top of the wave, solid below it) until the whole screen is black.
+    full.style.transform = 'none';
+    full.style.webkitMaskImage = full.style.maskImage = blinds(rm ? (fill > 0 ? 1 : 0) : fill);
     placeLamp(top, fill, inTl);
     introShade.style.setProperty('--shade', rm ? 0 : (fill * .45).toFixed(3));
     full.classList.toggle('is-on', fill > 0);
