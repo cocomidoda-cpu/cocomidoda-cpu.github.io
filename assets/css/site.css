@@ -3324,3 +3324,274 @@ a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
 .tl-walk-sh{width:66%;height:10%;background:radial-gradient(closest-side,rgba(0,0,0,.5),rgba(0,0,0,.2) 55%,rgba(0,0,0,0))}
 /* new truck image (CITY PINK already on its screen); its wheels sit 3.3% lower in the frame, so lift it to keep them on the road */
 #about .ab-tl .tl-truck img{transform:translateY(-3.3%)}
+/* ===== Work popup — reference template (.rp), first used on 네이버 블로그 운영 및 콘텐츠 디자인
+   black / white / gray only · thick black rules open and close the big blocks, thin gray rules separate rows ·
+   full width by default, 2 columns for paired content, never more than 3 ·
+   type: title 40 · section 30 · sub 20 · item 19 · body 17 · label 14 · note 13 */
+.dv-body .fb.rp{--rp-ink:#111;--rp-2:#333;--rp-3:#77777A;--rp-line:#E2E2E0;color:var(--rp-ink)}
+.dv-body .fb.rp p{max-width:none}
+/* header */
+.rp .rp-head{padding:8px 0 0}
+.rp .rp-title{margin:0 0 28px;font-size:clamp(30px,1.2rem + 2vw,44px);font-weight:800;line-height:1.2;letter-spacing:-.035em;color:var(--rp-ink)}
+.rp .rp-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 40px;margin:0;border-top:3px solid var(--rp-ink)}
+.rp .rp-facts>div{padding:18px 0;border-bottom:1px solid var(--rp-line)}
+.rp .rp-facts dt,.rp .rp-kpi dt,.rp .rp-rows dt{font-size:14px;font-weight:500;color:var(--rp-3)}
+.rp .rp-facts dd{margin:6px 0 0;font-size:16px;font-weight:600;line-height:1.5;color:var(--rp-ink);word-break:keep-all}
+.rp .rp-kpi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 40px;margin:0;padding:32px 0;border-bottom:3px solid var(--rp-ink)}
+.rp .rp-kpi dd{margin:10px 0 0;display:grid;gap:6px}
+.rp .rp-kpi b{font-size:clamp(40px,1.6rem + 2.4vw,56px);font-weight:800;line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums;color:var(--rp-ink)}
+.rp .rp-kpi b small{margin-left:2px;font-size:.42em;font-weight:700;letter-spacing:0}
+.rp .rp-kpi span{font-size:14px;line-height:1.5;color:var(--rp-3);word-break:keep-all}
+/* sections */
+.rp .rp-sec{padding:56px 0;border-top:1px solid var(--rp-line)}
+.rp .rp-head+.rp-sec{border-top:0}
+.rp .rp-h{margin:0 0 24px;font-size:clamp(24px,1rem + 1vw,30px);font-weight:800;line-height:1.25;letter-spacing:-.03em;color:var(--rp-ink)}
+.rp .rp-sub{margin:0 0 24px;font-size:20px;font-weight:700;line-height:1.45;letter-spacing:-.02em;color:var(--rp-ink)}
+.rp .rp-sub-lg{font-size:clamp(22px,1rem + .9vw,28px)}
+.rp .rp-h4{margin:56px 0 20px;font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--rp-ink)}
+.rp .rp-body p{margin:0 0 12px;font-size:17px;line-height:1.75;color:var(--rp-2);word-break:keep-all;text-wrap:pretty}
+.rp .rp-body p:last-child{margin-bottom:0}
+.rp .rp-note{margin:12px 0 0;font-size:13px;line-height:1.6;color:var(--rp-3)}
+/* label / value rows */
+.rp .rp-rows{margin:28px 0 0;display:grid;grid-template-columns:minmax(0,1fr)}
+.rp .rp-rows.rp-2{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 48px}
+.rp .rp-rows>div{padding:18px 0;border-top:1px solid var(--rp-line)}
+.rp .rp-rows dd{margin:6px 0 0;font-size:17px;line-height:1.6;color:var(--rp-ink);word-break:keep-all}
+.rp .rp-rows.rp-mini{margin:0}
+.rp .rp-rows.rp-mini>div{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 0}
+.rp .rp-rows.rp-mini dd{margin:0;font-variant-numeric:tabular-nums}
+.rp .rp-rows b{font-weight:800}
+/* titled points (2 columns) */
+.rp .rp-points{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 48px;margin:32px 0 0;padding:0;list-style:none}
+.rp .rp-points li{padding-top:18px;border-top:2px solid var(--rp-ink)}
+.rp .rp-points h4,.dv-body .fb.rp .rp-step h4{margin:0 0 8px;font-size:19px!important;font-weight:700!important;line-height:1.45!important;letter-spacing:-.02em!important;color:var(--rp-ink)!important}
+.rp .rp-points p,.rp .rp-step-t p{margin:0;font-size:16px!important;line-height:1.7!important;color:#444!important;word-break:keep-all}
+/* execution steps: text left, its evidence right */
+.rp .rp-step{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:start;padding:36px 0;border-top:1px solid var(--rp-line)}
+.rp .rp-h+.rp-step{border-top:0;padding-top:4px}
+.rp .rp-step-solo{grid-template-columns:minmax(0,1fr)}
+.rp .rp-step-m{display:grid;gap:16px}
+.rp .rp-thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0;padding:0;list-style:none}
+.rp .rp-thumbs img,.rp .rp-fig img{display:block;width:100%;height:auto;border-radius:4px;box-shadow:0 0 0 1px var(--rp-line)}
+.rp .rp-fig{margin:0}
+.rp .rp-fig figcaption{margin-top:8px;font-size:13px!important;color:var(--rp-3)!important}
+/* result table */
+.rp .rp-table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.rp .rp-table thead th{padding:12px 16px;background:var(--rp-ink);color:#fff;font-size:13px;font-weight:600;text-align:left}
+.rp .rp-table thead th:last-child,.rp .rp-table td:last-child{text-align:right}
+.rp .rp-table tbody th,.rp .rp-table td{padding:16px;border-bottom:1px solid var(--rp-line);font-size:15px;text-align:left;vertical-align:top}
+.rp .rp-table tbody th{font-weight:600;color:var(--rp-ink)}
+.rp .rp-table td{color:var(--rp-2)}
+.rp .rp-table td:last-child{font-weight:800;color:var(--rp-ink)}
+.rp .fb-month{margin-top:40px}
+/* paired blocks and ranks */
+.rp .rp-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:start}
+.rp .rp-ranks{margin:0;padding:0;list-style:none;border-top:2px solid var(--rp-ink)}
+.rp .rp-ranks li{display:grid;grid-template-columns:72px minmax(0,1fr) auto;align-items:baseline;gap:12px;padding:16px 0;border-bottom:1px solid var(--rp-line)}
+.rp .rp-ranks b{font-size:28px;font-weight:800;letter-spacing:-.03em}
+.rp .rp-ranks span{font-size:17px;font-weight:600}
+.rp .rp-ranks small{font-size:13px;color:var(--rp-3)}
+/* key achievement closes between thick rules */
+.rp .rp-key{border-top:3px solid var(--rp-ink);border-bottom:3px solid var(--rp-ink);margin-bottom:40px}
+@media (max-width:760px){
+  .rp .rp-facts,.rp .rp-kpi,.rp .rp-rows.rp-2,.rp .rp-points,.rp .rp-step,.rp .rp-split{grid-template-columns:minmax(0,1fr)}
+  .rp .rp-kpi{gap:24px}.rp .rp-step{gap:20px}
+  .rp .rp-table{display:block;overflow-x:auto;white-space:nowrap}
+}
+.dv-body .fb.rp{padding:clamp(28px,4vw,56px) clamp(20px,6vw,64px) 0!important}
+.dv-body .fb.rp .ed-end{padding-left:0!important;padding-right:0!important}
+/* ===== .rp v2 (case-study reference): lines only where they carry meaning — sections are separated by space and
+   alternating gray bands; two-column pairs (Overview | Key Points, Problem | Strategy); a Before → After table
+   ties each problem to the change and the strategy behind it; results as paired before/after bars */
+.dv-body .fb.rp2{padding:0!important;--rp-band:#F2F2F0}
+.rp2 .rp-head{padding:clamp(36px,5vw,64px) clamp(20px,6vw,64px) clamp(28px,3vw,40px)}
+.rp2 .rp-title{margin:0 0 32px;font-size:clamp(32px,1.2rem + 2.4vw,52px);line-height:1.12}
+.rp2 .rp-facts{border-top:0;gap:24px 40px}
+.rp2 .rp-facts>div{padding:0;border:0}
+.rp2 .rp-facts dd small{font-size:13px;font-weight:500;color:var(--rp-3)}
+.rp2 .rp-sec{padding:clamp(40px,5vw,64px) clamp(20px,6vw,64px);border:0!important}
+.rp2 .rp-band{background:var(--rp-band)}
+.rp2 .rp-2col{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:start}
+.rp2 .rp-inner{padding:0;margin-top:56px}
+.rp2 .rp-h{margin-bottom:20px}
+.rp2 .rp-lead{margin:-8px 0 28px;font-size:15px;color:var(--rp-3)}
+/* key points */
+.rp2 .rp-checks{margin:0;padding:0;list-style:none;display:grid;gap:16px}
+.rp2 .rp-checks li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;font-size:17px;line-height:1.6;color:var(--rp-2)}
+.rp2 .rp-checks svg{width:20px;height:20px;margin-top:3px;fill:none;stroke:var(--rp-ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.rp2 .rp-checks b{color:var(--rp-ink);font-weight:700}
+/* before → after */
+.rp2 .rp-ba{display:grid}
+.rp2 .rp-ba-hd,.rp2 .rp-ba-row{display:grid;grid-template-columns:120px minmax(0,1fr) minmax(0,1.25fr);gap:0 24px}
+.rp2 .rp-ba-hd{padding-bottom:12px;border-bottom:2px solid var(--rp-ink);font-size:13px;font-weight:700;color:var(--rp-ink)}
+.rp2 .rp-ba-hd span:nth-child(2){color:var(--rp-3)}
+.rp2 .rp-ba-row{padding:20px 0;border-bottom:1px solid var(--rp-line);align-items:start}
+.rp2 .rp-ba-row b{font-size:17px;font-weight:700;color:var(--rp-ink)}
+.rp2 .rp-before{margin:0;font-size:16px;line-height:1.65;color:var(--rp-3);word-break:keep-all}
+.rp2 .rp-after p{margin:0;font-size:16px;line-height:1.65;font-weight:600;color:var(--rp-ink);word-break:keep-all}
+.rp2 .rp-after small{display:inline-block;margin-top:8px;padding:3px 10px;border-radius:999px;background:var(--rp-band);font-size:12px;font-weight:600;color:#444}
+/* execution: no rules, space between steps */
+.rp2 .rp-step{border:0!important;padding:0 0 48px!important}
+.rp2 .rp-h+.rp-step{padding-top:0!important}
+.rp2 .rp-step-solo{padding:0}
+.rp2 .rp-step-solo h4{margin:0 0 8px;font-size:19px;font-weight:700;color:var(--rp-ink)}
+/* result bars */
+.rp2 .rp-bars{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px 40px;margin:8px 0 0;padding:0;list-style:none}
+.rp2 .rp-bar-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.rp2 .rp-bar-hd b{font-size:16px;font-weight:700}
+.rp2 .rp-bar-hd strong{font-size:clamp(24px,1rem + 1vw,30px);font-weight:800;letter-spacing:-.03em}
+.rp2 .rp-bar-row{display:grid;grid-template-columns:22px minmax(0,1fr) auto;align-items:center;gap:10px;margin-top:6px}
+.rp2 .rp-bar-k{font-size:12px;font-weight:600;color:var(--rp-3)}
+.rp2 .rp-bar-row i{display:block;height:10px;border-radius:5px;background:linear-gradient(90deg,#BDBDBB calc(var(--w) * 100%),transparent 0)}
+.rp2 .rp-bar-row.is-after i{background:linear-gradient(90deg,var(--rp-ink) calc(var(--w) * 100%),transparent 0)}
+.rp2 .rp-bar-row em{min-width:72px;font-style:normal;font-size:14px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums;color:var(--rp-3)}
+.rp2 .rp-bar-row.is-after em{color:var(--rp-ink)}
+.rp2 .rp-bar small{display:block;margin-top:8px;font-size:12px;color:var(--rp-3)}
+.rp2 .fb-month{margin-top:48px;background:#fff!important}
+/* ranks without rules */
+.rp2 .rp-ranks{border:0}
+.rp2 .rp-ranks li{grid-template-columns:64px minmax(0,1fr);border:0;padding:8px 0}
+/* key achievement: a black band */
+.rp2 .rp-key{margin:0;border:0;background:var(--rp-ink);color:#fff}
+.rp2 .rp-key .rp-h,.rp2 .rp-key .rp-sub{color:#fff!important}
+.rp2 .rp-key .rp-body p{color:rgba(255,255,255,.78)!important}
+.dv-body .fb.rp2 .ed-end{padding:clamp(40px,5vw,64px) clamp(20px,6vw,64px)!important}
+@media (max-width:760px){
+  .rp2 .rp-2col{grid-template-columns:minmax(0,1fr)}
+  .rp2 .rp-ba-hd{display:none}
+  .rp2 .rp-ba-row{grid-template-columns:minmax(0,1fr);gap:8px}
+  .rp2 .rp-before::before{content:"Before  ";font-weight:700}
+  .rp2 .rp-after p::before{content:"After  ";font-weight:800}
+}
+/* ===== .rp2 refinements: white page; facts in gray-outlined boxes with room between them; a heavy rule under every
+   section title; before/after table inside an outlined box with the strategy in the first column; result graphs
+   boxed edge to edge (no gaps) in gray outlines, the monthly chart boxed the same way (kept vertical); part titles
+   above each result pair; publish counts small, shown in the tooltip */
+.dv-body .fb.rp2,.rp2 .rp-band{background:#fff!important}
+.rp2 .rp-facts{gap:20px!important}
+.rp2 .rp-facts>div{padding:20px 24px!important;border:1px solid var(--rp-line)!important;border-radius:4px}
+.rp2 .rp-h{padding-bottom:14px;margin-bottom:28px!important;border-bottom:3px solid var(--rp-ink)}
+/* before / after */
+.rp2 .rp-ba{padding:4px 28px 8px;border:1px solid var(--rp-line);border-radius:4px}
+.rp2 .rp-ba-hd{padding:18px 0 12px;border-bottom:1px solid var(--rp-ink)}
+.rp2 .rp-ba-hd,.rp2 .rp-ba-row{grid-template-columns:180px minmax(0,1fr) minmax(0,1.25fr)}
+.rp2 .rp-ba-row:last-child{border-bottom:0}
+.rp2 .rp-ba-row b{font-size:15px;line-height:1.5;word-break:keep-all}
+/* result: graphs boxed edge to edge */
+.rp2 .rp-bars{gap:0!important;margin-top:0}
+.rp2 .rp-bars>li{padding:24px;border:1px solid var(--rp-line);margin:0 -1px -1px 0}
+.rp2 .fb-month{margin-top:-1px!important;padding:24px!important;border:1px solid var(--rp-line);border-radius:0!important;background:#fff!important;box-shadow:none!important}
+.rp2 .fb-month figcaption p{font-size:16px!important;font-weight:700!important}
+.rp2 .fb-posts{font-size:10px!important;color:#AAAAA8!important;opacity:.8}
+.rp2 .fb-posts-k{font-size:10px!important;color:#AAAAA8!important}
+.rp2 .rp-part{margin:64px 0 20px;font-size:20px;font-weight:700}
+.rp2 .rp-part+.rp-inner{margin-top:0}
+@media (max-width:760px){.rp2 .rp-facts{grid-template-columns:minmax(0,1fr)}.rp2 .rp-ba{padding:4px 18px}}
+.rp2 .rp-bars{grid-template-columns:repeat(6,minmax(0,1fr))!important}.rp2 .rp-bars>li{grid-column:span 2}.rp2 .rp-bars>li:nth-child(n+4){grid-column:span 3}
+@media (max-width:760px){.rp2 .rp-bars{grid-template-columns:minmax(0,1fr)!important}.rp2 .rp-bars>li,.rp2 .rp-bars>li:nth-child(n+4){grid-column:auto}}
+/* .rp2: Overview → Strategy stacked in one column; before/after as a real table (outer border, inner rules meeting
+   it, vertical column rules); result graphs as separate, slightly rounded boxes with space between them */
+.rp2 .rp-1col>div+div{margin-top:clamp(40px,5vw,56px)}
+.rp2 .rp-batable{width:100%;border-collapse:collapse;border:1px solid #CFCFCD;table-layout:fixed}
+.rp2 .rp-batable col{width:auto}
+.rp2 .rp-batable th,.rp2 .rp-batable td{padding:16px 20px;border:1px solid #CFCFCD;text-align:left;vertical-align:top;font-size:15px;line-height:1.65;word-break:keep-all}
+.rp2 .rp-batable thead th{background:#F2F2F0;font-size:13px;font-weight:700;color:var(--rp-ink)}
+.rp2 .rp-batable thead th:first-child{width:22%}
+.rp2 .rp-batable tbody th{font-weight:700;color:var(--rp-ink)}
+.rp2 .rp-batable .rp-before{color:var(--rp-3)}
+.rp2 .rp-batable .rp-after{font-weight:600;color:var(--rp-ink)}
+.rp2 .rp-bars{gap:12px!important}
+.rp2 .rp-bars>li{margin:0!important;border-radius:6px}
+.rp2 .fb-month{margin-top:12px!important;border-radius:6px!important}
+@media (max-width:760px){.rp2 .rp-batable{display:block;overflow-x:auto}.rp2 .rp-batable th,.rp2 .rp-batable td{min-width:160px}}
+/* .rp2: title a step smaller; Problem's three issues side by side in outlined, slightly rounded boxes */
+.rp2 .rp-title{font-size:clamp(28px,1rem + 1.9vw,42px)!important}
+.rp2 .rp-probs3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:28px 0 0;padding:0;list-style:none}
+.rp2 .rp-probs3 li{padding:24px;border:1px solid var(--rp-line);border-radius:6px}
+.dv-body .fb.rp2 .rp-probs3 h4{margin:0 0 10px!important;font-size:18px!important;font-weight:700!important;color:var(--rp-ink)!important}
+.rp2 .rp-probs3 p{margin:0;font-size:15px;line-height:1.7;color:#444;word-break:keep-all}
+@media (max-width:760px){.rp2 .rp-probs3{grid-template-columns:minmax(0,1fr)}}
+/* .rp2 Strategy: basis (4 findings, gray outline) → arrow line → four directions (dark outline, numbered as given) */
+.rp2 .rp-strat{margin-top:32px}
+.dv-body .fb.rp2 .rp-strat-k{margin:0 0 14px!important;font-size:16px!important;font-weight:700!important;color:var(--rp-ink)!important}
+.rp2 .rp-basis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0;padding:0;list-style:none}
+.rp2 .rp-basis li{padding:22px 24px;border:1px solid var(--rp-line);border-radius:6px}
+.rp2 .rp-basis h5{margin:0 0 8px;font-size:17px;font-weight:700;color:var(--rp-ink)}
+.rp2 .rp-basis p{margin:0;font-size:15px;line-height:1.7;color:#444;word-break:keep-all}
+.rp2 .rp-to{display:flex;align-items:center;gap:10px;margin:28px 0;font-size:18px;font-weight:700;color:var(--rp-ink)}
+.rp2 .rp-to span{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--rp-ink);color:#fff;font-size:16px}
+.rp2 .rp-dirs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0;padding:0;list-style:none}
+.rp2 .rp-dirs li{display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px;align-items:start;padding:22px 24px;border:1.5px solid var(--rp-ink);border-radius:6px}
+.rp2 .rp-dirs b{font-size:26px;font-weight:800;line-height:1;color:var(--rp-ink)}
+.rp2 .rp-dirs p{margin:0;font-size:16px;font-weight:600;line-height:1.6;color:var(--rp-ink);word-break:keep-all}
+@media (max-width:760px){.rp2 .rp-basis,.rp2 .rp-dirs{grid-template-columns:minmax(0,1fr)}}
+/* Strategy's directions as the before/after table: the direction (numbered) leads each row */
+.rp2 .rp-strat .rp-batable thead th:first-child{width:30%}
+.rp2 .rp-batable tbody th{display:table-cell}
+.rp2 .rp-batable .rp-n{display:block;margin-bottom:6px;font-size:22px;font-weight:800;line-height:1;color:var(--rp-ink)}
+/* simplified directions table: one short line per cell, number inline */
+.rp2 .rp-batable-sm th,.rp2 .rp-batable-sm td{padding:14px 18px;vertical-align:middle}
+.rp2 .rp-batable-sm thead th:first-child{width:28%}
+.rp2 .rp-batable-sm .rp-n{display:inline-grid;place-items:center;width:22px;height:22px;margin:0 10px 0 0;border-radius:50%;background:var(--rp-ink);color:#fff;font-size:12px;font-weight:700;vertical-align:1px}
+/* ===== .rp2 type guide (one scale for the whole popup)
+   T1 title 40/800 · T2 section 28/800 · T3 sub-title 20/700 · T4 item title 17/700 · body 16/400 ·
+   label 14/500 gray · note 13/400 gray · figure (number) 28/800. Body color #333, item titles and figures #111. */
+.dv-body .fb.rp2{--t1:clamp(28px,1rem + 1.9vw,40px);--t2:clamp(22px,1rem + .9vw,28px);--t3:20px;--t4:17px;--tb:16px;--tl:14px;--tn:13px;--tf:28px}
+.dv-body .fb.rp2 .rp-title{font-size:var(--t1)!important;font-weight:800!important;line-height:1.2!important}
+.dv-body .fb.rp2 .rp-h{font-size:var(--t2)!important;font-weight:800!important;line-height:1.3!important}
+.dv-body .fb.rp2 .rp-strat-k,.dv-body .fb.rp2 .rp-part,.dv-body .fb.rp2 .rp-h4,.dv-body .fb.rp2 .rp-sub,.dv-body .fb.rp2 .rp-to,
+.dv-body .fb.rp2 .fb-month figcaption p{font-size:var(--t3)!important;font-weight:700!important;line-height:1.4!important;letter-spacing:-.02em!important}
+.dv-body .fb.rp2 .rp-sub-lg{font-size:var(--t3)!important}
+.dv-body .fb.rp2 .rp-probs3 h4,.dv-body .fb.rp2 .rp-basis h5,.dv-body .fb.rp2 .rp-step h4,.dv-body .fb.rp2 .rp-step-solo h4,
+.dv-body .fb.rp2 .rp-bar-hd b,.dv-body .fb.rp2 .rp-batable tbody th,.dv-body .fb.rp2 .rp-ranks span,.dv-body .fb.rp2 .rp-facts dd{
+  font-size:var(--t4)!important;font-weight:700!important;line-height:1.5!important;color:var(--rp-ink)!important}
+.dv-body .fb.rp2 .rp-body p,.dv-body .fb.rp2 .rp-probs3 p,.dv-body .fb.rp2 .rp-basis p,.dv-body .fb.rp2 .rp-step-t p,.dv-body .fb.rp2 .rp-step-solo p,
+.dv-body .fb.rp2 .rp-checks li,.dv-body .fb.rp2 .rp-batable td{font-size:var(--tb)!important;font-weight:400!important;line-height:1.7!important}
+.dv-body .fb.rp2 .rp-body p,.dv-body .fb.rp2 .rp-probs3 p,.dv-body .fb.rp2 .rp-basis p,.dv-body .fb.rp2 .rp-step-t p,.dv-body .fb.rp2 .rp-checks li{color:var(--rp-2)!important}
+.dv-body .fb.rp2 .rp-batable .rp-after,.dv-body .fb.rp2 .rp-checks b{font-weight:700!important;color:var(--rp-ink)!important}
+.dv-body .fb.rp2 .rp-batable .rp-before{color:var(--rp-3)!important}
+.dv-body .fb.rp2 .rp-facts dt,.dv-body .fb.rp2 .rp-batable thead th,.dv-body .fb.rp2 .rp-bar-row em,.dv-body .fb.rp2 .rp-bar-k,
+.dv-body .fb.rp2 .fb-legend{font-size:var(--tl)!important;font-weight:500!important}
+.dv-body .fb.rp2 .rp-facts dt{color:var(--rp-3)!important}
+.dv-body .fb.rp2 .rp-batable thead th{font-weight:700!important;color:var(--rp-ink)!important}
+.dv-body .fb.rp2 .rp-bar-row.is-after em{font-weight:700!important}
+.dv-body .fb.rp2 .rp-note,.dv-body .fb.rp2 .rp-bar small,.dv-body .fb.rp2 .rp-facts dd small,.dv-body .fb.rp2 figcaption{font-size:var(--tn)!important;font-weight:400!important;color:var(--rp-3)!important}
+.dv-body .fb.rp2 .rp-bar-hd strong,.dv-body .fb.rp2 .rp-ranks b{font-size:var(--tf)!important;font-weight:800!important;letter-spacing:-.03em!important;color:var(--rp-ink)!important}
+.dv-body .fb.rp2 .rp-key .rp-h,.dv-body .fb.rp2 .rp-key .rp-sub{color:#fff!important}
+.dv-body .fb.rp2 .rp-key .rp-body p{color:rgba(255,255,255,.8)!important}
+.dv-body .fb.rp2 .ed-end h3{font-size:var(--t3)!important;font-weight:700!important}.dv-body .fb.rp2 .ds-checks li{font-size:var(--tb)!important;font-weight:400!important}
+/* .rp2 image pairs and search gallery (from the addd blog folder) */
+.rp2 .rp-step-wide{grid-template-columns:minmax(0,1fr)!important;gap:20px!important}
+.rp2 .rp-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px;align-items:start}
+.rp2 .rp-pair-tall .rp-fig img{aspect-ratio:3/4;object-fit:cover;object-position:top}
+.rp2 .rp-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:24px 0 0;padding:0;list-style:none}
+.rp2 .rp-shot img{aspect-ratio:4/5;object-fit:cover;object-position:top}
+@media (max-width:760px){.rp2 .rp-pair,.rp2 .rp-gallery{grid-template-columns:minmax(0,1fr)}}
+.rp2 .rp-shot img{aspect-ratio:auto!important;object-fit:initial!important}.rp2 .rp-gallery{align-items:start}
+.rp2 .rp-pair-in{margin-top:0}
+/* search evidence: 2×2 captures, ADDD posts outlined in red */
+.rp2 .rp-gallery-2{grid-template-columns:repeat(2,minmax(0,1fr))!important;margin-top:0}
+.rp2 .rp-mark-wrap{position:relative;display:block}
+.rp2 .rp-mark{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:var(--h);border:3px solid #E5262B;border-radius:4px;pointer-events:none}
+/* no circle shapes: plain arrow and plain numbers */
+.dv-body .fb.rp2 .rp-to span{display:inline;width:auto;height:auto;border-radius:0;background:none;color:var(--rp-ink);font-size:inherit}
+.dv-body .fb.rp2 .rp-batable-sm .rp-n{display:inline;width:auto;height:auto;margin-right:8px;border-radius:0;background:none;color:var(--rp-ink);font-size:inherit;font-weight:800;vertical-align:baseline}
+/* evidence: rows of two, widths follow each image's ratio so both share one height; edges line up */
+.rp2 .rp-evidence{display:grid;gap:16px}
+.rp2 .rp-evrow{display:flex;gap:12px;align-items:flex-start}
+.rp2 .rp-ev{flex:var(--r) 1 0;min-width:0}
+.rp2 .rp-ev .rp-fig img{width:100%;height:auto;aspect-ratio:auto!important}
+@media (max-width:760px){.rp2 .rp-evrow{flex-direction:column}}
+/* inquiry: the post and the mail overlap as one image */
+.rp2 .rp-stack-in{position:relative;padding:0 0 18% 0}
+.rp2 .rp-stack-a{display:block;width:58%}
+.rp2 .rp-stack-b{position:absolute;right:0;bottom:0;width:62%;box-shadow:0 12px 32px rgba(0,0,0,.14)}
+.rp2 .rp-stack img{display:block;width:100%;height:auto;border-radius:4px}
+/* popup bar: the work's category badges; first badge filled like on the card */
+.dv-title{display:flex;align-items:center;gap:6px}
+.dv-badge{display:inline-flex;align-items:center;height:28px;padding:0 12px;border:1px solid #CFCFCD;border-radius:999px;font-size:13px;font-weight:600;color:#111;background:#fff;white-space:nowrap}
+.dv-badge:first-of-type{border-color:#111;background:#111;color:#fff}
+/* images keep their own ratio while loading (so rows and the overlap line up before the files arrive) */
+.rp2 .rp-ev .rp-fig img{aspect-ratio:var(--r)!important}
+.rp2 .rp-stack-a img{aspect-ratio:502/1159!important}
+.rp2 .rp-stack-b img{aspect-ratio:667/443!important}

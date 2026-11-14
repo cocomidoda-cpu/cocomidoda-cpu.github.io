@@ -430,7 +430,10 @@
       clearTimeout(hideT);
       opener = from; doneSent = false;
       track('work_detail_open', { work_id: card.id, work_title: $('h4', card).textContent.trim() });
-      title.textContent = $('h4', card).textContent;
+      // the bar shows this work's category badges again (the title stays for screen readers)
+      title.textContent = '';
+      var tn = document.createElement('span'); tn.className = 'sr-only'; tn.textContent = $('h4', card).textContent; title.appendChild(tn);
+      card.querySelectorAll('.work-tag > span').forEach(function (b) { var c = document.createElement('span'); c.className = 'dv-badge'; c.textContent = b.textContent; c.setAttribute('aria-hidden', 'true'); title.appendChild(c); });
       body.textContent = '';
       if (tpl) {
         var frag = tpl.content.cloneNode(true), info = cardInfo(card, frag);
