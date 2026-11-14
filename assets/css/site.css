@@ -3595,3 +3595,15 @@ a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
 .rp2 .rp-ev .rp-fig img{aspect-ratio:var(--r)!important}
 .rp2 .rp-stack-a img{aspect-ratio:502/1159!important}
 .rp2 .rp-stack-b img{aspect-ratio:667/443!important}
+/* .rp2 images always fill their box (the site-wide popup rule keeps small images at natural width and adds a bottom
+   margin, which made side-by-side captures uneven at wide screens and shifted the red outlines) */
+.dv-body .fb.rp2 img{width:100%!important;max-width:100%!important;margin:0!important}
+.dv-body .fb.rp2 .rp-fig figcaption{margin-top:8px}
+/* inquiry overlap: the mail sits inside the post's lower edge instead of hanging below it */
+.rp2 .rp-stack-in{padding-bottom:0!important}
+.rp2 .rp-stack-b{bottom:7%!important}
+/* SNS work: thumbnail grids beside each content type */
+.rp2 .rp-media{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.rp2 .rp-media-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.rp2 .rp-media-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.rp2 .rp-media img{display:block;border-radius:4px;box-shadow:0 0 0 1px var(--rp-line)}
