@@ -121,7 +121,7 @@
       if (window.innerHeight + y >= doc.scrollHeight - 2) cur = secs.length - 1;
       links.forEach(function (l, i) {
         l.classList.toggle('is-on', i === cur);
-        if (i === cur) l.setAttribute('aria-current', 'true'); else l.removeAttribute('aria-current');
+        if (i === cur) l.setAttribute('aria-current', 'location'); else l.removeAttribute('aria-current');
       });
     }
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -423,6 +423,11 @@
       if (!pages && sum) box.appendChild(sum.cloneNode(true));
       if (dl) box.appendChild(dl.cloneNode(true));
       if (mt && !(pages && $('.ds-stats', pages))) box.appendChild(mt.cloneNode(true));
+      // 스토리 페이지(Project Overview가 있는 형식)에서는 다른 팝업처럼 섹션 제목을 붙입니다
+      if (pages && $('.ds-ov', pages) && box.childNodes.length) {
+        var kh = document.createElement('h3'); kh.className = 'fb-h'; kh.textContent = 'Key Points';
+        box.insertBefore(kh, box.firstChild);
+      }
       return box.childNodes.length ? box : null;
     }
     // each work remembers where it was left; a work not opened yet starts at the top
@@ -430,7 +435,15 @@
     function open(card, from) {
       var tpl = $('.work-pages', card);
       backTo = (from && from.closest && from.closest('.rp-works') && current && !dv.hidden) ? current : null;
-      if (back) back.hidden = !backTo;
+      if (back) {
+        back.hidden = !backTo;
+        // 어디로 돌아가는지 보이게: 묶음 작업의 제목을 버튼 글자와 이름에 넣습니다
+        if (backTo) {
+          var bt = ($('.work-body h4', backTo) || {}).textContent || '묶음';
+          $('.dv-back-t', back).textContent = bt.trim();
+          back.setAttribute('aria-label', bt.trim() + '(으)로 돌아가기');
+        }
+      }
       if (current && !dv.hidden) seenAt[current.id] = body.scrollTop;   // switching works with "다음 작업 보기"
       clearTimeout(hideT);
       opener = from; doneSent = false;
@@ -443,7 +456,7 @@
       if (tpl) {
         var frag = tpl.content.cloneNode(true), info = cardInfo(card, frag);
         if (info) {
-          var hd = frag.querySelector('.ds-head, header');
+          var hd = frag.querySelector('.ds-ov') || frag.querySelector('.ds-head, header');
           if (hd) hd.parentNode.insertBefore(info, hd.nextSibling); else frag.insertBefore(info, frag.firstChild);
         }
         body.appendChild(frag);
@@ -488,6 +501,16 @@
     }
     $$('[data-detail]').forEach(function (b) {
       b.addEventListener('click', function () { open(b.closest('.work'), b); });
+      // 카드 어디를 눌러도 상세보기가 열리게: 사진 버튼 말고 글·여백을 눌러도 같은 버튼을 누른 것처럼 처리합니다
+      var card = b.closest('.work');
+      if (!card || card.hasAttribute('data-card-open')) return;
+      card.setAttribute('data-card-open', '');
+      if (!card.hasAttribute('data-cursor-text')) card.setAttribute('data-cursor-text', b.getAttribute('data-cursor-text') || 'View');
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('a, button, input, select, textarea, label, summary, [role="button"]')) return;
+        if (window.getSelection && String(window.getSelection()).length) return;   // 글을 드래그해 고르는 중이면 열지 않습니다
+        b.click();
+      });
     });
     x.addEventListener('click', close);
 
@@ -505,7 +528,8 @@
       var cur = -1, endAt = notes.length - 1, hasEnd = notes[endAt].classList.contains('ds-end');
       var partsAll = $$('.ds-part', st), lastPart = partsAll[partsAll.length - 1];
       return function () {
-        var line = body.getBoundingClientRect().top + body.clientHeight * 0.5, k = 0;
+        // 첫 메모가 특정 구간에 붙어 있으면, 그 구간에 닿기 전에는 메모를 보이지 않습니다
+        var line = body.getBoundingClientRect().top + body.clientHeight * 0.5, k = marks[0].el ? -1 : 0;
         marks.forEach(function (m, i) {
           if (m.el && m.el.getBoundingClientRect().top + m.el.offsetHeight * m.f <= line) k = i;
         });
@@ -847,6 +871,11 @@
       var tx = rel + (dh < 1 ? -tw + dh * (spot + tw) : spot);
       truck.style.setProperty('--tx', tx.toFixed(1) + 'px');
       truck.style.setProperty('--rot', (tx * 1.4).toFixed(1) + 'deg');
+      // 서스펜션: 달리는 동안 차체가 살짝 출렁이고, 속도가 바뀌면 앞뒤로 조금 기울었다가 돌아옵니다
+      var dv = tx - (truck._tx == null ? tx : truck._tx); truck._tx = tx;
+      truck._lean = (truck._lean || 0) * 0.82 + Math.max(-1.2, Math.min(1.2, dv * 0.06)) * 0.18;
+      truck.style.setProperty('--tk-bob', (rm ? 0 : Math.abs(Math.sin(tx / 22)) * -3).toFixed(2) + 'px');
+      truck.style.setProperty('--tk-lean', (rm ? 0 : -truck._lean).toFixed(2) + 'deg');
       // vision AI on the truck: a person gets a box once the truck's front comes close
       var sx = street.getBoundingClientRect().left, tl0 = truck.getBoundingClientRect().left - sx;
       // walkers: they keep walking right with the scroll; when the truck comes up behind them they turn their heads
@@ -863,6 +892,7 @@
       });
       peds.forEach(function (p, i) {
         p.classList.toggle('is-look', near < 280);
+        if (near < 280) p.classList.add('was-look');   // the turn-back animation only plays after a first turn
         byTruck[i] = near < 120; mark(i);
       });
       tcards.forEach(function (c) { c.classList.toggle('is-on', c.offsetLeft - rel < W * 0.8); });

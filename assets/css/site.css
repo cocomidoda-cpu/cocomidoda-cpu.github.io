@@ -3627,3 +3627,292 @@ a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
 /* back to the group: same round button as close, left of the badges */
 .dv-back{margin-right:12px}
 .dv-back[hidden]{display:none}
+
+/* Hero: one-line headline across the top, full-length portrait standing on the bottom edge in the middle,
+   role pill bottom-left and intro bottom-right (white photo background multiplied into the hero background) */
+.hero-in{display:block;position:relative;padding-top:clamp(84px,11vh,112px);padding-bottom:0}
+.hero-title{position:relative;z-index:1;width:100%}
+.hero-in .hero-title .u216-h{margin:0;line-height:.92;text-align:center;white-space:nowrap}
+.hero-title .u216-h .u216-ln{display:inline}
+.hero-title .u216-h .u216-ln+.u216-ln::before{content:" "}
+.hero-photo{position:absolute;z-index:0;left:0;right:0;bottom:0;height:min(70vh,calc(100% - 210px));aspect-ratio:1122/1402;margin:0 auto;background:none}
+.hero-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 0}
+.hero-foot{position:absolute;z-index:1;left:32px;right:32px;bottom:clamp(28px,5vh,48px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;pointer-events:none}
+.hero-foot>*{pointer-events:auto}
+.hero-foot .hero-pos{margin:0;padding:6px 14px;border:1px solid var(--ux-ink);border-radius:999px;font-size:13px;line-height:1.4;font-weight:500;color:var(--ux-ink);white-space:nowrap}
+.hero-foot .hero-intro{max-width:none;white-space:nowrap;margin:0;font-size:14px;line-height:1.55;font-weight:500;letter-spacing:-.01em;text-align:right;color:var(--ux-ink)}
+.u216 .hero-down{display:none}
+@media (max-width:860px){
+  .hero-in{display:flex;flex-direction:column;padding-top:88px}
+  .hero-foot{position:static;order:2;flex-direction:column;align-items:flex-start;gap:12px;margin:20px 0 0}
+  .hero-foot .hero-intro{text-align:left;max-width:none}
+  .hero-photo{position:relative;order:3;left:auto;right:auto;bottom:auto;align-self:center;height:auto;width:min(86vw,420px);margin:auto auto 0}
+}
+
+/* Work cards open from anywhere on the card, not only the photo */
+.work[data-card-open]{cursor:pointer}
+
+/* Street buildings, realistic pass: every even tower is a glass curtain wall, every odd one a stone facade with
+   punched windows. Each has a roof parapet, a sky reflection sweeping across the front, fine concrete grain,
+   ambient shadow where it meets the street, a darker ribbed side face and a lit glass lobby. */
+#about .ab-tl .tl-addd .tl-bldg,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd){border-radius:0!important;box-shadow:none!important}
+/* glass tower: front face */
+#about .ab-tl .tl-addd .tl-bldg{background:
+  linear-gradient(180deg,#7E838C 0 5px,rgba(255,255,255,.55) 5px 6px,transparent 6px),
+  linear-gradient(0deg,rgba(18,22,28,.28) 0,rgba(18,22,28,.08) 10%,transparent 24%),
+  linear-gradient(100deg,rgba(255,255,255,.34) 0,rgba(255,255,255,0) 30%,rgba(255,255,255,.14) 52%,rgba(255,255,255,0) 66%),
+  url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .18 0 0 0 0 .19 0 0 0 0 .21 0 0 0 .22 0'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>"),
+  linear-gradient(180deg,#8F959E 0%,#B3B8BF 45%,#D4D7DB 100%)!important}
+/* stone tower: warmer, lighter facade */
+#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd){background:
+  linear-gradient(180deg,#8C8984 0 6px,rgba(255,255,255,.6) 6px 7px,transparent 7px),
+  linear-gradient(0deg,rgba(24,22,20,.26) 0,rgba(24,22,20,.07) 10%,transparent 24%),
+  linear-gradient(95deg,rgba(255,255,255,.28) 0,rgba(255,255,255,0) 38%),
+  url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .18 0 0 0 0 .19 0 0 0 0 .21 0 0 0 .22 0'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>"),
+  linear-gradient(180deg,#B2AEA8 0%,#CBC8C2 45%,#E2E0DC 100%)!important}
+/* glass tower windows: thin light mullions, dark spandrel line under each floor, sky reflected in the glass */
+#about .ab-tl .tl-addd .tl-bldg::before{inset:18px 9px 20% 9px!important;-webkit-mask-image:none!important;mask-image:none!important;background:
+  repeating-linear-gradient(90deg,rgba(236,239,243,.85) 0 2px,transparent 2px 15px),
+  repeating-linear-gradient(180deg,transparent 0 15px,rgba(44,50,60,.55) 15px 16px,#AEB3BA 16px 20px,rgba(255,255,255,.45) 20px 21px),
+  linear-gradient(155deg,#5E6876 0%,#8C97A6 28%,#D3DAE2 47%,#8C96A4 62%,#6D7685 80%,#A9B2BE 100%)!important;
+  box-shadow:inset 0 0 0 2px rgba(236,239,243,.7),inset 0 6px 10px -6px rgba(0,0,0,.35)}
+/* stone tower windows: deep reveals (dark top/left edge), sill highlight, glass reflection inside */
+#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd)::before{inset:20px 14px 22% 14px!important;background:
+  repeating-linear-gradient(90deg,transparent 0 13px,#D7D4CF 13px 22px),
+  repeating-linear-gradient(180deg,transparent 0 16px,rgba(255,255,255,.65) 16px 17px,#D7D4CF 17px 27px),
+  repeating-linear-gradient(90deg,rgba(40,40,44,.45) 0 2px,transparent 2px 22px),
+  repeating-linear-gradient(180deg,rgba(40,40,44,.5) 0 2px,transparent 2px 27px),
+  linear-gradient(160deg,#5F6874 0%,#97A1AD 40%,#CAD1D9 55%,#7F8995 78%,#9EA7B2 100%)!important;
+  box-shadow:none}
+/* side face receding to the right: darker, with floor ribs */
+#about .ab-tl .tl-addd .tl-bldg::after,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(even)::after{background:
+  repeating-linear-gradient(180deg,rgba(0,0,0,.10) 0 1px,transparent 1px 21px),
+  url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .18 0 0 0 0 .19 0 0 0 0 .21 0 0 0 .22 0'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>"),
+  linear-gradient(180deg,#6E737B 0%,#8C9199 55%,#A9ADB3 100%)!important}
+#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd)::after{background:
+  repeating-linear-gradient(180deg,rgba(0,0,0,.08) 0 1px,transparent 1px 27px),
+  url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .18 0 0 0 0 .19 0 0 0 0 .21 0 0 0 .22 0'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>"),
+  linear-gradient(180deg,#86827C 0%,#A29E98 55%,#BCB9B4 100%)!important}
+/* lobby: dark glass with warm interior light, door mullions and a canopy */
+#about .ab-tl .tl-addd .tl-bldg i{left:10px!important;right:10px!important;height:13%!important;background:
+  repeating-linear-gradient(90deg,rgba(255,255,255,.28) 0 1px,transparent 1px 16px),
+  linear-gradient(180deg,rgba(255,236,200,.0) 0%,rgba(255,236,200,.22) 100%),
+  linear-gradient(180deg,#3A414C 0%,#545D6A 55%,#77808C 100%)!important;
+  box-shadow:0 -4px 0 #5E636B,0 -5px 0 rgba(255,255,255,.4),inset 0 2px 0 rgba(255,255,255,.18)!important}
+
+/* Strategy cycle: four steps left to right, then a return line from the last step back to the first */
+.rp2 .rp-cycle{position:relative;margin:28px 0 0}
+.rp2 .rp-cycle .rp-chain{margin:0}
+.rp2 .rp-loop{position:relative;height:40px;margin:0 calc(12.5% - 6px);border:1.5px solid var(--rp-ink);border-top:0;border-radius:0 0 10px 10px}
+.rp2 .rp-loop::before{content:"";position:absolute;left:-1.5px;top:-1px;width:9px;height:9px;border-left:1.5px solid var(--rp-ink);border-top:1.5px solid var(--rp-ink);transform:translate(-50%,0) rotate(45deg);transform-origin:50% 50%;margin-left:.75px}
+.rp2 .rp-loop span{position:absolute;left:50%;bottom:0;transform:translate(-50%,50%);padding:0 12px;background:var(--rp-bg,#fff);font-size:var(--tl,14px);font-weight:600;color:var(--rp-ink);white-space:nowrap}
+.rp2 .rp-endbar{padding-top:0}
+@media (max-width:760px){.rp2 .rp-loop{display:none}.rp2 .rp-chain li:last-child::after{content:"↺ 다시 콘텐츠 발행으로";position:static;display:block;margin-top:10px;transform:none;font-size:13px;font-weight:600}}
+
+/* Top nav usability: 44px-tall tap targets (underline kept close to the text), a clear 2px marker on the
+   current section with the other links dimmed, a visible keyboard focus ring, and a more opaque frosted bar
+   so the links stay readable over the dark Work section */
+.hd-nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 4px!important;color:var(--ux-ink-2);background-position:4px calc(50% + .85em)!important;background-size:0 2px!important;transition:background-size .35s var(--ux-ease),color .2s}
+.hd-nav a.is-on{color:var(--ux-ink);background-size:calc(100% - 8px) 2px!important}
+@media (hover:hover){.hd-nav a:hover{color:var(--ux-ink);background-size:calc(100% - 8px) 2px!important}}
+.hd-nav a:focus-visible,.u212-hd .brand:focus-visible{outline:2px solid var(--ux-ink);outline-offset:2px;border-radius:4px}
+.u212-hd.is-solid{background:color-mix(in srgb,var(--ux-page) 86%,transparent)}
+@media (max-width:560px){.hd-nav a{padding:0 3px!important}}
+
+/* Work popups: narrower reading sheet with more room above and below it */
+.dv-body{padding:clamp(40px,7vh,72px) 20px clamp(96px,14vh,140px)}
+.dv-body>.ed{max-width:1040px!important;margin-left:auto!important;margin-right:auto!important}
+@media (max-width:760px){.dv-body{padding:28px 12px 88px}}
+
+/* Popup ending: only the next / back-to-list buttons remain where the Keypoint list was */
+.dv-body .ed-sec.ed-end{padding-top:clamp(48px,7vh,72px)!important}
+.dv-body .ed-sec.ed-end .ds-end-act{margin-top:0}
+
+/* hero intro: fixed line breaks on wide screens, natural wrapping on phones */
+@media (max-width:560px){.hero-foot .hero-intro{white-space:normal}.hero-foot .hero-intro br{display:none}}
+
+/* Popup top bar (Web Interface Guidelines): back and close no longer look identical. Back is a light outlined pill
+   that names the group it returns to; close is the dark primary pill labelled 닫기 with an Esc hint. Both get
+   hover/press feedback, 44px targets, no double-tap delay, and the bar lines up with the reading sheet. */
+.dv-bar{padding:0 max(20px,calc((100vw - 920px)/2))!important;gap:12px}
+.dv-x{touch-action:manipulation;transition:background-color .18s,color .18s,border-color .18s,transform .12s}
+.dv-x:active{transform:scale(.96)}
+.dv-back,.dv-close{width:auto!important;height:44px!important;border-radius:999px!important;display:inline-flex!important;align-items:center;gap:8px;padding:0 16px;font:inherit;font-size:14px;font-weight:600;letter-spacing:-.01em}
+.dv-back{margin-right:4px;background:transparent!important;color:var(--ux-ink)!important;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ux-ink) 22%,transparent)}
+.dv-back-t{max-width:min(36vw,280px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dv-close{background:var(--ux-ink)!important;color:var(--ux-page)!important;padding:0 10px 0 18px}
+.dv-close svg{width:16px;height:16px}
+.dv-esc{display:inline-flex;align-items:center;height:20px;padding:0 6px;border-radius:5px;background:color-mix(in srgb,var(--ux-page) 18%,transparent);font:inherit;font-size:11px;font-weight:600;letter-spacing:.02em}
+@media (hover:hover){
+  .dv-back:hover{box-shadow:inset 0 0 0 1.5px var(--ux-ink);background:color-mix(in srgb,var(--ux-ink) 6%,transparent)!important}
+  .dv-close:hover{background:color-mix(in srgb,var(--ux-ink) 82%,var(--ux-page))!important}
+}
+@media (hover:none),(max-width:760px){.dv-esc{display:none}}
+@media (max-width:560px){.dv-back,.dv-close{padding:0 12px}.dv-close-t{display:none}.dv-close{width:44px!important;justify-content:center;padding:0}.dv-back-t{max-width:32vw}}
+
+/* Popup reading sheet: narrower (keeps body lines well under 80 characters) with generous room around it */
+.dv-body{padding:clamp(56px,10vh,120px) clamp(20px,8vw,160px) clamp(120px,18vh,200px)!important}
+.dv-body>.ed{max-width:920px!important}
+@media (max-width:760px){.dv-body{padding:32px 12px 96px!important}}
+
+/* Font blog: the six remaining thumbnails sit in one row under the Key Achievement subheading */
+.fb .fb-thumbs.fb-thumbs-row{grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:20px 0 0}
+@media (max-width:760px){.fb .fb-thumbs.fb-thumbs-row{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Font blog questions: three gray-outlined boxes in a row, same treatment as the Background cards (rp-probs3) */
+.dv-body .fb ol.fb-qs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;margin:28px 0 0!important}
+.dv-body .fb ol.fb-qs>li{margin:0!important;padding:24px!important;border:1px solid #E2E2E0!important;border-radius:6px!important;font-size:18px!important;word-break:keep-all}
+@media (max-width:760px){.dv-body .fb ol.fb-qs{grid-template-columns:minmax(0,1fr)!important}}
+
+/* ===== Work popups: every template takes the Naver blog popup (rp2) look. Styling only — content and markup unchanged.
+   white sheet · boxed info facts (14px label / 17px bold value) · 26px extra-bold section titles over a 3px rule ·
+   16px body in #333 · list items as 1px #E2E2E0 cards with 6px corners and 24px padding ===== */
+.dv-body .ed:not(.rp2),.dv-body .ds{background:#fff!important;color:#111!important;--fb-ink:#111;--fb-line:#E2E2E0}
+
+/* title and info facts */
+.dv-body .ed:not(.rp2) .ds-head h2,.dv-body .ds .ds-head h2{font-size:clamp(28px,1rem + 1.9vw,42px)!important;font-weight:800!important;line-height:1.2!important;letter-spacing:-.035em!important;color:#111!important}
+.dv-body .ed:not(.rp2) .ds-head h2 span,.dv-body .ds .ds-head h2 span{color:inherit!important}
+.dv-body .ed:not(.rp2) .ds-facts,.dv-body .ds .ds-facts{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))!important;gap:16px!important;margin:32px 0 0!important;border:0!important;background:none!important}
+.dv-body .ed:not(.rp2) .ds-facts>div,.dv-body .ds .ds-facts>div{padding:20px 24px!important;border:1px solid #E2E2E0!important;border-radius:4px!important;background:none!important}
+.dv-body .ed:not(.rp2) .ds-facts dt,.dv-body .ds .ds-facts dt{font-size:14px!important;font-weight:500!important;letter-spacing:0!important;text-transform:none!important;color:#77777A!important}
+.dv-body .ed:not(.rp2) .ds-facts dd,.dv-body .ds .ds-facts dd{margin:6px 0 0!important;font-size:17px!important;font-weight:700!important;line-height:1.5!important;color:#111!important;word-break:keep-all}
+
+/* section titles: extra-bold with a 3px rule underneath */
+.dv-body .ed:not(.rp2) .fb-h,.dv-body .ed:not(.rp2) .ed-sec h3{margin:0 0 28px!important;padding:0 0 14px!important;border-bottom:3px solid currentColor!important;font-size:clamp(22px,1rem + .8vw,26px)!important;font-weight:800!important;line-height:1.3!important;letter-spacing:-.03em!important}
+.dv-body .ed:not(.rp2) .fb-h + .fb-sub{margin-top:0!important}
+
+/* body text */
+.dv-body .ed:not(.rp2) .fb-body p,.dv-body .ed:not(.rp2) .ed-body p{font-size:16px!important;line-height:1.7!important;color:#333!important}
+.dv-body .ed:not(.rp2) .fb-sub{font-size:18px!important;font-weight:700!important;color:#111!important}
+
+/* list items become outlined cards */
+.dv-body .ed:not(.rp2) .fb-probs>li,.dv-body .ed:not(.rp2) .fb-steps>li,.dv-body .ed:not(.rp2) .fb-kw>li,.dv-body .ed:not(.rp2) .fb-qs>li,.dv-body .ed:not(.rp2) .fb-dirs3>li,.dv-body .ed:not(.rp2) .fb-proofs>li,.dv-body .ed:not(.rp2) .fb-insight,.dv-body .ed:not(.rp2) .fb-key>.fb-body{
+  padding:24px!important;border:1px solid #E2E2E0!important;border-radius:6px!important;background:none!important;box-shadow:none!important}
+.dv-body .ed:not(.rp2) .fb-probs,.dv-body .ed:not(.rp2) .fb-steps,.dv-body .ed:not(.rp2) .fb-kw,.dv-body .ed:not(.rp2) .fb-dirs3,.dv-body .ed:not(.rp2) .fb-proofs{gap:12px!important}
+.dv-body .ed:not(.rp2) .fb-probs h4,.dv-body .ed:not(.rp2) .fb-steps h4,.dv-body .ed:not(.rp2) .fb-kw h4,.dv-body .ed:not(.rp2) .fb-dirs3 h4,.dv-body .ed:not(.rp2) .fb-proofs h4{margin:0 0 10px!important;font-size:17px!important;font-weight:700!important;line-height:1.5!important;color:#111!important}
+.dv-body .ed:not(.rp2) .fb-probs p,.dv-body .ed:not(.rp2) .fb-steps p,.dv-body .ed:not(.rp2) .fb-kw p,.dv-body .ed:not(.rp2) .fb-dirs3 p,.dv-body .ed:not(.rp2) .fb-proofs p,.dv-body .ed:not(.rp2) .fb-insight p{font-size:16px!important;line-height:1.7!important;color:#333!important}
+
+/* Story pages (잘룸): Project Overview section and the 과제 / 한 일 / 결과 cards, in the same format as the other popups */
+.dv-body .ds .ds-ov{padding:clamp(40px,5vw,56px) clamp(20px,6vw,88px) 0}
+.dv-body .ds .ds-ov .fb-h{margin:0 0 28px;padding:0 0 14px;border-bottom:3px solid #111;font-size:clamp(22px,1rem + .8vw,26px);font-weight:800;line-height:1.3;letter-spacing:-.03em;color:#111}
+.dv-body .ds .ds-ov .fb-body p{margin:0 0 12px;font-size:16px;line-height:1.7;color:#333}
+.dv-body .ds .ds-ov .fb-body p:last-child{margin-bottom:0}
+.dv-body .ds .dv-info{margin:28px clamp(20px,6vw,88px) 0!important;padding:0!important;border:0!important}
+.dv-body .ds .dv-info .work-dl{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:auto 1fr;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);column-gap:12px;row-gap:0;margin:0!important;border:0!important}
+.dv-body .ds .dv-info .work-dl dt{margin:0;padding:24px 24px 0;border:1px solid #E2E2E0;border-bottom:0;border-radius:6px 6px 0 0;font-size:17px;font-weight:700;color:#111}
+.dv-body .ds .dv-info .work-dl dd{margin:0;padding:10px 24px 24px;border:1px solid #E2E2E0;border-top:0;border-radius:0 0 6px 6px;font-size:16px;line-height:1.7;color:#333;word-break:keep-all}
+@media (max-width:760px){.dv-body .ds .dv-info .work-dl{grid-template-columns:minmax(0,1fr)!important;grid-auto-flow:row;grid-template-rows:none;grid-auto-columns:auto}.dv-body .ds .dv-info .work-dl dd{margin-bottom:12px}}
+
+/* Story pages: Key Points title above the 과제 / 한 일 / 결과 cards, and space before the page images start */
+.dv-body .ds .dv-info{margin:clamp(40px,5vw,56px) clamp(20px,6vw,88px) clamp(48px,6vw,72px)!important}
+.dv-body .ds .dv-info>.fb-h{margin:0 0 28px;padding:0 0 14px;border-bottom:3px solid #111;font-size:clamp(22px,1rem + .8vw,26px);font-weight:800;line-height:1.3;letter-spacing:-.03em;color:#111}
+
+/* Career street buildings, flat front view: light gray at the roof fading almost into the page background at the
+   street, crisp parapet and cornice lines, faint concrete grain, thin pilaster edges, and transparent windows —
+   only frames, mullions and a soft sheen, so the facade shows through. No side faces. */
+#about .ab-tl .tl-addd .tl-bldg::after,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(even)::after,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd)::after{content:none!important;display:none!important}
+#about .ab-tl .tl-addd .tl-bldg,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd){border-radius:0!important;box-shadow:inset 1px 0 0 rgba(255,255,255,.55),inset -1px 0 0 rgba(120,124,132,.18)!important;background:
+  linear-gradient(180deg,#B9BCC2 0 3px,rgba(255,255,255,.75) 3px 4px,transparent 4px 14px,rgba(120,124,132,.22) 14px 15px,transparent 15px),
+  url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .3 0 0 0 0 .31 0 0 0 0 .33 0 0 0 .10 0'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>"),
+  linear-gradient(180deg,#D0D2D6 0%,#DEDFE2 45%,#EAEAEA 80%,#EEEEEC 100%)!important}
+#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd){background:
+  linear-gradient(180deg,#BDBDBB 0 4px,rgba(255,255,255,.75) 4px 5px,transparent 5px 16px,rgba(120,118,114,.2) 16px 17px,transparent 17px),
+  url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .3 0 0 0 0 .31 0 0 0 0 .33 0 0 0 .10 0'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>"),
+  linear-gradient(180deg,#D6D5D2 0%,#E2E1DE 45%,#EBEAE8 80%,#EEEEEC 100%)!important}
+/* curtain-wall tower: transparent glass, thin mullions, a floor line every storey, one soft diagonal sheen */
+#about .ab-tl .tl-addd .tl-bldg::before{inset:24px 12px 21% 12px!important;-webkit-mask-image:none!important;mask-image:none!important;box-shadow:inset 0 0 0 1px rgba(120,124,132,.35)!important;background:
+  repeating-linear-gradient(90deg,rgba(120,124,132,.32) 0 1px,transparent 1px 14px),
+  repeating-linear-gradient(180deg,rgba(120,124,132,.30) 0 1px,rgba(255,255,255,.55) 1px 2px,transparent 2px 18px),
+  linear-gradient(120deg,transparent 0 30%,rgba(255,255,255,.45) 42%,transparent 54%),
+  linear-gradient(180deg,rgba(200,208,218,.22),rgba(220,226,232,.10))!important}
+/* stone tower: punched windows with a thin frame and a light sill, glass left clear */
+#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd)::before{inset:26px 14px 23% 14px!important;box-shadow:none!important;background:
+  repeating-linear-gradient(90deg,transparent 0 13px,rgba(255,255,255,.0) 13px 22px),
+  repeating-linear-gradient(180deg,transparent 0 15px,rgba(255,255,255,.7) 15px 16px,transparent 16px 26px),
+  repeating-linear-gradient(90deg,rgba(110,108,104,.38) 0 1px,transparent 1px 12px,rgba(110,108,104,.38) 12px 13px,transparent 13px 22px),
+  repeating-linear-gradient(180deg,rgba(110,108,104,.38) 0 1px,transparent 1px 15px,transparent 15px 26px)!important;
+  -webkit-mask-image:repeating-linear-gradient(90deg,#000 0 13px,transparent 13px 22px),repeating-linear-gradient(180deg,#000 0 16px,transparent 16px 26px)!important;
+  -webkit-mask-composite:source-in;mask-image:repeating-linear-gradient(90deg,#000 0 13px,transparent 13px 22px),repeating-linear-gradient(180deg,#000 0 16px,transparent 16px 26px)!important;mask-composite:intersect}
+/* lobby: clear glass doors with frames and a thin canopy */
+#about .ab-tl .tl-addd .tl-bldg i{left:12px!important;right:12px!important;height:13%!important;background:
+  repeating-linear-gradient(90deg,rgba(120,124,132,.45) 0 1px,transparent 1px 18px),
+  linear-gradient(120deg,transparent 0 35%,rgba(255,255,255,.5) 48%,transparent 60%),
+  linear-gradient(180deg,rgba(200,208,218,.25),rgba(225,229,233,.12))!important;
+  box-shadow:inset 0 0 0 1px rgba(120,124,132,.45),0 -3px 0 #C4C6CA,0 -4px 0 rgba(255,255,255,.7)!important}
+
+/* Career buildings, simplified: plain neutral gray, darker at the roof and fading to fully transparent at the street
+   (so the section background shows through); windows are separate openings with even gaps between them, filled with
+   the section background so they read as holes. No shadows, texture, parapets, side faces or lobbies. */
+#about .ab-tl .tl-addd .tl-bldg,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd){border-radius:0!important;box-shadow:none!important;
+  background:linear-gradient(180deg,rgba(120,120,120,.42) 0%,rgba(120,120,120,.22) 50%,rgba(120,120,120,0) 100%)!important}
+#about .ab-tl .tl-addd .tl-bldg::after,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(even)::after,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd)::after{content:none!important;display:none!important}
+#about .ab-tl .tl-addd .tl-bldg::before,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd)::before{inset:22px 14px 24% 14px!important;box-shadow:none!important;
+  -webkit-mask-image:none!important;mask-image:none!important;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='28'><rect width='14' height='18' fill='%23EFEFEE'/></svg>") 0 0/22px 28px space!important}
+#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd)::before{background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='32'><rect width='16' height='20' fill='%23EFEFEE'/></svg>") 0 0/26px 32px space!important}
+#about .ab-tl .tl-addd .tl-bldg i{display:none!important}
+
+/* Media poles, simplified: no camera, vents, glow, wood strip or status dots — a dark post with the screen */
+#about .ab-tl .tl-sign-cam,#about .ab-tl .tl-sign-base b{display:none!important}
+#about .ab-tl .tl-sign-head{background:#3C3936!important;border-radius:0!important}
+#about .ab-tl .tl-sign .tl-sign-screen{box-shadow:none!important}
+#about .ab-tl .tl-sign-base{background:#3C3936!important}
+
+/* Career truck: angular metallic SVG (same 1448x1086 canvas and offset as the old image, wheels turn with --rot) */
+#about .ab-tl .tl-truck svg.tl-truck-svg{display:block!important;width:100%;height:auto;overflow:visible;transform:translateY(-3.3%)}
+#about .ab-tl .tl-truck .whl{transform-box:fill-box;transform-origin:center;transform:rotate(var(--rot,0deg))}
+
+/* Career buildings, pass 3: opaque colours that end exactly at the section background, so overlapping buildings never
+   darken; lighter gray; a soft shadow on each side that fades out toward the street; windows centred in their tiles and
+   spaced evenly, so the left and right margins match on every building; more buildings (a taller back row). */
+#about .ab-tl .tl-addd .tl-bldg,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd){background:linear-gradient(180deg,#E1E1E1 0%,#E8E8E7 50%,#EFEFEE 100%)!important;box-shadow:none!important}
+#about .ab-tl .tl-addd .tl-bldg::before,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd)::before{inset:20px 12px 24% 12px!important;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='28'><rect x='4' y='5' width='14' height='18' fill='%23EFEFEE'/></svg>") 50% 0/22px 28px space!important}
+#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd)::before{background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='32'><rect x='5' y='6' width='16' height='20' fill='%23EFEFEE'/></svg>") 50% 0/26px 32px space!important}
+#about .ab-tl .tl-addd .tl-bldg::after,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(even)::after,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd)::after{content:""!important;display:block!important;position:absolute;top:0;bottom:0;left:-14px;right:-14px;
+  width:auto!important;height:auto!important;transform:none!important;border-radius:0!important;box-shadow:none!important;pointer-events:none;
+  background:linear-gradient(270deg,rgba(0,0,0,.07),rgba(0,0,0,0)) 0 0/14px 100% no-repeat,linear-gradient(90deg,rgba(0,0,0,.07),rgba(0,0,0,0)) 100% 0/14px 100% no-repeat!important;
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 35%,transparent 95%);mask-image:linear-gradient(180deg,#000 0%,#000 35%,transparent 95%)}
+
+/* truck lens beam: very faint, breathing slowly */
+#about .ab-tl .tl-truck .tl-beam{animation:tl-beam 3.6s ease-in-out infinite}
+@keyframes tl-beam{0%,100%{opacity:.55}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){#about .ab-tl .tl-truck .tl-beam{animation:none}}
+
+/* Walkers turning to look at the truck: instead of an instant mirror flip, the head turns — it narrows as it swings
+   through facing forward, crosses over, settles on the other side and lifts slightly toward the LED screen.
+   Turning back plays the same motion in reverse. The three walkers react one after another. */
+#about .ab-tl .tl-wk-h{transform-origin:51.5% 14%}
+#about .ab-tl .tl-wk.is-look .tl-wk-h{transform:none;animation:tl-look-in .62s cubic-bezier(.45,.05,.25,1) both}
+#about .ab-tl .tl-wk.was-look:not(.is-look) .tl-wk-h{animation:tl-look-out .55s cubic-bezier(.45,.05,.25,1) both}
+@keyframes tl-look-in{
+  0%{transform:scaleX(1) rotate(0deg)}
+  42%{transform:scaleX(.66) rotate(-2deg) translateX(1%)}
+  50%{transform:scaleX(.6) rotate(-2deg) translateX(1%)}
+  50.01%{transform:scaleX(-.6) rotate(2deg) translateX(-1%)}
+  58%{transform:scaleX(-.66) rotate(2deg) translateX(-1%)}
+  85%{transform:scaleX(-1.02) rotate(5deg)}
+  100%{transform:scaleX(-1) rotate(4deg)}
+}
+@keyframes tl-look-out{
+  0%{transform:scaleX(-1) rotate(4deg)}
+  42%{transform:scaleX(-.66) rotate(2deg) translateX(-1%)}
+  50%{transform:scaleX(-.6) rotate(2deg) translateX(-1%)}
+  50.01%{transform:scaleX(.6) rotate(-2deg) translateX(1%)}
+  58%{transform:scaleX(.66) rotate(-2deg) translateX(1%)}
+  100%{transform:scaleX(1) rotate(0deg)}
+}
+#about .ab-tl .tl-people .tl-wk:nth-child(2) .tl-wk-h{animation-delay:.14s}
+#about .ab-tl .tl-people .tl-wk:nth-child(3) .tl-wk-h{animation-delay:.28s}
+@media (prefers-reduced-motion:reduce){
+  #about .ab-tl .tl-wk.is-look .tl-wk-h,#about .ab-tl .tl-wk.was-look:not(.is-look) .tl-wk-h{animation:none}
+  #about .ab-tl .tl-wk.is-look .tl-wk-h{transform:scaleX(-1)}
+}
+
+/* Career buildings: no shadow where they overlap */
+#about .ab-tl .tl-addd .tl-bldg::after,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(even)::after,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd)::after{content:none!important;display:none!important}
+
+/* each building a touch lighter or darker at the roof (its own --top), still ending at the section background */
+#about .ab-tl .tl-addd .tl-bldg,#about .ab-tl .tl-addd .tl-bldg:nth-of-type(odd){background:linear-gradient(180deg,var(--top,#E1E1E1) 0%,color-mix(in srgb,var(--top,#E1E1E1) 45%,#EFEFEE) 50%,#EFEFEE 100%)!important}
+
+/* truck body rides on its suspension (wheels stay on the road) */
+#about .ab-tl .tl-truck .tk-body{transform-box:view-box;transform-origin:50% 74%;transform:translateY(calc(var(--tk-bob,0px) * 4.5)) rotate(var(--tk-lean,0deg));transition:transform .18s ease-out}
+@media (prefers-reduced-motion:reduce){#about .ab-tl .tl-truck .tk-body{transform:none;transition:none}}
