@@ -3607,3 +3607,20 @@ a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
 .rp2 .rp-media-2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .rp2 .rp-media-3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .rp2 .rp-media img{display:block;border-radius:4px;box-shadow:0 0 0 1px var(--rp-line)}
+/* group popups (City Pink, 편집디자인): background points, channel chain, member works as clickable cards */
+.rp2 .rp-probs4{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.rp2 .rp-chain{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin:28px 0 0;padding:0;list-style:none}
+.rp2 .rp-chain li{position:relative;padding:20px;border:1.5px solid var(--rp-ink);border-radius:6px}
+.rp2 .rp-chain li:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;transform:translate(50%,-50%);font-weight:700;color:var(--rp-ink);line-height:1}
+.rp2 .rp-chain b{display:block;font-size:var(--t4,17px);font-weight:700;color:var(--rp-ink)}
+.rp2 .rp-chain span{display:block;margin-top:6px;font-size:var(--tl,14px);line-height:1.6;color:var(--rp-3)}
+.rp2 .rp-works{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:0;padding:0;list-style:none}
+.rp2 .rp-work{display:grid;grid-template-rows:auto 1fr;height:100%;border:1px solid var(--rp-line);border-radius:6px;overflow:hidden;color:inherit;text-decoration:none;transition:border-color .2s,transform .3s cubic-bezier(.2,.8,.2,1)}
+.rp2 .rp-work:hover,.rp2 .rp-work:focus-visible{border-color:var(--rp-ink);transform:translateY(-2px)}
+.dv-body .fb.rp2 .rp-work-ph img{display:block;aspect-ratio:4/3!important;object-fit:cover;border-radius:0!important;box-shadow:none!important}
+.rp2 .rp-work-b{position:relative;display:grid;gap:6px;padding:18px 44px 20px 20px}
+.rp2 .rp-work-tag{font-size:var(--tl,14px);font-weight:500;color:var(--rp-3)}
+.rp2 .rp-work-b b{font-size:var(--t4,17px);font-weight:700;line-height:1.45;color:var(--rp-ink)}
+.rp2 .rp-work-s{font-size:15px;line-height:1.6;color:var(--rp-2)}
+.rp2 .rp-work-b i{position:absolute;right:18px;top:18px;font-style:normal;font-weight:700;color:var(--rp-ink)}
+@media (max-width:760px){.rp2 .rp-probs4,.rp2 .rp-works{grid-template-columns:minmax(0,1fr)!important}.rp2 .rp-chain{grid-template-columns:minmax(0,1fr)}.rp2 .rp-chain li:not(:last-child)::after{right:50%;top:auto;bottom:-14px;transform:translate(50%,50%) rotate(90deg)}}
