@@ -19,8 +19,7 @@
 <title>Archive · 김예진 포트폴리오</title>
 <meta name="description" content="김예진의 마케팅·디자인 작업물 전체 모음.">
 <meta name="author" content="김예진">
-<meta name="theme-color" content="#F4F2EE" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#08080B" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F4F2EE">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:title" content="김예진 포트폴리오 · 콘텐츠로 유입을 만들고, 문의를 판매로 연결합니다">
@@ -38,10 +37,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
 <link rel="stylesheet" href="assets/css/tokens.css?v=23">
-<link rel="stylesheet" href="assets/css/site.css?v=101">
+<link rel="stylesheet" href="assets/css/site.css?v=138">
 <script>
   // 저장된 테마를 첫 그림 전에 적용해 깜빡임을 막습니다
-  try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  // 기본은 라이트(흰색). 방문자가 직접 다크로 바꾼 경우에만 다크로 엽니다 (예전 저장값 'theme'는 쓰지 않음)
+  var t = 'light'; try { if (localStorage.getItem('theme-v2') === 'dark') t = 'dark'; } catch (e) {}
+  document.documentElement.setAttribute('data-theme', t);
 </script>
 </head>
 <body class="ux">
@@ -59,7 +60,7 @@
     <a href="index.html#fit">HOW</a>
     <a href="index.html#contact">CONTACT</a>
   </nav>
-  <a class="hd-pill" href="index.html#work">SELECTED WORKS</a>
+  <a class="hd-pill" href="index.html#work">2024–2026 WORKS</a>
   <button type="button" class="u219-tg" aria-label="다크 모드로 바꾸기" aria-pressed="false">
     <svg class="ic-sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="currentColor"/><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 1.5v1.4M8 13.1v1.4M1.5 8h1.4M13.1 8h1.4M3.4 3.4l1 1M11.6 11.6l1 1M3.4 12.6l1-1M11.6 4.4l1-1"/></g></svg>
     <svg class="ic-moon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.8A5.6 5.6 0 0 1 6.2 2.5a5.6 5.6 0 1 0 7.3 7.3z" fill="currentColor"/></svg>
@@ -117,7 +118,7 @@
   // 카드는 index.html의 Work 섹션에서 그대로 가져옵니다 (작업물 내용은 한 곳에서만 관리)
   (function () {
     var grid = document.getElementById('arc-grid');
-    function boot() { var sc = document.createElement('script'); sc.src = 'assets/js/site.js?v=54'; document.body.appendChild(sc); }
+    function boot() { var sc = document.createElement('script'); sc.src = 'assets/js/site.js?v=68'; document.body.appendChild(sc); }
     fetch('index.html', { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(function (html) {

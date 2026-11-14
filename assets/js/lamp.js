@@ -8,18 +8,19 @@
    - Lit and left alone, it bobs now and then.
    three.js and the model load only when the About section comes near. Reduced motion: no hops or flicker.
    If WebGL or the files fail, the canvas hides and the warm glow still follows the scroll (CSS --glow). */
-const box = document.querySelector('.tl-bulb3d');
-const room = box && box.closest('.tl-scene');
+const box = document.querySelector('.tl-walker');          // the lamp itself: a layer on the About stage (site.js moves it)
+const slot = document.querySelector('.tl-bulb-slot');      // its place in the 2019 scene; holds the glow and the floor light
+const room = slot && slot.closest('.tl-scene');
 const tl = document.querySelector('.tl');
 const rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-if (box && room && tl) {
+if (box && slot && room && tl) {
   const near = new IntersectionObserver((es) => {
     if (!es.some((e) => e.isIntersecting)) return;
     near.disconnect();
     start().catch(() => box.classList.add('is-off'));
   }, { rootMargin: '600px 0px' });
-  near.observe(tl);
+  near.observe(box.parentElement);
 }
 
 async function start() {
@@ -86,20 +87,24 @@ async function start() {
   const S = {
     y: 0, vy: 0, air: false, crouch: 0, power: 0, wait: -1,
     s: 0, vs: 0, hy: 0, vhy: 0, look: 0, vlook: 0, lookTo: 0, tilt: 0, vtilt: 0, tiltTo: 0,
-    lux: 0, luxTo: 0, flick: -1, quiet: 0, idleAt: 2.6
+    lux: 0, luxTo: 0, flick: -1, quiet: 0, idleAt: 2.6, bounces: 0, sway: 0, vsway: 0, swayTo: 0, lean: 0, vlean: 0, leanTo: 0
   };
   const FLICK = [[0, 0], [0.05, 0.85], [0.11, 0.18], [0.18, 1], [0.25, 0.45], [0.36, 1]];
+  // 'boing': the head is pushed down on the spring and bounces back; the base never leaves the floor
   function hop(power) {
-    if (rm || S.air || S.crouch > 0) return;
-    S.crouch = 0.11; S.power = power; S.vs -= 1.9; S.quiet = 0;
+    if (rm) return;
+    S.vhy -= power * 0.62; S.vtilt += (Math.random() - 0.5) * power * 1.4; S.quiet = 0;
+    if (S.bounces > 0) { S.bounces--; S.wait = 0.36; }
   }
   function spring(x, v, to, k, c, dt) { v += (-k * (x - to) - c * v) * dt; return [x + v * dt, v]; }
 
-  const MARKS = [0.22, 0.4, 0.58, 0.76];
+  const MARKS = [0.3, 0.42, 0.54, 0.66];
   let lit = false, step = 0, first = true;
   function read() {
+    const W = box._walk;
     const h = tl.classList.contains('tl-on') ? (parseFloat(room.style.getPropertyValue('--h')) || 0) : 1;
-    return { lit: h >= 0.04, step: MARKS.filter((m) => h >= m).length };
+    // the light comes on the moment the lamp lands in the 2019 scene
+    return { lit: (!W || W.home) && h > 0.004, step: MARKS.filter((m) => h >= m).length };
   }
   function events() {
     const now = read();
@@ -107,7 +112,8 @@ async function start() {
       lit = now.lit;
       if (lit) {
         S.luxTo = 1;
-        if (rm || first) S.lux = 1; else { S.flick = 0; S.vhy += 0.38; S.wait = 0.42; }
+        S.lux = 1; S.flick = -1;            // on at once, with a small pop of the head
+        if (!rm && !first) { S.vhy += 0.38; S.wait = 0.42; S.bounces = 1; }
         S.tiltTo = 0; S.lookTo = 0;
       } else {
         S.luxTo = 0; S.flick = -1; S.tiltTo = rm ? 0 : -0.1; S.lookTo = 0;
@@ -136,10 +142,15 @@ async function start() {
     }
     const sTo = S.air ? Math.max(-0.03, Math.min(0.07, S.vy * 0.12)) : (S.crouch > 0 ? -0.09 : 0);
     [S.s, S.vs] = spring(S.s, S.vs, sTo, 380, 13, dt);
-    [S.hy, S.vhy] = spring(S.hy, S.vhy, 0, 230, 6.5, dt);
-    S.hy = Math.max(-0.011, Math.min(0.018, S.hy));
+    [S.hy, S.vhy] = spring(S.hy, S.vhy, 0, 150, 3.2, dt);   // a loose, springy coil
+    S.hy = Math.max(-0.016, Math.min(0.03, S.hy));
     [S.look, S.vlook] = spring(S.look, S.vlook, S.lookTo, 70, 11, dt);
-    [S.tilt, S.vtilt] = spring(S.tilt, S.vtilt, S.tiltTo, 140, 10, dt);
+    [S.tilt, S.vtilt] = spring(S.tilt, S.vtilt, S.tiltTo, 120, 4.5, dt); // the head wobbles on top of the coil
+    // sway: the whole lamp rocks left and right on its feet (hover pushes it), a loose spring so it boings
+    [S.sway, S.vsway] = spring(S.sway, S.vsway, S.swayTo, 60, 2.6, dt);
+    [S.lean, S.vlean] = spring(S.lean, S.vlean, S.leanTo, 90, 3.2, dt);   // sideways spring wobble
+    S.lean = Math.max(-0.35, Math.min(0.35, S.lean));
+    S.sway = Math.max(-0.32, Math.min(0.32, S.sway));
     // the light
     if (S.flick >= 0) {
       S.flick += dt;
@@ -155,28 +166,56 @@ async function start() {
   }
 
   const spot = new THREE.Vector3(), floor = new THREE.Vector3();
-  let lastLux = -1, lastGx = '', lastGy = '', lastPool = '';
+  let lastLux = -1, lastGx = '', lastGy = '', lastPool = '', lastFx = '', lastFy = '';
   const pct = (v) => (v * 100).toFixed(1) + '%';
   function apply() {
-    body.position.y = S.y;
-    body.scale.set(1 - S.s * 0.5, 1 + S.s, 1 - S.s * 0.5);
-    head.position.y = 0.1 + S.hy;
-    head.rotation.set(0, S.look, S.tilt);
+    // walking (site.js gives the distance walked as a phase) and the jump into Career (0 → 1)
+    const W = box._walk || {};
+    const ph = W.phase || 0, j = W.jump || 0, moving = W.moving ? 1 : 0;
+    const step = Math.abs(Math.sin(ph));
+    const air = j > 0 && j < 1 ? Math.sin(Math.PI * j) : 0;
+    const crouch = j > 0 && j < 0.12 ? Math.sin(Math.PI * j / 0.12) : 0;
+    body.position.y = S.y + step * 0.006 * moving;
+    body.rotation.z = Math.sin(ph) * 0.09 * moving;
+    const sq = S.s + air * 0.08 - crouch * 0.09 - (1 - step) * 0.015 * moving;
+    body.scale.set(1 - sq * 0.5, 1 + sq, 1 - sq * 0.5);
+    S.hy += (W.moving ? -Math.cos(ph * 2) * 0.0006 : 0);
+    scene.environmentIntensity = 0.22 + 0.6 * (W.bright || 0);   // brighter chrome on the white Profile screen
+    // the coil bends sideways from its base; the head rides on top of it
+    coil.rotation.z = S.lean;
+    head.position.x = -Math.sin(S.lean) * (COIL_H + S.hy) * 1.6;
+    head.position.y = 0.1 + S.hy - (1 - Math.cos(S.lean)) * 0.02;
+    head.rotation.set(0, S.look, S.tilt + S.lean * 1.2);
     coil.scale.y = (COIL_H + S.hy) / COIL_H;
     glowMats.forEach((m) => { m.emissiveIntensity = S.lux * 2.4; });
     bulb.intensity = S.lux * 0.02;
-    if (Math.abs(S.lux - lastLux) > 0.003) { lastLux = S.lux; room.style.setProperty('--lux', S.lux.toFixed(3)); }
+    if (Math.abs(S.lux - lastLux) > 0.003) { lastLux = S.lux; room.style.setProperty('--lux', S.lux.toFixed(3)); slot.style.setProperty('--lux', S.lux.toFixed(3)); }
     // keep the CSS glow centred on the spiral, wherever the lamp is
     spot.set(0, COIL_Y + COIL_H / 2, 0); coil.parent.localToWorld(spot); spot.project(camera);
     const gx = pct((spot.x + 1) / 2), gy = pct((1 - spot.y) / 2);
-    if (gx !== lastGx || gy !== lastGy) { lastGx = gx; lastGy = gy; box.style.setProperty('--gx', gx); box.style.setProperty('--gy', gy); }
+    if (gx !== lastGx || gy !== lastGy) { lastGx = gx; lastGy = gy; slot.style.setProperty('--gx', gx); slot.style.setProperty('--gy', gy); }
     // the pool of light on the floor (CSS, so it is never cut off by the canvas) dims as the lamp rises
     const pool = Math.max(0.3, 1 - S.y * 9).toFixed(2);
-    if (pool !== lastPool) {
-      lastPool = pool; box.style.setProperty('--pool', pool);
-      floor.set(0, 0, 0).project(camera);
-      box.style.setProperty('--fx', pct((floor.x + 1) / 2)); box.style.setProperty('--fy', pct((1 - floor.y) / 2));
-    }
+    if (pool !== lastPool) { lastPool = pool; slot.style.setProperty('--pool', pool); }
+    // where the lamp's base meets the floor, in the box (recomputed every frame, so it stays under the lamp after a resize)
+    floor.set(0, 0, 0).project(camera);
+    const fx = pct((floor.x + 1) / 2), fy = pct((1 - floor.y) / 2);
+    if (fx !== lastFx || fy !== lastFy) { lastFx = fx; lastFy = fy; slot.style.setProperty('--fx', fx); slot.style.setProperty('--fy', fy); box.dataset.fy = ((1 - floor.y) / 2).toFixed(4); }
+  }
+
+  // Hover: the lamp leans away from the mouse and boings back and forth; moving across it gives it a push
+  if (!rm) {
+    let lastX = null;
+    room.addEventListener('pointermove', (e) => {
+      const r = box.getBoundingClientRect();
+      const inside = e.clientX > r.left - 40 && e.clientX < r.right + 40 && e.clientY > r.top && e.clientY < r.bottom;
+      if (!inside) { if (lastX !== null) { S.leanTo = 0; lastX = null; } return; }
+      const rel = ((e.clientX - r.left) / r.width - 0.5) * 2; // -1 … 1
+      S.leanTo = -rel * 0.12;                                      // the spring leans away from the mouse
+      if (lastX !== null) { const dx = e.clientX - lastX; S.vlean += -dx * 0.012; }   // and wobbles side to side; no squash
+      lastX = e.clientX; S.quiet = 0;
+    });
+    room.addEventListener('pointerleave', () => { S.leanTo = 0; lastX = null; });
   }
 
   // The loop runs while the About section is on screen; it only animates and draws while the lamp itself is
@@ -184,7 +223,6 @@ async function start() {
   let near = false, raf = 0, last = 0;
   // inside the About page, only the section on screen is live; the others are marked inert
   function inView() {
-    if (tl.closest('[inert]')) return false;
     const r = box.getBoundingClientRect();
     return r.right > 0 && r.left < window.innerWidth && r.bottom > 0 && r.top < window.innerHeight;
   }
@@ -203,6 +241,6 @@ async function start() {
   new IntersectionObserver((es) => {
     near = es.some((e) => e.isIntersecting);
     if (near && !raf) raf = requestAnimationFrame(frame);
-  }).observe(tl);
+  }).observe(box.parentElement);
   frame(0);
 }

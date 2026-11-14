@@ -1,0 +1,144 @@
+
+html, body {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    color: #555;
+    font-size: 16px;
+}
+
+
+#container {
+    width: 100vw;
+    height: 100vh;
+    /* overflow: hidden; */
+    display: flex;
+    justify-content: center;
+}
+
+#container.active{
+    width: 100vw;
+    height: 100vh;
+    line-height: 25px;
+}
+.scroll-content > section{
+    width: 100vw;
+    /*height: 100vh;*/
+    position: relative;
+    /* overflow: hidden; */
+}
+.Quick{
+    width: 50px;
+    height: 50px;
+    background-color:royalblue;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 999;
+    right: 5%;
+    top: 3%;
+    text-align: center;
+    cursor: pointer;
+    transition: 1s cubic-bezier(0.47, 0.13, 0.83, 1.49);
+    transform: rotate(0deg);
+    font-size: 15px;
+}
+
+.Quick:hover{
+    rotate: 360deg;
+    transition: 0.5s;
+    border-radius: 0;
+    background-color:rgb(243, 109, 19);
+    scale: 1;
+    animation: bounce 1.5s linear infinite alternate;
+}
+
+
+.Quick.on{
+    scale: 0.8;
+    transition: 0.8s;
+    background-color:rgb(243, 19, 19);
+    transform: rotate(360deg);
+    font-size: 0px;
+
+}
+
+.Quick .Quick_data{
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.829);
+    line-height: 50px;
+    font-weight: 700;
+}
+
+
+.posNum {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 300px;
+    height: 50px;
+    margin: -25px 0 0 -150px;
+    background: rgba(92, 92, 92, 0.6);
+    box-shadow: 3px 3px 6px black;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 50px;
+    z-index: 9999;
+}
+
+@keyframes bounce {
+    from,
+    20%,
+    53%,
+    to {
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+      transform: translate3d(0, 0, 0);
+    }
+  
+    40%,
+    43% {
+      animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+      transform: translate3d(0, -30px, 0) scaleY(1.1);
+    }
+  
+    70% {
+      animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+      transform: translate3d(0, -15px, 0) scaleY(1.05);
+    }
+  
+    80% {
+      transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+      transform: translate3d(0, 0, 0) scaleY(0.95);
+    }
+  
+    90% {
+      transform: translate3d(0, -4px, 0) scaleY(1.02);
+    }
+  }
+
+/* ===== Portfolio port (final): the page is the original 1920×1080 frame, fitted into the window ===== */
+html,body{width:100%!important;height:100%!important;margin:0;overflow:hidden;background:#000;zoom:normal}
+#fit{position:fixed;left:0;top:0;width:1920px;height:1080px;overflow:hidden;
+  transform:translate(var(--fx,0px),var(--fy,0px)) scale(var(--z,1));transform-origin:0 0}
+#container,#container.active{width:1920px!important;height:1080px!important}
+.scroll-content > section{width:1920px}
+.Quick,.posNum{display:none!important}
+.gsap-marker-start,.gsap-marker-end,.gsap-marker-scroller-start,.gsap-marker-scroller-end{display:none!important}
+/* divider lines: every line sits 20px above its numbered text block (the original % positions crossed "2" and "3") */
+#sec05 .sec05_con .sec05_line >li:nth-child(1){top:110px!important}
+#sec05 .sec05_con .sec05_line >li:nth-child(2){top:400px!important}
+#sec05 .sec05_con .sec05_line >li:nth-child(3){top:667px!important}
+#sec08 .sec08_con .sec08_list .sec08_line >li:nth-child(1){top:110px!important}
+#sec08 .sec08_con .sec08_list .sec08_line >li:nth-child(2){top:399px!important}
+#sec08 .sec08_con .sec08_list .sec08_line >li:nth-child(3){top:664px!important}
+/* horizontal tracks and rolling bands never widen the page: clip sideways overflow everywhere
+   (overflow-x:clip keeps vertical overlaps between sections and does not create a scroll box) */
+html,body,#container{overflow-x:hidden}
+.scroll-content{overflow-x:clip}
+.scroll-content > section{overflow-x:clip!important}
+.scroll-content section,.scroll-content .pin-spacer{overflow-x:clip!important}

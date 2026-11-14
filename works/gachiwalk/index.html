@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Portfolio port: show the page exactly as designed — a 1920×1080 frame (#fit) — fitted into any window
+       with a CSS transform (scale = the smaller of width/1920 and height/1080, centred, black margins).
+       Every px and % position, and every scroll animation, then lines up as on the original 1920×1080 screen. */
+    (function () {
+      var root = document.documentElement, fitEl = null, last = '';
+      function fit() {
+        var w = window.innerWidth, h = window.innerHeight, key = w + 'x' + h;
+        if (key === last) return; last = key;
+        var z = Math.min(w / 1920, h / 1080);
+        root.style.setProperty('--z', z);
+        root.style.setProperty('--fx', Math.round((w - 1920 * z) / 2) + 'px');
+        root.style.setProperty('--fy', Math.round((h - 1080 * z) / 2) + 'px');
+        if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+      }
+      // scroll animations measure with getBoundingClientRect, which includes the transform: hand back frame pixels
+      var gbcr = Element.prototype.getBoundingClientRect;
+      Element.prototype.getBoundingClientRect = function () {
+        var r = gbcr.call(this);
+        if (!fitEl || this === fitEl) return r;
+        var f = gbcr.call(fitEl), k = f.width / 1920;
+        if (!k || (Math.abs(k - 1) < 0.001 && !f.left && !f.top)) return r;
+        return new DOMRect((r.x - f.left) / k, (r.y - f.top) / k, r.width / k, r.height / k);
+      };
+      fit();
+      document.addEventListener('DOMContentLoaded', function () {
+        fitEl = document.createElement('div'); fitEl.id = 'fit';
+        while (document.body.firstChild) fitEl.appendChild(document.body.firstChild);
+        document.body.appendChild(fitEl);
+      });
+      var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(fit, 150); });
+    })();
+  </script>
+  <title>가치워크 리디자인 프로젝트</title>
+  <link rel="shortcut icon" type="image/x-icon" href="./img/favicon.ico">
+
+  <link rel="stylesheet" href="css/reset.css?v=7" />
+  <link rel="stylesheet" href="css/common.css?v=11" />
+  <link rel="stylesheet" href="css/style.css?v=7" />
+  <script src="js/jquery-3.7.1.min.js"></script>
+  <script src="js/jquery.easing.1.3.min.js"></script>
+  <script src="js/gsap.js"></script>
+  <script src="js/ScrollTrigger.min.js"></script>
+  <script src="js/scrollbar.js"></script>
+  <script src="js/setting.js"></script>
+  <script src="js/ting.js"></script>
+  <script src="js/CE.min.js"></script>
+  <script src="js/main.js"></script>
+  <style>.gsap-marker-start,.gsap-marker-end,.gsap-marker-scroller-start,.gsap-marker-scroller-end{display:none!important}img[src="./img/sec13/"],img[src="./img/sec13"]{visibility:hidden}</style>
+</head>
+
+<body>
+  <div class="posNum"></div>
+  <div class="Quick">
+    <span class="Quick_data"></span>
+  </div>
+  <nav class="nav">
+    <ul>
+      <li>메인</li>
+      <li>리서치</li>
+      <li>목표</li>
+      <li>아웃풋 디자인</li>
+    </ul>
+    <div class="color_line"></div>
+
+  </nav>
+
+  <section id="container">
+    <!-- section01 -->
+    <section id="sec01">
+      <div class="sec01_con">
+
+        <ul class="sec01_title_list">
+          <li><p data-splitting class="sec01_text01">가치워크</p></li>
+          <li><p data-splitting class="sec01_text02">리디자인</p></li>
+          <li><p data-splitting class="sec01_text03">프로젝트</p></li>
+        </ul>
+
+        <ul class="sec01_img_list">
+          <li class="cart"><img src="./img/sec01/cart.png"></li>
+          <li class="check_list"><img src="./img/sec01/check_list.png"></li>
+          <li class="dart"><img src="./img/sec01/dart.png"></li>
+          <li class="graph"><img src="./img/sec01/gragh.png"></li>
+          <li class="heart_left"><img src="./img/sec01/heart_left.png"></li>
+          <li class="heart_right"><img src="./img/sec01/heart_right.png"></li>
+          <li class="round_white"><img src="./img/sec01/round_white.png"></li>
+          <li class="round_yellow"><img src="./img/sec01/round_yellow.png"></li>
+        </ul>
+
+        <ul class="mock_up_list">
+          <li class="mock_up">
+            <img src="./img/sec01/mock_up.png">
+          </li>
+          <li class="sneakers">
+            <img src="./img/sec01/sneakers.png">
+          </li>
+        </ul>
+
+      </div>
+    </section>
+    <!-- section02 -->
+    <section id="sec02">
+
+      <div class="sec02_con">
+        <p class="t" data-splitting >평점 2.6</p>
+        <p class="sec02_title" data-splitting>
+         의 가치워크,<br>
+          앱테크 시장의 활성화에도<br>
+          부진한 성적의 이유?
+        </p>
+
+        <!-- data-splitting -->
+          <div class="sec02_line_01"></div>
+          <div class="sec02_line_02"></div>
+          <ul class="sec02_text">
+            <li>
+              <p data-splitting>가치워크는 '같이 걸어서 만드는 새로운 가치'를 슬로건으로 삼은 걷기 리워드 앱입니다.</p>
+            </li>
+            <li>
+              <p data-splitting>건강에 관심있는 30대 이상을 대상으로 <span class="text_point">걷기를 통한 리워드</span>와 함께 <span class="text_point">건강 컨텐츠</span>에 중점을</p>
+            </li>
+            <li>
+              <p data-splitting>두고 있지만, 현재 <span class="text_point">제한적인 기능과 컨텐츠의 차별성 부재</span>로 부진한 성적을 보이고 있습니다.</p>
+            </li>
+            <li>
+              <p data-splitting>상호작용 활성화와 유익하고 흥미로운 컨텐츠 전략을 통하여 앱 사용을 활발하게 촉진하고</p>
+            </li>
+            <li>
+              <p data-splitting>누구나 손쉽게 앱을 활용할 수 있도록 직관적이고 심플한 디자인을 추구하여 개선하였습니다.</p>
+            </li>
+          </ul>
+       
+        <img class="graph_small" src="img/sec02/graph_small.png">
+      </div>
+
+    </section>
+    <!-- section03 -->
+    <section id="sec03">
+      <div class="sec03_con">
+
+        <ul class="sec03_title_list_01">
+          <li><img src="img/sec03/title_01.png"></li>
+          <li><img src="img/sec03/title_02.png"></li>
+        </ul>
+        
+        <div class="sec03_card_list_01_con">
+          <ul class="sec03_card_list_01">
+            <li><img src="./img/sec03/card_01.png"></li>
+            <li><img src="./img/sec03/card_02.png"></li>
+            <li><img src="./img/sec03/card_03.png"></li>
+          </ul>
+        </div>
+      
+      <div class="sec03_opacity_ef">
+        <div class="sec03_title_list_02">
+          <img class="title_bad" src="./img/sec03/title_bad.png">
+          <img class="sec03_title_red" src="./img/sec03/title_red.png">
+          <img class="sec03_title_blue"src="./img/sec03/title_blue.png">
+        </div>
+      </div>
+        <ul class="sec03_review_list">
+          <li><img src="./img/sec03/review_01.png"></li>
+          <li><img src="./img/sec03/review_02.png"></li>
+          <li><img src="./img/sec03/review_03.png"></li>
+        </ul>
+
+        <div class="sec03_text">
+          <img src="./img/sec03/sec03_text.png">
+        </div>
+
+        <div class="card_bad_con">
+          <ul class="card_bad_list">
+            <li>
+              <img src="./img/sec03/card_bad_01.png">
+            </li>
+            <li>
+              <img src="./img/sec03/card_bad_02.png">  
+            </li>
+            <li>
+              <img src="./img/sec03/card_bad_04.png">
+            </li>
+            <li>
+              <img src="./img/sec03/card_bad_03.png">
+            </li>
+          </ul>
+          <img class="sec03_arrow" src="./img/sec03/arrow.png">
+          <img class="sec03_conclusion" src="./img/sec03/conclusion.png">
+
+        <div class="sec03_icon_con">
+          <img class="sec03_hand" src="./img/sec03/hand.png">
+          <img class="sec03_bang" src="./img/sec03/bang.png">
+          <img class="sec03_van" src="./img/sec03/van.png">
+          <img class="sec03_note" src="./img/sec03/note.png">
+        </div>
+        </div>
+
+
+
+      </div>
+    </section>
+    <!-- section04 -->
+    <section id="sec04">
+      <div class="sec04_con">
+        <img class="sec04_title" src="./img/sec04/title.png">
+
+        <ul class="sec04_card_list">
+
+          <li class="sec04_card_01">
+            <img src="./img/sec04/card_01.png">
+          </li>
+
+          <li class="sec04_card_02">
+            <img src="./img/sec04/card_02.png">
+          </li>
+
+          <li class="sec04_card_03">
+            <img class="sec04_card_title" src="./img/sec04/card_03_title.png">
+
+          <ul class="sec04_card_03_no_list">
+            <li>
+              <img src="./img/sec04/card_no_01.png">
+            </li>
+            <li>
+              <img src="./img/sec04/card_no_02.png">
+            </li>
+            <li>
+              <img src="./img/sec04/card_no_03.png">
+            </li>
+            <li>
+              <img src="./img/sec04/card_no_04.png">
+            </li>
+          </ul>
+
+          <ul class="sec04_card_03_text_list">
+            <li>
+              <img src="./img/sec04/card_text_01.png">
+            </li>
+            <li>
+              <img src="./img/sec04/card_text_02.png">
+            </li>
+            <li>
+              <img src="./img/sec04/card_text_03.png">
+            </li>
+            <li>
+              <img src="./img/sec04/card_text_04.png">
+            </li>
+          </ul>
+
+          </li>
+
+        </ul>
+
+      </div>
+
+    </section>
+
+    <!-- section05 -->
+    <section id="sec05">
+      <div class="sec05_con">
+        <img class="sec05_title" src="./img/sec05/title.png">
+        <img class="sec05_text" src="./img/sec05/text.png">
+        <ul class="sec05_card_list">
+          <li class="sec05_card_01"><img src="./img/sec05/card_01.png"></li>
+          <li class="sec05_card_02"><img src="./img/sec05/card_02.png"></li>
+          <li class="sec05_card_03"><img src="./img/sec05/card_03.png"></li>
+        </ul>
+        <img class="sec05_hand" src="./img/sec05/hand.png">
+        <img class="sec05_book" src="./img/sec05/book.png">
+        <img class="question" src="./img/sec05/question.png">
+      </div>
+    </section>
+
+    <!-- section06 -->
+    <section id="sec06">
+      <div class="sec06_con_01">
+        <img class="sec06_title" src="./img/sec06/title.png">
+        <img class="sec06_text" src="./img/sec06/text.png">
+      </div>
+      
+      <div class="sec06_con_02">
+        <ul class="app_icon">
+          <li class="sec06_arrow"><img src="./img/sec06/arrow.png"></li>
+          <li class="cashwalk"><img src="./img/sec06/cashwalk.png"></li>
+          <li class="moneywalk"><img src="./img/sec06/moneywalk.png"></li>
+          <li class="walkon"><img src="./img/sec06/walkon.png"></li>
+          <li class="valuewalk_after"><img src="./img/sec06/valuewalk_after.png"></li>
+          <li class="valuewalk_before"><img src="./img/sec06/valuewalk_before.png"></li>
+        </ul>
+        
+        <ul class="after_circle">
+          <li><img src="./img/sec06/after_circle_01.png"></li>
+          <li><img src="./img/sec06/after_circle_02.png"></li>
+        </ul>
+        
+        <ul class="before_circle">
+          <li><img src="./img/sec06/before_circle_01.png"></li>
+          <li><img src="./img/sec06/before_circle_02.png"></li>
+        </ul>
+      </div>
+
+    </section>
+     <!-- section07 -->
+     <section id="sec07">
+
+      <div class="sec07_con">
+        <div class="sec07_box">
+          <div class="sec07_title">
+            <img class="sec07_title_01" src="./img/sec07/asis_title.png">
+            <img class="sec07_title_02" src="./img/sec07/tobe_title.png">
+          </div>
+  
+          <div class="sec07_text">
+            <img class="sec07_text_01" src="./img/sec07/asis_text.png">
+            <img class="sec07_text_02" src="./img/sec07/tobe_text.png">
+          </div>    
+        </div>
+        
+        <img class="sec07_arrow" src="./img/sec07/conclusion_arrow.png">
+        <img class="sec07_conclusion" src="./img/sec07/conclusion.png">
+        <img class="sec07_icon" src="./img/sec07/sec07_icon.png">
+      </div>
+     </section>
+      <!-- section08 -->
+    <section id="sec08">
+      <div class="sec08_con">
+        <ul class="sec08_slider">
+          <li>
+              <img class="sec08_title" src="./img/sec08/title.png">
+              <div class="sec08_coin_con">
+                <img src="./img/sec08/title_coin_01.png">
+                <img src="./img/sec08/title_coin_01.png">
+                <img src="./img/sec08/title_coin_01.png">
+              </div>
+          </li>
+          
+          <li><img src="./img/sec08/part_01.png"></li>
+          <li><img src="./img/sec08/part_02.png"></li>
+          <li><img src="./img/sec08/part_03.png"></li>
+        </ul>
+      </div>
+
+    </section>
+    <!-- section09 -->
+    <section id="sec09">
+      <div class="sec09_con_01">
+        <div class="sec09_title_con_01">
+          <img class="sec09_title_eng_01" src="./img/sec09/title_eng.png">
+          <img class="sec09_title_01_01" src="./img/sec09/title_01.png">
+          <img class="sec09_title_01_02" src="./img/sec09/title_02.png">
+        </div>
+        <!-- <img src="./img/sec09/bg.jpg"> -->
+        <div class="sec09_icon_01">
+          <div class="sec09_mock_up_con">
+            <img class="sec09_mock_up" src="./img/sec09/mock_up.png">
+          </div>
+          <img class="sec09_dart" src="./img/sec09/dart.png">
+          <img class="sec09_graph" src="./img/sec09/graph.png">      
+          <img class="sec09_sneakers" src="./img/sec09/sneakers.png">      
+          <img class="sec09_heart" src="./img/sec09/heart.png">
+          <img class="sec09_card_01" src="./img/sec09/mini_card_01.png">
+          <img class="sec09_card_02" src="./img/sec09/mini_card_02.png">
+          <img class="sec09_card_03" src="./img/sec09/mini_card_03.png">
+          <img class="sec09_round_white_01" src="./img/sec09/round_white.png">
+          <img class="sec09_round_white_02" src="./img/sec09/round_white.png">
+          <img class="sec09_round_yellow" src="./img/sec09/round_yellow.png">
+        </div>
+          
+        <ul class="sec09_round_list">
+          <li>
+            <img class="sec09_round_01" src="./img/sec09/round_01.png">
+          </li>
+          <li>
+            <img class="sec09_round_02" src="./img/sec09/round_02.png">
+          </li>
+          <li>
+            <img class="sec09_round_03" src="./img/sec09/round_03.png">
+          </li>
+          <li>
+            <img class="sec09_round_04" src="./img/sec09/round_04.png">
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="sec09_con_02">
+        <div class="sec09_title_con_02">
+          <img class="sec09_title_eng_02" src="./img/sec09/title_eng.png">
+          <img class="sec09_title_02" src="./img/sec09/title.png">
+          <img class="sec09_text_02" src="./img/sec09/text.png">
+        </div>
+      
+        <ul class="sec09_no_list">
+          <li><img src="./img/sec09/no_01.png"></li>
+          <li><img src="./img/sec09/no_02.png"></li>
+          <li><img src="./img/sec09/no_03.png"></li>
+        </ul>
+
+        <ul class="sec09_line_list">
+          <li><img src="./img/sec09/line_01.png"></li>
+          <li><img src="./img/sec09/line_02.png"></li>
+          <li><img src="./img/sec09/line_03.png"></li>
+          <li><img src="./img/sec09/line_04.png"></li>
+        </ul>
+
+        <div class="sec09_icon_02">
+           <img class="sec09_coin" src="./img/sec09/coin.png">
+           <img class="sec09_confetti" src="./img/sec09/conpetti.png">
+           <img class="sec09_hand" src="./img/sec09/hand.png">
+           <img class="sec09_home" src="./img/sec09/home.png">
+           <!-- <img class="sec09_mock_up" src="./img/sec09/mock_up.png"> -->
+        </div>
+
+        <div class="sec09_part_con">
+          <img class="sec09_part_01" src="./img/sec09/part_01.png">
+          <img class="sec09_part_01_text" src="./img/sec09/part_01_text.png">
+          <img class="sec09_part_02" src="./img/sec09/part_02.png">
+          <img class="sec09_part_02_text" src="./img/sec09/part_02_text.png">
+          <img class="sec09_part_03" src="./img/sec09/part_03.png">
+          <img class="sec09_part_03_text" src="./img/sec09/part_03_text.png">
+        </div>
+      </div>
+      </section>
+
+    <!-- section10 온보딩-->
+    <section id="sec10">
+      <div class="sec10_con">
+        <div class="sec10_title_con">
+          <img class="sec10_title_eng" src="./img/sec10/title_eng.png">
+          <img class="sec10_title_01" src="./img/sec10/title_01.png">
+          <img class="sec10_title_02" src="./img/sec10/title_02.png">
+          <img class="sec10_text" src="./img/sec10/text.png">
+          <img class="sec10_letter" src="./img/sec10/letter.png">
+        </div>
+        
+        <img class="sec10_line" src="./img/sec10/line.png">
+        
+        <ul class="sec10_no_list">
+          <li><img src="./img/sec10/no_01.png"></li>
+          <li><img src="./img/sec10/no_02.png"></li>
+          <li><img src="./img/sec10/no_03.png"></li>
+          <li><img src="./img/sec10/no_04.png"></li>
+          <li><img src="./img/sec10/no_05.png"></li>
+        </ul>
+        
+        <ul class="sec10_mock_up_list">
+          <li><img src="./img/sec10/onboarding_01.png"></li>
+          <li><img src="./img/sec10/onboarding_02.png"></li>
+          <li><img src="./img/sec10/onboarding_03.png"></li>
+          <li><img src="./img/sec10/onboarding_04.png"></li>
+          <li><img src="./img/sec10/onboarding_05.png"></li>
+        </ul>
+        
+        <ul class="sec10_text_list">
+          <li><img src="./img/sec10/text_01.png"></li>
+          <li><img src="./img/sec10/text_02.png"></li>
+          <li><img src="./img/sec10/text_03.png"></li>
+          <li><img src="./img/sec10/text_04.png"></li>
+          <li> <img src="./img/sec10/text_05.png"></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- section11 -->
+    <section id="sec11">
+      <div class="sec11_con">   
+
+        <div class="sec11_title_con">
+          <img class="sec11_title_eng" src="./img/sec11/tiltle_eng.png">
+          <img class="sec11_title_01" src="./img/sec11/tiltle_01.png">
+          <img class="sec11_title_02" src="./img/sec11/tiltle_02.png">
+          <img class="sec11_text" src="./img/sec11/text.png">
+        </div>
+        
+        <div class="sec11_icon">
+          <img class="sec11_graph" src="./img/sec11/graph.png">
+          <img class="sec11_man" src="./img/sec11/man.png">
+        </div>
+
+        <div class="sec11_mock_up">
+          <img src="./img/sec11/mock_up_01.png">
+          <img src="./img/sec11/mock_up_02.png">
+          <img src="./img/sec11/mock_up_03.png">
+          <img class="sec11_componant" src="./img/sec11/mock_up_01_componant.png">
+        </div>
+        <img class="sec11_popper" src="./img/sec11/popper.png">
+        
+        <div class="sec11_mock_up_text">
+          <img src="./img/sec11/mock_up_01_text.png">
+          <img src="./img/sec11/mock_up_02_text.png">
+          <img src="./img/sec11/mock_up_03_text.png">
+        </div>
+
+        <div class="sec11_no">
+          <img src="./img/sec11/no_01.png">
+          <img src="./img/sec11/no_02.png">
+          <img src="./img/sec11/no_03.png">
+        </div>
+
+        <div class="sec11_line">
+          <img src="./img/sec11/line_01.png">
+          <img src="./img/sec11/line_02.png">
+          <img src="./img/sec11/line_03.png">
+        </div>
+
+      </div>
+    </section>
+
+    <!-- section12 -->
+    <section id="sec12">
+      <div class="sec12_con">
+        <div class="sec12_title_con">
+          <img class="sec12_title_eng" src="./img/sec12/title_eng.png">
+          <img class="sec12_title" src="./img/sec12/title.png">
+          <img class="sec12_text" src="./img/sec12/text.png">
+          <img class="sec12_phone" src="./img/sec12/phone.png">
+        </div>
+        <div class="sec12_mock_up">
+          <img src="./img/sec12/mock_up_01.png">
+          <img src="./img/sec12/mock_up_02.png">
+          <img src="./img/sec12/mock_up_03.png">
+          <img class="sec12_btn_01" src="./img/sec12/btn_01.png">
+          <img class="sec12_btn_02" src="./img/sec12/btn_02.png">
+        </div>
+
+        <div class="sec12_friends_icon">
+          <img class="sec12_human_01" src="./img/sec12/human_01.png">
+          <img class="sec12_human_02" src="./img/sec12/human_02.png">
+          <img class="sec12_human_03" src="./img/sec12/human_03.png">
+          <img class="sec12_bbam_01" src="./img/sec12/bbam_01.png">
+          <img class="sec12_bbam_02" src="./img/sec12/bbam_02.png">
+          <img class="sec12_gift" src="./img/sec12/gift.png">
+          <img class="sec12_push_01" src="./img/sec12/push_01.png">
+          <img class="sec12_push_02" src="./img/sec12/push_02.png">
+        </div>
+
+        <div class="sec12_no_con">
+          <img class="sec12_no_01" src="./img/sec12/no_01.png">
+          <img class="sec12_no_02" src="./img/sec12/no_02.png">
+          <img class="sec12_no_03" src="./img/sec12/no_03.png">
+        </div>
+
+
+        <div class="sec12_card_con">
+          <img class="sec12_card_01" src="./img/sec12/card_01.png">
+          <img class="sec12_card_02" src="./img/sec12/card_02.png">
+          <img class="sec12_card_03" src="./img/sec12/card_03.png">
+          <img class="sec12_card_04" src="./img/sec12/card_04.png">
+        </div>
+
+        <div class="sec12_card_text">
+          <img class="" src="./img/sec12/card_text_01.png">
+          <img class="" src="./img/sec12/card_text_02.png">
+          <img class="" src="./img/sec12/card_text_03.png">
+        </div>
+
+       <div class="sec12_line">
+         <img class="sec12_line_01" src="./img/sec12/line_01.png">
+         <img class="sec12_line_02_01" src="./img/sec12/line_02_01.png">
+         <img class="sec12_line_02_02" src="./img/sec12/line_02_02.png">
+         <img class="sec12_line_03" src="./img/sec12/line_03.png">
+         <img class="sec12_line_04" src="./img/sec12/line_04.png">
+       </div>
+       
+      </div>
+
+    </section>
+    <!-- section13 -->
+    <section id="sec13">
+      <div class="sec13_con">
+
+        <img class="sec13_mock_up_case" src="./img/sec13/mock_up_case_01.png">
+        <div class="sec13_mockup">
+          <img class="sec13_mock_up_01" src="./img/sec13/mock_up_01.png">
+          <img class="sec13_mock_up_02" src="./img/sec13/mock_up_02.png">
+          <img class="sec13_mock_up_03" src="./img/sec13/mock_up_03.png">
+          <img class="sec13_mock_up_04" src="./img/sec13/mock_up_04.png">
+          <img class="sec13_mock_up_05" src="./img/sec13/mock_up_05.png">
+        </div>
+
+        <div class="sec13_step_01">
+          <!-- <img class="sec13_mock_up_01" src="./img/sec13/mock_up_01.png"> -->
+          <img class="sec13_title_01" src="./img/sec13/title_01.png">
+        </div>
+        
+        <div class="sec13_step_02">
+          <img class="sec13_title_02" src="./img/sec13/title_02.png">
+          <img class="sec13_icon_01" src="./img/sec13/icon_01.png">
+          <!-- <img class="sec13_mock_up_02" src="./img/sec13/mock_up_02.png"> -->
+          <img class="sec13_no_01" src="./img/sec13/no_01.png">
+          <img class="sec13_no_02" src="./img/sec13/no_02.png">
+          <img class="sec13_card_01" src="./img/sec13/card_01.png">
+          <img class="sec13_card_02" src="./img/sec13/card_02.png">
+        </div>
+        
+        <div class="sec13_step_03">
+          <img class="sec13_title_03" src="./img/sec13/title_03.png">
+          <img class="sec13_icon_02" src="./img/sec13/icon_02.png">
+          <!-- <img class="sec13_mock_up_03" src="./img/sec13/mock_up_03.png"> -->
+          <img class="sec13_no_03" src="./img/sec13/no_03.png">
+          <img class="sec13_card_03" src="./img/sec13/card_03.png">
+          
+        </div>
+        <div class="sec13_step_04">
+          <img class="sec13_title_04" src="./img/sec13/title_04.png">
+          <img class="sec13_icon_03" src="./img/sec13/icon_03.png">
+          <!-- <img class="sec13_mock_up_04" src="./img/sec13/mock_up_04.png"> -->
+          <img class="sec13_card_04" src="./img/sec13/card_04.png">
+          <img class="sec13_no_04" src="./img/sec13/no_04.png">
+          
+        </div>
+        <div class="sec13_step_05">
+          <!-- <img class="sec13_mock_up_05" src="./img/sec13/mock_up_05.png"> -->
+          <img class="sec13_icon_04" src="./img/sec13/icon_04.png">
+          <img class="sec13_title_05" src="./img/sec13/title_05.png">
+          <img class="sec13_card_05" src="./img/sec13/card_05.png">
+          <img class="sec13_no_05" src="./img/sec13/no_05.png">
+        </div>
+        <img src="./img/sec13/">
+        <img src="./img/sec13">
+      </div>
+    </section>
+    <!-- section14 -->
+    <section id="sec14">
+      <div class="sec14_con">
+        <ul class="sec14_slider"> 
+          <li>
+            <img class="sec14_title" src="./img/sec14/title.png">
+            <img class="sec14_title_eng" src="./img/sec14/title_eng.png">
+            <img class="sec14_btn" src="./img/sec14/btn.png">
+            <img class="sec14_mock_up" src="./img/sec14/mock_up.png">
+            <img class="sec14_screen_02" src="./img/sec14/screen_02.png">
+            <img class="sec14_screen_01" src="./img/sec14/screen_01.png">
+          </li>
+          <li>
+            <section id="sec15">
+              <div class="sec15_con">
+                <img class="sec15_title" src="./img/sec15/title.png">
+                <img class="sec15_componant" src="./img/sec15/componant.png">
+                <img class="sec15_round" src="./img/sec15/round.png">
+                <img class="sec15_mock_up" src="./img/sec15/mock_up.png">
+              </div>
+            </section>
+          </li>
+
+          <li>
+            <section id="sec16">
+              <div class="sec16_con">
+                <img class="sec16_title" src="./img/sec16/title.png">
+                <img class="sec16_componant" src="./img/sec16/componant.png">
+                <img class="sec16_round" src="./img/sec16/round.png">
+                <img class="sec16_mock_up" src="./img/sec16/mock_up.png">
+              </div>
+            </section>
+          </li>
+
+          <li>
+            <section id="sec17">
+              <div class="sec17_con">        
+                <img class="sec17_componant" src="./img/sec17/componant.png">
+                <img class="sec17_round" src="./img/sec17/round.png">
+                <img class="sec17_title" src="./img/sec17/title.png">
+                <img class="sec17_mock_up" src="./img/sec17/mock_up.png">
+              </div>
+            </section>
+          </li>
+        </ul>
+      </div>
+
+
+    </section>
+    <!-- section15 -->
+  
+
+    <!-- section16 -->
+
+
+    <!-- section17 -->
+
+    <!-- section18 -->
+    <section id="sec18">
+      <div class="sec18_con">
+        
+        <div class="sec18_title_con">
+          <img class="sec18_title_eng" src="./img/sec18/title_eng.png">
+          <img class="sec18_title" src="./img/sec18/title.png">
+          <img class="sec18_text" src="./img/sec18/text.png">
+        </div>
+
+        <div class="sec18_icon_con">  
+          <img class="sec18_icon_01" src="./img/sec18/icon_01.png">
+          <img class="sec18_icon_02" src="./img/sec18/icon_02.png">
+          <img class="sec18_icon_03" src="./img/sec18/icon_03.png">
+          <img class="sec18_icon_04" src="./img/sec18/icon_04.png">
+          <img class="sec18_icon_05" src="./img/sec18/icon_05.png">
+          <img class="sec18_icon_06" src="./img/sec18/icon_06.png">
+          <img class="sec18_icon_07" src="./img/sec18/icon_07.png">
+        </div>
+  
+        <div class="sec18_mock_up_con">
+          <img class="sec18_mock_up_01" src="./img/sec18/mock_up_01.png">
+          <div class="sec18_mock_up_box">
+            <img class="sec18_mock_up_02" src="./img/sec18/mock_up_02.png">
+            <img class="sec18_mock_up_04" src="./img/sec18/mock_up_04.png">
+            <img class="sec18_mock_up_05" src="./img/sec18/mock_up_05.png">
+            <img class="sec18_mock_up_06" src="./img/sec18/mock_up_06.png">
+            <img class="sec18_mock_up_03" src="./img/sec18/mock_up_03.png">
+          </div>
+
+          <div class="sec18_componant">
+            <img class="sec18_mock_up_05_plus" src="./img/sec18/mock_up_05_plus.png">
+            <img class="sec18_mock_up_06_plus_01" src="./img/sec18/mock_up_06_plus_01.png">
+            <img class="sec18_mock_up_06_plus_02" src="./img/sec18/mock_up_06_plus_02.png">
+          </div>
+        </div>
+
+        <div class="sec18_text_con">
+          <img class="sec18_text_01" src="./img/sec18/text_01.png">
+          <img class="sec18_text_02" src="./img/sec18/text_02.png">
+          <img class="sec18_text_03" src="./img/sec18/text_03.png">
+          <img class="sec18_text_04" src="./img/sec18/text_04.png">
+          <img class="sec18_text_05" src="./img/sec18/text_05.png">
+          <img class="sec18_text_06" src="./img/sec18/text_06.png">
+        </div>
+      </div>
+      
+    </section>
+    <!-- section19 -->
+    <section id="sec19">
+      <div class="sec19_con">
+
+        <div class="sec19_title_con">
+          <img class="sec19_text" src="./img/sec19/text.png">
+          <img class="sec19_title" src="./img/sec19/title.png">
+          <img class="sec19_title_eng" src="./img/sec19/title_eng.png">
+        </div>
+
+        <div class="sec19_icon_con">  
+          <img class="sec19_hand" src="./img/sec19/hand.png">
+          <img class="sec19_pill" src="./img/sec19/pill.png">
+        </div>
+        
+        <div class="sec19_mock_up_con">
+          <img class="sec19_mock_up_01" src="./img/sec19/mock_up_01.png">
+          <img class="sec19_mock_up_02" src="./img/sec19/mock_up_02.png">
+          <img class="sec19_mock_up_03" src="./img/sec19/mock_up_03.png">
+          <img class="sec19_mock_up_04" src="./img/sec19/mock_up_04.png">
+        </div>
+        
+        <div class="sec19_virus_con">
+          <img class="sec19_virus_01" src="./img/sec19/virus_01.png">
+          <img class="sec19_virus_02" src="./img/sec19/virus_02.png">
+          <img class="sec19_virus_03" src="./img/sec19/virus_03.png">
+          <img class="sec19_virus_04" src="./img/sec19/virus_04.png">
+          <img class="sec19_round_01" src="./img/sec19/round_01.png">
+          <img class="sec19_round_02" src="./img/sec19/round_02.png">
+        </div>
+        
+      </div>
+    </section>
+    
+    <!-- section20 -->
+    <section id="sec20">
+      <div class="sec20_con">
+        <div class="sec20_title_con">
+          <img class="sec20_title_eng" src="./img/sec20/title_eng.png">
+          <img class="sec20_title" src="./img/sec20/title.png">
+          <img class="sec20_text" src="./img/sec20/text.png">
+        </div>
+
+        <div class="sec20_mock_up_con">
+          <img class="sec20_mock_up_01" src="./img/sec20/mock_up_01.png">
+          <img class="sec20_mock_up_02" src="./img/sec20/mock_up_02.png">
+        </div>
+        
+        <ul class="sec20_no_list">
+          <li>
+            <img src="./img/sec20/no_01.png">
+          </li>
+          <li>
+            <img src="./img/sec20/no_02.png">
+          </li>
+          
+          <li>
+            <img src="./img/sec20/no_03.png">
+          </li>
+          
+          <li>
+            <img src="./img/sec20/no_04.png">
+          </li>
+        </ul>
+        
+        <ul class="sec20_text_list">
+          <li>
+            <img src="./img/sec20/text_01.png">     
+          </li>
+
+          <li>
+            <img src="./img/sec20/text_02.png">
+          </li>
+
+          <li>
+            <img src="./img/sec20/text_03.png">
+          </li>
+
+          <li>
+            <img src="./img/sec20/text_04.png">     
+          </li>
+        
+          <li>
+            <img src="./img/sec20/text_05.png">
+          </li>
+        </ul>
+
+        <img class="sec20_line" src="./img/sec20/line.png">
+
+        <div class="sec20_friends_icon">
+          <img class="sec20_human_01" src="./img/sec20/human_01.png">
+          <img class="sec20_human_02" src="./img/sec20/human_02.png">
+          <img class="sec20_human_03" src="./img/sec20/human_03.png">
+          <img class="sec20_bbam_01" src="./img/sec20/bbam_01.png">
+          <img class="sec20_bbam_02" src="./img/sec20/bbam_02.png">
+          <img class="sec20_talk_01" src="./img/sec20/talk_01.png">
+          <img class="sec20_talk_02" src="./img/sec20/talk_02.png">
+        </div>
+
+      </div>
+      </section>
+    
+    <!-- section21 -->
+    <section id="sec21">
+      <div class="sec21_con">
+        
+        <div class="sec21_title_con">
+          <img class="sec21_title" src="./img/sec21/title.png">
+          <img class="sec21_title_eng" src="./img/sec21/title_eng.png">
+          <img class="sec21_text" src="./img/sec21/text.png">
+        </div>
+
+        <img class="sec21_mock_up" src="./img/sec21/mock_up.png">
+        
+        <div class="sec21_part_con">
+          <img class="sec21_part_01" src="./img/sec21/part_01.png">
+          <img class="sec21_part_02"  src="./img/sec21/part_02.png">
+          <img class="sec21_part_03"  src="./img/sec21/part_03.png">
+          <img class="sec21_part_04"  src="./img/sec21/part_04.png">
+        </div>
+
+      </div>
+    </section>
+    
+    <!-- section22 -->
+    <section id="sec22">
+      <div class="sec22_con">
+        <img class="sec22_title" src="./img/sec22/title.png">
+        <div class="sec22_icon">
+          <img class="sec22_bag" src="./img/sec22/bag.png">
+          <img class="sec22_cart" src="./img/sec22/cart.png">
+          <img class="sec22_coin" src="./img/sec22/coin.png">
+        </div>
+  
+        <div class="sec22_mock_up_con">
+          <img class="sec22_mock_up_01" src="./img/sec22/mock_up_01.png">
+          <img class="sec22_mock_up_02" src="./img/sec22/mock_up_02.png">
+        </div>
+      </div>
+    </section>
+    
+    <!-- section23 -->
+    <section id="sec23">
+
+      <div class="sec23_con">
+      <!-- <div class="sec23_hand">
+        <img class="sec23_hand01" src="./img/sec23/hand.png">
+      </div> -->
+        <div class="sec23_con_01">
+          <img class="sec23_mock_up" src="./img/sec23/mock_up.png">
+          <img class="sec23_title" src="./img/sec23/title.png">
+        </div>
+
+        <div class="sec23_con_02">
+          <ul class="sec23_watch_list">
+            <li>
+              <img src="./img/sec23/watch_01.png">
+            </li>
+    
+            <li>
+              <img src="./img/sec23/watch_02.png">
+            </li>
+            
+            <li>
+              <img src="./img/sec23/watch_03.png">
+            </li>
+            
+            <li>
+              <img src="./img/sec23/watch_04.png">
+            </li>
+          </ul>
+
+          <ul class="sec23_no_list">
+            <li>
+              <img src="./img/sec23/no_01.png">
+            </li>
+    
+            <li>
+              <img src="./img/sec23/no_02.png">
+            </li>
+            
+            <li>
+              <img src="./img/sec23/no_03.png">
+            </li>
+            
+            <li>
+              <img src="./img/sec23/no_04.png">
+            </li>
+          </ul>
+
+          <ul class="sec23_text_list">
+            <li>
+              <img src="./img/sec23/text_01.png">
+            </li>
+    
+            <li>
+              <img src="./img/sec23/text_02.png">
+            </li>
+    
+            <li>
+              <img src="./img/sec23/text_03.png">
+            </li>
+    
+            <li>
+              <img src="./img/sec23/text_04.png">
+            </li>
+          </ul>
+    
+
+          
+     
+        </div>
+         
+        </div>      
+    </section>
+    
+    <!-- section24 -->
+    <section id="sec24">
+      <div class="sec24_con">
+
+        <div class="sec24_title_con">
+          <img class="sec24_title" src="./img/sec24/title.png">
+          <a class="sec24_btn" href="https://www.behance.net/yejinkim79/moodboards"  target='_blank'>
+            <img src="./img/sec24/btn.png">
+          </a>
+        </div>
+
+        <ul class="sec24_coin_list">
+          <li class="sec24_coin_01"><img src="./img/sec24/coin_01.png"></li>
+          <li class="sec24_coin_02"><img src="./img/sec24/coin_02.png"></li> 
+          <li class="sec24_coin_03"> <img src="./img/sec24/coin_03.png"> </li>
+        </ul>
+  
+        <ul class="sec24_mock_up_list">
+          <li class="sec24_mock_up_01"><img src="./img/sec24/mock_up_01.png"></li>
+          <li class="sec24_mock_up_02"><img src="./img/sec24/mock_up_02.png"></li>
+          <li class="sec24_mock_up_03"><img src="./img/sec24/watch.png"></li>
+        </ul>
+        
+        <ul class="sec24_componant_list">
+          <li class="sec24_componant_01"><img src="./img/sec24/componant_01.png"></li>
+          <li class="sec24_componant_02"><img src="./img/sec24/componant_02.png"></li>
+          <li class="sec24_componant_03"><img src="./img/sec24/componant_03.png"></li>
+          <li class="sec24_componant_04"><img src="./img/sec24/componant_04.png"></li>
+        </ul>
+        
+        <ul class="sec24_icon_list">
+          <li class="sec24_arrow"><img src="./img/sec24/arrow.png"></li>
+          <li class="sec24_heart"><img src="./img/sec24/heart.png"></li>
+          <li class="sec24_sneakers"><img src="./img/sec24/sneakers.png"></li>
+        </ul>
+        
+      </div>
+      </section>
+
+
+    <!-- <footer id="footer"></footer> -->
+  </section>
+</body>
+
+</html>

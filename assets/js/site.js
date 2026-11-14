@@ -95,7 +95,7 @@
 
   /* Category counts are read from the cards, so they stay right whichever works are featured */
   $$('.wk-cat, .wk-sub').forEach(function (a) {
-    var g = document.getElementById(a.getAttribute('href').slice(1)), n = g ? $$('.work', g).length : 0;
+    var g = document.getElementById(a.getAttribute('href').slice(1)), n = g ? $$('.work:not([hidden])', g).length : 0;
     var el = $(a.classList.contains('wk-cat') ? 'sup' : 'span', a);
     if (el) el.textContent = (n < 10 ? '0' : '') + n;
   });
@@ -145,7 +145,7 @@
     }
     function apply(dark) {
       doc.setAttribute('data-theme', dark ? 'dark' : 'light');
-      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+      try { localStorage.setItem('theme-v2', dark ? 'dark' : 'light'); } catch (e) {}
       sync();
     }
     tg.addEventListener('click', function () {
@@ -323,6 +323,35 @@
     spy();
   })();
 
+  /* Work tone: entering Work the page goes through a gradient to black; 개인 작업물 brings the page tone back,
+     Design's addd group darkens again. Scroll-linked; the text colours flip past the middle (.wk-dark). */
+  (function () {
+    var sec = document.getElementById('work'); if (!sec) return;
+    var grps = $$('.wk-grp', sec);   // Marketing dark, Design light
+    var DARK = [11, 11, 12], base = null, raf = 0, was = null;
+    function rgb(c) { var m = c.match(/\d+(\.\d+)?/g); return m ? [+m[0], +m[1], +m[2], m[3] === undefined ? 1 : +m[3]] : [255, 255, 255, 1]; }
+    function readBase() { var c = rgb(getComputedStyle(document.body).backgroundColor); if (c[3] === 0) c = rgb(getComputedStyle(document.documentElement).backgroundColor); base = c; }
+    function at(el) { return el.getBoundingClientRect().top + window.scrollY; }
+    function paint() {
+      raf = 0; if (!base) readBase();
+      var vh = window.innerHeight, line = window.scrollY + vh * .62, band = vh * .55, t = 0;
+      // boundaries in order: [y, tone after it]
+      var marks = [[at(sec), 1]];
+      grps.forEach(function (g) { marks.push([at(g), g.id === 'wk-mkt' ? 1 : 0]); });
+      marks.push([at(sec) + sec.offsetHeight - vh * .3, 0]);
+      var prev = 0;
+      marks.forEach(function (m) { var k = Math.min(1, Math.max(0, (line - m[0] + band * .5) / band)); if (k > 0) t = prev + (m[1] - prev) * k; prev = m[1]; });
+      var e = t * t * (3 - 2 * t);
+      sec.style.setProperty('--wk-bg', 'rgb(' + base.slice(0, 3).map(function (b, i) { return Math.round(b + (DARK[i] - b) * e); }).join(',') + ')');
+      var dark = e > .5; if (dark !== was) { was = dark; sec.classList.toggle('wk-dark', dark); }
+    }
+    function req() { if (!raf) raf = requestAnimationFrame(paint); }
+    window.addEventListener('scroll', req, { passive: true });
+    window.addEventListener('resize', req);
+    new MutationObserver(function () { base = null; sec.style.removeProperty('--wk-bg'); req(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    paint();
+  })();
+
   /* Lucian UX/UI Prompt #039 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#039
      Archive page: All / Marketing / Design tabs filter the cards; the pill slides under the current tab. */
   (function () {
@@ -381,17 +410,47 @@
         if (on) el.setAttribute('inert', ''); else el.removeAttribute('inert');
       });
     }
+    // what the card no longer shows (period, problem/what/result, numbers) goes into the popup
+    function cardInfo(card, pages) {
+      var cb = $('.work-body', card); if (!cb || (pages && $('.fb', pages))) return null;   // case-study pages already hold it all
+      var box = document.createElement('div'); box.className = 'dv-info';
+      var meta = $('.work-meta', cb), sum = $('.work-sum', cb), dl = $('.work-dl', cb), mt = $('.work-metrics', cb);
+      if (meta && !(pages && $('.ds-facts', pages))) box.appendChild(meta.cloneNode(true));
+      if (!pages && sum) box.appendChild(sum.cloneNode(true));
+      if (dl) box.appendChild(dl.cloneNode(true));
+      if (mt && !(pages && $('.ds-stats', pages))) box.appendChild(mt.cloneNode(true));
+      return box.childNodes.length ? box : null;
+    }
+    // each work remembers where it was left; a work not opened yet starts at the top
+    var seenAt = {}, hideT = 0;
     function open(card, from) {
       var tpl = $('.work-pages', card);
-      if (!tpl) return;
+      if (current && !dv.hidden) seenAt[current.id] = body.scrollTop;   // switching works with "다음 작업 보기"
+      clearTimeout(hideT);
       opener = from; doneSent = false;
       track('work_detail_open', { work_id: card.id, work_title: $('h4', card).textContent.trim() });
       title.textContent = $('h4', card).textContent;
       body.textContent = '';
-      body.appendChild(tpl.content.cloneNode(true));
+      if (tpl) {
+        var frag = tpl.content.cloneNode(true), info = cardInfo(card, frag);
+        if (info) {
+          var hd = frag.querySelector('.ds-head, header');
+          if (hd) hd.parentNode.insertBefore(info, hd.nextSibling); else frag.insertBefore(info, frag.firstChild);
+        }
+        body.appendChild(frag);
+      } else {
+        var solo = document.createElement('div'); solo.className = 'ed dv-solo';
+        var h = document.createElement('header'); h.className = 'ds-head ed-head';
+        var h2 = document.createElement('h2'); h2.textContent = $('h4', card).textContent; h.appendChild(h2);
+        solo.appendChild(h);
+        var inf = cardInfo(card, null); if (inf) solo.appendChild(inf);
+        body.appendChild(solo);
+      }
       playClips(body);
-      body.scrollTop = 0;
       dv.hidden = false;
+      var at = seenAt[card.id] || 0;
+      body.scrollTop = at;
+      requestAnimationFrame(function () { body.scrollTop = at; });
       setInert(true);
       // 스크롤되는 구간 박스는 포트폴리오 슬라이드에서 보여 주던 위치에서 시작합니다
       $$('.ds-scroll[data-pct]', body).forEach(function (b) {
@@ -409,12 +468,13 @@
     }
     function close() {
       if (dv.hidden) return;
+      if (current) seenAt[current.id] = body.scrollTop;
       var zz = $('.sl-zoom'); if (zz) zz.remove();
       dv.classList.remove('is-on');
       doc.classList.remove('dv-open');
       setInert(false);
       if (lenis) lenis.start();
-      setTimeout(function () { dv.hidden = true; body.textContent = ''; }, rm ? 0 : 320);
+      hideT = setTimeout(function () { dv.hidden = true; body.textContent = ''; }, rm ? 0 : 320);
       if (opener) opener.focus({ preventScroll: true });
     }
     $$('[data-detail]').forEach(function (b) {
@@ -470,6 +530,17 @@
       storyRaf = requestAnimationFrame(function () { storyRaf = 0; progress(); if (story) story(); });
     }, { passive: true });
 
+    // 아티클 전문: 각 칸의 버튼이 아래 전체 폭 영역에서 한 편씩 펼칩니다 (다른 편은 접힘)
+    body.addEventListener('click', function (e) {
+      var t = e.target.closest('.fb-art-toggle'); if (!t) return;
+      var open = t.getAttribute('aria-expanded') !== 'true';
+      $$('.fb-art-toggle', body).forEach(function (o) { o.setAttribute('aria-expanded', String(open && o === t)); });
+      $$('.fb-art-docs [data-doc]', body).forEach(function (d) { d.hidden = !(open && d.getAttribute('data-doc') === t.getAttribute('data-doc')); });
+      if (open) {
+        var d = $('.fb-art-docs [data-doc="' + t.getAttribute('data-doc') + '"]', body);
+        if (d) body.scrollTo({ top: d.getBoundingClientRect().top - body.getBoundingClientRect().top + body.scrollTop - 72 });
+      }
+    });
     // 마무리 카드 버튼: 다음 작업 보기 / 목록으로
     body.addEventListener('click', function (e) {
       if (e.target.closest('.ds-close')) { close(); return; }
@@ -683,19 +754,19 @@
   });
 })();
 
-/* About: one page shown as a miniature card (the page is laid out at screen size and scaled into the card).
-   Scroll: the card zooms up to fill the screen → Profile holds → Career plays the 2019 → 2026 timeline sideways →
-   Education → Skills (each slides up like the next section of a page) → the page zooms back down into the card.
-   Sections taller than the screen scroll through before the next one comes. */
+/* About, no cards. The stage (Profile with the About heading, and the Career timeline above it) stays on screen
+   while you scroll: Profile holds → a long gray-to-black gradient with grain slides up and darkens the screen →
+   the timeline plays sideways. Then Education and Skills slide up over it as full-screen steps; the screen being
+   covered darkens a little (after studiors.be). A step taller than the screen sticks by its bottom edge. */
 (function () {
-  var wrap = document.querySelector('.ab-scroll'); if (!wrap) return;
-  var frame = wrap.querySelector('.ab-frame'), win = wrap.querySelector('.ab-win'), page = wrap.querySelector('.ab-page'), track = wrap.querySelector('.ab-track');
-  var secs = [].slice.call(track.children);
+  var flow = document.querySelector('.ab-flow'); if (!flow) return;
+  var stage = flow.querySelector('.ab-stage'), intro = flow.querySelector('.ab-intro'), full = flow.querySelector('.ab-full');
+  var spacer = flow.querySelector('.ab-spacer'), steps = [].slice.call(flow.querySelectorAll('.ab-step'));
+  var frame = stage, career = full ? full.querySelector('.ab-card') : null;
   var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var vw = 0, vh = 0, hdH = 0, card = null, plan = [], total = 0, ticking = false;
+  var vh = 0, vw = 0, plan = [], total = 0, ticking = false, HOLD = 0, IN = 0;
   function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
   function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
-  function lerp(a, b, t) { return a + (b - a) * t; }
   // GA4: an About section or a timeline year counts as seen once it stays on screen for 0.8 s (once per visit),
   // so passing through About on the way to another section (menu links, fast scrolling) does not count
   var sent = {}, wait = {};
@@ -707,20 +778,30 @@
   }
   /* timeline inside the Career card (ported from PR #3) */
   var TL = (function () {
-    var root = page.querySelector('.ab-tl'); if (!root) return null;
+    var root = frame.querySelector('.ab-tl'); if (!root) return null;
     var track = root.querySelector('.tl-track'), scenes = [].slice.call(root.querySelectorAll('.tl-scene'));
     var fill = root.querySelector('.tl-axis-fill'), list = root.querySelector('.tl-axis ol'), labels = [];
     var truck = root.querySelector('.tl-truck'), drive = truck ? truck.closest('.tl-scene') : null;
+    var street = truck ? truck.closest('.tl-street') : null;
     var peds = drive ? [].slice.call(drive.querySelectorAll('.tl-ped')) : [], tcards = drive ? [].slice.call(drive.querySelectorAll('.tl-card')) : [];
     var W = 0, total = 0, plan = [], K = 0.62, last = 0;
-    scenes.forEach(function (s) { var li = document.createElement('li'); li.textContent = s.getAttribute('data-label') || ''; list.appendChild(li); labels.push(li); });
+    if (list) scenes.forEach(function (s) { var li = document.createElement('li'); li.textContent = s.getAttribute('data-label') || ''; list.appendChild(li); labels.push(li); });
     function measure(w, h) {
       W = w; root.style.setProperty('--tl-w', W + 'px');
+      // the 2024 heading sits exactly where the 2019 heading does
+      var lh = scenes[0].querySelector('.tl-hd-main');
+      if (lh) {
+        var sr = scenes[0].getBoundingClientRect(), hr = lh.getBoundingClientRect();
+        root.style.setProperty('--lamp-hx', Math.round(hr.left - sr.left) + 'px');
+        root.style.setProperty('--lamp-hy', Math.round(hr.top - sr.top) + 'px');
+      }
       var last = scenes[scenes.length - 1], maxX = Math.max(0, last.offsetLeft + last.offsetWidth - W), y = 0;
       plan = scenes.map(function (s, i) {
         var L = Math.min(s.offsetLeft, maxX), next = i < scenes.length - 1 ? Math.min(scenes[i + 1].offsetLeft, maxX) : maxX;
-        var p = { s: s, L: L, W: s.offsetWidth, y0: y, hold: (parseFloat(s.getAttribute('data-hold')) || 0) * h, items: [].slice.call(s.querySelectorAll('[data-at]')) };
-        p.dx = Math.max(0, next - L); y += p.hold; p.m0 = y; y += p.dx * K; p.m1 = y;
+        var p = { s: s, L: L, W: s.offsetWidth, y0: y, hold: (parseFloat(s.getAttribute('data-hold')) || 0) * h, items: [].slice.call(s.querySelectorAll('[data-at]')), K: K * (parseFloat(s.getAttribute('data-k')) || 1) };
+        // a slow scene (data-k) pans slowly only across itself; the move on to the next scene runs at the normal pace
+        p.dx = Math.max(0, next - L); p.dx1 = Math.min(p.dx, Math.max(0, p.W - W)); p.dx2 = p.dx - p.dx1;
+        y += p.hold; p.m0 = y; y += p.dx1 * p.K + p.dx2 * K; p.m1 = y;
         return p;
       });
       total = y; return total;
@@ -728,7 +809,10 @@
     function update(y) {
       var x = 0, cur = 0, dh = 0; y = clamp(y, 0, total);
       plan.forEach(function (p, i) {
-        if (y >= p.y0) { x = p.L + clamp((y - p.m0) / K, 0, p.dx); cur = i; }
+        if (y >= p.y0) {
+          var u = y - p.m0, a1 = p.dx1 * p.K;
+          x = p.L + (u <= a1 ? clamp(u / p.K, 0, p.dx1) : p.dx1 + clamp((u - a1) / K, 0, p.dx2)); cur = i;
+        }
         var h = p.hold ? clamp((y - p.y0) / p.hold, 0, 1) : (y >= p.y0 ? 1 : 0);
         p.s.style.setProperty('--h', h.toFixed(3));
         p.items.forEach(function (el) { el.classList.toggle('is-on', h >= (parseFloat(el.getAttribute('data-at')) || 0)); });
@@ -736,17 +820,50 @@
       });
       last = cur;
       track.style.transform = 'translate3d(' + (-x).toFixed(1) + 'px,0,0)';
+      // lamp → 2024: while the camera moves from the dark room to the street, the whole screen flips to white
+      // (scroll-linked: dark until about a third of the way, then quickly to the page colour), so there is no seam
+      if (plan.length > 1) {
+        var p0 = plan[0], t = p0.dx ? clamp((x - p0.L) / p0.dx, 0, 1) : (y >= plan[1].y0 ? 1 : 0);
+        var w = clamp((t - .32) / .36, 0, 1); w = w * w * (3 - 2 * w);
+        var D = [11, 11, 12], Lc = [239, 239, 238];
+        root.style.backgroundColor = 'rgb(' + D.map(function (d, i) { return Math.round(d + (Lc[i] - d) * w); }).join(',') + ')';
+        root.style.setProperty('--wash', w.toFixed(3));
+      }
+      if (typer) typer();
       if (fill) fill.style.setProperty('--p', (total ? y / total : 0).toFixed(4));
       labels.forEach(function (li, i) { li.classList.toggle('is-on', i === cur); });
       if (!drive) return;
-      var d = plan[scenes.indexOf(drive)], rel = x - d.L, tw = truck.offsetWidth;
+      var d = plan[scenes.indexOf(drive)], rel = Math.min(x - d.L, d.dx1), tw = truck.offsetWidth;   // the truck parks; it does not follow into the next scene
       var spot = W * (0.1 + 0.42 * clamp(rel / Math.max(1, d.W - W), 0, 1));
       var tx = rel + (dh < 1 ? -tw + dh * (spot + tw) : spot);
       truck.style.setProperty('--tx', tx.toFixed(1) + 'px');
       truck.style.setProperty('--rot', (tx * 1.4).toFixed(1) + 'deg');
-      peds.forEach(function (p, i) { byTruck[i] = tx + tw * 0.9 >= p.offsetLeft; mark(i); });
+      // vision AI on the truck: a person gets a box once the truck's front comes close
+      var sx = street.getBoundingClientRect().left, tl0 = truck.getBoundingClientRect().left - sx;
+      // walkers: they keep walking right with the scroll; when the truck comes up behind them they turn their heads
+      // toward it, and a moment later the vision-AI box closes around them
+      var front = tl0 + tw * 0.96;
+      peds.forEach(function (p, i) {
+        var walk = rm ? 0 : Math.min(rel * (0.09 + i * 0.012), 150);
+        p.style.setProperty('--walk', walk.toFixed(1) + 'px');
+        p.style.setProperty('--bob', (rm ? 0 : -Math.abs(Math.sin(walk / 16)) * 2.5).toFixed(2) + 'px');
+        var gap = (p.getBoundingClientRect().left - sx + walk) - front;
+        p.classList.toggle('is-look', gap < 280 && gap > -30);   // truck behind them: look back; once it passes, it is ahead
+        byTruck[i] = gap < 90; mark(i);
+      });
       tcards.forEach(function (c) { c.classList.toggle('is-on', c.offsetLeft - rel < W * 0.8); });
     }
+    // Next: once "2026 – " is on, the caret blinks a moment, then types the company name (ohbrown?)
+    var typeEl = root.querySelector('.tl-type'), typeYear = typeEl ? typeEl.closest('[data-at]') : null, typeT = 0, typeOn = false;
+    var typer = typeEl ? function () {
+      var on = typeYear.classList.contains('is-on');
+      if (on === typeOn) return; typeOn = on; clearTimeout(typeT);
+      var txt = typeEl.getAttribute('data-text') || '';
+      if (!on) { typeEl.textContent = ''; return; }
+      if (rm) { typeEl.textContent = txt; return; }
+      var n = 0;
+      (function step() { typeT = setTimeout(function () { typeEl.textContent = txt.slice(0, ++n); if (n < txt.length) step(); }, n ? 120 : 1400); })();
+    } : null;
     // 2024: a person gets a box when the truck has passed them or the PTZ camera has them in view
     var byTruck = [], byCam = [];
     function mark(i) { peds[i].classList.toggle('is-seen', !!(byTruck[i] || byCam[i])); }
@@ -780,67 +897,104 @@
     return { root: root, measure: measure, update: update, report: report };
   })();
 
+  // Profile → Career: the Career screen slides up over Profile like the steps below (Profile darkens a little).
+  // The earlier '그라데이션 전환' (gray-to-black gradient with grain, .ab-grad in site.css) is kept for later use.
+  var introShade = document.createElement('span'); introShade.className = 'ab-step-shade'; introShade.setAttribute('aria-hidden', 'true');
+  intro.appendChild(introShade);
+  // Profile text fills in one character at a time, line by line, while Profile holds (pale → ink).
+  // Screen readers get the plain sentence; the split letters are hidden from them.
+  var fillEl = intro.querySelector('[data-fill]'), chars = [];
+  if (fillEl) {
+    var txt = fillEl.textContent, sr = document.createElement('span'); sr.className = 'sr-only'; sr.textContent = txt;
+    var vis = document.createElement('span'); vis.setAttribute('aria-hidden', 'true');
+    txt.split(/(\s+)/).forEach(function (w) {
+      if (!w) return;
+      if (/^\s+$/.test(w)) { vis.appendChild(document.createTextNode(' ')); return; }
+      var word = document.createElement('span'); word.className = 'ab-fill-w';
+      for (var c = 0; c < w.length; c++) { var ch = document.createElement('span'); ch.textContent = w[c]; word.appendChild(ch); chars.push(ch); }
+      vis.appendChild(word);
+    });
+    fillEl.textContent = ''; fillEl.appendChild(sr); fillEl.appendChild(vis);
+  }
+  // The lamp (lamp.js draws it on .tl-walker, a layer on the stage): when the Profile text has filled in, it peeks in
+  // from the right, walks to the middle and stands on the bottom edge of the screen; as Career slides up it jumps
+  // down into its place in the 2019 scene (.tl-bulb-slot) and stays there. lamp.js reads walker._walk.
+  var walker = stage.querySelector('.tl-walker'), slot = frame.querySelector('.tl-bulb-slot'), lw0 = 0, lh0 = 0;
+  function placeLamp(top, fill, inTl) {
+    if (!walker || !slot) return;
+    var w = slot.offsetWidth, h = slot.offsetHeight;
+    if (!w || !h) return;
+    if (w !== lw0 || h !== lh0) { lw0 = w; lh0 = h; walker.style.width = w + 'px'; walker.style.height = h + 'px'; }
+    var sr = slot.getBoundingClientRect(), st = stage.getBoundingClientRect();
+    var sx = sr.left - st.left, sy = sr.top - st.top, fy = parseFloat(walker.dataset.fy) || .9;
+    var standY = vh - fy * h, cx = (vw - w) / 2, x, y, W = { phase: 0, jump: 0, moving: false, home: false, bright: 1 - fill };
+    var a = rm ? 1 : clamp((top - vh * 1.55) / (vh * .8), 0, 1);
+    if (inTl || rm) { x = sx; y = sy; W.home = inTl; W.jump = 1; W.bright = 0; }
+    else if (fill > 0) {
+      // the jump: a short crouch, then an arc from where it stands to its slot (which is rising with Career)
+      var e = ease(clamp((fill - .04) / .96, 0, 1));
+      x = cx + (sx - cx) * e; y = standY + (sy - standY) * e - Math.sin(Math.PI * e) * vh * .22;
+      W.jump = fill;
+    } else {
+      // walk in: peek (0–.22) → look (.22–.38) → walk to the middle (.38–1)
+      var peek = vw - w * .42, d;
+      if (a < .22) { x = vw + (peek - vw) * ease(a / .22); d = vw - x; }
+      else if (a < .38) { x = peek; d = vw - peek; }
+      else { var k = ease((a - .38) / .62); x = peek + (cx - peek) * k; d = (vw - peek) + (peek - x); }
+      y = standY; W.phase = d / 26; W.moving = a > 0 && a < 1 && !(a >= .22 && a < .38);
+    }
+    walker._walk = W;
+    walker.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0)';
+    var wash = TL ? parseFloat(TL.root.style.getPropertyValue('--wash')) || 0 : 0;
+    walker.style.opacity = (1 - wash * .9).toFixed(3);
+  }
+  var lastFill = -1;
+  function paintFill(p) {
+    var n = p * (chars.length + 6);
+    if (Math.abs(n - lastFill) < 0.05) return; lastFill = n;
+    for (var c = 0; c < chars.length; c++) chars[c].style.setProperty('--f', clamp(n - c, 0, 1).toFixed(2));
+  }
   function layout() {
-    wrap.classList.add('is-on');
+    flow.classList.add('is-on');
     if (TL) TL.root.classList.add('tl-on');
     vw = document.documentElement.clientWidth; vh = window.innerHeight;
-    var hd = document.getElementById('top-header'); hdH = hd ? hd.getBoundingClientRect().height : 64;
-    var inner = wrap.parentElement.getBoundingClientRect();           // the About .wrap: content column of the site
-    var cs = getComputedStyle(wrap.parentElement);
-    var colL = inner.left + parseFloat(cs.paddingLeft), colW = inner.width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-    page.style.setProperty('--pg-w', vw + 'px'); page.style.setProperty('--pg-h', vh + 'px');
-    page.style.setProperty('--pg-x', Math.round(colL) + 'px'); page.style.setProperty('--pg-t', Math.round(hdH + Math.min(56, vh * .06)) + 'px');
-    // card: same proportions as the screen, as wide as the content column, fits under the header
-    var top = hdH + (vw < 640 ? 12 : 24), maxH = vh - top - (vw < 640 ? 12 : 32);
-    var w = Math.min(colW, maxH * vw / vh), h = w * vh / vw;
-    card = { l: (vw - w) / 2, t: top, w: w, h: h, r: vw < 640 ? 20 : 28 };
-    // scroll plan
-    var tlLen = TL ? TL.measure(vw, vh) : 0, E = Math.round(vh * .7), HOLD = Math.round(vh * .45);
-    plan = []; total = 0;
-    function seg(kind, len, a, b, extra) { plan.push({ kind: kind, y0: total, len: Math.max(1, len), a: a, b: b, extra: extra }); total += Math.max(1, len); }
-    var offs = [], o = 0;
-    secs.forEach(function (sct) { offs.push(o); o += sct.offsetHeight; });
-    seg('zoom', E, 0, 1);
-    secs.forEach(function (sct, i) {
-      var hgt = sct.offsetHeight;
-      if (i > 0) seg('move', vh, offs[i] - vh, offs[i]);                 // next section slides up, 1:1 with the scroll
-      if (hgt > vh + 1) seg('move', hgt - vh, offs[i], offs[i] + hgt - vh); // read through a tall section
-      if (sct.querySelector('.ab-tl') && TL) seg('tl', tlLen, offs[i], offs[i]);
-      else seg('hold', i === secs.length - 1 ? HOLD * .6 : HOLD, offs[i] + Math.max(0, hgt - vh), offs[i] + Math.max(0, hgt - vh));
-    });
-    var last = plan[plan.length - 1].b;
-    seg('unzoom', E, last, last);
-    wrap.style.height = Math.round(total + vh) + 'px';
-    wrap.abPlan = plan;
+    var hd = document.getElementById('top-header'), hdH = hd ? hd.getBoundingClientRect().height : 64;
+    var x = vw < 640 ? 20 : Math.max(32, (vw - 1312) / 2);
+    flow.style.setProperty('--hd-h', hdH + 'px'); flow.style.setProperty('--ab-x', x + 'px');
+    if (full) full.style.setProperty('--pg-h', vh + 'px');
+    var tlLen = TL ? TL.measure(vw, vh) : 0;
+    HOLD = Math.round(vh * 2.4); IN = vh;   // Profile holds long enough for its text to fill in and the lamp to walk in
+    total = HOLD + IN + tlLen;
+    plan = [{ kind: 'hold', y0: 0, len: HOLD }, { kind: 'in', y0: HOLD, len: IN }, { kind: 'tl', y0: HOLD + IN, len: tlLen }];
+    spacer.style.height = Math.round(total) + 'px';
+    // a step taller than the screen sticks by its bottom edge so all of it can be read
+    steps.forEach(function (st) { st.style.top = Math.min(0, vh - st.offsetHeight) + 'px'; });
+    flow.abPlan = plan;
     update();
   }
   function update() {
     ticking = false;
-    var top = -wrap.getBoundingClientRect().top, live = top >= 0 && top <= total, kind = '';
-    var y = clamp(top, 0, total), x = 0, ty = 0, cur = 0;
-    for (var k = 0; k < plan.length; k++) {
-      var p = plan[k]; if (y < p.y0 && k) break;
-      kind = p.kind;
-      var t = clamp((y - p.y0) / p.len, 0, 1);
-      if (p.kind === 'zoom') { x = ease(t); ty = 0; }
-      else if (p.kind === 'unzoom') { x = 1 - ease(t); ty = p.a; }
-      else { x = 1; ty = p.kind === 'move' ? lerp(p.a, p.b, t) : p.a; }
-      if (p.kind === 'tl') TL.update(y - p.y0);
-    }
-    if (TL && y < plan[0].len) TL.update(0);
-    if (TL) TL.report(live && kind === 'tl');
-    var fx = frame.getBoundingClientRect().left;
-    var l = lerp(card.l, 0, x) - fx, tp = lerp(card.t, 0, x), w = lerp(card.w, vw, x), h = lerp(card.h, vh, x);
-    win.style.left = l.toFixed(1) + 'px'; win.style.top = tp.toFixed(1) + 'px';
-    win.style.width = w.toFixed(1) + 'px'; win.style.height = h.toFixed(1) + 'px';
-    win.style.borderRadius = (card.r * (1 - x)).toFixed(1) + 'px';
-    page.style.transform = 'scale(' + (w / vw).toFixed(5) + ')';
-    track.style.transform = 'translate3d(0,' + (-ty).toFixed(1) + 'px,0)';
-    // only the section in view can take focus
-    secs.forEach(function (sct, i) {
-      var top = sct.offsetTop - ty, vis = top < vh * .5 && top + sct.offsetHeight > vh * .5;
-      if (vis) sct.removeAttribute('inert'); else sct.setAttribute('inert', '');
-      seen('about_section_view', i, { section: (sct.className.match(/\bab-(?!card\b)([a-z]+)/) || [])[1] || String(i) }, live && vis && x > .9);
+    var top = -flow.getBoundingClientRect().top, y = clamp(top, 0, total), live = top >= 0;
+    var fill = y <= HOLD ? 0 : clamp((y - HOLD) / IN, 0, 1), inTl = y > HOLD + IN;
+    if (chars.length) paintFill(rm ? 1 : clamp(top / (vh * 1.5), 0, 1));
+    if (TL) { TL.update(inTl ? y - HOLD - IN : 0); TL.report(live && inTl && top <= total); }
+    full.style.transform = 'translate3d(0,' + ((1 - fill) * 100).toFixed(3) + '%,0)';
+    placeLamp(top, fill, inTl);
+    introShade.style.setProperty('--shade', rm ? 0 : (fill * .45).toFixed(3));
+    full.classList.toggle('is-on', fill > 0);
+    if (fill > .9) { full.removeAttribute('inert'); intro.setAttribute('inert', ''); } else { full.setAttribute('inert', ''); intro.removeAttribute('inert'); }
+    // shading: the screen under a step that is sliding over it darkens a little
+    var layers = [stage].concat(steps);
+    layers.forEach(function (el, i) {
+      var next = layers[i + 1], sh = el.querySelector(':scope > .ab-step-shade'), v = 0;
+      if (next) { var r = next.getBoundingClientRect().top; v = clamp(1 - r / vh, 0, 1) * .45; }
+      if (sh) sh.style.setProperty('--shade', rm ? 0 : v.toFixed(3));
+    });
+    seen('about_section_view', 0, { section: 'profile' }, live && fill === 0 && top < HOLD);
+    seen('about_section_view', 1, { section: 'career' }, live && inTl && top <= total);
+    steps.forEach(function (st, i) {
+      var r = st.getBoundingClientRect();
+      seen('about_section_view', i + 2, { section: (st.className.match(/ab-(education|skills)/) || [])[1] || String(i) }, r.top <= 1 && r.bottom > vh * .5);
     });
   }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });

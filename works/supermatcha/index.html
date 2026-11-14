@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Portfolio port: show the page exactly as designed — a 1920×1080 frame (#fit) — fitted into any window
+       with a CSS transform (scale = the smaller of width/1920 and height/1080, centred, black margins).
+       Every px and % position, and every scroll animation, then lines up as on the original 1920×1080 screen. */
+    (function () {
+      var root = document.documentElement, fitEl = null, last = '';
+      function fit() {
+        var w = window.innerWidth, h = window.innerHeight, key = w + 'x' + h;
+        if (key === last) return; last = key;
+        var z = Math.min(w / 1920, h / 1080);
+        root.style.setProperty('--z', z);
+        root.style.setProperty('--fx', Math.round((w - 1920 * z) / 2) + 'px');
+        root.style.setProperty('--fy', Math.round((h - 1080 * z) / 2) + 'px');
+        if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+      }
+      // scroll animations measure with getBoundingClientRect, which includes the transform: hand back frame pixels
+      var gbcr = Element.prototype.getBoundingClientRect;
+      Element.prototype.getBoundingClientRect = function () {
+        var r = gbcr.call(this);
+        if (!fitEl || this === fitEl) return r;
+        var f = gbcr.call(fitEl), k = f.width / 1920;
+        if (!k || (Math.abs(k - 1) < 0.001 && !f.left && !f.top)) return r;
+        return new DOMRect((r.x - f.left) / k, (r.y - f.top) / k, r.width / k, r.height / k);
+      };
+      fit();
+      document.addEventListener('DOMContentLoaded', function () {
+        fitEl = document.createElement('div'); fitEl.id = 'fit';
+        while (document.body.firstChild) fitEl.appendChild(document.body.firstChild);
+        document.body.appendChild(fitEl);
+      });
+      var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(fit, 150); });
+    })();
+  </script>
+  <title>SUPER MATCHA</title>
+  <link rel="shortcut icon" type="image/x-icon" href="./img/icon/supermatcha_icon.png">
+
+  <link rel="stylesheet" href="css/reset.css?v=7" />
+  <link rel="stylesheet" href="css/common.css?v=11" />
+  <link rel="stylesheet" href="css/style.css?v=7" />
+  <script src="js/jquery-3.7.1.min.js"></script>
+  <script src="js/jquery.easing.1.3.min.js"></script>
+  <script src="js/gsap.js"></script>
+  <script src="js/ScrollTrigger.min.js"></script>
+  <script src="js/scrollbar.js"></script>
+  <script src="js/setting.js"></script>
+  <script src="js/ting.js"></script>
+  <script src="js/CE.min.js"></script>
+  <script src="js/pple.js"> </script>
+
+  <script src="js/main.js"></script>
+</head>
+
+<body>
+  <!-- <div class="posNum"></div>
+  <div class="Quick">
+    <span class="Quick_data"></span>
+  </div> -->
+
+  <div class="intro">
+    <div class="intro_bg"></div>
+    <p class="intro_num">0%</p>
+    <!-- <p class="intro_num02">0%</p> -->
+
+  </div>
+
+
+  <section id="container">
+    <!-- section01 -->
+    <!-- <section id="sec01">
+      <div class="sec01_con">
+        <div class="sec01_img01">
+          <img src="img/sec01/header.png">
+        </div>
+        <div class="sec01_img02">
+          <img src="img/sec01/img_01.png">
+        </div>
+        <div class="sec01_img03">
+          <img src="img/sec01/img_02.png">
+        </div>
+        <div class="sec01_img04">
+          <img src="img/sec01/img_03.png">
+        </div>
+        <div class="sec01_img05">
+         <div><img src="img/sec01/title_ver1_01.png"></div>
+         <div><img src="img/sec01/title_ver1_02.png"></div>
+        </div>
+        <div class="sec01_img06">
+          <div><img src="img/sec01/text_01.png"></div>
+          <div><img src="img/sec01/text_02.png"></div>
+        </div>
+      </div>
+    </section> -->
+    <section id="sec01">
+      <div class="sec01_con">
+        <div class="sec01_img01">
+          <!-- <img src="img/sec01/header.png"> -->
+          <img src="img/sec01/header_text_01.png" alt="헤더텍스트01">
+          <img src="img/sec01/header_text_02.png" alt="헤더텍스트02">
+          <img src="img/sec01/header_text_03.png" alt="헤더텍스트03">
+          <img src="img/sec01/header_text_04.png" alt="헤더텍스트04">
+        </div>
+        <div class="sec01_img02">
+            <img src="img/sec01/img_ver2.gif" alt="백그라운드이미지">
+         </div>
+        <div class="sec01_img03">
+          <img src="img/sec01/title_ver2.png" alt="타이틀로고">
+        </div>
+        <div class="sec01_img04">
+            <img src="img/sec01/text_01.png" alt="헤더텍스트01">
+          </div>
+          <div class="sec01_img05">
+            <img src="img/sec01/text_02.png" alt="헤더텍스트02">
+          </div>
+      </div>
+    </section>
+
+    <!-- section02 -->
+    <section id="sec02">
+      <div class="sec02_con">
+        <div class="sec02_video">
+          <video src="img/sec02/sec02_video.mp4" autoplay muted loop></video>
+        </div>
+      </div>
+
+
+      <div class="sec02_con02">
+        <div class="sec02_typo_01">
+          <img src="img/sec02/subtitle.png" alt="sec02서브타이틀">
+        </div>
+        <div class="sec02_img_01">
+          <img src="img/sec02/img_01.jpg" alt="이미지01">
+        </div>
+        <div class="sec02_img_02">
+          <img src="img/sec02/img_02.jpg" alt="이미지02">
+        </div>
+        <div class="sec02_img_03">
+          <img src="img/sec02/img_03.jpg" alt="이미지30">
+        </div>
+        <div class="sec02_text_01">
+          <img src="img/sec02/text.png" alt="sec02내용">
+        </div>
+        <div class="sec02_text_02">
+          <img src="img/sec02/text_rolling.png" alt="롤링텍스트01">
+          <img src="img/sec02/text_rolling.png" alt="롤링텍스트02">
+
+        </div>
+      </div>
+
+    </section>
+    <!-- section03 -->
+    <section id="sec03">
+<div class="sec03_con">
+  <div class="sec03_img01">
+    <img src="img/sec03/img.png" alt="센터제품이미지">
+  </div>
+  <div class="sec03_img02">
+    <img src="img/sec03/text_round.png" alt="라운드텍스트">
+  </div>
+  <div class="sec03_img03">
+    <img src="img/sec03/text.png" alt="sec03내용">
+  </div>
+  <div class="sec03_img04">
+      <img src="img/sec03/btn.jpg" alt="sec04이동버튼">
+  </div>
+</div>
+    </section>
+    <!-- section04 -->
+    <section id="sec04">
+      <div class="sec04_con">
+        <ul class="sec04_list">
+
+          <li>
+            <div class="sec04_img01">
+              <img src="img/sec04/img_01.jpg" alt="sec04_이미지01">
+            </div>
+
+          <div class="sec04_typolist01">
+              <div class="sec04_typo01">
+                <div><img src="img/sec04/no_01.png" alt="sec04_숫자01"></div>
+                <div><img src="img/sec04/text_01.png" alt="sec04_타이포01"></div>
+              </div>
+              <div class="sec04_title01">
+                <img src="img/sec04/tilte_01.png" alt="sec04_타이틀01">
+            </div>
+            </div>
+          </li>
+
+
+          <li>
+            <div class="sec04_typolist02">
+              <div class="sec04_typo02">
+                <div><img src="img/sec04/no_02.png" alt="sec04_숫자02"></div>
+                <div><img src="img/sec04/text_02.png" alt="sec04_타이포02"></div>
+              </div>
+              <div class="sec04_title02">
+                <img src="img/sec04/tilte_02.png" alt="sec04_타이틀02">
+            </div>
+            </div>
+            <div class="sec04_img02">
+              <img src="img/sec04/img_02.jpg" alt="sec04_이미지02">
+            </div>
+          </li>
+
+
+          <li>
+            <div class="sec04_img03">
+              <img src="img/sec04/img_03.jpg" alt="sec04_이미지03">
+            </div>
+
+          <div class="sec04_typolist03">
+              <div class="sec04_typo03">
+                <div><img src="img/sec04/no_03.png" alt="sec04_숫자03"></div>
+                <div><img src="img/sec04/text_03.png" alt="sec04_타이포03"></div>
+              </div>
+              <div class="sec04_title03">
+                <img src="img/sec04/tilte_03.png" alt="sec04_타이틀03">
+            </div>
+            </div>
+          </li>
+          <li>
+            <div class="sec04_typolist04">
+              <div class="sec04_typo04">
+                <div><img src="img/sec04/no_04.png" alt="sec04_숫자04"></div>
+                <div><img src="img/sec04/text_04.png" alt="sec04_타이포04"></div>
+              </div>
+              <div class="sec04_title04">
+                <img src="img/sec04/tilte_04.png" alt="sec04_타이틀04">
+            </div>
+            </div>
+            <div class="sec04_img04">
+              <img src="img/sec04/img_04.jpg" alt="sec04_이미지04">
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </section>
+    <!-- section05 -->
+    <section id="sec05">
+        <div class="sec05_con">
+          <div class="sec05_img01">
+            <img src="img/sec05/text_01.png" alt="sec05_왼쪽설명">
+          </div>
+          <ul class="sec05_img02">
+            <li>
+            <img src="img/sec05/text_02_title.png" alt="sec05_오른쪽타이틀">
+            </li>
+
+            <li>
+              <img src="img/sec05/text_02_part_01.png" alt="sec05_오른쪽내용01">
+              </li>
+
+              <li>
+                <img src="img/sec05/text_02_part_02.png" alt="sec05_오른쪽내용02">
+                </li>
+
+                <li>
+                  <img src="img/sec05/text_02_part_03.png" alt="sec05_오른쪽내용03">
+                  </li>
+
+          </ul>
+
+          <ul class="sec05_line">
+            <li></li>
+            <li></li>
+            <li></li>
+            <!-- <li></li> -->
+          </ul>
+
+          <!-- <div class="sec05_img02">
+            <img src="img/sec05/text_02_part_01.png">
+            <img src="img/sec05/text_02_part_02.png">
+            <img src="img/sec05/text_02_part_03.png">
+          </div> -->
+        </div>
+    </section>
+    <!-- section06 -->
+    <section id="sec06">
+      <div class="sec06_con">
+        <div class="sec06_title">
+          <!-- <img src="img/sec06/img.jpg"> -->
+          <div class="sec06_title">
+            <img src="img/sec06/title.png">
+          </div>
+        </div>
+        <div class="sec06_img">
+
+          <div class="sec06_img01">
+            <div class="sec06_imgwrap">
+            <div class="sec06_imgfn">
+            <img src="img/sec06/box_01.jpg">
+          </div>
+          <div class="sec06_imgbk">
+            <img src="img/sec06/box_01_back.jpg">
+          </div>
+        </div>
+          </div>
+
+          <div class="sec06_text01">
+            <img src="img/sec06/text.png">
+          </div>
+
+          <div class="sec06_img02">
+            <div class="sec06_imgwrap">
+              <div class="sec06_imgfn">
+                <img src="img/sec06/box_02.jpg">
+              </div>
+
+              <div class="sec06_imgbk">
+                <img src="img/sec06/box_02_back.jpg">
+              </div>
+            </div>
+          </div>
+
+          <div class="sec06_img03">
+            <div class="sec06_imgwrap">
+              <div class="sec06_imgfn">
+                <img src="img/sec06/box_03.jpg">
+              </div>
+
+              <div class="sec06_imgbk">
+                <img src="img/sec06/box_03_back.jpg">
+              </div>
+            </div>
+          </div>
+
+          <div class="sec06_img04">
+            <div class="sec06_imgwrap">
+              <div class="sec06_imgfn">
+                <img src="img/sec06/box_04.jpg">
+              </div>
+
+              <div class="sec06_imgbk">
+                <img src="img/sec06/box_04_back.jpg">
+              </div>
+            </div>
+          </div>
+
+          <div class="sec06_img05">
+            <div class="sec06_imgwrap">
+              <div class="sec06_imgfn">
+                <img src="img/sec06/box_05.jpg">
+              </div>
+
+              <div class="sec06_imgbk">
+                <img src="img/sec06/box_05_back.jpg">
+              </div>
+            </div>
+          </div>
+
+          <div class="sec06_img06">
+            <div class="sec06_imgwrap">
+              <div class="sec06_imgfn">
+                <img src="img/sec06/box_06.jpg">
+              </div>
+
+              <div class="sec06_imgbk">
+                <img src="img/sec06/box_06_back.jpg">
+              </div>
+            </div>
+          </div>
+
+          <div class="sec06_text02">
+            <img src="img/sec06/img.png">
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+     <!-- section07 -->
+     <section id="sec07">
+      <div class="sec07_con">
+      <ul class="matcha_list">
+        <li><img src="img/sec07/matcha.png" alt="말차스틱01"></li>
+        <li><img src="img/sec07/matcha2.png" alt="말차스틱02"></li>
+        <li><img src="img/sec07/matcha.png" alt="말차스틱03"></li>
+        <li><img src="img/sec07/matcha.png" alt="말차스틱04"></li>
+        <li><img src="img/sec07/matcha2.png" alt="말차스틱05"></li>
+        <li><img src="img/sec07/matcha.png" alt="말차스틱06"></li>
+      </ul>
+      <div class="sec07_title_con">
+        <div><img src="img/sec07/title_01.png" alt="sec07_타이틀01"></div>
+        <div><img src="img/sec07/title_02.png" alt="sec07_타이틀01"></div>
+      </div>
+      <div class="sec07_text_con">
+      <div class="sec07_sub"><img src="img/sec07/sub_title.png" alt="sec07_서브타이틀"></div>
+      <div class="sec07_text_01"><img src="img/sec07/text_02.png" alt="sec07_타이포01"></div>
+      <div class="sec07_text_02"><img src="img/sec07/text_01.png" alt="sec07_타이포02"></div>
+      <div class="sec07_text_03"><img src="img/sec07/text_03.png" alt="sec07_내용"></div>
+      <div class="sec07_img_01"><img src="img/sec07/img_01.jpg" alt="sec07_이미지01"></div>
+      <div class="sec07_img_02"><img src="img/sec07/img_02.jpg" alt="sec07_이미지02"></div>
+    </div>
+  </div>
+     </section>
+      <!-- section08 -->
+    <section id="sec08">
+      <div class="sec08_con">
+
+     <div class="sec08_list">
+        <div class="sec08_typo">
+          <img src="img/sec08/title.png" alt="sec08_타이틀">
+        </div>
+        <div class="sec08_img01">
+          <img src="img/sec08/img.png" alt="sec08_이미지">
+        </div>
+
+        <ul class="sec08_img02">
+          <li>
+          <img src="img/sec08/text_title.png" alt="sec08_오른쪽타이틀">
+          </li>
+
+          <li>
+            <img src="img/sec08/text_01.png" alt="sec08_오른쪽내용01">
+            </li>
+
+            <li>
+              <img src="img/sec08/text_02.png" alt="sec08_오른쪽내용02">
+              </li>
+
+              <li>
+                <img src="img/sec08/text_03.png" alt="sec08_오른쪽내용03">
+                </li>
+
+        </ul>
+
+        <ul class="sec08_line">
+          <li></li>
+          <li></li>
+          <li></li>
+          <!-- <li></li> -->
+        </ul>
+
+      </div>
+
+      </div>
+
+    </section>
+    <!-- section09 -->
+    <section id="sec09">
+      <div class="sec09_title">
+        <div class="sec09_title_01">
+          <img src="img/sec09/title_01.png" alt="sec09_타이틀01">
+        </div>
+        <div class="sec09_title_02">
+          <img src="img/sec09/tilte_02.png" alt="sec09_타이틀02">
+        </div>
+      </div>
+
+      <ul class="store_list">
+        <li>
+          <div class="point_color"></div>
+          <p class="store_name">the hyundai seoul</p>
+          <div class="store_info">
+          <p>서울 영등포구 여의대로 108</p>
+          <p>10:30am - 22:00pm</p>
+        </div>
+          
+
+        </li>
+
+
+        <li>
+          <div class="point_color"></div>
+          <p class="store_name">starfield hanam</p>
+          <div class="store_info">
+            <p>경기 하남시 미사대로 750</p>
+            <p>10:30am - 22:00pm</p>
+          </div>
+        </li>
+
+        <li>
+          <div class="point_color"></div>
+          <p class="store_name">yongsan i-park mall</p>
+          <div class="store_info">
+            <p>서울 용산구 한강대로23길 55</p>
+            <p>10:30am - 22:00pm</p>
+          </div>
+        </li>
+
+        <li>
+          <div class="point_color"></div>
+          <p class="store_name">D-Cube City</p>
+          <div class="store_info">
+            <p>서울 구로구 경인로 662 </p>
+            <p>10:30am - 22:00pm</p>
+          </div>
+        </li>
+
+        <li>
+          <div class="point_color"></div>
+          <p class="store_name">Centum City</p>
+          <div class="store_info">
+            <p>부산 해운대구 센텀남대로 35</p>
+            <p>10:30am - 22:00pm</p>
+          </div>
+        </li>
+
+        <li>
+          <div class="point_color"></div>
+          <p class="store_name">Lotte World Mall</p>
+          <div class="store_info">
+            <p>서울 송파구 올림픽로 300</p>
+            <p>10:30am - 22:00pm</p>
+          </div>
+        </li>
+
+
+
+      </ul>
+
+      <div class="sec09_img_con">
+        <div><img src="img/sec09/img_01.jpg" alt="매장이미지01_더현대서울"></div>
+        <div><img src="img/sec09/img_02.jpg" alt="매장이미지02_스타필드하남"></div>
+        <div><img src="img/sec09/img_03.jpg" alt="매장이미지03_아이파크몰"></div>
+        <div><img src="img/sec09/img_04.jpg" alt="매장이미지04_디큐브"></div>
+        <div><img src="img/sec09/img_05.jpg" alt="매장이미지05_센텀"></div>
+        <div><img src="img/sec09/img_06.jpg" alt="매장이미지06_롯데월드몰"></div>
+      </div>
+    </section>
+    <!-- section10 -->
+    <section id="sec10">
+      <div class="sec10_con_01">
+          <div class="sec10_video">
+            <video src="img/sec10/sec10_video.mp4" autoplay muted loop></video>
+          </div>
+          <div class="sec10_con_02">
+              <div class="sec10_text_01">
+                <img src="img/sec10/text_rolling_01.png" alt="sec10_롤링텍스트01">
+                <img src="img/sec10/text_rolling_01.png" alt="sec10_롤링텍스트01">
+              </div>
+              <div class="sec10_text_02">
+                <img src="img/sec10/text_rolling_02.png" alt="sec10_롤링텍스트02">
+                <img src="img/sec10/text_rolling_02.png" alt="sec10_롤링텍스트02">
+              </div>
+          </div>
+        </div>
+
+    </section>
+    <!-- section11 -->
+    <section id="sec11">
+      <div class="sec11_bg">
+        <img src="img/sec11/bg.jpg" alt="sec11_배경이미지">
+      </div>
+      <div class="sec11_con">
+   
+
+        <div class="sec11_text_01"><img src="img/sec11/centents.png" alt="sec11_내용"></div>
+        <div class="sec11_text_02"><img src="img/sec11/text_round.png" alt="sec11_라운드텍스트"></div>  
+      </div>
+    </section>
+    <!-- section12 -->
+    <section id="sec12">
+      <div class="sec12_con">
+        <div class="sec12_img_01"><img src="img/sec12/img_01.jpg" alt="sec12_이미지01"></div>
+        <div class="sec12_img_01_text"><img src="img/sec12/img_01_text.png" alt="sec12_이미지01_텍스트"></div>
+        <div class="sec12_img_02"><img src="img/sec12/img_02.jpg" alt="sec12_이미지02"></div>
+        <div class="sec12_img_02_text"><img src="img/sec12/img_02_text.png" alt="sec12_이미지02_텍스트"></div>
+        <div class="sec12_text"><img src="img/sec12/text.png" alt="sec12_내용"></div>
+        <div class="sec12_title"><img src="img/sec12/title.png" alt="sec12_타이틀"></div>
+      </div>
+    </section>
+    <!-- section13 -->
+    <section id="sec13">
+      <div class="sec13_con">
+        <div class="sec13_img_01" alt="sec13_이미지01">
+          <!-- <img src="img/sec13/img_01.png"> -->
+        </div>
+       <div class="sec13_text_01">
+        <img src="img/sec13/img_01_text.png" alt="sec13_타이포01">
+      </div>
+      <div class="sec13_img_02">
+        <!-- <img src="img/sec13/img_02.png"> -->
+      </div>
+      <div class="sec13_text_02">
+        <img src="img/sec13/img_02_text.png" alt="sec13_타이포02">
+      </div>
+      <div class="sec13_img_03">
+        <!-- <img src="img/sec13/img_03.png"> -->
+      </div>
+      <div class="sec13_text_03">
+        <img src="img/sec13/img_03_text.png" alt="sec13_타이포03">
+      </div>
+      <div class="sec13_img_04">
+        <!-- <img src="img/sec13/img_04.png"> -->
+      </div>
+      <div class="sec13_text_04">
+        <img src="img/sec13/img_04_text.png" alt="sec13_타이포04">
+      </div>
+
+
+
+        <ul class="sec13_title">
+          <li>
+            <img src="img/sec13/title_m.png">
+          </li>
+          <li>
+            <img src="img/sec13/title_a.png">
+          </li>
+
+          <li>
+            <img src="img/sec13/title_t.png">
+          </li>
+
+            <li>
+            <img src="img/sec13/title_c.png">
+          </li>
+          <li>
+            <img src="img/sec13/title_h.png">
+          </li>
+          <li>
+            <img src="img/sec13/title_last_a.png">
+          </li>
+
+          <!-- <p>MA</p> -->
+        </ul>
+
+
+      </div>
+      <div class="footer">
+        <!-- <div class="footer_line"><img src="img/sec13/line.png"></div> -->
+        <div class="footer_contact"><img src="img/sec13/contact.png" alt="footer_컨택트"></div>
+        <div class="footer_text_01"><img src="img/sec13/text_01.png" alt="footer_텍스트01"></div>
+        <div class="footer_text_02"><img src="img/sec13/text_02.png" alt="footer_텍스트02"></div>
+      </div>
+
+    </section>
+    <!-- section14 -->
+    <!-- <section id="sec14"></section> -->
+    <!-- section15 -->
+    <!-- <section id="sec15"></section> -->
+    <!-- section16 -->
+    <!-- <section id="sec16"></section> -->
+    <!-- section17 -->
+    <!-- <section id="sec17"></section> -->
+    <!-- section18 -->
+    <!-- <section id="sec18"></section> -->
+    <!-- section19
+    <footer id="footer"></footer>
+  </section>
+</body>
+
+</html>
