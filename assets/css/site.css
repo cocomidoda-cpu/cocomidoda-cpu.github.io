@@ -3916,3 +3916,129 @@ a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
 /* truck body rides on its suspension (wheels stay on the road) */
 #about .ab-tl .tl-truck .tk-body{transform-box:view-box;transform-origin:50% 74%;transform:translateY(calc(var(--tk-bob,0px) * 4.5)) rotate(var(--tk-lean,0deg));transition:transform .18s ease-out}
 @media (prefers-reduced-motion:reduce){#about .ab-tl .tl-truck .tk-body{transform:none;transition:none}}
+/* road: a visible grain (light and dark speckle) over the existing gradient */
+#about .ab-tl .tl-road{background-image:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .42 -.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .26 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+  linear-gradient(180deg,#4A4B4E 0%,#3A3B3E 45%,#2A2B2D 100%)!important}
+/* road grain drifts very slowly (a few steps a second, low contrast) — film grain, not TV static */
+#about .ab-tl .tl-road{animation:tl-grain 1.6s steps(5) infinite}
+@keyframes tl-grain{
+  0%{background-position:0 0,0 0,0 0}20%{background-position:-23px 11px,0 0,0 0}40%{background-position:17px -19px,0 0,0 0}
+  60%{background-position:-9px 27px,0 0,0 0}80%{background-position:31px 5px,0 0,0 0}100%{background-position:0 0,0 0,0 0}}
+@media (prefers-reduced-motion:reduce){#about .ab-tl .tl-road{animation:none}}
+/* walkers keep facing forward (no head turn), and the vision-AI box has square corners */
+#about .ab-tl .tl-wk .tl-wk-h,#about .ab-tl .tl-wk.is-look .tl-wk-h{transform:none!important}
+#about .ab-tl .tl-box,#about .ab-tl .tl-people .tl-wk .tl-box{border-radius:0!important}
+/* 2024 scene: the empty stretch past the truck's stop is cut (about a fifth of the screen more) */
+#about .ab-tl.tl-on .tl-addd{flex-basis:calc(max(calc(var(--tl-w) * 1.7), calc(var(--pole-x) + var(--tl-w) * .55)) - 100px - var(--tl-w) * .2)!important}
+/* bento: rounder corners (4 → 6px), wider gaps (10 → 12px), one even inner padding for every card */
+#about .ab-merged .ab-bento{gap:12px!important}
+#about .ab-bento .bn{border-radius:6px!important;padding:clamp(24px,min(2.5vw,4.6vh),48px)!important}
+/* skill set as text: tools grouped by kind, each tool an outlined chip */
+#about .ab-bento .bn-tools{display:grid;gap:clamp(14px,2.4vh,24px);margin:0}
+#about .ab-bento .bn-tools>div{display:grid;gap:10px}
+#about .ab-bento .bn-tools dt{font-size:13px;font-weight:600;letter-spacing:.02em;color:rgba(255,255,255,.55)}
+#about .ab-bento .bn-tools dd{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+#about .ab-bento .bn-tools span{display:inline-flex;align-items:center;height:clamp(32px,4.4vh,38px);padding:0 16px;border:1px solid rgba(255,255,255,.32);border-radius:999px;font-size:clamp(14px,1.9vh,16px);font-weight:600;color:#fff;white-space:nowrap}
+/* bento on short screens: a little less outer margin and inner padding so every card still fits one screen */
+@media (max-height:820px) and (min-height:701px){
+  #about .ab-merged{padding-top:calc(var(--hd-h,64px) + 3vh)!important;padding-bottom:3vh!important}
+  #about .ab-merged .ab-bento{height:calc(100vh - var(--hd-h,64px) - 6vh);height:calc(100dvh - var(--hd-h,64px) - 6vh)}
+  #about .ab-bento .bn{padding:24px 28px!important}
+}
+#about .ab-bento .bn-tools-flat{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+/* ===== popup bar: just back (left) and close (right), one button family
+   white bar with a hairline · both 44px pills, 15px/600 text, 18px icons, 2px focus ring ·
+   back = outlined (secondary), close = filled ink (primary) · the Esc hint shows only on hover/focus */
+.dv-bar{background:#fff!important;border-bottom:1px solid #E6E6E4!important;height:68px!important}
+.dv-title{flex:1;min-width:0}
+.dv-badge{display:none!important}
+.dv-back,.dv-close{height:44px!important;min-width:44px;padding:0 18px!important;gap:8px!important;border-radius:999px!important;
+  font-size:15px!important;font-weight:600!important;letter-spacing:-.01em;line-height:1;cursor:pointer}
+.dv-back svg,.dv-close svg{width:18px!important;height:18px!important;stroke-width:2.2!important;flex:none}
+.dv-back{padding-left:14px!important;background:#fff!important;color:#111!important;box-shadow:inset 0 0 0 1.5px #D4D4D2!important}
+.dv-back-t{max-width:min(40vw,320px)}
+.dv-close{padding-right:14px!important;background:#111!important;color:#fff!important;box-shadow:none!important}
+.dv-esc{display:none!important;margin-left:2px}
+@media (hover:hover){
+  .dv-back:hover{background:#F2F2F0!important;box-shadow:inset 0 0 0 1.5px #111!important}
+  .dv-close:hover{background:#2A2A2A!important}
+  .dv-close:hover .dv-esc,.dv-close:focus-visible .dv-esc{display:inline-flex!important}
+}
+.dv-back:focus-visible,.dv-close:focus-visible{outline:2px solid #111!important;outline-offset:3px!important}
+@media (max-width:560px){.dv-back-t{max-width:44vw}.dv-close .dv-close-t{display:none}.dv-close{width:44px!important;padding:0!important;justify-content:center}}
+/* popup bar buttons: no outline, no rounding — icon + word, the hit area shows on hover/focus as a square tint;
+   back = ← 이전, close = 닫기 Esc × (Esc always shown) */
+.dv-back,.dv-close{background:transparent!important;color:#111!important;box-shadow:none!important;border:0!important;border-radius:0!important;
+  height:48px!important;padding:0 14px!important;gap:10px!important}
+.dv-back svg,.dv-close svg{width:20px!important;height:20px!important;stroke-width:2.2!important}
+.dv-esc{display:inline-flex!important;height:22px;padding:0 6px;border-radius:0;background:#EDEDEB!important;color:#55555A!important;font-size:12px;font-weight:600}
+@media (hover:hover){
+  .dv-back:hover,.dv-close:hover{background:#F0F0EE!important;box-shadow:none!important}
+}
+.dv-back:active,.dv-close:active{background:#E6E6E4!important;transform:none!important}
+.dv-back:focus-visible,.dv-close:focus-visible{outline:2px solid #111!important;outline-offset:0!important}
+@media (hover:none),(max-width:760px){.dv-esc{display:none!important}}
+@media (max-width:560px){.dv-close .dv-close-t{display:inline!important}.dv-close{width:auto!important;padding:0 12px!important}}
+/* mail popup: three facts (기간 · 도구 · 발송) in three equal columns */
+.dv-body .ed .ds-facts.ds-facts3{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+@media (max-width:640px){.dv-body .ed .ds-facts.ds-facts3{grid-template-columns:1fr!important}}
+/* Key Achievement: plain text under the title, no box around it */
+.dv-body .ed:not(.rp2) .fb-key>.fb-body,.dv-body .ed .fb-key>.fb-body,.fb .fb-key .fb-body{padding:0!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important}
+/* font blog top figures: compact boxes, number at the 28px figure size */
+.dv-body .fb .fb-key3.fb-key3-sm>div{padding:20px 24px!important}
+.dv-body .fb .fb-key3.fb-key3-sm dt{font-size:14px!important;font-weight:500!important;color:#55555A!important}
+.dv-body .fb .fb-key3.fb-key3-sm dd{margin-top:8px!important;gap:4px!important}
+.dv-body .fb .fb-key3.fb-key3-sm b{font-size:28px!important;font-weight:800!important;letter-spacing:-.02em!important;line-height:1.2!important}
+.dv-body .fb .fb-key3.fb-key3-sm b small{font-size:.6em!important;font-weight:700!important}
+.dv-body .fb .fb-key3.fb-key3-sm span{font-size:13px!important;line-height:1.5!important}
+/* font blog strategy note and execution steps: plain text, no boxes */
+.dv-body .ed:not(.rp2) .fb-insight.fb-insight-plain,.dv-body .ed:not(.rp2) .fb-steps.fb-steps-plain>li{padding:0!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important}
+.dv-body .ed:not(.rp2) .fb-steps.fb-steps-plain{gap:32px!important}
+/* font blog execution: a paragraph gap between each heading+body set; thumbnails sit between the first heading and its text */
+.dv-body .ed:not(.rp2) .fb-steps.fb-steps-plain{display:grid!important;gap:48px!important}
+.dv-body .fb .fb-steps-plain .fb-thumbs-row{margin:16px 0!important}
+/* font blog result figures: separate gray-outlined boxes with a slight radius */
+.dv-body .fb .fb-nums{gap:12px!important;border:0!important}
+.dv-body .fb .fb-nums>li{padding:24px!important;border:1px solid #E2E2E0!important;border-radius:6px!important;background:none!important}
+/* font blog charts and the after-publishing block: no background fill */
+.dv-body .fb .fb-viz>figure,.dv-body .fb .fb-after{background:none!important;padding:0!important}
+.dv-body .ed:not(.rp2) .fb-steps.fb-steps-plain{grid-template-columns:minmax(0,1fr)!important}
+/* group popup end buttons: closer to the last section and lined up with its content */
+.dv-body .rp2 .rp-sec:has(+ .rp-endbar){padding-bottom:64px!important}
+.dv-body .rp2 .rp-endbar{padding:0 64px!important;margin:0!important}
+.dv-body .rp2 .rp-endbar .ds-end-act{margin:0!important;padding:0!important}
+/* popup bar buttons: no outline when clicked; keyboard focus shows the same gray tint as hover */
+.dv-back:focus,.dv-close:focus,.dv-back:focus-visible,.dv-close:focus-visible{outline:none!important;box-shadow:none!important}
+.dv-back:focus-visible,.dv-close:focus-visible{background:#F0F0EE!important}
+.dv-body .rp2 .rp-endbar{padding-bottom:112px!important}
+/* every work popup: space between the title and Project Overview, and under Project Overview, at 0.7× */
+.dv-body .ed.rp2>.rp-head{padding-bottom:28px!important}
+.dv-body .ed.rp2>section:first-of-type{padding-top:45px!important;padding-bottom:45px!important}
+.dv-body .ed.rp2>section:first-of-type+section{padding-top:45px!important}
+.dv-body .ed:not(.rp2)>section:first-of-type{padding-top:50px!important}
+.dv-body .ed:not(.rp2)>section:first-of-type+section{padding-top:50px!important}
+.dv-body .ds>.ds-head{padding-bottom:50px!important}
+.dv-body .ds>.ds-ov{padding-top:40px!important}
+.dv-body .ds>.ds-ov+*{margin-top:39px!important}
+/* mail flow chips: hug the word (side space 2/5 of before), all with the 문의 CTA outline, plain arrows between */
+.dv-body .fb .fb-flow{gap:32px!important;flex-wrap:wrap!important}
+.dv-body .fb .fb-flow>li{flex:none!important;width:auto!important;padding:10px 17px!important;box-shadow:inset 0 0 0 1.5px #1C1C1C!important;position:relative}
+.dv-body .fb .fb-flow>li::after{background:none!important;left:auto!important;right:-22px!important;width:12px!important;text-align:center;color:#767676!important}
+/* mail execution steps: no boxes, one blank line between each heading+body set */
+.dv-body .ed:not(.rp2) .fb-steps.fb-steps-line{gap:1lh!important;line-height:1.7}
+/* mail flow chips spread across the full width; the arrows sit centred in the even gaps */
+.dv-body .fb .fb-flow.fb-flow-full{justify-content:space-between!important;align-items:center!important;gap:12px!important;flex-wrap:nowrap!important}
+.dv-body .fb .fb-flow.fb-flow-full>li::after{content:none!important}
+.dv-body .fb .fb-flow.fb-flow-full>li.fb-flow-arr{padding:0!important;box-shadow:none!important;background:none!important;color:#767676!important;font-size:15px!important}
+@media (max-width:640px){.dv-body .fb .fb-flow.fb-flow-full{flex-wrap:wrap!important;justify-content:flex-start!important}}
+.dv-body .fb .fb-flow.fb-flow-full>li:not(.fb-flow-arr){padding:10px 26px!important}
+/* mail strategy directions: same size as body text */
+.dv-body .ed:not(.rp2) .fb-dirs3>li{font-size:16px!important;line-height:1.7!important}
+/* SNS card news: text on top, then one series in a row (cover + 4 cards), then four other covers */
+.rp2 .rp-step.rp-step-full{grid-template-columns:minmax(0,1fr)!important;gap:24px!important}
+.rp2 .rp-step-full .rp-step-m{display:grid;gap:32px}
+.rp2 .rp-media-5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.rp2 .rp-media-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:640px){.rp2 .rp-media-5{grid-template-columns:repeat(3,minmax(0,1fr))}.rp2 .rp-media-4{grid-template-columns:repeat(2,minmax(0,1fr))}}

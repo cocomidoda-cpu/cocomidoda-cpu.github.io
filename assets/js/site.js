@@ -338,7 +338,7 @@
       var vh = window.innerHeight, line = window.scrollY + vh * .62, band = vh * .55, t = 0;
       // boundaries in order: [y, tone after it]
       var marks = [[at(sec), 1]];
-      grps.forEach(function (g) { marks.push([at(g), g.id === 'wk-mkt' ? 1 : 0]); });
+      grps.forEach(function (g) { marks.push([at(g), 1]); });   // Marketing and Design both stay dark (no flip between them)
       marks.push([at(sec) + sec.offsetHeight - vh * .3, 0]);
       var prev = 0;
       marks.forEach(function (m) { var k = Math.min(1, Math.max(0, (line - m[0] + band * .5) / band)); if (k > 0) t = prev + (m[1] - prev) * k; prev = m[1]; });
@@ -440,18 +440,17 @@
         // 어디로 돌아가는지 보이게: 묶음 작업의 제목을 버튼 글자와 이름에 넣습니다
         if (backTo) {
           var bt = ($('.work-body h4', backTo) || {}).textContent || '묶음';
-          $('.dv-back-t', back).textContent = bt.trim();
-          back.setAttribute('aria-label', bt.trim() + '(으)로 돌아가기');
+          $('.dv-back-t', back).textContent = '이전';
+          back.setAttribute('aria-label', '이전: ' + bt.trim() + '(으)로 돌아가기');
         }
       }
       if (current && !dv.hidden) seenAt[current.id] = body.scrollTop;   // switching works with "다음 작업 보기"
       clearTimeout(hideT);
       opener = from; doneSent = false;
       track('work_detail_open', { work_id: card.id, work_title: $('h4', card).textContent.trim() });
-      // the bar shows this work's category badges again (the title stays for screen readers)
+      // the bar holds only back and close; the work's title stays for screen readers
       title.textContent = '';
       var tn = document.createElement('span'); tn.className = 'sr-only'; tn.textContent = $('h4', card).textContent; title.appendChild(tn);
-      card.querySelectorAll('.work-tag > span').forEach(function (b) { var c = document.createElement('span'); c.className = 'dv-badge'; c.textContent = b.textContent; c.setAttribute('aria-hidden', 'true'); title.appendChild(c); });
       body.textContent = '';
       if (tpl) {
         var frag = tpl.content.cloneNode(true), info = cardInfo(card, frag);
@@ -624,6 +623,8 @@
       if (dv.hidden) return;
       if (e.key === 'Escape' && zoom) { e.preventDefault(); unzoom(); return; }
       if (e.key === 'Escape') { e.preventDefault(); close(); }
+      // Backspace returns to the group a work was opened from (same as the back button)
+      if (e.key === 'Backspace' && back && !back.hidden && !e.target.closest('input,textarea,[contenteditable]')) { e.preventDefault(); back.click(); }
     });
   })();
 
@@ -885,7 +886,7 @@
       // the group reacts together: once the truck reaches the nearest walker, all of them turn and get boxed
       var near = Infinity;
       peds.forEach(function (p, i) {
-        var walk = rm ? 0 : Math.min(rel * (0.09 + i * 0.012), 150);
+        var walk = rm ? 0 : Math.min(rel * (0.09 + i * 0.012) * 1.1, 165);   // 1.1× the earlier pace
         p.style.setProperty('--walk', walk.toFixed(1) + 'px');
         p.style.setProperty('--bob', (rm ? 0 : -Math.abs(Math.sin(walk / 16)) * 2.5).toFixed(2) + 'px');
         near = Math.min(near, (p.getBoundingClientRect().left - sx + walk) - front);
@@ -950,11 +951,12 @@
   // Title, then body: both fill in as one run of letters; the small signature line fades in at the end.
   var chars = [], sign = intro.querySelector('.ab-sign');
   intro.querySelectorAll('[data-fill]').forEach(function (fillEl) {
-    var txt = fillEl.textContent, sr = document.createElement('span'); sr.className = 'sr-only'; sr.textContent = txt;
+    var txt = fillEl.textContent.trim(), sr = document.createElement('span'); sr.className = 'sr-only'; sr.textContent = txt;
     var vis = document.createElement('span'); vis.setAttribute('aria-hidden', 'true');
     txt.split(/(\s+)/).forEach(function (w) {
       if (!w) return;
-      if (/^\s+$/.test(w)) { vis.appendChild(document.createTextNode(' ')); return; }
+      // a line break written in the HTML text stays a line break; other spaces stay one space
+      if (/^\s+$/.test(w)) { vis.appendChild(/\n/.test(w) ? document.createElement('br') : document.createTextNode(' ')); return; }
       var word = document.createElement('span'); word.className = 'ab-fill-w';
       for (var c = 0; c < w.length; c++) { var ch = document.createElement('span'); ch.textContent = w[c]; word.appendChild(ch); chars.push(ch); }
       vis.appendChild(word);
