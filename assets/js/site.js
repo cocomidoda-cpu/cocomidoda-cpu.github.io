@@ -823,7 +823,7 @@
     // truck passes them the beam fades out (the boxes stay). Scrolling back before they were reached resets it.
     var tkSvg = truck ? truck.querySelector('.tl-truck-svg') : null;
     var tkBeam = tkSvg ? tkSvg.querySelector('.tl-beam') : null, tkGrad = tkSvg ? tkSvg.querySelector('#tkBeam') : null;
-    var beamOn = false, boxT = 0;
+    var beamOn = false, boxT = 0, tkGone = false;
     function boxAll(on) { peds.forEach(function (p, i) { byTruck[i] = on; mark(i); }); }
     function aimBeam() {
       if (!tkBeam) return;
@@ -839,6 +839,9 @@
       tkBeam.setAttribute('points', LX + ',' + LY + ' ' + tx.toFixed(0) + ',' + ty0.toFixed(0) + ' ' + tx.toFixed(0) + ',' + ty1.toFixed(0));
       if (tkGrad) { tkGrad.setAttribute('x2', tx.toFixed(0)); tkGrad.setAttribute('y2', cy.toFixed(0)); }
       var passed = (x0 + x1) / 2 < lensX + 60, reach = x0 - lensX < W * 0.36;   // switches on only once the truck is this close (about a third of the screen)
+      // once the truck has driven over the walkers and its rear is past them, their boxes go away
+      var gone = x1 < sr.left + 60 * k;
+      if (gone !== tkGone) { tkGone = gone; peds.forEach(function (p, i) { mark(i); }); }
       var on = !passed && reach;
       if (on && !beamOn) {
         beamOn = true; tkSvg.classList.add('is-aim'); clearTimeout(boxT);
@@ -942,7 +945,7 @@
     } : null;
     // 2024: a person gets a box when the truck has passed them or the PTZ camera has them in view
     var byTruck = [], byCam = [];
-    function mark(i) { peds[i].classList.toggle('is-seen', !!(byTruck[i] || byCam[i])); }
+    function mark(i) { peds[i].classList.toggle('is-seen', !tkGone && !!(byTruck[i] || byCam[i])); }
     // PTZ camera on the billboard: pans left and right on its own while the timeline is showing
     var cam = drive ? drive.querySelector('.tl-cam') : null, lens = cam && cam.querySelector('.tl-lens'), cone = cam && cam.querySelector('.tl-cone');
     var near = false, sweepRaf = 0, t0 = 0; // only while the Career section is the one on screen (others are inert)

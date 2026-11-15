@@ -106,4 +106,55 @@
   window.addEventListener('resize', function () { if (rm || !on) draw(performance.now()); });
   draw(performance.now());
   bg.classList.add('is-gl');
+
+  // Media poles (2024 street): their screens show this same moving gray surface. One small WebGL canvas renders it
+  // at screen size and every pole copies the same frame, so all four always look identical. Runs only while a pole
+  // is on screen; reduced motion keeps one still frame.
+  (function () {
+    var screens = [].slice.call(document.querySelectorAll('.tl-sign .tl-sign-screen'));
+    if (!screens.length) return;
+    var pc = document.createElement('canvas');
+    var g = pc.getContext('webgl', { antialias: false, alpha: false, premultipliedAlpha: false, preserveDrawingBuffer: true, powerPreference: 'low-power' });
+    if (!g) return;
+    function sh2(type, src) { var s = g.createShader(type); g.shaderSource(s, src); g.compileShader(s); return s; }
+    var p2 = g.createProgram(); g.attachShader(p2, sh2(g.VERTEX_SHADER, VS)); g.attachShader(p2, sh2(g.FRAGMENT_SHADER, FS));
+    g.linkProgram(p2); if (!g.getProgramParameter(p2, g.LINK_STATUS)) return;
+    g.useProgram(p2);
+    var b2 = g.createBuffer(); g.bindBuffer(g.ARRAY_BUFFER, b2);
+    g.bufferData(g.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), g.STATIC_DRAW);
+    var l2 = g.getAttribLocation(p2, 'p'); g.enableVertexAttribArray(l2); g.vertexAttribPointer(l2, 2, g.FLOAT, false, 0, 0);
+    var V = {}; ['R', 'T', 'M', 'C0', 'C1', 'C2', 'G'].forEach(function (k) { V[k] = g.getUniformLocation(p2, k); });
+    // half the hero's contrast: shadow and highlight move halfway toward the base tone (no transparency)
+    function half(a, b) { return a.map(function (v, i) { return b[i] + (v - b[i]) * 0.5; }); }
+    function pal2() { var P = PAL[isDark() ? 'dark' : 'light']; g.uniform3fv(V.C0, half(P[0], P[1])); g.uniform3fv(V.C1, P[1]); g.uniform3fv(V.C2, half(P[2], P[1])); g.uniform1f(V.G, P[3] * 0.5); }
+    pal2(); g.uniform2f(V.M, 0, 0);
+    var outs = screens.map(function (s) {
+      var c = document.createElement('canvas'); c.className = 'tl-sign-gl'; c.setAttribute('aria-hidden', 'true');
+      s.appendChild(c); return c.getContext('2d');
+    });
+    var K = 2;   // render at 2× the screen's CSS size so it stays crisp
+    function size() {
+      var s = screens[0], w = Math.max(1, Math.round(s.clientWidth * K)), h = Math.max(1, Math.round(s.clientHeight * K));
+      if (pc.width !== w || pc.height !== h) { pc.width = w; pc.height = h; g.viewport(0, 0, w, h); outs.forEach(function (o) { o.canvas.width = w; o.canvas.height = h; }); }
+      g.uniform2f(V.R, w, h);
+    }
+    function frame(now) {
+      size();
+      g.uniform1f(V.T, rm ? 12 : (now - t0) / 1000 / 2.5 + 12);   // 2.5× slower than the hero
+      g.drawArrays(g.TRIANGLES, 0, 3);
+      outs.forEach(function (o) { o.drawImage(pc, 0, 0); });
+    }
+    var vis = false, r2 = 0;
+    function loop2(now) { r2 = 0; if (!vis) return; frame(now); r2 = requestAnimationFrame(loop2); }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { e.target._in = e.isIntersecting; });
+      vis = screens.some(function (s) { return s._in; });
+      if (rm) { frame(performance.now()); return; }
+      if (vis && !r2) r2 = requestAnimationFrame(loop2);
+    });
+    screens.forEach(function (s) { io.observe(s); });
+    new MutationObserver(function () { pal2(); frame(performance.now()); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    window.addEventListener('resize', function () { frame(performance.now()); });
+    frame(performance.now());
+  })();
 })();
