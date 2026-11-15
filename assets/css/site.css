@@ -4042,3 +4042,102 @@ a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
 .rp2 .rp-media-5{grid-template-columns:repeat(5,minmax(0,1fr))}
 .rp2 .rp-media-4{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media (max-width:640px){.rp2 .rp-media-5{grid-template-columns:repeat(3,minmax(0,1fr))}.rp2 .rp-media-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* article keywords: one column of heading + text, no boxes, one blank line between sets */
+.dv-body .ed:not(.rp2) .fb-kw.fb-kw-plain{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:1lh!important;line-height:1.7}
+.dv-body .ed:not(.rp2) .fb-kw.fb-kw-plain>li{padding:0!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important}
+/* media poles: wider body, all screens change together at twice the earlier pace; equal spacing comes from --f in the HTML */
+#about .ab-tl .tl-street .tl-sign,#about .ab-tl .tl-street .tl-sign[style*="--f"]{width:56px!important;margin-left:-28px!important}
+#about .ab-tl .tl-sign .tl-sign-screen,#about .ab-tl .tl-sign:nth-of-type(n) .tl-sign-screen{animation-duration:8s!important;animation-delay:0s!important}
+/* media pole body: brushed-metal look (vertical highlight bands + fine horizontal grain) on the head, the frame and the base */
+#about .ab-tl .tl-sign-head,#about .ab-tl .tl-sign-base{background:
+  repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,rgba(0,0,0,.04) 1px 2px),
+  linear-gradient(90deg,#4E5054 0%,#8E9196 16%,#D4D6D9 30%,#9A9DA2 44%,#626468 62%,#85888D 82%,#45474B 100%)!important}
+#about .ab-tl .tl-sign .tl-sign-screen{border-color:#6F7277!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)!important}
+/* media pole body, toned down: near-black matte grey with only a faint sheen down one side */
+#about .ab-tl .tl-sign-head,#about .ab-tl .tl-sign-base{background:
+  linear-gradient(90deg,#1E1F21 0%,#2A2B2E 22%,#37383C 34%,#2B2C2F 50%,#232426 78%,#1C1D1F 100%)!important}
+#about .ab-tl .tl-sign .tl-sign-screen{border-color:#26272A!important;box-shadow:none!important}
+/* City Pink lens light: one pink beam aimed at the walkers' boxes (JS sets its shape); a soft band of light keeps
+   flowing out of the lens along it; hidden while the walkers are behind the truck */
+#about .ab-tl .tl-truck .tl-beam{animation:none!important;opacity:0;transition:opacity .4s}
+#about .ab-tl .tl-truck .tl-beam-flow{opacity:0;transition:opacity .4s}
+#about .ab-tl .tl-truck-svg.is-aim .tl-beam{opacity:1}
+#about .ab-tl .tl-truck-svg.is-aim .tl-beam-flow{opacity:1}
+@media (prefers-reduced-motion:reduce){#about .ab-tl .tl-truck .tl-beam-flow{display:none}}
+/* City Pink beam v2: drawn over the truck, grows out of the roof camera when switched on, fades when the truck passes */
+#about .ab-tl .tl-truck .tl-beam{transform-box:view-box;transform-origin:465px 290px;transform:scale(0);opacity:0;
+  transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .35s ease!important}
+#about .ab-tl .tl-truck-svg.is-aim .tl-beam{transform:scale(1);opacity:1}
+@media (prefers-reduced-motion:reduce){#about .ab-tl .tl-truck .tl-beam{transition:none!important}}
+/* measuring boxes 1.2× their earlier size */
+#about .ab-tl .tl-people .tl-wk .tl-box{transform:scale(1.45)}
+#about .ab-tl .tl-people .tl-wk.is-seen .tl-box{transform:scale(1.2)!important}
+/* footer column labels (NAVIGATION / SOCIAL / CONTACT) in the header bar's type: Pretendard 13px/500 */
+.ft2-k{font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif!important;font-size:13px!important;font-weight:500!important;letter-spacing:.02em!important}
+/* About intro: headline steps down to a perfect-fourth² (≈1.8×) over the body instead of 2.3×, so the two read as one block */
+@media (min-width:900px){#about .ab-fill-t{font-size:clamp(28px,1rem + 1.9vw,44px)!important;letter-spacing:-.03em!important}}
+/* Next title: the comma sits right after 2026 (no gap before it) */
+#about .ab-tl .tl-next .tl-year .tl-comma{margin-left:0!important}
+/* Jalum (story popup) uses the same 920px width as every other work popup */
+.dv-body>.ds.ds-v2{max-width:920px!important}
+
+/* ===== Hero, editorial layout: a big two-line title top-left, the intro top-right, the role at the bottom-left,
+   the scroll arrow at the bottom centre and the photo in the right column, standing on the section's bottom edge.
+   Background and header stay as they were. */
+@media (min-width:861px){
+  .u216 .hero-in{display:grid!important;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);grid-template-rows:auto 1fr auto;column-gap:clamp(32px,4vw,80px);
+    min-height:100vh;min-height:100svh;padding-top:clamp(104px,15vh,150px)!important;padding-bottom:0!important}
+  .u216 .hero-title{grid-column:1;grid-row:1;align-self:start}
+  .u216 .hero-in .hero-title .u216-h{text-align:left!important;white-space:normal!important;font-size:clamp(72px,9.4vw,180px)!important;line-height:.9!important}
+  .u216 .hero-title .u216-h .u216-ln{display:block!important;white-space:nowrap}
+  .u216 .hero-title .u216-h .u216-ln+.u216-ln::before{content:none!important}
+  .u216 .hero-in>.hero-intro{grid-column:2;grid-row:1;align-self:start;max-width:30em;margin:.4em 0 0;font-size:clamp(17px,1.35vw,24px);line-height:1.4;font-weight:500;letter-spacing:-.02em;color:var(--ux-ink);text-align:left;white-space:normal}
+  .u216 .hero-photo{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;grid-column:2;grid-row:2/4;align-self:end;justify-self:center;
+    width:auto;height:min(64vh,620px)!important;margin:0!important}
+  .u216 .hero-foot{position:static!important;grid-column:1;grid-row:3;align-self:end;display:block;padding:0 0 clamp(28px,5vh,48px);pointer-events:auto}
+  .u216 .hero-foot .hero-pos{display:inline-block;margin:0;padding:0;border:0;border-radius:0;font-size:15px;line-height:1.5;font-weight:500;letter-spacing:-.01em;color:var(--ux-ink)}
+  .u216 .hero-down{display:grid!important;bottom:clamp(20px,4vh,40px)}
+}
+@media (max-width:860px){
+  .u216 .hero-in>.hero-intro{order:2;margin:20px 0 0;font-size:16px;line-height:1.5;font-weight:500;text-align:left}
+  .u216 .hero-in>.hero-intro br{display:none}
+  .u216 .hero-foot{order:3;margin-top:16px}
+  .u216 .hero-photo{order:4}
+}
+/* header: the same frosted blur over the hero too (no tint until it turns solid) */
+.u212-hd{backdrop-filter:blur(18px) saturate(1.2);-webkit-backdrop-filter:blur(18px) saturate(1.2)}
+@media (min-width:861px){.u216 .hero-photo{grid-row:1/4!important;height:min(64vh,620px,calc(100svh - 300px))!important}.u216 .hero-in>.hero-intro{position:relative;z-index:2}}
+
+/* Footer "Get in Touch": hidden at first, then each word slides up out of its own line, one after another */
+.ft2-mark .fw{display:inline-block;overflow:hidden;vertical-align:bottom;font-style:normal;padding:0 .08em .06em;margin:0 -.08em -.06em}
+.ft2-mark .fw-i{display:inline-block;transform:translateY(105%);transition:transform .9s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i) * .14s)}
+.ft2-mark.is-in .fw-i{transform:none}
+@media (prefers-reduced-motion:reduce){.ft2-mark .fw-i{transform:none;transition:none}}
+/* no rubber-band strip under the footer at the very end of the page */
+html,body{overscroll-behavior-y:none}
+/* Hero type on one perfect-fourth scale (×1.333) from a 16px base: role 16 → intro 21.3 → title 160 (step 8).
+   Body text keeps ≥16px and a 1.45 line-height; the display title keeps .9 and tight tracking. */
+@media (min-width:861px){
+  .u216 .hero-in .hero-title .u216-h{font-size:clamp(72px,8.4vw,160px)!important;line-height:.9!important}
+  .u216 .hero-in>.hero-intro{font-size:clamp(17px,1.11vw,21.3px)!important;line-height:1.45!important;letter-spacing:-.01em!important}
+  .u216 .hero-foot .hero-pos{font-size:16px!important;line-height:1.45!important;letter-spacing:0!important}
+}
+
+/* ===== Hero, matched to the reference: full-bleed 4.4vw margins; three columns at 0 / 33.5% / 68% of the content
+   width. Title spans the first two columns and fills about half the screen; the intro sits in the third column at the
+   top; the role, the scroll arrow and the photo share the bottom edge (the photo stands on it). */
+@media (min-width:861px){
+  .u216 .hero-in{max-width:none!important;width:100%;padding-left:4.4vw!important;padding-right:4.4vw!important;
+    grid-template-columns:33.5% 34.5% 32%!important;grid-template-rows:auto 1fr auto!important;column-gap:0!important;
+    padding-top:calc(68px + 4.4vh)!important}
+  .u216 .hero-title{grid-column:1/3!important;grid-row:1}
+  .u216 .hero-in .hero-title .u216-h{font-size:clamp(72px,12.8vw,260px)!important;line-height:.9!important}
+  .u216 .hero-in>.hero-intro{grid-column:3!important;grid-row:1;margin:.35em 0 0!important;max-width:none!important;
+    font-size:clamp(17px,1.25vw,26px)!important;line-height:1.45!important}
+  .u216 .hero-photo{grid-column:3!important;grid-row:2/4!important;justify-self:center;align-self:end;height:min(66vh,calc(100svh - 300px))!important}
+  .u216 .hero-foot{grid-column:1!important;grid-row:3!important;padding-bottom:6.4vh!important}
+  .u216 .hero-foot .hero-pos{font-size:clamp(16px,1.1vw,22px)!important}
+  .u216 .hero-in>.hero-down{position:static!important;grid-column:2;grid-row:3;justify-self:start;align-self:end;
+    margin:0 0 calc(6.4vh - 14px) -12px!important}
+}
+@media (min-width:861px){.u216 .hero-photo{grid-row:1/4!important}}

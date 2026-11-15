@@ -327,7 +327,7 @@
   /* Work tone: entering Work the page goes through a gradient to black; 개인 작업물 brings the page tone back,
      Design's addd group darkens again. Scroll-linked; the text colours flip past the middle (.wk-dark). */
   (function () {
-    var sec = document.getElementById('work'); if (!sec) return;
+    var sec = document.getElementById('work'); if (!sec || sec.classList.contains('arc')) return;   // the archive keeps one background
     var grps = $$('.wk-grp', sec);   // Marketing dark, Design light
     var DARK = [11, 11, 12], base = null, raf = 0, was = null;
     function rgb(c) { var m = c.match(/\d+(\.\d+)?/g); return m ? [+m[0], +m[1], +m[2], m[3] === undefined ? 1 : +m[3]] : [255, 255, 255, 1]; }
@@ -358,7 +358,7 @@
   (function () {
     var arc = $('.arc');
     if (!arc) return;
-    var tabs = $$('.u039-tab', arc), pill = $('.u039-pill', arc), cards = $$('.work', arc), cur = 0;
+    var tabs = $$('.u039-tab', arc), pill = $('.u039-pill', arc), cards = $$('.work:not([hidden])', arc), cur = 0;   // only the works shown in the grid are counted
     function cat(c) { return (c.getAttribute('data-group') || '').split('-')[1]; }
     tabs.forEach(function (t) {
       var f = t.getAttribute('data-filter'), sm = $('small', t);
@@ -417,6 +417,7 @@
     // what the card no longer shows (period, problem/what/result, numbers) goes into the popup
     function cardInfo(card, pages) {
       var cb = $('.work-body', card); if (!cb || (pages && $('.fb', pages))) return null;   // case-study pages already hold it all
+      if (pages && $('.ds-ov', pages)) return null;   // story pages (Jalum) carry their own Overview/Result, like the other popups
       var box = document.createElement('div'); box.className = 'dv-info';
       var meta = $('.work-meta', cb), sum = $('.work-sum', cb), dl = $('.work-dl', cb), mt = $('.work-metrics', cb);
       if (meta && !(pages && $('.ds-facts', pages))) box.appendChild(meta.cloneNode(true));
@@ -562,7 +563,7 @@
       storyRaf = requestAnimationFrame(function () { storyRaf = 0; progress(); if (story) story(); });
     }, { passive: true });
 
-    // 아티클 전문: 각 칸의 버튼이 아래 전체 폭 영역에서 한 편씩 펼칩니다 (다른 편은 접힘)
+    // 포스팅 전문: 각 칸의 버튼이 아래 전체 폭 영역에서 한 편씩 펼칩니다 (다른 편은 접힘)
     body.addEventListener('click', function (e) {
       var t = e.target.closest('.fb-art-toggle'); if (!t) return;
       var open = t.getAttribute('aria-expanded') !== 'true';
@@ -817,6 +818,36 @@
     var fill = root.querySelector('.tl-axis-fill'), list = root.querySelector('.tl-axis ol'), labels = [];
     var truck = root.querySelector('.tl-truck'), drive = truck ? truck.closest('.tl-scene') : null;
     var street = truck ? truck.closest('.tl-street') : null;
+    // City Pink lens light: when the walkers come within reach ahead of the truck, one pink beam grows out of the
+    // roof camera (465, 290 in the truck drawing) toward them; a moment later their measuring boxes appear; once the
+    // truck passes them the beam fades out (the boxes stay). Scrolling back before they were reached resets it.
+    var tkSvg = truck ? truck.querySelector('.tl-truck-svg') : null;
+    var tkBeam = tkSvg ? tkSvg.querySelector('.tl-beam') : null, tkGrad = tkSvg ? tkSvg.querySelector('#tkBeam') : null;
+    var beamOn = false, boxT = 0;
+    function boxAll(on) { peds.forEach(function (p, i) { byTruck[i] = on; mark(i); }); }
+    function aimBeam() {
+      if (!tkBeam) return;
+      var LX = 465, LY = 290, sr = tkSvg.getBoundingClientRect(), k = sr.width / 1448;
+      if (!k) return;
+      var x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+      drive.querySelectorAll('.tl-people .tl-box').forEach(function (bx) {
+        var q = bx.getBoundingClientRect(); if (!q.width) return;
+        x0 = Math.min(x0, q.left); x1 = Math.max(x1, q.right); y0 = Math.min(y0, q.top); y1 = Math.max(y1, q.bottom);
+      });
+      if (x0 === Infinity) return;
+      var lensX = sr.left + LX * k, tx = ((x0 + x1) / 2 - sr.left) / k, ty0 = (y0 - sr.top) / k, ty1 = (y1 - sr.top) / k, cy = (ty0 + ty1) / 2;
+      tkBeam.setAttribute('points', LX + ',' + LY + ' ' + tx.toFixed(0) + ',' + ty0.toFixed(0) + ' ' + tx.toFixed(0) + ',' + ty1.toFixed(0));
+      if (tkGrad) { tkGrad.setAttribute('x2', tx.toFixed(0)); tkGrad.setAttribute('y2', cy.toFixed(0)); }
+      var passed = (x0 + x1) / 2 < lensX + 60, reach = x0 - lensX < W * 0.36;   // switches on only once the truck is this close (about a third of the screen)
+      var on = !passed && reach;
+      if (on && !beamOn) {
+        beamOn = true; tkSvg.classList.add('is-aim'); clearTimeout(boxT);
+        boxT = setTimeout(function () { if (beamOn) boxAll(true); }, rm ? 0 : 650);   // boxes once the beam has reached them
+      } else if (!on && beamOn) {
+        beamOn = false; tkSvg.classList.remove('is-aim'); clearTimeout(boxT);
+        boxAll(passed);   // passed: they stay measured; scrolled back: boxes go again
+      }
+    }
     var peds = drive ? [].slice.call(drive.querySelectorAll('.tl-ped')) : [], tcards = drive ? [].slice.call(drive.querySelectorAll('.tl-card')) : [];
     var W = 0, total = 0, plan = [], K = 0.62, last = 0;
     if (list) scenes.forEach(function (s) { var li = document.createElement('li'); li.textContent = s.getAttribute('data-label') || ''; list.appendChild(li); labels.push(li); });
@@ -894,9 +925,9 @@
       peds.forEach(function (p, i) {
         p.classList.toggle('is-look', near < 280);
         if (near < 280) p.classList.add('was-look');   // the turn-back animation only plays after a first turn
-        byTruck[i] = near < 120; mark(i);
       });
       tcards.forEach(function (c) { c.classList.toggle('is-on', c.offsetLeft - rel < W * 0.8); });
+      aimBeam();
     }
     // Next: once "2026 – " is on, the caret blinks a moment, then types the company name (ohbrown?)
     var typeEl = root.querySelector('.tl-type'), typeYear = typeEl ? typeEl.closest('[data-at]') : null, typeT = 0, typeOn = false;
@@ -1098,4 +1129,8 @@
   fitMark();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitMark);
   var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(fitMark, 120); });
+  // the words rise one after another each time the footer comes into view
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { es.forEach(function (e) { mark.classList.toggle('is-in', e.isIntersecting); }); }, { threshold: 0.35 }).observe(mark);
+  } else mark.classList.add('is-in');
 })();
