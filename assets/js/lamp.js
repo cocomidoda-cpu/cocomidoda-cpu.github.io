@@ -113,7 +113,8 @@ async function start() {
     const W = box._walk;
     const h = tl.classList.contains('tl-on') ? (parseFloat(room.style.getPropertyValue('--h')) || 0) : 1;
     // the light comes on the moment the lamp lands in the 2019 scene
-    return { lit: (!W || W.home) && h > 0.004, step: MARKS.filter((m) => h >= m).length };
+    // ...and goes off again when it jumps out to ride the truck (the spiral back to its bare white)
+    return { lit: (!W || W.home) && !(W && W.ride) && h > 0.004, step: MARKS.filter((m) => h >= m).length };
   }
   function events() {
     const now = read();
@@ -125,7 +126,7 @@ async function start() {
         if (!rm && !first) { S.vhy += 0.38; S.wait = 0.42; S.bounces = 1; }
         S.tiltTo = 0; S.lookTo = 0;
       } else {
-        S.luxTo = 0; S.flick = -1; S.tiltTo = rm ? 0 : -0.1; S.lookTo = 0;
+        S.luxTo = 0; S.flick = -1; S.tiltTo = rm || (box._walk && box._walk.ride) ? 0 : -0.1; S.lookTo = 0;
         if (rm) S.lux = 0; else S.vhy -= 0.2;
       }
       S.quiet = 0;
@@ -180,6 +181,13 @@ async function start() {
   function apply() {
     // walking (site.js gives the distance walked as a phase) and the jump into Career (0 → 1)
     const W = box._walk || {};
+    // ohbrown peek (W.peek 0 → 1): the face turns to the reader (no look aside), the spring bends toward the screen and
+    // the head boings as it pops out; the head tilts back a little against the lean so the face reads upright-ish
+    const pk = W.peek || 0;
+    if (pk > 0) {
+      if (!S.peeking) { S.peeking = true; S.vlean += 2.2; S.vhy += 0.5; S.vtilt -= 0.8; S.quiet = 0; }
+      S.lookTo = 0; S.tiltTo = -0.3 * pk; S.leanTo = 0.3 * pk;
+    } else if (S.peeking) { S.peeking = false; S.leanTo = 0; S.tiltTo = 0; S.vlean -= 1.2; }
     const ph = W.phase || 0, j = W.jump || 0, moving = W.moving ? 1 : 0;
     const step = Math.abs(Math.sin(ph));
     // the jump (j: 0 → 1, site.js moves the box): crouch (0–.18) → launch and fly (.18–.82) → land and squash (.82–1)
@@ -193,7 +201,7 @@ async function start() {
     lastJ = j;
     body.position.y = S.y + step * 0.004 * moving;
     body.rotation.z = Math.sin(ph) * 0.05 * moving + (fly >= 0 ? Math.sin(Math.PI * fly) * 0.22 : 0) - crouch * 0.08;
-    body.rotation.y += ((moving ? -0.45 : 0) - body.rotation.y) * 0.15;   // a three-quarter turn while walking, so the stride reads
+    body.rotation.y += ((moving ? -0.45 * (W.dir || -1) * -1 : 0) - body.rotation.y) * 0.15;   // W.dir 1: walking right (night street exit)   // a three-quarter turn while walking, so the stride reads
     const sq = S.s - crouch * 0.16 + stretch * 0.1 - land * 0.18;
     body.scale.set(1 - sq * 0.5, 1 + sq, 1 - sq * 0.5);
     // legs: in turns, one swings forward and lifts while the other pushes back; tucked in the air, splayed on landing
@@ -257,6 +265,7 @@ async function start() {
     if (inView()) {
       const dt = last ? Math.min(1 / 30, (t - last) / 1000) : 0;
       last = t;
+      if (box._follow) box._follow();   // riding in the truck: stay locked to the bouncing cab every frame
       events();
       tick(dt);
       apply();

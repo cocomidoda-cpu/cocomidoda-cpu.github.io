@@ -345,9 +345,10 @@
       raf = 0; if (!base) readBase();
       var vh = window.innerHeight, line = window.scrollY + vh * .62, band = vh * .55, t = 0;
       // boundaries in order: [y, tone after it]
-      var marks = [[at(sec), 1]];
-      grps.forEach(function (g) { marks.push([at(g), 1]); });   // Marketing and Design both stay dark (no flip between them)
-      marks.push([at(sec) + sec.offsetHeight - vh * .3, 0]);
+      // Marketing keeps the page tone (the Skills step's background); Design turns black with the same band and easing
+      var marks = [[at(sec), 0]];
+      grps.forEach(function (g, i) { marks.push([at(g), i === 0 ? 0 : 1]); });
+      // no return to the light tone at the end: the Work section finishes on black
       var prev = 0;
       marks.forEach(function (m) { var k = Math.min(1, Math.max(0, (line - m[0] + band * .5) / band)); if (k > 0) t = prev + (m[1] - prev) * k; prev = m[1]; });
       var e = t * t * (3 - 2 * t);
@@ -781,6 +782,34 @@
     io.observe(h);
   })();
 
+  /* Footer "Email me" / "Call me": copy the address or number. The label rolls up to "Copied ✓" and a short
+     message under the links says what was copied (also read out by screen readers). */
+  (function () {
+    var toast = $('.ft2-toast'), tt = 0;
+    function legacy(s) {
+      var ta = document.createElement('textarea'); ta.value = s; ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (e) { /* 무시 */ }
+      document.body.removeChild(ta);
+    }
+    $$('.ft2-copy').forEach(function (b) {
+      var t = 0;
+      b.addEventListener('click', function () {
+        var s = b.getAttribute('data-copy'), kind = b.getAttribute('data-kind');
+        if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(s).catch(function () { legacy(s); }); else legacy(s);
+        track('contact_copy', { contact_method: kind });
+        clearTimeout(t); b.classList.remove('is-copied'); void b.offsetWidth; b.classList.add('is-copied');
+        t = setTimeout(function () { b.classList.remove('is-copied'); }, 1800);
+        if (toast) {
+          clearTimeout(tt); toast.classList.remove('is-on'); void toast.offsetWidth;
+          toast.textContent = (kind === 'email' ? '이메일 주소' : '전화번호') + ' ' + s + ' 복사됨';
+          toast.classList.add('is-on');
+          tt = setTimeout(function () { toast.classList.remove('is-on'); }, 2200);
+        }
+      });
+    });
+  })();
+
   $$('.u008:not(.u008-link)').forEach(function (root) {
     var btn = $('.u008-btn', root), tip = $('.u008-tip', root), t = 0;
     var text = $('.u008-cmd', root).textContent.trim();
@@ -820,6 +849,8 @@
     else if (!wait[id]) wait[id] = setTimeout(function () { sent[id] = 1; window.pfTrack(name, params); }, 800);
   }
   /* timeline inside the Career card (ported from PR #3) */
+  var walkerEl = document.querySelector('.tl-walker');   // the lamp layer (dimmed a little at night)
+  var TL_RIDE = { t: 0, dh: 0, tx: 0, park: 0, nx: 0, h2: 0, ob: 0 };   // lamp → truck ride (read by placeLamp)
   var TL = (function () {
     var root = frame.querySelector('.ab-tl'); if (!root) return null;
     var track = root.querySelector('.tl-track'), scenes = [].slice.call(root.querySelectorAll('.tl-scene'));
@@ -868,7 +899,7 @@
       var on = !passed && reach;
       if (on && !beamOn) {
         beamOn = true; tkSvg.classList.add('is-aim'); clearTimeout(boxT);
-        boxT = setTimeout(function () { if (beamOn) boxAll(true); }, rm ? 0 : 1300);   // boxes once the beam has reached them
+        boxT = setTimeout(function () { if (beamOn) boxAll(true); }, rm ? 0 : 800);   // boxes once the beam has reached them
       } else if (!on && beamOn) {
         beamOn = false; tkSvg.classList.remove('is-aim'); clearTimeout(boxT);
         boxAll(passed);   // passed: they stay measured; scrolled back: boxes go again
@@ -892,7 +923,9 @@
         var p = { s: s, L: L, W: s.offsetWidth, y0: y, hold: (parseFloat(s.getAttribute('data-hold')) || 0) * h, items: [].slice.call(s.querySelectorAll('[data-at]')), K: K * (parseFloat(s.getAttribute('data-k')) || 1) };
         // a slow scene (data-k) pans slowly only across itself; the move on to the next scene runs at the normal pace
         p.dx = Math.max(0, next - L); p.dx1 = Math.min(p.dx, Math.max(0, p.W - W)); p.dx2 = p.dx - p.dx1;
-        y += p.hold; p.m0 = y; y += p.dx1 * p.K + p.dx2 * K; p.m1 = y;
+        // data-hold2: the camera also stops at the end of the scene's own pan (addd: the lamp gets out and walks off)
+        p.hold2 = (parseFloat(s.getAttribute('data-hold2')) || 0) * h;
+        y += p.hold; p.m0 = y; y += p.dx1 * p.K + p.hold2 + p.dx2 * K; p.m1 = y;
         return p;
       });
       total = y; return total;
@@ -902,12 +935,14 @@
       plan.forEach(function (p, i) {
         if (y >= p.y0) {
           var u = y - p.m0, a1 = p.dx1 * p.K;
-          x = p.L + (u <= a1 ? clamp(u / p.K, 0, p.dx1) : p.dx1 + clamp((u - a1) / K, 0, p.dx2)); cur = i;
+          x = p.L + (u <= a1 ? clamp(u / p.K, 0, p.dx1) : p.dx1 + clamp((u - a1 - p.hold2) / K, 0, p.dx2)); cur = i;
+          if (p.s === drive) TL_RIDE.h2 = p.hold2 ? clamp((u - a1) / p.hold2, 0, 1) : (u > a1 ? 1 : 0);
         }
         var h = p.hold ? clamp((y - p.y0) / p.hold, 0, 1) : (y >= p.y0 ? 1 : 0);
         p.s.style.setProperty('--h', h.toFixed(3));
         p.items.forEach(function (el) { el.classList.toggle('is-on', h >= (parseFloat(el.getAttribute('data-at')) || 0)); });
         if (p.s === drive) dh = h;
+        if (i === plan.length - 1) TL_RIDE.ob = h;   // ohbrown's hold (the lamp peeks in during it)
       });
       last = cur;
       track.style.transform = 'translate3d(' + (-x).toFixed(1) + 'px,0,0)';
@@ -919,6 +954,7 @@
         var D = [11, 11, 12], Lc = [239, 239, 238];
         root.style.backgroundColor = 'rgb(' + D.map(function (d, i) { return Math.round(d + (Lc[i] - d) * w); }).join(',') + ')';
         root.style.setProperty('--wash', w.toFixed(3));
+        TL_RIDE.t = t;
         // 2024 → ohbrown: the mirror of the above. While the camera moves from the white street to the last scene the
         // screen goes back to near-black, so the ohbrown scene arrives without a hard edge
         if (plan.length > 2) {
@@ -926,6 +962,26 @@
           var w2 = clamp((t2 - .25) / .5, 0, 1); w2 = w2 * w2 * (3 - 2 * w2);
           if (w2 > 0) root.style.backgroundColor = 'rgb(' + Lc.map(function (l, i) { return Math.round(l + (D[i] - l) * w2); }).join(',') + ')';
           root.style.setProperty('--wash2', w2.toFixed(3));
+        }
+        // addd at night: the last stretch of road (one screen and a bit, after the last daytime pole) turns into a
+        // night street. As it comes into view the screen goes to the ohbrown black, its stars fade in and the street
+        // darkens; the move on to ohbrown then needs no change of its own.
+        var dI = drive ? scenes.indexOf(drive) : -1;
+        if (dI > 0) {
+          var dd = plan[dI], nStart = dd.L + dd.W - W * 1.6;
+          var nx = (x + W * .75 - nStart) / (W * .6); TL_RIDE.nx = nx;
+          var nt = clamp(nx, 0, 1); nt = nt * nt * (3 - 2 * nt);
+          var nn = Math.max(nt, parseFloat(root.style.getPropertyValue('--wash2')) || 0);
+          if (nt > 0 && w >= 1) root.style.backgroundColor = 'rgb(' + Lc.map(function (l, i) { return Math.round(l + (D[i] - l) * nn); }).join(',') + ')';
+          // smoothness: --night lives on the addd scene only (not the whole timeline) and moves in 2% steps, so the
+          // street's filters repaint ~50 times over the change instead of on every scroll frame
+          var nq = Math.round(nt * 50) / 50;
+          var sq = Math.round(Math.max(nt, parseFloat(root.style.getPropertyValue('--wash2')) || 0) * 50) / 50;
+          if (sq !== dd.sq) { dd.sq = sq; root.style.setProperty('--sky', sq.toFixed(2)); }
+          if (nq !== dd.nq) {
+            dd.nq = nq; dd.s.style.setProperty('--night', nq.toFixed(2));
+            if (walkerEl) walkerEl.style.filter = nq > 0 ? 'brightness(' + (1 - nq * .35).toFixed(3) + ')' : '';
+          }
         }
         root.style.setProperty('--tl-bg', root.style.backgroundColor);   // the street's end fade uses the live background
       }
@@ -936,6 +992,7 @@
       var d = plan[scenes.indexOf(drive)], rel = Math.min(x - d.L, d.dx1), tw = truck.offsetWidth;   // the truck parks; it does not follow into the next scene
       var spot = W * (0.1 + 0.42 * clamp(rel / Math.max(1, d.W - W), 0, 1));
       var tx = rel + (dh < 1 ? -tw + dh * (spot + tw) : spot);
+      TL_RIDE.dh = dh; TL_RIDE.tx = tx; TL_RIDE.park = rel + spot;
       truck.style.setProperty('--tx', tx.toFixed(1) + 'px');
       truck.style.setProperty('--rot', (tx * 1.4).toFixed(1) + 'deg');
       // 서스펜션: 달리는 동안 차체가 살짝 출렁이고, 속도가 바뀌면 앞뒤로 조금 기울었다가 돌아옵니다
@@ -1005,7 +1062,7 @@
       }).observe(root);
     }
     function report(on) { scenes.forEach(function (s, i) { seen('timeline_scene_view', i, { scene: s.getAttribute('data-label') || String(i) }, on && i === last); }); }
-    return { root: root, measure: measure, update: update, report: report };
+    return { root: root, measure: measure, update: update, report: report, ride: TL_RIDE, svg: tkSvg };
   })();
 
   // Profile → Career: the Career screen slides up over Profile like the steps below (Profile darkens a little).
@@ -1032,8 +1089,11 @@
   // The lamp (lamp.js draws it on .tl-walker, a layer on the stage): when the Profile text has filled in, it peeks in
   // from the right, walks to the middle and stands on the bottom edge of the screen; as Career slides up it jumps
   // down into its place in the 2019 scene (.tl-bulb-slot) and stays there. lamp.js reads walker._walk.
+  // the truck cab's side window, in truck drawing units (viewBox 1448 × 1086)
+  var WIN = [[960, 396], [1122, 394], [1172, 411], [1213, 448], [1242, 489], [1245, 548], [982, 500], [956, 485], [953, 412]];   // the glass only, inside its dark trim
   var wsh = null, walker = stage.querySelector('.tl-walker'), slot = frame.querySelector('.tl-bulb-slot'), lw0 = 0, lh0 = 0;
   function placeLamp(top, fill, inTl) {
+    walker._follow = function () { placeLamp(top, fill, inTl); };
     if (!walker || !slot) return;
     var w = slot.offsetWidth, h = slot.offsetHeight;
     if (!w || !h) return;
@@ -1044,7 +1104,76 @@
     var standY = vh - fy * h - Math.max(28, vh * .05), cx = (vw - w) / 2, x, y, W = { phase: 0, jump: 0, moving: false, home: false, bright: 1 - fill };
     // the walk ends a beat before the jump, so the lamp stands still in the middle of the screen and jumps from there
     var a = rm ? 1 : clamp((top - vh * 1.45) / (vh * .7), 0, 1);
-    if (inTl || rm) { x = sx; y = sy; W.home = inTl; W.jump = 1; W.bright = 0; }
+    var kRide = 0, clip = 'none', rot = 0;
+    if (inTl || rm) {
+      x = sx; y = sy; W.home = inTl; W.jump = 1; W.bright = 0;
+      var RD = TL && TL.ride, tsv = TL && TL.svg, tr = tsv && tsv.getBoundingClientRect();
+      if (inTl && !rm && RD && tr && tr.width) {
+        // truck drawing units (viewBox 1448 wide): the driver's seat behind the side window, the road under the wheels
+        var kk = tr.width / 1448, CX = 1090, CY = 590, GY = 905;
+        // one size on the street and in the cab (the lamp reads ~64% of its box height): its head and spring fill the window
+        var kT = (180 * kk) / (0.64 * h);   // its top sits just under the window's top edge (y ~382)
+        var ox = tr.left - st.left, oy = tr.top - st.top;
+        // the seat rides on the bouncing, leaning body (.tk-body): map it through the body's live screen matrix
+        var bod = tsv.querySelector('.tk-body'), M = bod && bod.getScreenCTM && bod.getScreenCTM();
+        var map = function (q) { return M ? [M.a * q[0] + M.c * q[1] + M.e - st.left, M.b * q[0] + M.d * q[1] + M.f - st.top] : [ox + q[0] * kk, oy + q[1] * kk]; };
+        var seat = map([CX, CY]), lean = M ? Math.atan2(M.b, M.a) : 0;
+        var cabX = seat[0] - w / 2, cabY = seat[1] - fy * h;
+        var parkL = ox + (RD.park - RD.tx);   // where the truck's drawing will be once it stops
+        var gX = parkL + CX * kk - w / 2, gY = oy + GY * kk - fy * h;
+        // A: the jump from the room to the road while the camera pans (the light goes off as it leaves);
+        // B: the hop into the cab, driven by the truck itself: it leaves the road as the nose comes up and drops
+        // in through the window the moment the seat is under it
+        var A = clamp((RD.t - .15) / .75, 0, 1), dR = gX - (ox + CX * kk - w / 2), d0 = 560 * kk;   // timing from the truck's place, not its bounce
+        var B = RD.dh <= 0 ? 0 : dR > 0 ? clamp(.82 * (1 - dR / d0), 0, .82) : 1;   // in its seat (the head's landing wobble is set off in lamp.js as it passes .82)
+        var hop = function (j0, x0, y0, k0, x1, y1, k1, arc) {
+          if (j0 < .18) return [x0, y0, k0];
+          if (j0 < .82) { var f = (j0 - .18) / .64; return [x0 + (x1 - x0) * f, y0 + (y1 - y0) * f - arc * 4 * f * (1 - f), k0 + (k1 - k0) * f]; }
+          return [x1, y1, k1];
+        };
+        var P = null, nx = RD.nx || 0;
+        // both happen while the camera holds at the end of the night street (RD.h2: 0 → 1 over that hold)
+        var h2 = RD.h2 || 0, C = B >= 1 ? clamp((h2 - .05) / .35, 0, 1) : 0, Dw = C >= 1 ? clamp((h2 - .48) / .5, 0, 1) : 0;
+        var outX = ox + 1414 * kk + 70 - w / 2;   // just ahead of the truck's nose
+        if (C > 0) {
+          var endX = vw - w / 2 + kT * w * .5 + 12;   // the lamp's visible width is about half its box
+          if (C < 1) { P = hop(C, cabX, cabY, kT, outX, gY, kT, vh * .22); W.jump = C; }
+          else { var wx = outX + (endX - outX) * Dw; P = [wx, gY, kT]; W.jump = 1; W.phase = (wx - outX) / 26; W.moving = Dw > 0 && Dw < 1; W.dir = 1; }
+        }
+        else if (B > 0) { P = B < .82 ? hop(B, gX, gY, kT, gX, cabY, kT, vh * .2) : [cabX, cabY, kT]; W.jump = B < 1 ? B : 1; }
+        else if (A > 0) { P = hop(A, sx, sy, 1, gX, gY, kT, vh * .22); W.jump = A < 1 ? A : 1; }
+        W.ride = A > 0;
+        // in the cab it shows only through the side window. From the top of the hop on, it is clipped to everything
+        // above the cab roof plus the window (traced from the truck image), so it sinks behind the roof and shows
+        // through the glass. Coordinates are in the lamp box's own space (before its translate and scale).
+        if (P && B >= .5 && C < .5) {
+          var px = P[0], py = P[1], pk = P[2], o1 = w / 2, o2 = fy * h, ra = B >= .82 && C === 0 ? -lean : 0, cs = Math.cos(ra), sn = Math.sin(ra);
+          var loc = function (q) {
+            var m = map(q), dx = m[0] - px - o1, dy = m[1] - py - o2;
+            return (o1 + (dx * cs - dy * sn) / pk).toFixed(1) + ' ' + (o2 + (dx * sn + dy * cs) / pk).toFixed(1);
+          };
+          var sky = [[-4000, -6000], [6000, -6000], [6000, 355], [-4000, 355]];   // above the cab roof (y 355)
+          // once seated, only the window: nothing shows above or around the glass
+          clip = 'path("' + (B < .82 || C > 0 ? 'M' + sky.map(loc).join(' L') + ' Z ' : '') + 'M' + WIN.map(loc).join(' L') + ' Z")';
+        }
+        if (P) { x = P[0]; y = P[1]; kRide = P[2]; W.bright = A; if (B >= .82 && C === 0) rot = lean; }
+        // ohbrown: with the screen held, it peeks in from behind the right edge like someone leaning out from behind a
+        // wall: it stands just off screen and leans in at a slant (the spring in lamp.js bends and boings with it), so
+        // only its head and a bit of spring show, the face turned to the reader. 1.2x its Profile-walk size.
+        // A little more scrolling and it leans back out of sight (in .4–.9 of the scene's hold).
+        var E = Dw >= 1 ? clamp(((RD.ob || 0) - .4) / .5, 0, 1) : 0;
+        W.peek = 0;
+        if (E > 0 && E < 1) {
+          var kP = 1.2 * Math.min(1, 330 / w), Hp = .64 * h * kP;
+          var back = function (t) { var c = 1.9; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };   // overshoot: a springy pop
+          var sE = E < .3 ? back(E / .3) : E < .7 ? 1 : 1 - ease((E - .7) / .3);
+          var cOut = vw + .55 * Hp, cIn = vw + .18 * Hp;
+          x = cOut + (cIn - cOut) * Math.min(1, sE) - w / 2; y = vh - fy * h - Math.max(20, vh * .03);
+          kRide = kP; rot = -.56 * sE; clip = 'none'; W.bright = .5; W.moving = false; W.peek = Math.max(0, Math.min(1, sE));
+          if (walkerEl) walkerEl.style.filter = '';
+        }
+      }
+    }
     else if (fill > 0) {
       // the jump: a short crouch, then an arc from where it stands to its slot (which is rising with Career)
       // a real jump timed to the scroll: crouch, a ballistic arc (even speed sideways,
@@ -1065,7 +1194,7 @@
     walker._walk = W;
     // the lamp is drawn at its 2019 size (the slot); on the Profile screen it walks smaller (~290px wide) and
     // grows to full size during the jump. It scales from its feet, so it still stands on the same line.
-    var kw = Math.min(1, 330 / w), k = (inTl || rm) ? 1 : (fill > 0 ? kw + (1 - kw) * clamp((fill - .02) / .96, 0, 1) : kw);
+    var kw = Math.min(1, 330 / w), k = kRide || ((inTl || rm) ? 1 : (fill > 0 ? kw + (1 - kw) * clamp((fill - .02) / .96, 0, 1) : kw));
     walker.style.transformOrigin = '50% ' + (fy * 100).toFixed(1) + '%';
     // a soft contact shadow under its feet while it walks: wider and lighter as the legs part, tighter and darker as
     // they pass; it fades as the lamp leaves the ground for the jump and is gone once it is home (the floor light takes over)
@@ -1074,9 +1203,10 @@
     wsh.style.top = (fy * 100).toFixed(1) + '%';
     wsh.style.transform = 'translate(-50%,-50%) scaleX(' + (1 + stp * .14).toFixed(3) + ')';
     wsh.style.opacity = (W.home || rm ? 0 : (.9 - stp * .3) * (1 - lift)).toFixed(3);
-    walker.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + k.toFixed(3) + ')';
+    walker.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0)' + (rot ? ' rotate(' + rot.toFixed(4) + 'rad)' : '') + ' scale(' + k.toFixed(3) + ')';
     var wash = TL ? parseFloat(TL.root.style.getPropertyValue('--wash')) || 0 : 0;
-    walker.style.opacity = (1 - wash * .9).toFixed(3);
+    walker.style.opacity = (kRide ? 1 : 1 - wash * .9).toFixed(3);   // riding along: stays fully visible on the white street
+    if (walker._clip !== clip) { walker._clip = clip; walker.style.clipPath = walker.style.webkitClipPath = clip; }
   }
   var lastFill = -1;
   function paintFill(p) {
