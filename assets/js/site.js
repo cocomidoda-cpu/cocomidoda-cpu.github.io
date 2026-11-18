@@ -117,6 +117,14 @@
     function onScroll() {
       var y = window.scrollY, line = window.innerHeight * 0.4, cur = -1;
       hd.classList.toggle('is-solid', y > 20);
+      // 상단바 바로 아래가 흰 배경이면 상단바 배경을 없앱니다
+      var el = document.elementFromPoint(Math.min(40, window.innerWidth - 1), hd.offsetHeight + 2), white = false;
+      while (el && el !== doc) {
+        var bg = getComputedStyle(el).backgroundColor, m = bg.match(/[\d.]+/g);
+        if (m && (m.length < 4 || +m[3] > .5)) { white = +m[0] >= 250 && +m[1] >= 250 && +m[2] >= 250; break; }
+        el = el.parentElement;
+      }
+      hd.classList.toggle('is-clear', white);
       secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= line) cur = i; });
       if (window.innerHeight + y >= doc.scrollHeight - 2) cur = secs.length - 1;
       links.forEach(function (l, i) {
@@ -819,15 +827,30 @@
     var truck = root.querySelector('.tl-truck'), drive = truck ? truck.closest('.tl-scene') : null;
     var street = truck ? truck.closest('.tl-street') : null;
     // City Pink lens light: when the walkers come within reach ahead of the truck, one pink beam grows out of the
-    // roof camera (465, 290 in the truck drawing) toward them; a moment later their measuring boxes appear; once the
+    // roof camera (481, 283 in the truck drawing) toward them; a moment later their measuring boxes appear; once the
     // truck passes them the beam fades out (the boxes stay). Scrolling back before they were reached resets it.
     var tkSvg = truck ? truck.querySelector('.tl-truck-svg') : null;
     var tkBeam = tkSvg ? tkSvg.querySelector('.tl-beam') : null, tkGrad = tkSvg ? tkSvg.querySelector('#tkBeam') : null;
     var beamOn = false, boxT = 0, tkGone = false;
     function boxAll(on) { peds.forEach(function (p, i) { byTruck[i] = on; mark(i); }); }
+    // walkers keep strolling slowly on their own (about 12px a second) while the street is on screen, so the scene
+    // never freezes when the reader stops scrolling; the beam and boxes follow them every frame
+    var wkT = 0, lastY = 0, wkOn = false, wkPrev = 0;
+    function wkTick(now) {
+      if (!wkOn) return;
+      var dt = wkPrev ? Math.min((now - wkPrev) / 1000, .1) : 0; wkPrev = now;
+      if (wkT < 320) { wkT = Math.min(320, wkT + dt * 12); update(lastY); }
+      requestAnimationFrame(wkTick);
+    }
+    if (!rm && drive && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        var v = es[0].isIntersecting;
+        if (v && !wkOn) { wkOn = true; wkPrev = 0; requestAnimationFrame(wkTick); } else if (!v) wkOn = false;
+      }).observe(drive);
+    }
     function aimBeam() {
       if (!tkBeam) return;
-      var LX = 465, LY = 290, sr = tkSvg.getBoundingClientRect(), k = sr.width / 1448;
+      var LX = 481, LY = 283, sr = tkSvg.getBoundingClientRect(), k = sr.width / 1448;
       if (!k) return;
       var x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
       drive.querySelectorAll('.tl-people .tl-box').forEach(function (bx) {
@@ -838,14 +861,14 @@
       var lensX = sr.left + LX * k, tx = ((x0 + x1) / 2 - sr.left) / k, ty0 = (y0 - sr.top) / k, ty1 = (y1 - sr.top) / k, cy = (ty0 + ty1) / 2;
       tkBeam.setAttribute('points', LX + ',' + LY + ' ' + tx.toFixed(0) + ',' + ty0.toFixed(0) + ' ' + tx.toFixed(0) + ',' + ty1.toFixed(0));
       if (tkGrad) { tkGrad.setAttribute('x2', tx.toFixed(0)); tkGrad.setAttribute('y2', cy.toFixed(0)); }
-      var passed = (x0 + x1) / 2 < lensX + 60, reach = x0 - lensX < W * 0.36;   // switches on only once the truck is this close (about a third of the screen)
+      var passed = (x0 + x1) / 2 < lensX + 60, reach = x0 - lensX < W * 0.6;   // switches on only once the truck is this close (about a third of the screen)
       // once the truck has driven over the walkers and its rear is past them, their boxes go away
       var gone = x1 < sr.left + 60 * k;
       if (gone !== tkGone) { tkGone = gone; peds.forEach(function (p, i) { mark(i); }); }
       var on = !passed && reach;
       if (on && !beamOn) {
         beamOn = true; tkSvg.classList.add('is-aim'); clearTimeout(boxT);
-        boxT = setTimeout(function () { if (beamOn) boxAll(true); }, rm ? 0 : 650);   // boxes once the beam has reached them
+        boxT = setTimeout(function () { if (beamOn) boxAll(true); }, rm ? 0 : 1300);   // boxes once the beam has reached them
       } else if (!on && beamOn) {
         beamOn = false; tkSvg.classList.remove('is-aim'); clearTimeout(boxT);
         boxAll(passed);   // passed: they stay measured; scrolled back: boxes go again
@@ -875,7 +898,7 @@
       total = y; return total;
     }
     function update(y) {
-      var x = 0, cur = 0, dh = 0; y = clamp(y, 0, total);
+      var x = 0, cur = 0, dh = 0; y = clamp(y, 0, total); lastY = y;
       plan.forEach(function (p, i) {
         if (y >= p.y0) {
           var u = y - p.m0, a1 = p.dx1 * p.K;
@@ -896,6 +919,15 @@
         var D = [11, 11, 12], Lc = [239, 239, 238];
         root.style.backgroundColor = 'rgb(' + D.map(function (d, i) { return Math.round(d + (Lc[i] - d) * w); }).join(',') + ')';
         root.style.setProperty('--wash', w.toFixed(3));
+        // 2024 → ohbrown: the mirror of the above. While the camera moves from the white street to the last scene the
+        // screen goes back to near-black, so the ohbrown scene arrives without a hard edge
+        if (plan.length > 2) {
+          var pa = plan[plan.length - 2], t2 = pa.dx2 ? clamp((x - (pa.L + pa.dx1)) / pa.dx2, 0, 1) : (x >= plan[plan.length - 1].L ? 1 : 0);
+          var w2 = clamp((t2 - .25) / .5, 0, 1); w2 = w2 * w2 * (3 - 2 * w2);
+          if (w2 > 0) root.style.backgroundColor = 'rgb(' + Lc.map(function (l, i) { return Math.round(l + (D[i] - l) * w2); }).join(',') + ')';
+          root.style.setProperty('--wash2', w2.toFixed(3));
+        }
+        root.style.setProperty('--tl-bg', root.style.backgroundColor);   // the street's end fade uses the live background
       }
       if (typer) typer();
       if (fill) fill.style.setProperty('--p', (total ? y / total : 0).toFixed(4));
@@ -920,7 +952,7 @@
       // the group reacts together: once the truck reaches the nearest walker, all of them turn and get boxed
       var near = Infinity;
       peds.forEach(function (p, i) {
-        var walk = rm ? 0 : Math.min(rel * (0.09 + i * 0.012) * 1.1, 165);   // 1.1× the earlier pace
+        var walk = rm ? 0 : Math.min(rel * (0.09 + i * 0.012) * 1.1, 165) + wkT * (1 + i * 0.1);   // scroll pace + a slow stroll over time
         p.style.setProperty('--walk', walk.toFixed(1) + 'px');
         p.style.setProperty('--bob', (rm ? 0 : -Math.abs(Math.sin(walk / 16)) * 2.5).toFixed(2) + 'px');
         near = Math.min(near, (p.getBoundingClientRect().left - sx + walk) - front);

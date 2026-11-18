@@ -4104,8 +4104,6 @@ a.tl-card:focus-visible{outline:2px solid var(--ux-ink);outline-offset:3px}
   .u216 .hero-foot{order:3;margin-top:16px}
   .u216 .hero-photo{order:4}
 }
-/* header: the same frosted blur over the hero too (no tint until it turns solid) */
-.u212-hd{backdrop-filter:blur(18px) saturate(1.2);-webkit-backdrop-filter:blur(18px) saturate(1.2)}
 @media (min-width:861px){.u216 .hero-photo{grid-row:1/4!important;height:min(64vh,620px,calc(100svh - 300px))!important}.u216 .hero-in>.hero-intro{position:relative;z-index:2}}
 
 /* Footer "Get in Touch": hidden at first, then each word slides up out of its own line, one after another */
@@ -4144,3 +4142,437 @@ html,body{overscroll-behavior-y:none}
 /* media pole screens: the main page's moving gray surface (hero-gl.js draws it into .tl-sign-gl); same size as before */
 #about .ab-tl .tl-sign .tl-sign-screen{background:#E3E3E1!important;animation:none!important;overflow:hidden}
 #about .ab-tl .tl-sign .tl-sign-gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+/* ===== Hero back to the v1.8 layout (.hero-v18): intro top-right with the role line above it, the results label with
+   its rule, the full-width headline at the bottom, scroll arrow centred. Values copied from v1.8; later hero rules
+   (photo layouts, grid, 4.4vw margins) are switched off here. Background (moving gray) and header stay as they are. */
+.u216.hero-v18 .hero-in{display:flex!important;flex-direction:column!important;justify-content:flex-start!important;gap:0!important;
+  position:relative!important;z-index:1;min-height:inherit;width:100%;max-width:1440px!important;margin:0 auto!important;
+  padding:clamp(140px,26vh,260px) 20px clamp(64px,10vh,96px)!important;grid-template-columns:none!important;grid-template-rows:none!important}
+@media (min-width:768px){.u216.hero-v18 .hero-in{padding-left:32px!important;padding-right:32px!important}}
+@media (min-width:1100px){.u216.hero-v18 .hero-in{padding-left:64px!important;padding-right:64px!important}}
+.u216.hero-v18 .hero-top{display:grid;grid-template-columns:1fr 1fr;margin-bottom:auto}
+.u216.hero-v18 .hero-pos{margin:0 0 14px!important;padding:0!important;border:0!important;font-size:clamp(15px,1.5vw,18px)!important;line-height:normal!important;font-weight:600!important;letter-spacing:-.01em!important;color:var(--ux-ink)}
+.u216.hero-v18 .hero-intro{grid-column:2;max-width:640px!important;margin:0!important;font-size:clamp(18px,1.55vw,26px)!important;line-height:1.32!important;font-weight:500!important;letter-spacing:-.02em!important;text-align:left!important;white-space:normal!important;color:var(--ux-ink)}
+.u216.hero-v18 .u216-h{max-width:none;margin:clamp(18px,3vh,36px) 0 0!important;font-size:clamp(56px,11.2vw,208px)!important;line-height:.86!important;font-weight:500;letter-spacing:-.055em;white-space:nowrap!important;text-align:left!important}
+.u216.hero-v18 .u216-h .u216-ln{display:inline!important}
+.u216.hero-v18 .u216-h .u216-ln+.u216-ln::before{content:" "!important}
+.u216.hero-v18 .hero-down{display:grid!important;position:absolute!important;left:50%!important;bottom:clamp(14px,2.6vh,28px)!important;margin:0 0 0 -22px!important}
+@media (max-width:860px){
+  .u216.hero-v18 .hero-top{grid-template-columns:1fr}
+  .u216.hero-v18 .hero-intro{grid-column:1;max-width:520px!important}
+  .u216.hero-v18 .u216-h{font-size:clamp(58px,17vw,96px)!important}
+  .u216.hero-v18 .u216-h .u216-ln{display:block!important}
+  .u216.hero-v18 .u216-h .u216-ln+.u216-ln::before{content:none!important}
+}
+
+/* ===== About intro like the "Quick intro" reference: small label at the top, the two sentences as one large
+   left-aligned paragraph, small English keywords under it on the left, and the profile photo bottom-right,
+   standing on the screen's bottom edge. The fill-in animation still runs over the paragraph. */
+#about .ab-intro-main{justify-content:flex-start!important;align-items:stretch!important}
+#about .ab-intro .ab-profile{margin:0!important;padding:0!important;width:100%;max-width:none!important}
+#about .ab-intro .ab-profile .ab-body{display:block}
+#about .ab-qi-k,#about .ab-qi-tags{margin:0;font-size:14px;line-height:1.5;font-weight:500;letter-spacing:.02em;text-transform:uppercase;color:#111}
+#about .ab-qi-k{margin:clamp(8px,2vh,24px) 0 clamp(28px,4.4vh,48px)}
+#about .ab-intro .ab-fill-t,#about .ab-intro .ab-fill-b{max-width:none!important;margin:0!important;text-align:left!important;
+  font-size:clamp(24px,2.1vw,42px)!important;line-height:1.35!important;font-weight:500!important;letter-spacing:-.025em!important}
+#about .ab-qi-tags{margin-top:clamp(28px,4.4vh,48px)}
+#about .ab-qi-ph{position:absolute;z-index:1;bottom:0;right:calc(max(0px,(100% - 1440px) / 2) + 64px);margin:0;
+  height:min(54vh,calc(100% - 430px));aspect-ratio:1122/1402}
+#about .ab-qi-ph img{display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom}
+@media (max-width:1099px){#about .ab-qi-ph{right:32px}}
+@media (max-width:899px){
+  #about .ab-intro .ab-fill-t,#about .ab-intro .ab-fill-b{font-size:clamp(18px,4.6vw,24px)!important}
+  #about .ab-qi-ph{position:relative;right:auto;height:min(40svh,360px);margin:24px 0 0 auto}
+}
+/* v1.8 hero headline never runs past the right margin: its largest size is the one where "Designed to Action."
+   exactly fills the 1312px content width (it used to grow to 208px and overflow on wide screens) */
+@media (min-width:861px){.u216.hero-v18 .u216-h{font-size:clamp(56px,11.2vw,172px)!important}}
+/* header margins follow the page's content margins at every width (20 → 32 → 64px, centred in 1440px), so the logo and
+   the WORKS pill line up with the hero text below */
+.u212-hd{padding:0 20px!important}
+@media (min-width:768px){.u212-hd{padding:0 32px!important}}
+@media (min-width:1100px){.u212-hd{padding:0 calc(max(0px,(100vw - 1440px) / 2) + 64px)!important}}
+/* ===== Full-bleed main grid (like the reference): one fluid side margin for the header and the hero, the hero spans
+   the whole window, and "Designed to Action." is sized from the hero's own content width (container units), so it
+   fills edge to edge on any monitor, scrollbar or not. Two columns split at the centre line. */
+:root{--hm:clamp(20px,2.4vw,48px)}
+.u212-hd{padding:0 var(--hm)!important}
+.u216.hero-v18 .hero-in{max-width:none!important;padding-left:var(--hm)!important;padding-right:var(--hm)!important;container-type:inline-size}
+@media (min-width:861px){
+  .u216.hero-v18 .u216-h{font-size:calc(100cqw / 7.54)!important}
+  .u216.hero-v18 .hero-top{grid-template-columns:1fr 1fr;column-gap:var(--hm)}
+  .u216.hero-v18 .hero-intro{max-width:none!important}
+}
+
+/* ===== About intro v2, closer to the "Quick intro" reference: everything starts on an inset line (about 18% in, like
+   the reference), the label sits at the top, the two sentences read as one large paragraph, the keywords sit under it
+   on the left and the rectangular photo fills the bottom-right cell down to a small bottom margin. */
+@media (min-width:900px){
+  #about .ab-flow .ab-intro{padding-bottom:clamp(24px,4vh,40px)!important}
+  #about .ab-intro-main{flex:1;min-height:0}
+  #about .ab-intro .ab-profile{flex:1;display:flex!important;min-height:0}
+  #about .ab-intro .ab-profile .ab-body{flex:1;display:grid!important;min-height:0;
+    grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto minmax(0,1fr);column-gap:clamp(24px,3vw,56px);
+    padding-left:17.5%}
+  #about .ab-qi-k{grid-column:1/-1;grid-row:1;margin:clamp(8px,2vh,24px) 0 clamp(28px,4.4vh,48px)!important}
+  #about .ab-intro .ab-fill-t{grid-column:1/-1;grid-row:2}
+  #about .ab-intro .ab-fill-b{grid-column:1/-1;grid-row:2;margin-top:1.35em!important}
+  #about .ab-intro .ab-fill-t,#about .ab-intro .ab-fill-b{font-size:clamp(24px,2.35vw,46px)!important;line-height:1.35!important;font-weight:400!important;letter-spacing:-.03em!important;color:#1A1A1A}
+  #about .ab-qi-tags{grid-column:1;grid-row:3;align-self:start;margin-top:clamp(28px,4.4vh,44px)!important}
+  #about .ab-qi-ph{position:static!important;grid-column:2;grid-row:3;align-self:stretch;justify-self:end;
+    height:auto!important;max-height:none;margin:clamp(28px,4.4vh,44px) 0 0!important;aspect-ratio:1070/1470;min-height:0}
+  #about .ab-qi-ph img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+}
+@media (max-width:899px){
+  #about .ab-qi-ph{position:relative;right:auto;height:auto;width:min(70vw,320px);aspect-ratio:1070/1470;margin:24px 0 0 auto}
+  #about .ab-qi-ph img{width:100%;height:100%;object-fit:cover}
+}
+@media (min-width:900px){
+  #about .ab-intro .ab-profile .ab-body{grid-template-rows:auto auto auto minmax(0,1fr)!important}
+  #about .ab-intro .ab-fill-b{grid-row:3!important;margin-top:0!important}
+  #about .ab-qi-tags{grid-row:4!important}
+  #about .ab-qi-ph{grid-row:4!important}
+}
+/* the About intro uses the same full-bleed side margins as the main hero, so its inset line and the photo's right
+   edge sit on the main grid */
+@media (min-width:900px){#about .ab-flow .ab-intro{padding-left:var(--hm)!important;padding-right:var(--hm)!important}}
+@media (min-width:900px){#about .ab-intro .ab-profile .ab-body{width:100%!important;max-width:none!important;box-sizing:border-box}}
+
+/* ===== About intro v3, matching the "Chapter I / Quick intro" reference: two halves. Left: a serif chapter title at
+   the top. Right (from 52% of the width): the label, the paragraph (natural wrapping), the keywords under it, and the
+   black-and-white 3:4 photo at the right edge, standing on the bottom margin. */
+#about .ab-qi-ch{display:none}
+@media (min-width:900px){
+  #about .ab-intro .ab-profile .ab-body{padding-left:0!important;
+    grid-template-columns:minmax(0,52fr) minmax(0,48fr)!important;grid-template-rows:auto auto auto minmax(0,1fr)!important;column-gap:0!important}
+  #about .ab-qi-ch{display:block;grid-column:1;grid-row:1/3;align-self:start;margin:0;
+    font-family:var(--serif);font-size:clamp(28px,1.85vw,40px);font-weight:400;line-height:1;letter-spacing:-.01em;text-transform:uppercase;color:#111}
+  #about .ab-qi-k{grid-column:2!important;grid-row:1!important;margin:0 0 clamp(20px,3vh,32px)!important;font-size:13px!important}
+  #about .ab-intro .ab-fill-t{grid-column:2!important;grid-row:2!important}
+  #about .ab-intro .ab-fill-b{grid-column:2!important;grid-row:3!important}
+  #about .ab-intro .ab-fill-t,#about .ab-intro .ab-fill-b{font-size:clamp(20px,1.62vw,34px)!important;line-height:1.32!important;letter-spacing:-.02em!important}
+  #about .ab-intro .ab-fill-b br{display:none}
+  #about .ab-qi-tags{grid-column:2!important;grid-row:4!important;justify-self:start;font-size:13px!important;margin-top:clamp(16px,2.6vh,28px)!important}
+  #about .ab-qi-ph{grid-column:2!important;grid-row:4!important;justify-self:end;margin-top:clamp(16px,2.6vh,28px)!important;aspect-ratio:3/4!important}
+  #about .ab-qi-ph img{object-position:50% 0!important}
+}
+
+/* About intro v4: the reference's bottom-left note and "More about me →" link, and its type sizes scaled to the
+   window (reference at 2000px: chapter 40, label 15, paragraph 44, quote 16, note 20, link 32) */
+#about .ab-qi-note,#about .ab-qi-more{display:none}
+@media (min-width:900px){
+  #about .ab-qi-ch{font-size:clamp(28px,2vw,44px)!important}
+  #about .ab-qi-k{font-size:clamp(12px,.75vw,16px)!important}
+  #about .ab-intro .ab-fill-t,#about .ab-intro .ab-fill-b{font-size:clamp(24px,2.2vw,46px)!important;line-height:1.3!important}
+  #about .ab-qi-tags{font-size:clamp(12px,.8vw,17px)!important;line-height:1.4!important}
+  #about .ab-qi-note{display:block;grid-column:1;grid-row:4;align-self:end;margin:0;font-size:clamp(15px,1vw,21px);line-height:1.5;font-weight:400;letter-spacing:-.01em;color:#222}
+  #about .ab-qi-more{display:inline-flex;align-items:center;gap:.35em;grid-column:2;grid-row:4;align-self:end;justify-self:start;
+    font-size:clamp(22px,1.6vw,34px);font-weight:400;letter-spacing:-.02em;line-height:1.2;color:#111;text-decoration:none}
+  #about .ab-qi-more span{transition:transform .25s ease}
+  @media (hover:hover){#about .ab-qi-more:hover span{transform:translateX(4px)}}
+  #about .ab-qi-more:focus-visible{outline:2px solid #111;outline-offset:4px}
+}
+
+/* About intro v5: the reference's proportions on one screen. The paragraph keeps to four lines (1.65vw) so the
+   photo, in colour and uncropped (3:4), starts at about 37% of the height and reaches the bottom margin like the
+   reference; the label, keywords, note and link keep the reference's sizes. */
+@media (min-width:900px){
+  #about .ab-intro .ab-fill-t,#about .ab-intro .ab-fill-b{font-size:clamp(22px,1.65vw,36px)!important;line-height:1.32!important}
+  #about .ab-qi-ph img{object-fit:cover;object-position:50% 50%!important;filter:none!important}
+}
+/* reference side margins for this screen: 8.8% left, 4.5% right; the right column starts at 52.8% of the width */
+@media (min-width:900px){
+  #about .ab-flow .ab-intro{padding-left:8.8vw!important;padding-right:4.5vw!important}
+  #about .ab-intro .ab-profile .ab-body{grid-template-columns:minmax(0,50.75fr) minmax(0,49.25fr)!important}
+}
+@media (min-width:900px){#about .ab-flow .ab-intro{padding-bottom:6.8vh!important}}
+
+/* About intro: one paragraph (the self-introduction), 0.8x the previous size; it starts right under the top line */
+@media (min-width:900px){
+  #about .ab-intro .ab-fill-b{grid-row:1/4!important;align-self:start;font-size:clamp(18px,1.32vw,29px)!important;line-height:1.5!important}
+}
+/* 2024 → ohbrown: the ohbrown scene no longer brings its own black block; the screen itself darkens (--wash2, set by
+   site.js) while the street fades out and the ohbrown stars/glow fade in */
+#about .ab-tl.tl-on .tl-next,#about .ab-tl .tl-next{background:transparent!important}
+#about .ab-tl .tl-ob-bg{opacity:var(--wash2,0)}
+#about .ab-tl .tl-addd{opacity:calc(1 - var(--wash2,0) * .9)}
+
+/* ===== Hero v19 (user's layout): two-line title top-left ("Design to" sans / "Action." serif italic), the profile photo
+   as a full-height column on the right, the four keywords bottom-left and the one-line-pair statement at the start of
+   the middle column. 3-column grid: 37fr | 33fr | photo (30% of the width, or 3:4 of the free height if smaller).
+   Spacing follows an 8px rhythm; the photo is black-and-white and turns back to colour on hover. */
+.u216.hero-v19{--hx:clamp(20px,4.8vw,96px);--ht:clamp(112px,17.8vh,200px);--hb:clamp(48px,7.8vh,80px)}
+.u216.hero-v19 .hero-in{display:grid!important;position:relative!important;z-index:1;width:100%;max-width:none!important;margin:0!important;
+  min-height:100svh;box-sizing:border-box;padding:var(--ht) var(--hx) var(--hb)!important;container-type:inline-size;
+  grid-template-columns:minmax(0,37fr) minmax(0,33fr) min(30%,calc((100svh - var(--ht) - var(--hb)) * .75))!important;
+  grid-template-rows:auto minmax(32px,1fr) auto!important;gap:0!important}
+.u216.hero-v19 .u216-h{grid-column:1/3;grid-row:1;align-self:start;margin:0!important;max-width:none;white-space:nowrap!important;text-align:left!important;
+  font-size:calc(100cqw * .134)!important;line-height:.96!important;font-weight:500;letter-spacing:-.05em;color:var(--ux-ink)}
+.u216.hero-v19 .u216-h .u216-ln{display:block!important}
+.u216.hero-v19 .u216-h .u216-ln+.u216-ln::before{content:none!important}
+.u216.hero-v19 .hero-kw{grid-column:1;grid-row:3;align-self:end;margin:0;padding:0;list-style:none;display:grid;row-gap:clamp(8px,1.6vh,24px);
+  font-size:clamp(17px,1.28vw,24px);line-height:1.3;font-weight:400;letter-spacing:-.01em;color:var(--ux-ink)}
+.u216.hero-v19 .hero-sub{grid-column:2;grid-row:3;align-self:center;margin:0;padding-right:clamp(24px,5.6vw,104px);
+  font-size:clamp(18px,1.5vw,28px);line-height:1.5;font-weight:500;letter-spacing:-.02em;color:var(--ux-ink);text-wrap:balance}
+.u216.hero-v19 .hero-ph{grid-column:3;grid-row:1/-1;align-self:stretch;margin:0;overflow:hidden;border-radius:6px;background:#d9d9d8}
+.u216.hero-v19 .hero-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 20%;
+  filter:grayscale(1);transition:filter .6s cubic-bezier(.2,.7,.2,1)}
+@media (hover:hover){.u216.hero-v19 .hero-ph:hover img{filter:grayscale(0)}}
+@media (prefers-reduced-motion:reduce){.u216.hero-v19 .hero-ph img{transition:none}}
+.u216.hero-v19 .hero-down{display:grid!important;position:absolute!important;left:50%!important;bottom:clamp(8px,1.6vh,24px)!important;margin:0 0 0 -22px!important}
+@media (max-width:860px){
+  .u216.hero-v19{--ht:clamp(96px,14vh,128px);--hb:72px}
+  .u216.hero-v19 .hero-in{min-height:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:auto auto auto!important;
+    row-gap:32px!important;column-gap:24px!important}
+  .u216.hero-v19 .u216-h{grid-column:1/-1;font-size:calc(100cqw * .215)!important}
+  .u216.hero-v19 .hero-ph{grid-column:1/-1;grid-row:2;aspect-ratio:3/4;width:min(100%,420px)}
+  .u216.hero-v19 .hero-sub{grid-column:1/-1;grid-row:3;padding-right:0;font-size:clamp(17px,4.6vw,20px)}
+  .u216.hero-v19 .hero-kw{grid-column:1/-1;grid-row:4;display:flex;flex-wrap:wrap;column-gap:16px;row-gap:8px;font-size:16px}
+}
+/* hero v19 title: both lines on the same 0.96em pitch (the serif italic line was taller), and the cap top of "Design"
+   pulled up to the photo's top edge */
+.u216.hero-v19 .u216-h{margin-top:-.127em!important}
+.u216.hero-v19 .u216-h .u216-ln{height:.96em}
+/* hero v19 photo: large rounded corners like the user's layout, and no backing colour, so the cut-out photo's background
+   (kept at 70% opacity in the image file) lets the moving gray hero surface show through; the person stays opaque */
+.u216.hero-v19 .hero-ph{border-radius:clamp(20px,2.4vw,48px);background:transparent}
+.u216.hero-v19 .hero-ph img{border-radius:inherit}
+/* hero v19 photo crop matched to the user's layout: at the reference size (510×695) the hair spans about 72% of the
+   width and the eyes sit about a third of the way down, so the cover-fitted image is zoomed 5.8% around the point
+   (28%, 41%). Still cover-fitted first, so no gap at any aspect. Tone: a soft black-and-white (slightly brighter, slightly
+   lower contrast) rather than a hard ID-photo look; on hover it returns to the original colour and tone. */
+.u216.hero-v19 .hero-ph{isolation:isolate}
+.u216.hero-v19 .hero-ph img{border-radius:0;object-position:50% 50%;transform:scale(1.058);transform-origin:28% 41%;
+  filter:grayscale(1) brightness(1.06) contrast(.93)}
+@media (hover:hover){.u216.hero-v19 .hero-ph:hover img{filter:grayscale(0) brightness(1) contrast(1)}}
+/* hero v19 photo: whole image moved 10px left inside the crop, so the face reads centred left to right */
+.u216.hero-v19 .hero-ph img{transform:translateX(-10px) scale(1.058)}
+/* hero v19 photo in two layers: the studio background (its own image, 70% opacity, black-and-white only) under the
+   cut-out person (brightened and softened). The background no longer gets the brightening, so the moving gray surface
+   behind keeps showing through it. Both layers share the crop and the hover-to-colour. */
+.u216.hero-v19 .hero-ph{position:relative}
+.u216.hero-v19 .hero-ph img.hero-ph-bg{position:absolute;inset:0;opacity:.7;filter:grayscale(1)}
+@media (hover:hover){.u216.hero-v19 .hero-ph:hover img.hero-ph-bg{filter:grayscale(0)}}
+.u216.hero-v19 .hero-ph img.hero-ph-p{position:relative}
+/* bottom row: the statement's last line sits on the same baseline as "AI Literacy", so the keywords, the statement and
+   the photo share one bottom line */
+.u216.hero-v19 .hero-kw,.u216.hero-v19 .hero-sub{align-self:last baseline}
+@media (max-width:860px){.u216.hero-v19 .hero-kw,.u216.hero-v19 .hero-sub{align-self:start}}
+/* ===== About intro, statement only (like the "Work seamlessly…" reference): one centred paragraph in the middle of
+   the page. Size sits between the hero statement (28px) and the page's large titles: 26 → 40px. Weight 500, halfway
+   between regular (400) and semibold (600). The word-by-word fill still runs over it. */
+@media (min-width:900px){
+  #about .ab-flow .ab-intro{padding-left:var(--hm)!important;padding-right:var(--hm)!important}
+  #about .ab-intro .ab-profile .ab-body{display:flex!important;flex-direction:column;justify-content:center;align-items:center;
+    padding:0 0 4vh!important;grid-template-columns:none!important;grid-template-rows:none!important}
+  #about .ab-intro .ab-fill-b{grid-row:auto!important;align-self:center!important;max-width:min(1180px,74vw)!important;margin:0 auto!important;
+    text-align:center!important;font-size:clamp(26px,2.15vw,40px)!important;line-height:1.3!important;font-weight:500!important;
+    letter-spacing:-.03em!important;text-wrap:balance}
+}
+@media (max-width:899px){
+  #about .ab-intro .ab-fill-b{text-align:center!important;font-weight:500!important;line-height:1.4!important;text-wrap:pretty}
+}
+/* header over a white area: no background, blur or shadow (it keeps the frosted bar over gray and dark areas) */
+.u212-hd.is-solid.is-clear{background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:none!important}
+/* ===== About intro: the statement moves to the upper part of the page (like the "Work seamlessly…" reference) and a
+   giant "About Me" fills the bottom edge to edge, light gray fading out downward (like the "Off/Menu" wordmark and the
+   addd building fade). Decorative only (aria-hidden); sized from the intro's content width so it always spans it. */
+#about .ab-flow .ab-intro{container-type:inline-size}
+#about .ab-big{position:absolute;left:var(--hm);right:var(--hm);bottom:0;z-index:0;margin:0;pointer-events:none;user-select:none;
+  white-space:nowrap;text-align:center;font-family:var(--sans,inherit);font-weight:700;letter-spacing:-.055em;line-height:.8;
+  font-size:calc(100cqw * .2667);
+  background:linear-gradient(180deg,#C2C2C2 0%,#D6D6D6 45%,rgba(255,255,255,0) 96%);-webkit-background-clip:text;background-clip:text;color:transparent}
+#about .ab-intro-main{position:relative;z-index:1}
+@media (min-width:900px){
+  #about .ab-intro .ab-profile .ab-body{justify-content:flex-start!important;padding:clamp(72px,12vh,160px) 0 0!important}
+}
+@media (max-width:899px){
+  #about .ab-flow .ab-intro{padding-bottom:calc((100cqw - 2 * var(--hm)) * .2)!important}
+}
+/* "About Me": "Me" in the serif italic used for the hero's "Action." (mix of sans bold + serif italic) */
+#about .ab-big em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.02em}
+/* optical centring: the italic "e" overhangs on the right and the "A" has a left side bearing, so nudge left 0.02em */
+#about .ab-big{transform:translateX(-.02em)}
+/* timeline headers (공간조명, addd): "Career Path" mixed like "About Me" — "Career" sans bold, "Path" serif italic */
+#about .ab-tl .tl-career{font-family:Pretendard,sans-serif;font-style:normal;font-weight:700;letter-spacing:-.04em}
+#about .ab-tl .tl-career em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.02em}
+/* "Career Path" is longer than "Career": on narrow screens it is capped so it fits the header column */
+@media (max-width:899px){#about .ab-tl .tl-career{font-size:min(calc(clamp(56px,6.4vw,104px) - 3px),12.5vw)!important}}
+/* "Career Path" fix: an old rule (.tl-year em → 72–164px) was blowing "Path" up; it now keeps the line's size. "Career"
+   follows the hero headline's mix instead of a heavy bold — weight 500, tracking -.05em — and the line is 0.8× the old
+   "Career" size so it keeps the same visual weight next to the company name. */
+#about .ab-tl .tl-career{font-size:calc((clamp(56px,6.4vw,104px) - 3px) * .8);font-weight:500;letter-spacing:-.05em}
+#about .ab-tl .tl-addd-hd .tl-career{font-size:calc((clamp(56px,6.4vw,104px) - 3px) * .8)}
+@media (max-height:860px){#about .ab-tl .tl-addd-hd .tl-career{font-size:calc(clamp(44px,8.5vh,80px) * .8)}}
+#about .ab-tl .tl-career em{font-size:1em!important}
+
+/* ===== addd street, quieter and softer so the City Pink truck leads (clay-like: matte surfaces, light from above,
+   rounded edges, soft shadows; one cool slate-gray family instead of warm black + blue asphalt + flat gray) ===== */
+/* truck 1.15× (its screen text is inside the SVG, so it scales with it); the wheels stay on the same road line */
+#about .ab-tl .tl-truck{width:clamp(322px,32.2vw,552px)!important;bottom:calc(-34px - clamp(322px,32.2vw,552px) * .1492)!important}
+#about .ab-tl .tl-truck .tl-beam{transform-origin:481px 283px}
+/* road: matte slate, lighter than before, no grain; lit from the top edge */
+#about .ab-tl .tl-road{animation:none!important;background:
+  linear-gradient(180deg,rgba(255,255,255,.14) 0,rgba(255,255,255,0) 6px),
+  linear-gradient(180deg,#70737B 0%,#63666E 55%,#5A5D64 100%)!important}
+#about .ab-tl .tl-road::before{background:rgba(40,42,48,.18)!important}
+#about .ab-tl .tl-road::after{background:repeating-linear-gradient(90deg,#E4E6EA 0 36px,transparent 36px 84px)!important;opacity:.55!important;border-radius:1px}
+/* curb and rail: soft rounded top, pale slate */
+#about .ab-tl .tl-curb{background:linear-gradient(180deg,#EEEFF2 0%,#D9DBE0 100%)!important;border-radius:6px 6px 0 0;box-shadow:0 -1px 0 rgba(255,255,255,.7) inset,0 3px 6px -3px rgba(40,44,52,.18)}
+#about .ab-tl .tl-rail{background:linear-gradient(#B9BCC3,#B9BCC3) 0 0/100% 5px no-repeat,repeating-linear-gradient(90deg,#B9BCC3 0 6px,transparent 6px 150px) 0 0/100% 100% no-repeat!important}
+/* media poles: mid slate instead of near-black, shaded like a rounded column, soft corners and a soft drop shadow */
+#about .ab-tl .tl-sign-head,#about .ab-tl .tl-sign-base{background:
+  linear-gradient(90deg,#6A6E77 0%,#8D919A 24%,#9DA1A9 34%,#858991 52%,#71757D 80%,#62666E 100%)!important}
+#about .ab-tl .tl-sign-head{border-radius:6px 6px 0 0!important}
+#about .ab-tl .tl-sign .tl-sign-screen{border-color:#767A83!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)!important}
+#about .ab-tl .tl-street .tl-sign{filter:drop-shadow(0 6px 10px rgba(40,44,52,.14))}
+/* walkers: lighter, softer gray with a soft shadow, so they read as background figures */
+#about .ab-tl .tl-wk-in img{opacity:1!important;filter:brightness(1.32) drop-shadow(0 2px 4px rgba(40,44,52,.12))}
+/* addd street ends right after the last pole's building: the scene is shortened by the leftover stretch (the last,
+   lone building and the empty road after it). Street objects keep their exact positions: they are placed against the
+   previous scene width (--ad-b) instead of the street's own 100%, which is now shorter. */
+#about .ab-tl.tl-on .tl-addd{--ad-b:calc(max(calc(var(--tl-w) * 1.7), calc(var(--pole-x) + var(--tl-w) * .55)) - 100px - var(--tl-w) * .2);
+  flex-basis:calc(var(--st-x) + (var(--ad-b) - var(--st-x)) * .8 + 120px + 24px)!important}
+#about .ab-tl.tl-on .tl-addd .tl-street [style*="--f"]{left:calc(var(--st-x) + (var(--ad-b) - var(--st-x)) * var(--f))}
+#about .ab-tl .tl-addd .tl-bldg[style*="--f:0.912"]{display:none!important}
+/* road close to black (same matte look, faint top light) */
+#about .ab-tl .tl-road{background:
+  linear-gradient(180deg,rgba(255,255,255,.08) 0,rgba(255,255,255,0) 6px),
+  linear-gradient(180deg,#26272A 0%,#1D1E20 55%,#17181A 100%)!important}
+#about .ab-tl .tl-road::before{background:rgba(0,0,0,.3)!important}
+/* addd street end: the street stops exactly at the last building's right edge (no stub of road/curb/rail sticking out
+   during the change to the next scene), and its last stretch fades out instead of ending on a hard cut */
+#about .ab-tl.tl-on .tl-addd{flex-basis:calc(var(--st-x) + (var(--ad-b) - var(--st-x)) * .8 + 120px)!important}
+#about .ab-tl .tl-addd .tl-curb,#about .ab-tl .tl-addd .tl-rail,#about .ab-tl .tl-addd .tl-road{
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 140px),transparent 100%)!important;mask-image:linear-gradient(90deg,#000 calc(100% - 140px),transparent 100%)!important}
+/* sidewalk: same tone as the fence above it, laid as blocks (a joint every 56px, a light bevel on each block's top) */
+#about .ab-tl .tl-curb{border-radius:0!important;box-shadow:0 3px 6px -3px rgba(40,44,52,.2)!important;background:
+  repeating-linear-gradient(90deg,transparent 0 54px,rgba(60,64,72,.28) 54px 55px,rgba(255,255,255,.22) 55px 56px),
+  linear-gradient(180deg,rgba(255,255,255,.35) 0,rgba(255,255,255,0) 3px),
+  linear-gradient(180deg,#BDC0C7 0%,#AEB1B8 100%)!important}
+/* addd → ohbrown: the whole street (buildings, poles, fence, sidewalk, road) fades out sideways over its last
+   35% of a screen, so while scrolling into the dark scene it dissolves instead of ending on a hard edge */
+#about .ab-tl .tl-addd .tl-street{
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - var(--tl-w) * .35),transparent 100%);
+  mask-image:linear-gradient(90deg,#000 calc(100% - var(--tl-w) * .35),transparent 100%)}
+/* road like the reference render: smooth matte light grey with a slight cool tint (no grain), brighter toward the
+   viewer, a soft ambient shadow under the sidewalk edge, and crisp white lane dashes */
+#about .ab-tl .tl-road{animation:none!important;background:
+  linear-gradient(180deg,rgba(70,80,96,.22) 0,rgba(70,80,96,0) 14px),
+  linear-gradient(180deg,#B4B9C1 0%,#C3C7CE 45%,#CED2D8 100%)!important}
+#about .ab-tl .tl-road::before{background:rgba(70,80,96,.18)!important;height:2px!important}
+#about .ab-tl .tl-road::after{height:3px!important;background:repeating-linear-gradient(90deg,#FFFFFF 0 40px,transparent 40px 92px)!important;
+  opacity:.95!important;border-radius:1px;box-shadow:0 1px 1px rgba(70,80,96,.08)}
+/* fix: the fade mask on .tl-street clipped everything drawn outside the street box (the tops of the buildings, the
+   road below it). The same sideways fade now sits on the whole addd scene, which contains all of it. */
+#about .ab-tl .tl-addd .tl-street{-webkit-mask-image:none!important;mask-image:none!important}
+#about .ab-tl.tl-on .tl-addd{
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - var(--tl-w) * .35),transparent 100%);
+  mask-image:linear-gradient(90deg,#000 calc(100% - var(--tl-w) * .35),transparent 100%)}
+/* the addd end fade without a mask (a mask clipped the truck driving in and anything outside the scene box): a band
+   over the scene's last 35% of a screen that goes from clear to the live page background (JS keeps --tl-bg in step
+   with the white → black wash), so the street dissolves sideways into the next scene */
+#about .ab-tl.tl-on .tl-addd{-webkit-mask-image:none!important;mask-image:none!important}
+#about .ab-tl.tl-on .tl-addd::after{content:"";position:absolute;top:0;bottom:0;right:0;width:calc(var(--tl-w) * .35);z-index:8;pointer-events:none;
+  background:linear-gradient(90deg,transparent 0,var(--tl-bg,#EFEFEE) 100%)}
+/* City Pink lens hit (reference: vision-AI detection): the measuring box becomes a translucent light-cyan volume
+   with a faint guide line near the top, and the walker inside turns light blue. Same timing as before. */
+#about .ab-tl .tl-people .tl-wk .tl-box{border:1px solid rgba(110,205,232,.55)!important;background:
+  linear-gradient(180deg,transparent 0,transparent 21%,rgba(110,205,232,.55) 21%,rgba(110,205,232,.55) calc(21% + 1px),transparent calc(21% + 1px)),
+  linear-gradient(180deg,rgba(255,255,255,.14) 0,rgba(255,255,255,.14) 21%,transparent 21%),
+  rgba(150,222,242,.5)!important}
+#about .ab-tl .tl-wk-in::after{content:"";position:absolute;inset:0;pointer-events:none;background:#9FC8FF;opacity:0;
+  -webkit-mask:url(../img/about/walker.png) 0 0/100% 100% no-repeat;mask:url(../img/about/walker.png) 0 0/100% 100% no-repeat;
+  transition:opacity .35s ease}
+#about .ab-tl .tl-wk.is-seen .tl-wk-in::after{opacity:1}
+#about .ab-tl .tl-people .tl-wk:nth-child(2) .tl-wk-in::after{transition-delay:.12s}
+#about .ab-tl .tl-people .tl-wk:nth-child(3) .tl-wk-in::after{transition-delay:.24s}
+
+/* ===== Skills step, like the "Why us" reference: a big two-line title top-left ("Skill / Set.") with the tool list
+   under it (small outline icons, no pills); three white cards on the right (Keep Learning / 자격증 / 대외활동), each with
+   its title large at the top over a pale oversized copy of the same word, and its entries at the bottom. No new text:
+   the pale word repeats the card's own title. ===== */
+@media (min-width:901px){
+  #about .ab-merged .ab-bento.bn2{display:grid!important;grid-template-columns:minmax(0,23fr) repeat(3,minmax(0,25.6fr))!important;
+    grid-template-rows:minmax(0,1fr)!important;column-gap:9px!important;row-gap:0!important}
+  #about .ab-bento.bn2 .bn-skill{grid-column:1!important;grid-row:1!important;display:flex!important;flex-direction:column;
+    background:none!important;color:#111!important;padding:0 clamp(16px,2vw,40px) 0 0!important;border-radius:0!important;overflow:visible}
+  #about .ab-bento.bn2 .bn-skill .ab-step-t{margin:0 0 clamp(28px,6vh,64px)!important;color:#111!important;
+    font-size:clamp(48px,5.4vw,104px)!important;line-height:.92!important;font-weight:500!important;letter-spacing:-.045em!important}
+  #about .ab-bento.bn2 .bn-skill .ab-step-t em{display:block}
+  #about .ab-bento.bn2 .bn-learn,#about .ab-bento.bn2 .bn-cert,#about .ab-bento.bn2 .bn-act{grid-row:1!important;position:relative;overflow:hidden;
+    display:flex!important;flex-direction:column;background:#fff!important;border-radius:6px!important;color:#111!important;
+    padding:clamp(18px,1.6vw,28px)!important}
+  #about .ab-bento.bn2 .bn-learn{grid-column:2!important}
+  #about .ab-bento.bn2 .bn-cert{grid-column:3!important}
+  #about .ab-bento.bn2 .bn-act{grid-column:4!important}
+  /* card titles: large, light weight, like the reference's figures */
+  #about .ab-bento.bn2 .bn-learn .ab-step-t,#about .ab-bento.bn2 .bn-t{position:relative;z-index:1;margin:clamp(20px,4.6vh,52px) 0 0!important;color:#111!important;
+    font-size:clamp(30px,2.9vw,54px)!important;line-height:1!important;font-weight:400!important;letter-spacing:-.04em!important}
+  /* pale oversized copy of the title, cut by the card's top edge */
+  #about .ab-bento.bn2 [data-ghost]::before{content:attr(data-ghost);position:absolute;left:.25em;top:-.3em;z-index:0;pointer-events:none;
+    white-space:nowrap;font-size:clamp(84px,7.4vw,140px);line-height:1;font-weight:500;letter-spacing:-.05em;color:#F1F1F0}
+  /* entries sit at the bottom of each card */
+  #about .ab-bento.bn2 .bn-edus,#about .ab-bento.bn2 .bn-certs,#about .ab-bento.bn2 .bn-acts{position:relative;z-index:1;margin-top:auto!important;padding-top:24px}
+  #about .ab-bento.bn2 .ab-job-hd b{font-size:clamp(14px,1.05vw,16px)!important;font-weight:600}
+  #about .ab-bento.bn2 .ab-job-hd small,#about .ab-bento.bn2 .ab-job-co{font-size:clamp(12px,.85vw,13px)!important;color:#6B6B6E!important}
+  #about .ab-bento.bn2 .ab-edu-d{font-size:clamp(12.5px,.9vw,14px)!important;line-height:1.5!important;color:#3A3A3D!important}
+  #about .ab-bento.bn2 .bn-certs li{font-size:clamp(14px,1.05vw,16px)!important}
+}
+/* tool list: plain lines with small outline icons that cycle plus / circle / sparkle / square (decorative) */
+#about .ab-bento.bn2 .bn-tools-flat{display:grid!important;gap:4px!important;margin:0;padding:0;list-style:none}
+#about .ab-bento.bn2 .bn-tools-flat span{position:relative;display:block!important;height:auto!important;padding:0 0 0 22px!important;border:0!important;
+  border-radius:0!important;background:none!important;color:#111!important;font-size:clamp(14px,1.05vw,16px)!important;font-weight:400!important;line-height:1.65}
+#about .ab-bento.bn2 .bn-tools-flat span::before{content:"";position:absolute;left:0;top:50%;width:11px;height:11px;margin-top:-5.5px;box-sizing:border-box}
+#about .ab-bento.bn2 .bn-tools-flat li:nth-child(4n+1) span::before{background:linear-gradient(#111,#111) 50%/100% 1.5px no-repeat,linear-gradient(#111,#111) 50%/1.5px 100% no-repeat}
+#about .ab-bento.bn2 .bn-tools-flat li:nth-child(4n+2) span::before{border:1.5px solid #111;border-radius:50%}
+#about .ab-bento.bn2 .bn-tools-flat li:nth-child(4n+3) span::before{background:#111;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
+#about .ab-bento.bn2 .bn-tools-flat li:nth-child(4n+4) span::before{border:1.5px solid #111}
+@media (max-width:900px){
+  #about .ab-bento.bn2 .bn-skill{background:none!important;color:#111!important;padding:0 0 8px!important}
+  #about .ab-bento.bn2 .bn-skill .ab-step-t{color:#111!important}
+  #about .ab-bento.bn2 .bn-learn,#about .ab-bento.bn2 .bn-cert,#about .ab-bento.bn2 .bn-act{grid-column:1!important;grid-row:auto!important;background:#fff!important;border-radius:6px!important}
+}
+@media (max-width:900px){#about .ab-merged .ab-bento.bn2{height:auto!important;grid-template-rows:none!important;grid-auto-rows:auto!important;row-gap:10px!important}}
+/* 2019 lamp at its largest (its slot in the scene) 0.9× the previous size; feet stay on the same floor line */
+@media (min-width:861px){#about .ab-tl .tl-lamp .tl-bulb3d.tl-bulb-slot{--lw:clamp(352.8px,35.28vw,529.2px)}}
+/* skills cards: each entry's title takes the card's full width and the date sits on its own line under it (the title
+   was squeezed to ~125px and wrapped, with the date running straight on after it) */
+#about .ab-bento.bn2 .ab-job-hd{display:flex!important;flex-direction:column!important;align-items:flex-start!important;width:100%;gap:2px}
+#about .ab-bento.bn2 .ab-job-hd b{display:block;width:100%}
+/* Education list: one column (it was split into two ~136px columns, which wrapped every title) */
+@media (min-width:901px){#about .ab-bento.bn2 .bn-edus{grid-template-columns:minmax(0,1fr)!important}}
+/* City Pink beam: switches on earlier (camera ~0.6 of a screen from the first walker) and grows out twice as slowly */
+#about .ab-tl .tl-truck .tl-beam{transition:transform 1.2s cubic-bezier(.2,.8,.2,1),opacity .7s ease!important}
+/* ===== Skills cards: one entry format for Education, Certificates and Activities (text unchanged).
+   Three levels — title (15px, 600, ink) → meta (date · place, 12.5px, grey, one line) → detail (13.5px, dark grey) —
+   and the same rhythm everywhere: 14px above and below each entry, a hairline between entries, none above the first. */
+#about .ab-bento.bn2 .bn-edus,#about .ab-bento.bn2 .bn-certs,#about .ab-bento.bn2 .bn-acts{display:block!important;margin:0;padding-left:0;list-style:none;row-gap:0!important}
+#about .ab-bento.bn2 .bn-edus>li,#about .ab-bento.bn2 .bn-certs>li,#about .ab-bento.bn2 .bn-acts>li{display:block!important;margin:0!important;padding:14px 0!important;
+  border:0!important;border-top:1px solid rgba(17,17,17,.08)!important;font-family:inherit}
+#about .ab-bento.bn2 .bn-edus>li:first-child,#about .ab-bento.bn2 .bn-certs>li:first-child,#about .ab-bento.bn2 .bn-acts>li:first-child{border-top:0!important;padding-top:0!important}
+#about .ab-bento.bn2 .bn-edus>li:last-child,#about .ab-bento.bn2 .bn-certs>li:last-child,#about .ab-bento.bn2 .bn-acts>li:last-child{padding-bottom:0!important}
+/* title */
+#about .ab-bento.bn2 .ab-job-hd{display:block!important;margin:0!important}
+#about .ab-bento.bn2 .ab-job-hd b,#about .ab-bento.bn2 .bn-certs>li{display:block;font-size:15px!important;font-weight:600!important;line-height:1.4!important;letter-spacing:-.01em!important;color:#111!important}
+/* meta: date, then the place on the same line after a middle dot */
+#about .ab-bento.bn2 .ab-job-hd small,#about .ab-bento.bn2 .bn-certs small,#about .ab-bento.bn2 .ab-job-co{display:inline!important;margin:0!important;
+  font-size:12.5px!important;font-weight:400!important;line-height:1.5!important;letter-spacing:0!important;color:#7A7A7D!important}
+#about .ab-bento.bn2 .ab-job-hd small::before,#about .ab-bento.bn2 .bn-certs small::before{content:"";display:block;height:4px}
+#about .ab-bento.bn2 .ab-job-hd small{display:block!important}
+#about .ab-bento.bn2 .ab-job-hd small::before{content:none}
+#about .ab-bento.bn2 .ab-job-hd b{margin-bottom:4px}
+#about .ab-bento.bn2 .bn-certs small{display:block!important;margin-top:4px!important}
+#about .ab-bento.bn2 .bn-certs small::before{content:none}
+#about .ab-bento.bn2 .ab-job-co{display:block!important;margin-top:0!important}
+/* detail */
+#about .ab-bento.bn2 .ab-edu-d{margin:8px 0 0!important;font-size:13.5px!important;font-weight:400!important;line-height:1.5!important;letter-spacing:-.005em!important;color:#3A3A3D!important}
+/* short screens: the same format with a tighter rhythm so Education (the longest card) fits */
+#about .ab-bento.bn2 .bn-edus>li,#about .ab-bento.bn2 .bn-certs>li,#about .ab-bento.bn2 .bn-acts>li{padding-top:clamp(8px,1.55vh,14px)!important;padding-bottom:clamp(8px,1.55vh,14px)!important}
+#about .ab-bento.bn2 .ab-edu-d{margin-top:clamp(4px,.9vh,8px)!important}
+#about .ab-bento.bn2 .bn-edus,#about .ab-bento.bn2 .bn-certs,#about .ab-bento.bn2 .bn-acts{padding-top:clamp(12px,2.6vh,24px)!important}
+/* skills cards: more room under the entries so they no longer sit on the card's bottom edge (about as much space
+   below the last entry as above the card title) */
+@media (min-width:901px){#about .ab-bento.bn2 .bn-learn,#about .ab-bento.bn2 .bn-cert,#about .ab-bento.bn2 .bn-act{padding-bottom:clamp(30px,5.4vh,56px)!important}}
+@media (min-width:901px) and (max-height:800px){#about .ab-bento.bn2 .bn-learn .ab-step-t,#about .ab-bento.bn2 .bn-t{margin-top:16px!important}}
