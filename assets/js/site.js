@@ -534,7 +534,7 @@
         var part = n.getAttribute('data-part');
         return { el: part === '0' ? null : $('.ds-part[data-part="' + part + '"]', st), f: parseFloat(n.getAttribute('data-frac')) || 0 };
       });
-      var cur = -1, endAt = notes.length - 1, hasEnd = notes[endAt].classList.contains('ds-end');
+      var cur = -1, endAt = notes.length - 1, hasEnd = notes[endAt].classList.contains('ds-end') && window.matchMedia('(max-width: 899px)').matches;   // desktop: the buttons sit at the column's foot instead
       var partsAll = $$('.ds-part', st), lastPart = partsAll[partsAll.length - 1];
       return function () {
         // 첫 메모가 특정 구간에 붙어 있으면, 그 구간에 닿기 전에는 메모를 보이지 않습니다
@@ -549,6 +549,22 @@
         cur = k;
         notes.forEach(function (n, i) { n.classList.toggle('is-on', i === k); });
       };
+    }
+
+    /* Mail popup Execution: the step list stays put beside the mail images (sticky, CSS) while the images scroll by;
+       the steps come in one at a time at even intervals over the images' run (desktop only) */
+    function mailSteps() {
+      if (!window.matchMedia('(min-width: 761px)').matches) return;
+      $$('.fb-mailsplit', body).forEach(function (sp) {
+        var imgs = $('.fb-mailimgs', sp), items = $$('.fb-steps > li', sp); if (!imgs || !items.length) return;
+        sp.classList.add('is-seq');
+        // progress through the stretch where the list is pinned (from when it sticks to when the images run out),
+        // split into even parts: step 1 as it sticks, then one more at each equal share
+        var ol = items[0].parentNode, r = imgs.getBoundingClientRect(), stick = ol.getBoundingClientRect().top;   // equals the images' top until it sticks
+        var run = Math.max(1, r.height - ol.offsetHeight), q = (stick - r.top) / run;
+        var n = Math.max(1, Math.min(items.length, Math.floor(q * items.length) + 1));
+        items.forEach(function (li, i) { li.classList.toggle('is-on', i === n - 1); });   // one paragraph at a time
+      });
     }
 
     /* Reading progress: a thin bar under the viewer's title bar fills as you read; full = done */
@@ -569,19 +585,29 @@
 
     body.addEventListener('scroll', function () {
       if (storyRaf) return;
-      storyRaf = requestAnimationFrame(function () { storyRaf = 0; progress(); if (story) story(); });
+      storyRaf = requestAnimationFrame(function () { storyRaf = 0; progress(); if (story) story(); mailSteps(); });
     }, { passive: true });
 
-    // 포스팅 전문: 각 칸의 버튼이 아래 전체 폭 영역에서 한 편씩 펼칩니다 (다른 편은 접힘)
+    // 홈페이지 포스팅: the two cards pick which post is shown in the reader below (one at a time, the first by default).
+    // The post shows as a preview that fades out; 전문 펼치기 opens the whole post, 접기 folds it and returns to its top.
     body.addEventListener('click', function (e) {
-      var t = e.target.closest('.fb-art-toggle'); if (!t) return;
-      var open = t.getAttribute('aria-expanded') !== 'true';
-      $$('.fb-art-toggle', body).forEach(function (o) { o.setAttribute('aria-expanded', String(open && o === t)); });
-      $$('.fb-art-docs [data-doc]', body).forEach(function (d) { d.hidden = !(open && d.getAttribute('data-doc') === t.getAttribute('data-doc')); });
-      if (open) {
-        var d = $('.fb-art-docs [data-doc="' + t.getAttribute('data-doc') + '"]', body);
-        if (d) body.scrollTo({ top: d.getBoundingClientRect().top - body.getBoundingClientRect().top + body.scrollTop - 72 });
+      var toTop = function (el) { body.scrollTo({ top: el.getBoundingClientRect().top - body.getBoundingClientRect().top + body.scrollTop - 24, behavior: rm ? 'auto' : 'smooth' }); };
+      var more = e.target.closest('.fb-read-more');
+      if (more) {
+        var rd = more.closest('[data-doc]'), full = !rd.classList.contains('is-full');
+        rd.classList.toggle('is-full', full); more.setAttribute('aria-expanded', String(full));
+        more.querySelector('span').textContent = full ? '접기' : '전문 펼치기';
+        if (!full) toTop(rd);
+        return;
       }
+      var t = e.target.closest('.fb-art-toggle'); if (!t) return;
+      var id = t.getAttribute('data-doc');
+      $$('.fb-art-toggle', body).forEach(function (o) { o.setAttribute('aria-expanded', String(o === t)); });
+      $$('.fb-art-docs [data-doc]', body).forEach(function (d) {
+        var on = d.getAttribute('data-doc') === id; d.hidden = !on;
+        if (!on) { d.classList.remove('is-full'); var b = $('.fb-read-more', d); if (b) { b.setAttribute('aria-expanded', 'false'); b.querySelector('span').textContent = '전문 펼치기'; } }
+      });
+      var cur = $('.fb-art-docs [data-doc="' + id + '"]', body); if (cur) toTop(cur);
     });
     // 마무리 카드 버튼: 다음 작업 보기 / 목록으로
     body.addEventListener('click', function (e) {
@@ -968,7 +994,7 @@
         // darkens; the move on to ohbrown then needs no change of its own.
         var dI = drive ? scenes.indexOf(drive) : -1;
         if (dI > 0) {
-          var dd = plan[dI], nStart = dd.L + dd.W - W * 1.6;
+          var dd = plan[dI], nStart = dd.L + dd.W - W * 1;
           var nx = (x + W * .75 - nStart) / (W * .6); TL_RIDE.nx = nx;
           var nt = clamp(nx, 0, 1); nt = nt * nt * (3 - 2 * nt);
           var nn = Math.max(nt, parseFloat(root.style.getPropertyValue('--wash2')) || 0);
@@ -1030,7 +1056,7 @@
       if (!on) { typeEl.textContent = ''; return; }
       if (rm) { typeEl.textContent = txt; return; }
       var n = 0;
-      (function step() { typeT = setTimeout(function () { typeEl.textContent = txt.slice(0, ++n); if (n < txt.length) step(); }, n ? 80 : 350); })();
+      (function step() { typeT = setTimeout(function () { typeEl.textContent = txt.slice(0, ++n); if (n < txt.length) step(); }, n ? 60 : 200); })();
     } : null;
     // 2024: a person gets a box when the truck has passed them or the PTZ camera has them in view
     var byTruck = [], byCam = [];

@@ -4611,7 +4611,7 @@ html,body{overscroll-behavior-y:none}
    --f scale past the old end). Over that stretch --night (0 → 1, set by site.js from the camera position) turns the
    scene into a night street: the page goes to the ohbrown black, the ohbrown stars fade in behind the buildings,
    buildings, road, sidewalk and fence darken, the pole screens stay lit, the truck dims only a little. */
-#about .ab-tl.tl-on .tl-addd{flex-basis:calc(var(--st-x) + (var(--ad-b) - var(--st-x)) * .8 + 120px + var(--tl-w) * 1.6)!important}
+#about .ab-tl.tl-on .tl-addd{flex-basis:calc(var(--st-x) + (var(--ad-b) - var(--st-x)) * .8 + 120px + var(--tl-w) * 1)!important}   /* night stretch: about a quarter-plus of the old empty run left after the last building */
 #about .ab-tl .tl-ad-night{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:var(--night,0)}
 #about .ab-tl .tl-addd .tl-bldg,#about .ab-tl .tl-addd .tl-curb,#about .ab-tl .tl-addd .tl-rail,#about .ab-tl .tl-addd .tl-road{
   filter:brightness(calc(1 - var(--night,0) * .8))}
@@ -4638,7 +4638,7 @@ html,body{overscroll-behavior-y:none}
 #about .ab-tl .tl-sky .tl-ob-stars{position:absolute;inset:0}
 #about .ab-tl .tl-stage{z-index:1}
 #about .ab-tl.tl-on .tl-next .tl-ob-bg[data-at]{opacity:0!important;transform:translateY(40px)!important;
-  transition:opacity .9s ease,transform 1.1s cubic-bezier(.2,.8,.2,1)!important}
+  transition:opacity .55s ease,transform .7s cubic-bezier(.2,.8,.2,1)!important}
 #about .ab-tl.tl-on .tl-next .tl-ob-bg[data-at].is-on{opacity:1!important;transform:none!important}
 
 /* Work list: no group labels above the cards ("addd 작업물" / "개인 작업물"); the side menu still names the groups */
@@ -4647,3 +4647,72 @@ html,body{overscroll-behavior-y:none}
    label's wrapper spans and shrank "Email me" / "Call me"; only the arrow is smaller */
 .ft2-links .ft2-cw,.ft2-links .ft2-c0,.ft2-links .ft2-c1{font-size:1em!important}
 .ft2-links .ft2-ic{font-size:.7em!important}
+
+/* detail-page popups (잘룸 · 금강버섯농장): no big empty run after the page. The last note stays up to the end and the
+   buttons sit at the foot of the note column, level with the end of the page image; the popup then ends with the
+   usual bottom room. (Phones keep the old end card in the bottom bar.) */
+@media (min-width:900px){
+  .ds-v2 .ds-story{padding-bottom:clamp(56px,7vw,104px)!important}
+  .ds-v2 .ds-side{margin-bottom:0!important;display:flex;flex-direction:column}
+  .ds-stickwrap{flex:1 1 auto}
+  .ds-end-row{margin-top:24px!important;flex:none}
+  .ds-note.ds-end{display:none!important}
+}
+@media (max-width:899px){.ds-end-row{display:none!important}}
+
+/* ohbrown title and line: a quicker fade-up */
+#about .ab-tl .tl-next .tl-hd [data-at]{transition:opacity .35s ease,transform .5s cubic-bezier(.2,.8,.2,1)!important}
+
+/* ===== homepage posts (Execution): easier reading. The open card's toggle is filled so it is clear which post is
+   open; the post opens in a white panel with a bar pinned to the top while you read (label, post title, 접기) and a
+   접기 button at its end. Space groups it: 32px above the panel, the body keeps its 720px-ish measure. */
+.fb .fb-art-toggle[aria-expanded="true"]{color:var(--fb-ink)}
+.fb .fb-art:has(.fb-art-toggle[aria-expanded="true"]){outline:2px solid #1f1f1f;outline-offset:6px;border-radius:6px}
+.fb .fb-art-docs .dv-docs:not([hidden]){background:#fff;border-radius:6px;padding:0 clamp(20px,4vw,56px) 8px;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+.fb .fb-art-docs .dv-doc{max-width:720px;margin:0 auto}
+.fb-art-bar{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:12px;margin:0 calc(-1 * clamp(20px,4vw,56px)) 24px;
+  padding:12px clamp(20px,4vw,56px);background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border-bottom:1px solid #E6E6E6;border-radius:6px 6px 0 0}
+.fb-art-bar-k{flex:none;font-size:12.5px;font-weight:600;color:#7A7A7D}
+.fb-art-bar b{flex:1 1 auto;min-width:0;font-size:14.5px;font-weight:600;color:#1f1f1f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fb-art-x{flex:none;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:1px solid #1f1f1f;border-radius:999px;
+  background:#fff;font:inherit;font-size:13.5px;font-weight:600;color:#1f1f1f;cursor:pointer}
+.fb-art-x:hover{background:#1f1f1f;color:#fff}
+.fb-art-x:focus-visible{outline:2px solid #1f1f1f;outline-offset:3px}
+.fb-art-foot{display:flex;justify-content:center;padding:32px 0 24px}
+
+/* ===== homepage posts, reader version (ui-ux-pro-max: truncate long content with an expand option, 65-75ch measure;
+   blog-post: article header then body at ~680px). The two cards are post selectors (the chosen one is outlined,
+   its button reads 읽는 중); the chosen post sits in a white reader under them as a preview that fades out, with
+   전문 펼치기 / 접기 under it. */
+.fb .fb-art-docs .dv-docs:not([hidden]){background:#fff;border-radius:6px;padding:clamp(32px,4vw,56px) clamp(20px,4vw,56px) 28px;margin-top:32px}
+.fb .fb-art-docs .dv-doc{max-width:680px;margin:0 auto}
+.fb .fb-art-docs .dv-docs:not(.is-full) .dv-doc{max-height:560px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,#000 62%,transparent 100%);mask-image:linear-gradient(180deg,#000 62%,transparent 100%)}
+.fb-read-more{display:flex;align-items:center;gap:8px;margin:20px auto 0;height:44px;padding:0 22px;border:1px solid #1f1f1f;border-radius:999px;
+  background:#fff;font:inherit;font-size:14.5px;font-weight:600;color:#1f1f1f;cursor:pointer;transition:background-color .2s ease,color .2s ease}
+.fb-read-more:hover{background:#1f1f1f;color:#fff}
+.fb-read-more:focus-visible{outline:2px solid #1f1f1f;outline-offset:3px}
+.fb-read-more svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s ease}
+.fb-read-more[aria-expanded="true"] svg{transform:rotate(180deg)}
+.fb .fb-art-toggle[aria-expanded="true"] svg{display:none}
+
+/* mail popup Execution, like the detail pages: the step list holds still beside the mail images while they scroll
+   past, and its steps appear one by one at even intervals (site.js mailSteps). Phones keep the plain list. */
+@media (min-width:761px){
+  .fb .fb-mailsplit .fb-steps{position:sticky;top:clamp(96px,16vh,160px)}
+  .fb .fb-mailsplit.is-seq .fb-steps > li{opacity:0;transform:translateY(18px);transition:opacity .45s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+  .fb .fb-mailsplit.is-seq .fb-steps > li.is-on{opacity:1;transform:none}
+}
+@media (prefers-reduced-motion:reduce){.fb .fb-mailsplit.is-seq .fb-steps > li{transition:none}}
+
+/* mail steps: one at a time in the same spot (stacked in one grid cell), like the detail pages' notes */
+@media (min-width:761px){
+  .fb .fb-mailsplit.is-seq .fb-steps{display:grid!important}
+  .fb .fb-mailsplit.is-seq .fb-steps > li{grid-area:1/1;margin:0!important;padding-top:0!important;border-top:0!important}
+  .fb .fb-mailsplit.is-seq .fb-steps > li:not(.is-on){pointer-events:none}
+}
+
+/* flyer popup Result: front and back one at a time, each as a printed sheet on a desk (mockup images) */
+.fb .fb-pages.fb-pages-print{grid-template-columns:1fr!important;gap:24px}
+.fb .fb-pages.fb-pages-print{max-width:760px;margin-left:auto;margin-right:auto}   /* originals, one per row */

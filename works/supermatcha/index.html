@@ -14,7 +14,10 @@
       function fit() {
         var w = window.innerWidth, h = window.innerHeight, key = w + 'x' + h;
         if (key === last) return; last = key;
-        var z = Math.min(w / 1920, h / 1080);
+        // fill the window (cover): scale the 1920×1080 frame until it covers the whole window and centre it, so there
+        // are no black bands; whatever is left over is trimmed evenly from both edges (top/bottom on wide windows,
+        // left/right on taller ones). Every scene keeps its designed 1080 height.
+        var z = Math.max(w / 1920, h / 1080);
         root.style.setProperty('--z', z);
         root.style.setProperty('--fx', Math.round((w - 1920 * z) / 2) + 'px');
         root.style.setProperty('--fy', Math.round((h - 1080 * z) / 2) + 'px');
@@ -42,7 +45,7 @@
   <link rel="shortcut icon" type="image/x-icon" href="./img/icon/supermatcha_icon.png">
 
   <link rel="stylesheet" href="css/reset.css?v=7" />
-  <link rel="stylesheet" href="css/common.css?v=11" />
+  <link rel="stylesheet" href="css/common.css?v=13" />
   <link rel="stylesheet" href="css/style.css?v=7" />
   <script src="js/jquery-3.7.1.min.js"></script>
   <script src="js/jquery.easing.1.3.min.js"></script>
