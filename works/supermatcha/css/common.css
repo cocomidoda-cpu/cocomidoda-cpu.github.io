@@ -142,3 +142,6 @@ html,body,#container{overflow-x:hidden}
 .scroll-content{overflow-x:clip}
 .scroll-content > section{overflow-x:clip!important}
 .scroll-content section,.scroll-content .pin-spacer{overflow-x:clip!important}
+/* the original page is white: sections without their own background (sec08 · the ANTENNA STORE list in sec09) sit on
+   white, as designed. Only the window behind the frame stays black. */
+#sec08,#sec09{background:#fff}   /* (.scroll-content is only one screen tall, so the sections carry it) */
