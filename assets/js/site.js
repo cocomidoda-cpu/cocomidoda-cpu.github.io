@@ -943,6 +943,10 @@
         root.style.setProperty('--lamp-hx', Math.round(hr.left - sr.left) + 'px');
         root.style.setProperty('--lamp-hy', Math.round(hr.top - sr.top) + 'px');
       }
+      // night "and…": the addd header is centred on its own (taller) height, so place "and…" on the exact line of
+      // that header's "Career Path" instead of centring its own one-line box
+      var andH = root.querySelector('.tl-and-hd'), adH = andH && andH.parentNode.querySelector('.tl-addd-hd:not(.tl-and-hd)');
+      if (andH && adH) { var cpl = adH.querySelector('.tl-career'); andH.style.setProperty('translate', 'none', 'important'); andH.style.setProperty('top', (adH.offsetTop - adH.offsetHeight / 2) + 'px', 'important'); }   // "Career Path" is the header's first line
       var last = scenes[scenes.length - 1], maxX = Math.max(0, last.offsetLeft + last.offsetWidth - W), y = 0;
       plan = scenes.map(function (s, i) {
         var L = Math.min(s.offsetLeft, maxX), next = i < scenes.length - 1 ? Math.min(scenes[i + 1].offsetLeft, maxX) : maxX;
@@ -951,7 +955,11 @@
         p.dx = Math.max(0, next - L); p.dx1 = Math.min(p.dx, Math.max(0, p.W - W)); p.dx2 = p.dx - p.dx1;
         // data-hold2: the camera also stops at the end of the scene's own pan (addd: the lamp gets out and walks off)
         p.hold2 = (parseFloat(s.getAttribute('data-hold2')) || 0) * h;
-        y += p.hold; p.m0 = y; y += p.dx1 * p.K + p.hold2 + p.dx2 * K; p.m1 = y;
+        // data-tail="a,b": the last a×(screen width) of the scene's own pan runs b times as long per px (addd: the
+        // stretch after the street has turned to night, 0.8 = quicker)
+        var tl0 = (s.getAttribute('data-tail') || '').split(','), tw = Math.min(p.dx1, (parseFloat(tl0[0]) || 0) * w), tk = parseFloat(tl0[1]) || 1;
+        p.xT = p.dx1 - tw; p.kT = tk; p.a1 = p.xT * p.K + tw * p.K * tk;
+        y += p.hold; p.m0 = y; y += p.a1 + p.hold2 + p.dx2 * K; p.m1 = y;
         return p;
       });
       total = y; return total;
@@ -960,8 +968,8 @@
       var x = 0, cur = 0, dh = 0; y = clamp(y, 0, total); lastY = y;
       plan.forEach(function (p, i) {
         if (y >= p.y0) {
-          var u = y - p.m0, a1 = p.dx1 * p.K;
-          x = p.L + (u <= a1 ? clamp(u / p.K, 0, p.dx1) : p.dx1 + clamp((u - a1 - p.hold2) / K, 0, p.dx2)); cur = i;
+          var u = y - p.m0, a1 = p.a1, aT = p.xT * p.K;
+          x = p.L + (u <= aT ? clamp(u / p.K, 0, p.xT) : u <= a1 ? p.xT + (u - aT) / (p.K * p.kT) : p.dx1 + clamp((u - a1 - p.hold2) / K, 0, p.dx2)); cur = i;
           if (p.s === drive) TL_RIDE.h2 = p.hold2 ? clamp((u - a1) / p.hold2, 0, 1) : (u > a1 ? 1 : 0);
         }
         var h = p.hold ? clamp((y - p.y0) / p.hold, 0, 1) : (y >= p.y0 ? 1 : 0);
@@ -1006,6 +1014,7 @@
           if (sq !== dd.sq) { dd.sq = sq; root.style.setProperty('--sky', sq.toFixed(2)); }
           if (nq !== dd.nq) {
             dd.nq = nq; dd.s.style.setProperty('--night', nq.toFixed(2));
+            dd.s.classList.toggle('is-night', nq >= 1);   // 'and…' comes up once the street is fully night
             if (walkerEl) walkerEl.style.filter = nq > 0 ? 'brightness(' + (1 - nq * .35).toFixed(3) + ')' : '';
           }
         }

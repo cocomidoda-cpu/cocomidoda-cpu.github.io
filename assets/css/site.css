@@ -4716,3 +4716,25 @@ html,body{overscroll-behavior-y:none}
 /* flyer popup Result: front and back one at a time, each as a printed sheet on a desk (mockup images) */
 .fb .fb-pages.fb-pages-print{grid-template-columns:1fr!important;gap:24px}
 .fb .fb-pages.fb-pages-print{max-width:760px;margin-left:auto;margin-right:auto}   /* originals, one per row */
+
+/* "About Me" wordmark at 0.9x its full-width size, so it sits centred inside the content width instead of running
+   past the right edge */
+#about .ab-big{font-size:calc(100cqw * .2667 * .9)!important}
+
+/* About statement: keep the four lines exactly as written (an older layout hid its line breaks) */
+#about .ab-intro .ab-fill-b br{display:inline!important}
+@media (max-width:899px){#about .ab-intro .ab-fill-b br{display:none!important}}
+
+/* night street: "and…" in the Career Path spot (same type, top-left of the screen while the camera holds at the end
+   of the night street). It lives in the addd scene, so it pans and fades away with the street into ohbrown. */
+#about .ab-tl.tl-on .tl-addd .tl-and-hd{left:calc(100% - var(--tl-w) + var(--hd-x))!important;pointer-events:none}
+#about .ab-tl .tl-addd .tl-and-hd .tl-career{color:#fff;opacity:0;transform:translateY(16px);
+  transition:opacity .6s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+#about .ab-tl .tl-addd.is-night .tl-and-hd .tl-career{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){#about .ab-tl .tl-addd .tl-and-hd .tl-career{transition:none}}
+
+/* Skills: "Set." steps in under the end of "Skill" (staggered like the reference); the three cards get twice the gap */
+@media (min-width:901px){
+  #about .ab-bento.bn2 .bn-skill .ab-step-t em{padding-left:1.33em}   /* starts under the "ll" of Skill */
+  #about .ab-merged .ab-bento.bn2{column-gap:18px!important}
+}
