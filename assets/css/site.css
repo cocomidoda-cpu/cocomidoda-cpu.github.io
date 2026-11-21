@@ -4738,3 +4738,41 @@ html,body{overscroll-behavior-y:none}
   #about .ab-bento.bn2 .bn-skill .ab-step-t em{padding-left:1.33em}   /* starts under the "ll" of Skill */
   #about .ab-merged .ab-bento.bn2{column-gap:18px!important}
 }
+
+/* ===== mobile pass (≤760px) =====
+   2019: the lamp stands on the floor below the job list instead of over its text.
+   2024 street: lower buildings and poles, and a tighter job list, so the text no longer runs into the skyline. */
+@media (max-width:860px){
+  #about .ab-tl .tl-lamp .tl-bulb3d.tl-bulb-slot{--lw:min(250px,62vw);position:absolute!important;left:66%;width:var(--lw)!important;
+    margin-left:calc(var(--lw) / -2);top:auto!important;bottom:calc(118px - var(--lw) * .136);justify-self:auto}
+  #about .ab-tl .tl-lamp .tl-grid{position:static}
+}
+@media (max-width:760px){
+  #about .ab-tl .tl-addd .tl-bldg{height:calc(clamp(120px,17vh,160px) * var(--bh,1))}
+  #about .ab-tl .tl-street .tl-sign,#about .ab-tl .tl-street .tl-sign[style*="--f"]{height:clamp(150px,21vh,190px)!important;width:40px!important;margin-left:-20px!important}
+  #about .ab-tl .tl-dl dt,#about .ab-tl .tl-dl dd{font-size:13px!important;line-height:1.5!important}
+  #about .ab-tl .tl-addd-hd .tl-dl > div{padding:5px 0!important}
+  #about .ab-tl .tl-meta{font-size:13px!important}
+}
+
+@media (max-width:760px){#about .ab-tl .tl-hd-main .tl-dl > div,#about .ab-tl .tl-addd-hd .tl-dl > div{grid-template-columns:6.6em minmax(0,1fr)!important;gap:10px!important}}
+
+/* phones: the header keeps its frosted background everywhere (a clear header sat on top of card text while scrolling) */
+@media (max-width:760px){
+  .u212-hd.is-solid.is-clear{background:color-mix(in srgb,var(--ux-page) 86%,transparent)!important;
+    backdrop-filter:blur(18px) saturate(1.2)!important;-webkit-backdrop-filter:blur(18px) saturate(1.2)!important;box-shadow:0 1px 0 color-mix(in srgb,var(--ux-ink) 8%,transparent)!important}
+}
+
+/* phones: work popups keep their sections closer together (about half the desktop rhythm) */
+@media (max-width:760px){
+  .dv-body .ed > section{padding-top:22px!important;padding-bottom:22px!important}
+  .dv-body .ed > header{padding-bottom:6px!important}
+  .dv-body .ed > section.ed-end{padding-top:32px!important;padding-bottom:8px!important}
+}
+
+/* phones, detail-page popups: the bottom note bar is only as tall as the note on show (the hidden notes no longer
+   hold it open), so it covers less of the page image */
+@media (max-width:899px){
+  .ds-v2 .ds-sticky .ds-note:not(.is-on){display:none!important}
+  .ds-v2 .ds-sticky{max-height:38vh}
+}

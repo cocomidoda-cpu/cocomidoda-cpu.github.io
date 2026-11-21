@@ -1114,7 +1114,7 @@
     txt.split(/(\s+)/).forEach(function (w) {
       if (!w) return;
       // a line break written in the HTML text stays a line break; other spaces stay one space
-      if (/^\s+$/.test(w)) { vis.appendChild(/\n/.test(w) ? document.createElement('br') : document.createTextNode(' ')); return; }
+      if (/^\s+$/.test(w)) { if (/\n/.test(w)) vis.appendChild(document.createElement('br')); vis.appendChild(document.createTextNode(' ')); return; }   // keep a space too: phones hide the <br>
       var word = document.createElement('span'); word.className = 'ab-fill-w';
       for (var c = 0; c < w.length; c++) { var ch = document.createElement('span'); ch.textContent = w[c]; word.appendChild(ch); chars.push(ch); }
       vis.appendChild(word);
