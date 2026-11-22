@@ -265,7 +265,7 @@ async function start() {
     if (inView()) {
       const dt = last ? Math.min(1 / 30, (t - last) / 1000) : 0;
       last = t;
-      if (box._follow) box._follow();   // riding in the truck: stay locked to the bouncing cab every frame
+      if (box._follow && box._walk && (box._walk.ride || box._walk.peek)) box._follow();   // riding / peeking: stay locked to the cab every frame
       events();
       tick(dt);
       apply();

@@ -145,7 +145,8 @@
       outs.forEach(function (o) { o.drawImage(pc, 0, 0); });
     }
     var vis = false, r2 = 0;
-    function loop2(now) { r2 = 0; if (!vis) return; frame(now); r2 = requestAnimationFrame(loop2); }
+    var last2 = 0;
+    function loop2(now) { r2 = 0; if (!vis) return; if (now - last2 > 48) { last2 = now; frame(now); } r2 = requestAnimationFrame(loop2); }
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) { e.target._in = e.isIntersecting; });
       vis = screens.some(function (s) { return s._in; });

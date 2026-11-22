@@ -25,7 +25,7 @@
   /* Smooth wheel scrolling (Lenis). Skipped with reduced motion or if the library did not load. */
   var lenis = null;
   if (!rm && window.Lenis) {
-    lenis = new window.Lenis({ duration: 1.15, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }, anchors: true });
+    lenis = new window.Lenis({ lerp: 0.14, wheelMultiplier: 1, anchors: true });   // close to the wheel; a long glide felt slow
     (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(0);
     window.__lenis = lenis;
   }
@@ -791,11 +791,13 @@
     doc.addEventListener('mouseleave', function () { cur.classList.remove('is-on'); shown = false; });
     window.addEventListener('mousedown', function () { dot.classList.add('is-down'); });
     window.addEventListener('mouseup', function () { dot.classList.remove('is-down'); });
-    (function loop() {
+    var looping = false;
+    function loop() {
       x += (tx - x) * k; y += (ty - y) * k;
       cur.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
-      requestAnimationFrame(loop);
-    })();
+      if (Math.abs(tx - x) + Math.abs(ty - y) > .3) requestAnimationFrame(loop); else looping = false;   // idle: stop
+    }
+    window.addEventListener('pointermove', function () { if (!looping) { looping = true; requestAnimationFrame(loop); } }, { passive: true });
   })();
 
   (function () {

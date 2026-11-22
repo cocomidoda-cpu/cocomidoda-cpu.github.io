@@ -37,7 +37,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
 <link rel="stylesheet" href="assets/css/tokens.css?v=23">
-<link rel="stylesheet" href="assets/css/site.css?v=416">
+<link rel="stylesheet" href="assets/css/site.css?v=420">
 <script>
   // 저장된 테마를 첫 그림 전에 적용해 깜빡임을 막습니다
   // 기본은 라이트(흰색). 방문자가 직접 다크로 바꾼 경우에만 다크로 엽니다 (예전 저장값 'theme'는 쓰지 않음)
@@ -118,7 +118,7 @@
   // 카드는 index.html의 Work 섹션에서 그대로 가져옵니다 (작업물 내용은 한 곳에서만 관리)
   (function () {
     var grid = document.getElementById('arc-grid');
-    function boot() { var sc = document.createElement('script'); sc.src = 'assets/js/site.js?v=163'; document.body.appendChild(sc); }
+    function boot() { var sc = document.createElement('script'); sc.src = 'assets/js/site.js?v=164'; document.body.appendChild(sc); }
     fetch('index.html', { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(function (html) {
