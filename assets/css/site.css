@@ -4776,3 +4776,23 @@ html,body{overscroll-behavior-y:none}
   .ds-v2 .ds-sticky .ds-note:not(.is-on){display:none!important}
   .ds-v2 .ds-sticky{max-height:38vh}
 }
+
+/* ===== mobile pass 2 =====
+   addd street on phones: the street starts at the screen's left edge (the job list sits above it, not beside it) and
+   runs about three screens before the night stretch, so buildings, poles and walkers have room and the parked truck
+   stays inside its own scene. The scene fades out completely on the way to ohbrown (no ghost truck). */
+@media (max-width:760px){
+  #about .ab-tl.tl-on .tl-addd{--st-x:0px;--ad-b:calc(var(--tl-w) * 2.4);flex-basis:calc(var(--ad-b) * .8 + 120px + var(--ad-b) * .92)!important}
+  #about .ab-tl .tl-addd{opacity:calc(1 - var(--wash2,0))!important}
+}
+/* buttons: one pill size and one round size across the site */
+.ds-end-act button,.fb-read-more{height:46px!important;padding:0 22px!important;font-size:15px!important;font-weight:600!important;border-radius:999px!important}
+@media (max-width:760px){
+  .ds-end-act button,.fb-read-more{height:44px!important;padding:0 20px!important;font-size:14.5px!important}
+  .u216 .hero-down,.u216.hero-v19 .hero-down{width:44px!important;height:44px!important;margin-left:-22px!important}
+}
+
+/* phones: a smaller City Pink so the whole truck (and the lamp hopping out of its cab) fits on screen */
+@media (max-width:760px){
+  #about .ab-tl .tl-truck{width:min(240px,62vw)!important;bottom:calc(-34px - min(240px,62vw) * .1492)!important}
+}

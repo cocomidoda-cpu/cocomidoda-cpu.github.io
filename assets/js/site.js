@@ -1003,6 +1003,8 @@
         var dI = drive ? scenes.indexOf(drive) : -1;
         if (dI > 0) {
           var dd = plan[dI], nStart = dd.L + dd.W - W * 1;
+          // phones: the night stretch is several screens long, so night starts where its first building stands
+          if (W <= 760) { var nb = dd.s.querySelector('.tl-bldg[style*="--f:0.950"]'); if (nb) nStart = dd.L + nb.offsetLeft - W * .25; }
           var nx = (x + W * .75 - nStart) / (W * .6); TL_RIDE.nx = nx;
           var nt = clamp(nx, 0, 1); nt = nt * nt * (3 - 2 * nt);
           var nn = Math.max(nt, parseFloat(root.style.getPropertyValue('--wash2')) || 0);
@@ -1026,6 +1028,7 @@
       if (!drive) return;
       var d = plan[scenes.indexOf(drive)], rel = Math.min(x - d.L, d.dx1), tw = truck.offsetWidth;   // the truck parks; it does not follow into the next scene
       var spot = W * (0.1 + 0.42 * clamp(rel / Math.max(1, d.W - W), 0, 1));
+      spot = Math.min(spot, Math.max(0, W - tw - Math.min(110, W * .25)));   // keep the nose on screen (room for the lamp to hop out)
       var tx = rel + (dh < 1 ? -tw + dh * (spot + tw) : spot);
       TL_RIDE.dh = dh; TL_RIDE.tx = tx; TL_RIDE.park = rel + spot;
       truck.style.setProperty('--tx', tx.toFixed(1) + 'px');
@@ -1199,7 +1202,7 @@
         var E = Dw >= 1 ? clamp(((RD.ob || 0) - .4) / .5, 0, 1) : 0;
         W.peek = 0;
         if (E > 0 && E < 1) {
-          var kP = 1.2 * Math.min(1, 330 / w), Hp = .64 * h * kP;
+          var kP = Math.min(1.2 * Math.min(1, 330 / w), vw * .62 / w), Hp = .64 * h * kP;   // phones: no wider than ~60% of the screen
           var back = function (t) { var c = 1.9; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };   // overshoot: a springy pop
           var sE = E < .3 ? back(E / .3) : E < .7 ? 1 : 1 - ease((E - .7) / .3);
           var cOut = vw + .55 * Hp, cIn = vw + .18 * Hp;
