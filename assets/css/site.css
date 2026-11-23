@@ -3509,3 +3509,22 @@ html,body{overscroll-behavior-y:none}
 @media (max-width:760px){#about .ab-tl.tl-on .tl-addd{flex-basis:calc(var(--ad-b) * .8 + 120px)!important}}
 /* phones: the truck fills most of the screen, so the walkers keep their old start (to the right of it) */
 @media (max-width:760px){#about .ab-tl .tl-addd .tl-people{--f:.22!important}}
+/* phones, detail-page popups: the note bar sits on the screen's bottom edge and runs edge to edge (the popup's own
+   bottom and side padding no longer leave a gap under and beside it) */
+@media (max-width:899px){
+  .ds-v2 .ds-side{bottom:calc(-1 * clamp(120px,18vh,200px));margin-left:calc(-1 * clamp(20px,6vw,88px) - clamp(20px,8vw,160px));margin-right:calc(-1 * clamp(20px,6vw,88px) - clamp(20px,8vw,160px))}
+}
+@media (max-width:760px){
+  .ds-v2 .ds-side{bottom:-96px;margin-left:calc(-1 * clamp(20px,6vw,88px) - 12px);margin-right:calc(-1 * clamp(20px,6vw,88px) - 12px)}
+}
+/* phones: the hero line ("OOH에 대한 흥미와 … 콘텐츠 마케터") is sized so its longer line spans the full text width */
+@media (max-width:760px){.hero-sub{font-size:calc((100vw - 40px) * .067)!important;white-space:nowrap}}
+/* phones: the About statement sits a little lower (it was right under the header) */
+@media (max-width:760px){#about .ab-intro .ab-fill-b{margin-top:clamp(56px,12vh,120px)!important}}
+/* phones: ohbrown fits the screen. "2026, ohbrown?" is sized to the text width once fully typed (it used to run
+   ~430px wide and push the centred lines past the right edge), and the two lines stay two lines */
+@media (max-width:760px){
+  #about .ab-tl .tl-next .tl-year{font-size:calc((100vw - 40px) * .124)!important}
+  #about .ab-tl .tl-next .tl-next-hd{max-width:100%}
+  #about .ab-tl .tl-next .tl-next-d{font-size:calc((100vw - 40px) * .042)!important;white-space:nowrap}
+}
