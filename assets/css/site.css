@@ -3500,3 +3500,12 @@ html,body{overscroll-behavior-y:none}
 
 /* performance: the frosted header blurs less (the blur is redrawn on every scroll frame) */
 .u212-hd.is-solid{-webkit-backdrop-filter:blur(10px)!important;backdrop-filter:blur(10px)!important}
+
+/* career list: room for the longer "이커머스 솔루션 활용" label on one line (desktop) */
+@media (min-width:761px){#about .ab-tl .tl-hd-main .tl-dl > div,#about .ab-tl .tl-addd-hd .tl-dl > div{grid-template-columns:8.2em minmax(0,1fr)}}
+
+/* ===== no night street: addd ends with its daytime street (the extra screen for the night stretch is gone) */
+#about .ab-tl.tl-on .tl-addd{flex-basis:calc(var(--st-x) + (var(--ad-b) - var(--st-x)) * .8 + 120px)!important}
+@media (max-width:760px){#about .ab-tl.tl-on .tl-addd{flex-basis:calc(var(--ad-b) * .8 + 120px)!important}}
+/* phones: the truck fills most of the screen, so the walkers keep their old start (to the right of it) */
+@media (max-width:760px){#about .ab-tl .tl-addd .tl-people{--f:.22!important}}

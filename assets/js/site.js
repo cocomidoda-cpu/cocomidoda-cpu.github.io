@@ -898,7 +898,9 @@
     function wkTick(now) {
       if (!wkOn) return;
       var dt = wkPrev ? Math.min((now - wkPrev) / 1000, .1) : 0; wkPrev = now;
-      if (wkT < 320) { wkT = Math.min(320, wkT + dt * 12); update(lastY); }
+      // the stroll starts when the addd scene arrives (not at page load), so the walkers begin beside the first pole
+      if (TL_RIDE.dh <= 0) { if (wkT) { wkT = 0; update(lastY); } }
+      else if (wkT < 320) { wkT = Math.min(320, wkT + dt * 12); update(lastY); }
       requestAnimationFrame(wkTick);
     }
     if (!rm && drive && 'IntersectionObserver' in window) {
@@ -999,29 +1001,9 @@
           if (w2 > 0) root.style.backgroundColor = 'rgb(' + Lc.map(function (l, i) { return Math.round(l + (D[i] - l) * w2); }).join(',') + ')';
           root.style.setProperty('--wash2', w2.toFixed(3));
         }
-        // addd at night: the last stretch of road (one screen and a bit, after the last daytime pole) turns into a
-        // night street. As it comes into view the screen goes to the ohbrown black, its stars fade in and the street
-        // darkens; the move on to ohbrown then needs no change of its own.
-        var dI = drive ? scenes.indexOf(drive) : -1;
-        if (dI > 0) {
-          var dd = plan[dI], nStart = dd.L + dd.W - W * 1;
-          // phones: the night stretch is several screens long, so night starts where its first building stands
-          if (W <= 760) { var nb = dd.s.querySelector('.tl-bldg[style*="--f:0.950"]'); if (nb) nStart = dd.L + nb.offsetLeft - W * .25; }
-          var nx = (x + W * .75 - nStart) / (W * .6); TL_RIDE.nx = nx;
-          var nt = clamp(nx, 0, 1); nt = nt * nt * (3 - 2 * nt);
-          var nn = Math.max(nt, parseFloat(root.style.getPropertyValue('--wash2')) || 0);
-          if (nt > 0 && w >= 1) root.style.backgroundColor = 'rgb(' + Lc.map(function (l, i) { return Math.round(l + (D[i] - l) * nn); }).join(',') + ')';
-          // smoothness: --night lives on the addd scene only (not the whole timeline) and moves in 2% steps, so the
-          // street's filters repaint ~50 times over the change instead of on every scroll frame
-          var nq = Math.round(nt * 50) / 50;
-          var sq = Math.round(Math.max(nt, parseFloat(root.style.getPropertyValue('--wash2')) || 0) * 50) / 50;
-          if (sq !== dd.sq) { dd.sq = sq; root.style.setProperty('--sky', sq.toFixed(2)); }
-          if (nq !== dd.nq) {
-            dd.nq = nq; dd.s.style.setProperty('--night', nq.toFixed(2));
-            dd.s.classList.toggle('is-night', nq >= 1);   // 'and…' comes up once the street is fully night
-            if (walkerEl) walkerEl.style.filter = nq > 0 ? 'brightness(' + (1 - nq * .35).toFixed(3) + ')' : '';
-          }
-        }
+        // the star layer fades in with the move to ohbrown (2% steps, so it repaints ~50 times over the change)
+        var sq = Math.round((parseFloat(root.style.getPropertyValue('--wash2')) || 0) * 50) / 50;
+        if (sq !== root._sq) { root._sq = sq; root.style.setProperty('--sky', sq.toFixed(2)); }
         root.style.setProperty('--tl-bg', root.style.backgroundColor);   // the street's end fade uses the live background
       }
       if (typer) typer();
