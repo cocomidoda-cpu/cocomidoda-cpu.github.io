@@ -3528,3 +3528,6 @@ html,body{overscroll-behavior-y:none}
   #about .ab-tl .tl-next .tl-next-hd{max-width:100%}
   #about .ab-tl .tl-next .tl-next-d{font-size:calc((100vw - 40px) * .042)!important;white-space:nowrap}
 }
+
+/* general ending scene (marketing version): the typed word in white instead of ohbrown teal */
+#about .ab-tl .tl-next .tl-next-gen .tl-type{color:#fff}

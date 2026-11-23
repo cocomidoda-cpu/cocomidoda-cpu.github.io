@@ -63,6 +63,7 @@
       el.textContent = ''; el.appendChild(t.content.cloneNode(true));
     });
     if (v.text) Object.keys(v.text).forEach(function (sel) { $$(sel).forEach(function (el) { el.textContent = v.text[sel]; }); });
+    if (v.html) Object.keys(v.html).forEach(function (sel) { $$(sel).forEach(function (el) { el.innerHTML = v.html[sel]; }); });
     // 이 공고와 관련이 적은 작업은 첫 페이지에서 빼고, 전체 작업 보기(archive)에만 둡니다
     if (v.hide) v.hide.forEach(function (id) { var c = document.getElementById(id); if (c && c.parentNode) c.parentNode.removeChild(c); });
     // 대표 작업: 지정한 카드를 각자의 묶음(data-home) 맨 앞으로 올리고 '대표 작업' 배지를 답니다
