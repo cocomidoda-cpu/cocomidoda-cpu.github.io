@@ -3531,3 +3531,5 @@ html,body{overscroll-behavior-y:none}
 
 /* general ending scene (marketing version): the typed word in white instead of ohbrown teal */
 #about .ab-tl .tl-next .tl-next-gen .tl-type{color:#fff}
+/* general ending (default and marketing pages): the bottom glow in grey instead of ohbrown teal */
+#about .ab-tl .tl-next:has(.tl-next-gen) .tl-ob-glow{background:radial-gradient(closest-side,rgba(170,170,170,.2),rgba(130,130,130,.09) 55%,transparent 75%)}
