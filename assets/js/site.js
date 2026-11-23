@@ -56,10 +56,13 @@
     put('.hero-lbl', v.label);
     put('#work .sec-hd .sec-ko', v.lead, true);
     if (v.title) document.title = v.title;
+    document.documentElement.classList.add('v-' + jobKey);   // version-only styles (e.g. .v-marketing)
     // 공고 전용 블록: <template data-for>의 내용으로 data-swap 자리의 내용을 바꿉니다
     $$('template[data-for]').forEach(function (t) {
       if ((' ' + t.getAttribute('data-for') + ' ').indexOf(' ' + jobKey + ' ') < 0) return;
-      var el = $(t.getAttribute('data-swap')); if (!el) return;
+      // data-before: the block is added in front of that element (e.g. an extra About step); data-swap: it replaces its content
+      var el = $(t.getAttribute('data-swap') || t.getAttribute('data-before')); if (!el) return;
+      if (t.hasAttribute('data-before')) { el.parentNode.insertBefore(t.content.cloneNode(true), el); return; }
       el.textContent = ''; el.appendChild(t.content.cloneNode(true));
     });
     if (v.text) Object.keys(v.text).forEach(function (sel) { $$(sel).forEach(function (el) { el.textContent = v.text[sel]; }); });
@@ -1156,7 +1159,7 @@
         };
         var P = null, nx = RD.nx || 0;
         // both happen while the camera holds at the end of the night street (RD.h2: 0 → 1 over that hold)
-        var h2 = RD.h2 || 0, C = B >= 1 ? clamp((h2 - .05) / .35, 0, 1) : 0, Dw = C >= 1 ? clamp((h2 - .48) / .5, 0, 1) : 0;
+        var C = 0, Dw = 0;   // it no longer gets out at the end of the street: it rides on and leaves with the truck
         var outX = ox + 1414 * kk + 70 - w / 2;   // just ahead of the truck's nose
         if (C > 0) {
           var endX = vw - w / 2 + kT * w * .5 + 12;   // the lamp's visible width is about half its box
@@ -1184,7 +1187,7 @@
         // wall: it stands just off screen and leans in at a slant (the spring in lamp.js bends and boings with it), so
         // only its head and a bit of spring show, the face turned to the reader. 1.2x its Profile-walk size.
         // A little more scrolling and it leans back out of sight (in .4–.9 of the scene's hold).
-        var E = Dw >= 1 ? clamp(((RD.ob || 0) - .4) / .5, 0, 1) : 0;
+        var E = B >= 1 ? clamp(((RD.ob || 0) - .4) / .5, 0, 1) : 0;
         W.peek = 0;
         if (E > 0 && E < 1) {
           var kP = Math.min(1.2 * Math.min(1, 330 / w), vw * .62 / w), Hp = .64 * h * kP;   // phones: no wider than ~60% of the screen
@@ -1291,7 +1294,7 @@
     seen('about_section_view', 1, { section: 'career' }, live && inTl && top <= total);
     steps.forEach(function (st, i) {
       var r = st.getBoundingClientRect();
-      seen('about_section_view', i + 2, { section: (st.className.match(/ab-(education|skills)/) || [])[1] || String(i) }, r.top <= 1 && r.bottom > vh * .5);
+      seen('about_section_view', i + 2, { section: (st.className.match(/ab-(core|education|skills)/) || [])[1] || String(i) }, r.top <= 1 && r.bottom > vh * .5);
     });
   }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
@@ -1303,6 +1306,16 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
   window.addEventListener('load', layout);
   layout();
+})();
+
+// Core Competencies (marketing version): the line draws across and the five items come up one by one once the
+// step has slid up over the screen
+(function () {
+  var cc = document.querySelector('.ab-core'); if (!cc) return;
+  if (!('IntersectionObserver' in window)) { cc.classList.add('is-in'); return; }
+  new IntersectionObserver(function (es, ob) {
+    if (es[0].intersectionRatio >= .6) { cc.classList.add('is-in'); ob.disconnect(); }
+  }, { threshold: [0, .6] }).observe(cc);
 })();
 
 // Footer mark: "Get in Touch" fills the footer's width exactly (the font size follows the width)

@@ -3533,3 +3533,63 @@ html,body{overscroll-behavior-y:none}
 #about .ab-tl .tl-next .tl-next-gen .tl-type{color:#fff}
 /* general ending (default and marketing pages): the bottom glow in grey instead of ohbrown teal */
 #about .ab-tl .tl-next:has(.tl-next-gen) .tl-ob-glow{background:radial-gradient(closest-side,rgba(170,170,170,.2),rgba(130,130,130,.09) 55%,transparent 75%)}
+
+/* ===== Core Competencies (marketing version only): a full-screen About step before Skill Set, in Skill Set's type
+   (Pretendard + Instrument Serif italic, #111 on the light page). A rail with square nodes runs over five columns;
+   each has a line icon (light grey fill), its number and the line. The rail draws across when the step arrives. */
+#about .ab-core{background:#F4F4F3;color:#111;padding-left:4vw!important;padding-right:4vw!important;justify-content:center}
+#about .ab-core .cc{width:100%;max-width:none}
+#about .ab-core .cc-t{font-size:clamp(44px,5vw,80px);font-weight:500;letter-spacing:-.045em;line-height:1;color:#111;margin:0 0 clamp(40px,8vh,88px)!important}
+#about .ab-core .cc-t em{font-family:"Instrument Serif","Times New Roman",serif;font-weight:400;letter-spacing:-.02em}
+#about .ab-core .cc-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));column-gap:clamp(20px,2.6vw,44px);position:relative}
+#about .ab-core .cc-list::before,#about .ab-core .cc-list::after{content:"";position:absolute;left:0;right:0;top:6px;height:1px;background:rgba(17,17,17,.14)}
+#about .ab-core .cc-list::after{background:#111;transform-origin:left;transform:scaleX(0);transition:transform 1.6s cubic-bezier(.65,0,.35,1)}
+#about .ab-core.is-in .cc-list::after{transform:scaleX(1)}
+#about .ab-core .cc-it{position:relative;padding-top:clamp(40px,6vh,64px);opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .7s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i) * .16s + .2s)}
+#about .ab-core.is-in .cc-it{opacity:1;transform:none}
+#about .ab-core .cc-node{position:absolute;left:0;top:0;width:13px;height:13px;background:#F4F4F3;border:1.5px solid #111;box-sizing:border-box;transition:background-color .3s ease;transition-delay:calc(var(--i) * .3s + .3s)}
+#about .ab-core.is-in .cc-node{background:#111}
+#about .ab-core .cc-ic{display:block;width:clamp(96px,8.4vw,132px);color:#111;margin-bottom:clamp(24px,4vh,40px)}
+#about .ab-core .cc-ic svg{display:block;width:100%;height:auto;overflow:visible}
+#about .ab-core .cc-acc{fill:#D9D9D6}
+#about .ab-core .cc-no{display:block;font-size:12.5px;font-weight:600;letter-spacing:.06em;color:#7A7A7D;font-variant-numeric:tabular-nums;margin-bottom:12px}
+#about .ab-core .cc-tx{margin:0;font-size:clamp(16px,1.25vw,19px);font-weight:600;line-height:1.5;letter-spacing:-.02em;color:#111;word-break:keep-all;text-wrap:pretty}
+@media (max-width:900px){
+  #about .ab-core{justify-content:flex-start;padding-top:calc(var(--hd-h,64px) + 32px)!important;padding-bottom:40px!important}
+  #about .ab-core .cc-t{margin-bottom:28px!important}
+  #about .ab-core .cc-list{grid-template-columns:1fr;row-gap:0}
+  #about .ab-core .cc-list::before,#about .ab-core .cc-list::after{left:6px;right:auto;top:6px;bottom:6px;width:1px;height:auto}
+  #about .ab-core .cc-list::after{transform-origin:top;transform:scaleY(0)}
+  #about .ab-core.is-in .cc-list::after{transform:scaleY(1)}
+  #about .ab-core .cc-it{display:grid;grid-template-columns:64px minmax(0,1fr);column-gap:16px;align-items:center;padding:0 0 22px 32px}
+  #about .ab-core .cc-it:last-child{padding-bottom:0}
+  #about .ab-core .cc-node{top:50%;margin-top:-17px}
+  #about .ab-core .cc-ic{grid-row:1/3;width:64px;margin:0}
+  #about .ab-core .cc-no{margin:0 0 4px;align-self:end}
+  #about .ab-core .cc-tx{font-size:15px;align-self:start}
+}
+@media (prefers-reduced-motion:reduce){#about .ab-core .cc-it,#about .ab-core .cc-node,#about .ab-core .cc-list::after{transition:none}}
+/* hero line: a little larger and bolder on the web (two lines kept, the column's right padding made smaller to fit);
+   on phones bolder only (the size that fills the width is retuned for the heavier weight) */
+@media (min-width:861px){.u216.hero-v19 .hero-sub{font-size:clamp(17px,1.65vw,30px);font-weight:600;padding-right:clamp(16px,4vw,80px);white-space:nowrap}}
+@media (max-width:760px){.hero-sub{font-weight:600!important;font-size:calc((100vw - 40px) * .065)!important}}
+@media (min-width:761px) and (max-width:860px){.u216.hero-v19 .hero-sub{font-weight:600}}
+
+/* Core Competencies stays on screen for a while (as long as Skill Set's pause) before Skill Set slides over it */
+#about .ab-hold{height:60vh;pointer-events:none}
+/* Core Competencies: a slightly darker grey page (the empty nodes take the same grey) */
+#about .ab-core{background:#E8E8E6}
+#about .ab-core .cc-node{background:#E8E8E6}
+#about .ab-core.is-in .cc-node{background:#111}
+#about .ab-core .cc-acc{fill:#CFCFCC}
+#about .ab-hold{height:110vh}
+/* general ending (default and marketing pages): "next?" in the italic serif (as in "Skill Set."), on plain black
+   (no star layer, no bottom glow) */
+#about .ab-tl .tl-next .tl-next-gen .tl-type{font-family:"Instrument Serif","Times New Roman",serif;font-style:italic;font-weight:400;letter-spacing:-.01em}
+#about .ab-tl:has(.tl-next-gen) .tl-sky,#about .ab-tl .tl-next:has(.tl-next-gen) .tl-ob-glow{display:none}
+/* general ending: the typing caret in white too */
+#about .ab-tl .tl-next .tl-next-gen .tl-caret{background:#fff!important;border-color:#fff!important}
+
+/* marketing version, phones: its hero line is shorter, so it is sized up to fill the width like the default one */
+@media (max-width:760px){.v-marketing .hero-sub{font-size:calc((100vw - 40px) * .079)!important}
+  .hero-sub{white-space:nowrap!important}}   /* keeps the two lines (the hero's text-wrap:balance reset the wrap) */
