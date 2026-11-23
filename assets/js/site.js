@@ -47,19 +47,22 @@
   (function () {
     var data = $('#job-versions');
     if (!jobKey || !data) return;
-    var v;
-    try { v = JSON.parse(data.textContent)[jobKey]; } catch (e) { return; }
+    var all, v, keys = [jobKey];
+    try { all = JSON.parse(data.textContent); v = all[jobKey]; } catch (e) { return; }
     if (!v) return;
+    // base: a company version starts from another version (its settings, templates and styles) and changes only what it lists
+    if (v.base && all[v.base]) { var b = all[v.base], m = {}; Object.keys(b).forEach(function (k) { m[k] = b[k]; }); Object.keys(v).forEach(function (k) { m[k] = v[k]; }); v = m; keys.push(v.base); }
     function put(sel, val, asHtml) { var el = $(sel); if (el && val) el[asHtml ? 'innerHTML' : 'textContent'] = val; }
     put('.hero-pos', v.pos);
     put('.hero-intro', v.intro, true);
     put('.hero-lbl', v.label);
     put('#work .sec-hd .sec-ko', v.lead, true);
     if (v.title) document.title = v.title;
-    document.documentElement.classList.add('v-' + jobKey);   // version-only styles (e.g. .v-marketing)
+    keys.forEach(function (k) { document.documentElement.classList.add('v-' + k); });   // version-only styles (e.g. .v-marketing)
     // 공고 전용 블록: <template data-for>의 내용으로 data-swap 자리의 내용을 바꿉니다
     $$('template[data-for]').forEach(function (t) {
-      if ((' ' + t.getAttribute('data-for') + ' ').indexOf(' ' + jobKey + ' ') < 0) return;
+      var fr = ' ' + t.getAttribute('data-for') + ' ';
+      if (!keys.some(function (k) { return fr.indexOf(' ' + k + ' ') >= 0; })) return;
       // data-before: the block is added in front of that element (e.g. an extra About step); data-swap: it replaces its content
       var el = $(t.getAttribute('data-swap') || t.getAttribute('data-before')); if (!el) return;
       if (t.hasAttribute('data-before')) { el.parentNode.insertBefore(t.content.cloneNode(true), el); return; }
@@ -68,6 +71,8 @@
     if (v.text) Object.keys(v.text).forEach(function (sel) { $$(sel).forEach(function (el) { el.textContent = v.text[sel]; }); });
     if (v.html) Object.keys(v.html).forEach(function (sel) { $$(sel).forEach(function (el) { el.innerHTML = v.html[sel]; }); });
     // 이 공고와 관련이 적은 작업은 첫 페이지에서 빼고, 전체 작업 보기(archive)에만 둡니다
+    // show: works kept for the archive that this version also puts on the home page
+    if (v.show) v.show.forEach(function (id) { var c = document.getElementById(id); if (c) c.hidden = false; });
     if (v.hide) v.hide.forEach(function (id) { var c = document.getElementById(id); if (c && c.parentNode) c.parentNode.removeChild(c); });
     // 대표 작업: 지정한 카드를 각자의 묶음(data-home) 맨 앞으로 올리고 '대표 작업' 배지를 답니다
     if (v.featured) {
