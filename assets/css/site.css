@@ -3598,3 +3598,9 @@ html,body{overscroll-behavior-y:none}
 .v-marketing .hero-sub .hs-1{letter-spacing:-.0342em}
 .v-marketing .hero-sub .hs-2{letter-spacing:-.0058em}
 @media (min-width:861px){.v-marketing .u216.hero-v19 .hero-sub{padding-left:clamp(16px,2.6vw,56px)}}
+
+/* snapcompany version: its own, longer hero line (two lines of different length; the first is a little tighter),
+   sized on phones so the first line fits the screen */
+.v-snapcompany .hero-sub .hs-1{letter-spacing:-.03em}
+.v-snapcompany .hero-sub .hs-2{letter-spacing:0}
+@media (max-width:760px){.v-snapcompany .hero-sub{font-size:calc((100vw - 40px) * .068)!important}}
