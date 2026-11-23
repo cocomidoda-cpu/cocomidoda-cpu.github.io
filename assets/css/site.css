@@ -3593,3 +3593,8 @@ html,body{overscroll-behavior-y:none}
 /* marketing version, phones: its hero line is shorter, so it is sized up to fill the width like the default one */
 @media (max-width:760px){.v-marketing .hero-sub{font-size:calc((100vw - 40px) * .079)!important}
   .hero-sub{white-space:nowrap!important}}   /* keeps the two lines (the hero's text-wrap:balance reset the wrap) */
+/* marketing version: the two hero lines are the same length (letter spacing evened between them: the first a touch
+   tighter, the second a touch looser), and on the web the line sits a little further right */
+.v-marketing .hero-sub .hs-1{letter-spacing:-.0342em}
+.v-marketing .hero-sub .hs-2{letter-spacing:-.0058em}
+@media (min-width:861px){.v-marketing .u216.hero-v19 .hero-sub{padding-left:clamp(16px,2.6vw,56px)}}
